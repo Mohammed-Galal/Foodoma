@@ -10,6 +10,10 @@ main {
       color: var(--primary);
       margin-bottom: var(--internal-gap);
 
+      & > span {
+        font-weight: 700;
+      }
+
       & > a {
         margin-right: auto;
         color: inherit;

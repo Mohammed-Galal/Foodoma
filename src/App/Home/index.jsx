@@ -19,7 +19,7 @@ export default function () {
       {RecommendedProducts}
       <Departments sectionName="أقسام مون 10" />
       <Occassions sectionName="تصاميم جاهزة المناسبات" />
-      <Services />
+      <Services sectionName="خدمات مون 10 الإضافية" />
       <Rate />
       <About />
     </>
