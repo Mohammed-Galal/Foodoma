@@ -1,0 +1,23 @@
+main {
+  --swiper-scrollbar-drag-bg-color: var(--primary);
+
+  & > section {
+    padding-top: var(--section-gap);
+    padding-bottom: var(--section-gap);
+
+    & > p:first-child {
+      width: 100%;
+      color: var(--primary);
+      margin-bottom: var(--internal-gap);
+
+      & > a {
+        margin-right: auto;
+        color: inherit;
+
+        & > object {
+          margin-right: 0.4rem;
+        }
+      }
+    }
+  }
+}

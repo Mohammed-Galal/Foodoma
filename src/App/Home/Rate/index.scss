@@ -1,0 +1,27 @@
+#rates {
+  background-color: aliceblue;
+
+  & > div {
+    & > span {
+      color: var(--primary);
+    }
+
+    .card {
+      border-color: #ffcd00;
+      max-width: 380px;
+
+      &-header {
+        border: none;
+      }
+
+      &-body {
+        text-align: center;
+      }
+
+      &-footer {
+        text-align: end;
+        border: none;
+      }
+    }
+  }
+}

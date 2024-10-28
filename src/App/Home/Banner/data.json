@@ -1,0 +1,21 @@
+[
+  {
+    "img": { "src": "/assets/home/banner/(0).jfif", "alt": "" },
+    "figure": {
+      "title": "صمم كيكتك بنفسك!",
+      "desc": ""
+    }
+  },
+  {
+    "img": { "src": "/assets/home/banner/(1).jpg", "alt": "" },
+    "figure": null
+  },
+  {
+    "img": { "src": "/assets/home/banner/(2).jfif", "alt": "" },
+    "figure": null
+  },
+  {
+    "img": { "src": "/assets/home/banner/(3).jfif", "alt": "" },
+    "figure": null
+  }
+]

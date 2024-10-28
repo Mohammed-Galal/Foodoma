@@ -1,0 +1,11 @@
+[
+  { "img": "/assets/home/departments/(0).png", "href": "", "title": "الجاتوه" },
+  { "img": "/assets/home/departments/(3).png", "href": "", "title": "التورتة" },
+  {
+    "img": "/assets/home/departments/(2).png",
+    "href": "",
+    "title": "البيتيفور"
+  },
+  { "img": "/assets/home/departments/(1).png", "href": "", "title": "أخرى" },
+  { "img": "/assets/home/departments/(4).png", "href": "", "title": "المعجنات" }
+]

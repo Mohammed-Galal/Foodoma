@@ -1,0 +1,44 @@
+body:not(#mobile) > header {
+  position: sticky;
+  top: 0;
+  z-index: 9;
+  background-color: #fff;
+  background-color: transparent;
+  // border-bottom: 1px solid #d6d6d6;
+  backdrop-filter: blur(12px);
+  box-shadow: 0px 4px 9px -5px #0006;
+
+  & > div {
+    grid-template-columns: auto 1fr auto auto;
+    gap: 16px;
+
+    & > .btn {
+      color: var(--primary);
+      background-color: #ffcd00;
+      font-weight: 700;
+      border-radius: 90px;
+    }
+
+    & > ul {
+      gap: 16px;
+
+      a {
+        text-decoration: none;
+        color: var(--primary);
+      }
+    }
+  }
+}
+
+body#mobile > header {
+  background-color: #fff;
+  & > div {
+    grid-template-columns: auto 1fr auto auto;
+    gap: 6px;
+
+    & > .btn {
+      outline: none;
+      border: none;
+    }
+  }
+}

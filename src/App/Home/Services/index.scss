@@ -1,0 +1,16 @@
+#services {
+  & > div {
+    background-color: aliceblue;
+    border-radius: 12px;
+
+    & > div {
+      span {
+        color: var(--black);
+      }
+
+      a {
+        border-bottom: 1px solid;
+      }
+    }
+  }
+}

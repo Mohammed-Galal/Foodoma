@@ -1,0 +1,65 @@
+[
+  {
+    "name": "قالب شوكولاتة وفراولة",
+    "image": "/assets/home/products/(1).png",
+    "price": "22.00",
+    "is_new": 1,
+    "addon_categories": [{ "name": "تورته" }],
+    "restaurant_id": 2,
+    "item_category_id": 1
+  },
+  {
+    "name": "سويس رول فستق",
+    "image": "/assets/home/products/(4).png",
+    "price": "10.00",
+    "is_new": 0,
+    "addon_categories": [{ "name": "جاتوه" }],
+    "restaurant_id": 2,
+    "item_category_id": 2
+  },
+  {
+    "name": "ليزي كيك",
+    "image": "/assets/home/products/(3).png",
+    "price": "15.00",
+    "is_new": 0,
+    "addon_categories": [{ "name": "جاتوه" }],
+    "restaurant_id": 2,
+    "item_category_id": 3
+  },
+  {
+    "name": "قالب شوكولاتة 24 سم",
+    "image": "/assets/home/products/(0).png",
+    "price": "25.00",
+    "is_new": 1,
+    "addon_categories": [{ "name": "تورته" }],
+    "restaurant_id": 2,
+    "item_category_id": 4
+  },
+  {
+    "name": "قالب شوكولاتة وفراولة",
+    "image": "/assets/home/products/(1).png",
+    "price": "22.00",
+    "is_new": 1,
+    "addon_categories": [{ "name": "تورته" }],
+    "restaurant_id": 2,
+    "item_category_id": 1
+  },
+  {
+    "name": "سويس رول فستق",
+    "image": "/assets/home/products/(4).png",
+    "price": "10.00",
+    "is_new": 0,
+    "addon_categories": [{ "name": "جاتوه" }],
+    "restaurant_id": 2,
+    "item_category_id": 2
+  },
+  {
+    "name": "ليزي كيك",
+    "image": "/assets/home/products/(3).png",
+    "price": "15.00",
+    "is_new": 0,
+    "addon_categories": [{ "name": "جاتوه" }],
+    "restaurant_id": 2,
+    "item_category_id": 3
+  }
+]

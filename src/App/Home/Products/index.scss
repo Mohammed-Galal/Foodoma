@@ -1,0 +1,156 @@
+#recommended,
+#new-items {
+  row-gap: 14px;
+  text-wrap: nowrap;
+
+  & > div.swiper {
+    color: var(--primary);
+    --hover-transition: 150ms ease-in-out;
+    --btn-height: 38px;
+    --translate-val: 100%;
+    --controllers-opacity: 0;
+
+    &:hover {
+      --translate-val: 0;
+      --controllers-opacity: 0.9;
+    }
+
+    & > [class^="swiper-button"] {
+      width: unset;
+      height: unset;
+      background-color: var(--primary);
+      border-radius: 4px;
+      color: #ecf5ff;
+      padding: 8px 10px;
+      opacity: var(--controllers-opacity);
+      transition: var(--hover-transition);
+
+      &.swiper-button-prev {
+        transform: translateX(var(--translate-val));
+      }
+
+      &.swiper-button-next {
+        transform: translateX(calc(0% - var(--translate-val)));
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &::after {
+        font-size: 20px;
+      }
+    }
+
+    & > .swiper-wrapper {
+      align-items: stretch;
+      margin: 0 0 2rem;
+
+      object {
+        max-height: 24px;
+        cursor: pointer;
+      }
+
+      & > .swiper-slide {
+        height: 100%;
+        width: 224px;
+        overflow: hidden;
+
+        --btn-opacity: 0.9;
+        --hover-length: -50px;
+
+        &:hover > .desc {
+          transform: translateY(var(--hover-length));
+        }
+
+        & > div:first-child {
+          height: 28px;
+          & > span {
+            background-color: #ffcd00;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 26px;
+            line-height: 1;
+            font-weight: 500;
+          }
+
+          & > object {
+            margin-right: auto;
+          }
+        }
+
+        & > span {
+          font-weight: 500;
+        }
+
+        & > img {
+          max-height: 200px;
+          width: 100%;
+          display: block;
+        }
+
+        & > .desc {
+          transition: transform var(--hover-transition);
+          transform: translate(0);
+          background-color: #fff;
+          gap: 12px 0;
+
+          & > .rate {
+            color: var(--midgray);
+
+            & > object {
+              margin-left: 4px;
+            }
+
+            & > span {
+              margin-right: auto;
+              background-color: #e4f4ff;
+              padding: 8px 14px;
+              line-height: 1;
+              border-radius: 27px;
+              color: var(--primary);
+            }
+          }
+
+          & > .price {
+            color: var(--midgray);
+            font-size: 1.1rem;
+
+            & > span {
+              color: #a8d0ec;
+            }
+          }
+
+          & > button {
+            transition: all var(--hover-transition);
+            margin-bottom: var(--hover-length);
+            background-color: var(--primary);
+            color: #fff;
+            opacity: var(--btn-opacity);
+            font-size: 16px;
+            max-height: var(--btn-height);
+            overflow: hidden;
+
+            & > * {
+              height: var(--btn-height);
+              flex-shrink: 0;
+              position: relative;
+            }
+
+            & > span {
+              width: 100%;
+              transition: margin-top var(--hover-transition);
+            }
+
+            &:hover {
+              --btn-opacity: 1;
+              & > span:first-child {
+                margin-top: calc(0px - var(--btn-height));
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

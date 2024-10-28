@@ -1,0 +1,30 @@
+#about-us {
+  row-gap: 1rem;
+  color: var(--midgray);
+
+  & > span {
+    color: var(--primary);
+  }
+
+  & > div {
+    gap: 1rem;
+    justify-content: space-evenly;
+
+    & > div {
+      width: 100%;
+      padding: 1.5rem 0;
+      color: var(--primary);
+      border: 1px solid #ffcd00;
+      border-radius: 8px;
+      flex-shrink: 0;
+
+      @media screen and (min-width: 615px) {
+        width: 270px;
+      }
+    }
+
+    img {
+      max-height: 50px;
+    }
+  }
+}

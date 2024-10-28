@@ -1,0 +1,75 @@
+#occasions {
+  & > .swiper {
+    width: 100%;
+    --hover-transition: 150ms ease-out;
+    --translate-val: 100%;
+    --controllers-opacity: 0;
+
+    & > .swiper-wrapper {
+      text-wrap: nowrap;
+      font-weight: bold;
+      // margin-bottom: 2rem;
+
+      & > .swiper-slide {
+        display: flex;
+        flex-direction: column;
+        max-width: 175px;
+
+        & > div {
+          width: 100%;
+          border-radius: 10px;
+          border: 1px solid #ffcd00;
+          overflow: hidden;
+
+          & > img {
+            width: 100%;
+            max-height: 150px;
+            object-fit: fill;
+            scale: 1;
+            transition: scale var(--hover-transition);
+          }
+
+          &:hover > img {
+            scale: 1.2;
+          }
+        }
+
+        & > a {
+          color: var(--primary);
+        }
+      }
+    }
+
+    &:hover {
+      --translate-val: 0;
+      --controllers-opacity: 0.9;
+    }
+
+    & > [class^="swiper-button"] {
+      width: unset;
+      height: unset;
+      background-color: var(--primary);
+      border-radius: 4px;
+      color: #ecf5ff;
+      padding: 8px 10px;
+      opacity: var(--controllers-opacity);
+      transition: var(--hover-transition);
+
+      &.swiper-button-prev {
+        transform: translateX(var(--translate-val));
+      }
+
+      &.swiper-button-next {
+        transform: translateX(calc(0% - var(--translate-val)));
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+
+      &::after {
+        font-size: 20px;
+      }
+    }
+  }
+}
