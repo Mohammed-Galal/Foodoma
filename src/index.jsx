@@ -6,7 +6,7 @@ import "./index.scss";
 import App from "./App";
 import Footer from "./Footer";
 
-const root = document.getElementById("root"),
+const root = document.querySelector("body > main"),
   footer = document.querySelector("body > footer");
 
 ReactDOM.createRoot(root).render(App);
