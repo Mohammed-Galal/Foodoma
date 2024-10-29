@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { createPortal } from "react-dom";
 import store from "../store";
 
+import Bookings from "./Bookings";
 import HomePage from "./Home";
 
 import Header from "../Header";
@@ -22,6 +23,7 @@ export default (
       <Provider store={store}>
         {createPortal(Header(isMobileView), header)}
         <Routes>
+          <Route path="/early-booking" element={Bookings} />
           <Route path="*" Component={HomePage} />
         </Routes>
         {createPortal(Nav(isMobileView), nav)}

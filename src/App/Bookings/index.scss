@@ -1,0 +1,26 @@
+#book-banner {
+  & > div {
+    background-color: #ebf5ff;
+    color: var(--primary);
+    overflow: hidden;
+    flex-wrap: wrap;
+    gap: 18px;
+    border-radius: 18px;
+
+    & > div {
+      flex-grow: 1;
+
+      & > div > p {
+        grid-template-columns: repeat(5, auto);
+        gap: 12px;
+      }
+    }
+
+    & > img {
+      width: 100%;
+      max-width: 400px;
+      max-height: 480px;
+      flex-shrink: 0;
+    }
+  }
+}
