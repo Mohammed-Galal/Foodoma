@@ -24,7 +24,7 @@ export default (
         {createPortal(Header(isMobileView), header)}
         <Routes>
           <Route path="/early-booking" element={Bookings} />
-          <Route path="*" Component={HomePage} />
+          <Route path="*" element={HomePage} />
         </Routes>
         {createPortal(Nav(isMobileView), nav)}
       </Provider>

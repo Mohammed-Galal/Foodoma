@@ -1,4 +1,11 @@
+import { categories } from "../Home/Products";
 import "./index.scss";
+
+const O = categories.is_new.map((C) => (
+  <div className="d-flex flex-column" key={C.key}>
+    {C.childComponent}
+  </div>
+));
 
 export default (
   <>
@@ -17,8 +24,19 @@ export default (
           </div>
         </div>
 
-        <img src="/assets/home/banner/(1).png" alt="book-banner" />
+        <img
+          className="mx-auto"
+          src="/assets/home/banner/(1).png"
+          alt="book-banner"
+        />
       </div>
+    </section>
+
+    <section
+      id="book-products"
+      className="align-items-stretch container d-grid justify-content-center"
+    >
+      {O}
     </section>
   </>
 );

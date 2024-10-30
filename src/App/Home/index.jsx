@@ -1,5 +1,5 @@
 import Banner from "./Banner";
-import { NewProducts, RecommendedProducts } from "./Products";
+import Products from "./Products";
 import Departments from "./Departments";
 import Occassions from "./Occasions";
 import About from "./About";
@@ -11,17 +11,16 @@ import "swiper/css/bundle";
 
 /* eslint-disable import/no-anonymous-default-export */
 
-export default function () {
-  return (
-    <>
-      <Banner />
-      {NewProducts}
-      {RecommendedProducts}
-      <Departments sectionName="أقسام مون 10" />
-      <Occassions sectionName="تصاميم جاهزة المناسبات" />
-      <Services sectionName="خدمات مون 10 الإضافية" />
-      <Rate />
-      <About />
-    </>
-  );
-}
+export default (
+  <>
+    <Banner />
+    <Products id="new-items" title="المنتجات الجديدة" categoryKey="is_new" />
+
+    <Products id="recommended" title="المنتجات الأكثر مبيعاً" />
+    <Departments sectionName="أقسام مون 10" />
+    <Occassions sectionName="تصاميم جاهزة المناسبات" />
+    <Services sectionName="خدمات مون 10 الإضافية" />
+    <Rate />
+    <About />
+  </>
+);

@@ -1,32 +1,34 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable import/no-anonymous-default-export */
 import Carousel from "../../../shared/Carousel";
 import data from "./data.json";
 import "./index.scss";
 
-/* eslint-disable jsx-a11y/alt-text */
-/* eslint-disable import/no-anonymous-default-export */
+export const categories = {
+    is_new: [],
+    is_popular: [],
+    is_recommended: [],
+  },
+  categoriesKeys = Object.keys(categories);
 
-const newItems = [],
-  productItems = data.map(function (item, I) {
-    if (!!item.is_active) return false;
-    const result = {};
-    result.key = item.item_category_id * item.restaurant_id + I;
-    result.childComponent = productItem(item);
-    if (!!item.is_new) newItems.push(result);
-    return result;
-  });
+categories.has_discount = [];
 
-export const NewProducts = ProductSection(
-    "new-items",
-    "المنتجات الجديدة",
-    newItems
-  ),
-  RecommendedProducts = ProductSection(
-    "recommended",
-    "المنتجات الأكثر مبيعاً",
-    productItems
-  );
+const productItems = data.map(function (item, I) {
+  if (!!item.is_active) return false;
+  const result = {};
+  result.key = item.item_category_id * item.restaurant_id + I;
+  result.childComponent = productItem(item);
 
-function ProductSection(id, title, targetItems) {
+  categoriesKeys.forEach((K) => !!item[K] && categories[K].push(result));
+
+  if (item.old_price !== "0.00") categories.has_discount.push(result);
+
+  return result;
+});
+
+export default function ({ id, title, categoryKey }) {
+  const targetItems = categoryKey ? categories[categoryKey] : productItems;
+
   return (
     <section id={id} className="mx-auto container-fluid container-lg">
       <p className="d-flex align-items-center">
