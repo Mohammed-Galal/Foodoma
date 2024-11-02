@@ -1,8 +1,9 @@
 body {
+  user-select: none;
+
   --bs-body-font-family: "Cairo", sans-serif;
   --font-light: 400;
   --font-bold: 900;
-
   --section-gap: 60px;
   --internal-gap: 38px;
 

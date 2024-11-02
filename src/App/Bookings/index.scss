@@ -10,9 +10,24 @@
     & > div {
       flex-grow: 1;
 
-      & > div > p {
-        grid-template-columns: repeat(5, auto);
-        gap: 12px;
+      & > div {
+        font-size: 1.1rem;
+        font-weight: 400;
+
+        & > p {
+          margin-block: 24px;
+          grid-template-columns: 1fr auto 1fr auto 1fr;
+          gap: 8px 12px;
+
+          & > .timer {
+            font-weight: 600;
+            grid-column-end: span 5;
+            display: inherit;
+            grid-template-columns: inherit;
+            gap: inherit;
+            color: #facc00;
+          }
+        }
       }
     }
 
