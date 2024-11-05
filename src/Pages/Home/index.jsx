@@ -15,7 +15,6 @@ export default (
   <>
     <Banner />
     <Products id="new-items" title="المنتجات الجديدة" categoryKey="is_new" />
-
     <Products id="recommended" title="المنتجات الأكثر مبيعاً" />
     <Departments sectionName="أقسام مون 10" />
     <Occassions sectionName="تصاميم جاهزة المناسبات" />

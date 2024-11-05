@@ -13,7 +13,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 /* eslint-disable import/no-anonymous-default-export */
 export default () => (
-  <section id="rates">
+  <section key="rates" id="rates">
     <div className="container-fluid container-lg">
       <span className="d-block h3 mb-3 text-center">آراء عملائنا</span>
       <Swiper

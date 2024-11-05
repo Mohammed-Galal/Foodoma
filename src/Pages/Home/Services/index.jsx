@@ -4,6 +4,7 @@ import "./index.scss";
 /* eslint-disable import/no-anonymous-default-export */
 export default ({ sectionName }) => (
   <section
+    key="services"
     id="services"
     className="container-fluid container-lg d-flex flex-column text-center container-fluid container-lg"
   >

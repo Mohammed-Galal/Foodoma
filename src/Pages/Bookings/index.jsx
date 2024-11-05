@@ -1,12 +1,8 @@
 import { useState } from "react";
-import { categories } from "../Home/Products";
+import categories from "../../shared/productItem";
 import "./index.scss";
 
-const O = categories.is_new.map((C) => (
-  <div className="d-flex flex-column" key={C.key}>
-    {C.childComponent}
-  </div>
-));
+const targetItems = categories.is_new;
 
 const expireDate = new Date();
 
@@ -41,8 +37,8 @@ export default (
       id="book-products"
       className="align-items-stretch container d-grid justify-content-center"
     >
-      {O}
-      {O}
+      {targetItems}
+      {targetItems}
     </section>
   </>
 );

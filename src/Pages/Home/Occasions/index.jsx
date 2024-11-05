@@ -8,6 +8,7 @@ const items = data.map(oItem);
 
 export default () => (
   <section
+    key="occasions"
     id="occasions"
     className="container-fluid container-lg d-flex flex-column"
   >
@@ -27,9 +28,7 @@ export default () => (
 );
 
 function oItem({ img, title, href }) {
-  const result = {};
-  result.key = href;
-  result.childComponent = (
+  return (
     <>
       <div className="mb-2">
         <img src={img} alt={title} />
@@ -40,6 +39,4 @@ function oItem({ img, title, href }) {
       </a>
     </>
   );
-
-  return result;
 }

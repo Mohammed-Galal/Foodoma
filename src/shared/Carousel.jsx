@@ -1,3 +1,4 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { Swiper, SwiperSlide } from "swiper/react";
 import {
   Autoplay,
@@ -21,17 +22,15 @@ defaultConfig.scrollbar = {
   draggable: true,
 };
 
-export default Carousel;
-
-function Carousel({ customConfig, innerItems }) {
+export default function ({ customConfig, innerItems }) {
   const config = {},
     innerNodes = innerItems.map(swiperSlide);
 
   Object.assign(config, defaultConfig);
-  customConfig && Object.assign(config, customConfig);
+  !!customConfig && Object.assign(config, customConfig);
   return <Swiper {...config}>{innerNodes}</Swiper>;
 }
 
-function swiperSlide({ key, childComponent }) {
-  return <SwiperSlide key={key}>{childComponent}</SwiperSlide>;
+function swiperSlide(Children, I) {
+  return <SwiperSlide key={I}>{Children}</SwiperSlide>;
 }

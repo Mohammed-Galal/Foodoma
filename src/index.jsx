@@ -3,7 +3,7 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.scss";
 
-import App from "./App";
+import App from "./Pages";
 import Footer from "./Footer";
 
 const root = document.querySelector("body > main"),

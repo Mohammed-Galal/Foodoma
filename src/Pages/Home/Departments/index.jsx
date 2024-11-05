@@ -6,6 +6,7 @@ import data from "./data.json";
 
 export default ({ sectionName }) => (
   <section
+    key="moon-sections"
     id="moon-sections"
     className="container-fluid container-lg d-flex flex-column align-items-center"
   >

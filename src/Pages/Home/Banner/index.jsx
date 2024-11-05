@@ -1,7 +1,7 @@
 import "./index.scss";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => (
-  <section id="banner" className="container-fluid container-lg">
+  <section key="banner" id="banner" className="container-fluid container-lg">
     <div className="align-items-center d-flex flex-column justify-content-center text-center">
       <span className="h1 m-0">صمم كيكتك بنفسك!</span>
 

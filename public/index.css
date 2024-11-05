@@ -37,7 +37,9 @@ body {
   --gradient-4: linear-gradient(0deg, #1faf38 -9900%, #60d669 100%);
 }
 
-img {
+img,
+object,
+embed {
   max-width: 100%;
   max-height: 100%;
 }

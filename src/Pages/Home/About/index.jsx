@@ -12,6 +12,7 @@ export default () => {
 
   return (
     <section
+      key="about-us"
       id="about-us"
       className="container-fluid container-lg d-flex flex-column text-center"
     >
