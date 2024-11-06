@@ -35,8 +35,9 @@ export default (
 
     <section
       id="book-products"
-      className="align-items-stretch container d-grid justify-content-center"
+      className="align-items-stretch px-2 mx-auto d-flex flex-wrap "
     >
+      <p className="h2 mb-1">منتجات ذات صلة</p>
       {targetItems}
       {targetItems}
     </section>

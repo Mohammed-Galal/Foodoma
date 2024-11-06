@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
+import { Link } from "react-router-dom";
 import data from "./data.json";
 import "./index.scss";
 
@@ -27,7 +28,10 @@ function productItem(item, I) {
     cat = item.addon_categories[0].name;
 
   return (
-    <div key={key} className="product-item d-flex flex-column">
+    <div
+      key={key}
+      className="product-item d-flex flex-column p-2 justify-content-between"
+    >
       <div className="align-items-center d-flex">
         {is_new ? <span>جديد</span> : ""}
 
@@ -39,7 +43,11 @@ function productItem(item, I) {
 
       <img src={image} alt={name} />
 
-      <div className="desc d-flex flex-column">
+      <Link
+        to="/product-item"
+        state={item}
+        className="desc text-decoration-none d-flex flex-column"
+      >
         <span className="h5 m-0">{name}</span>
 
         <div className="rate align-items-center d-flex">
@@ -56,13 +64,16 @@ function productItem(item, I) {
           <span>{price + "ر.س"}</span>/للقطعة
         </div>
 
-        <button className="btn d-flex flex-column align-items-center p-0">
+        <button
+          type="button"
+          className="btn d-flex flex-column align-items-center p-0"
+        >
           <span className="d-flex align-items-center justify-content-center text-capitalize">
             اضافة للسلة
           </span>
           <img src="/assets/home/icons/mdi-light_cart.svg" alt="Cart" />
         </button>
-      </div>
+      </Link>
     </div>
   );
 }
