@@ -5,7 +5,21 @@ import Carousel from "../../shared/Carousel";
 import { productItems } from "../../shared/productItem";
 import "./index.scss";
 
-const fallbackStr = `كعكة الفانيليا ذات الطراز القديم هي قلب وروح ماجنوليا بيكري. هنا، نأخذ نفس الخليط الذي نستخدمه لصنع الكعك الشهير الخاص بنا لصنع كعكة غنية بالزبدة مع فتات خفيفة، ونضعها في طبقة من كريمة زبدة الفانيليا أو الشوكولاتة.
+const nxtIcon = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      data-tags="keyboard_arrow_left"
+    >
+      <g fill="currentColor" transform="scale(0.0234375 0.0234375)">
+        <path d="M658 708l-60 60-256-256 256-256 60 60-196 196z" />
+      </g>
+    </svg>
+  ),
+  fallbackStr = `كعكة الفانيليا ذات الطراز القديم هي قلب وروح ماجنوليا بيكري. هنا، نأخذ نفس الخليط الذي نستخدمه لصنع الكعك الشهير الخاص بنا لصنع كعكة غنية بالزبدة مع فتات خفيفة، ونضعها في طبقة من كريمة زبدة الفانيليا أو الشوكولاتة.
 المكونات: دقيق - زبدة -`;
 
 export default function () {
@@ -28,6 +42,14 @@ export default function () {
           </div>
         </div>
         <div className="align-items-start d-flex flex-column justify-content-between">
+          <ul className="d-flex gap-1 list-unstyled m-0 p-0">
+            <li>mon10</li>
+            <li>{nxtIcon}</li>
+            <li>الصنف</li>
+            <li>{nxtIcon}</li>
+            <li>{state.name}</li>
+          </ul>
+
           <p className="title h2">{state.name}</p>
           <p className="state text-center">
             {!!state.is_active ? "متوفر" : "غير متوفر"}

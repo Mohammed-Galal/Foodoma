@@ -1,15 +1,20 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable import/no-anonymous-default-export */
-import categories, { productItems } from "../../../shared/productItem";
+import { useStore } from "react-redux";
+import productItem from "../../../shared/productItem";
 import Carousel from "../../../shared/Carousel";
 import "./index.scss";
 
 export default function ({ id, title, categoryKey }) {
-  const targetItems = categoryKey ? categories[categoryKey] : productItems;
+  const items = useStore().getState().Products.data,
+    targetItems = categoryKey
+      ? items.filter((item) => !!item[categoryKey])
+      : items,
+    products = targetItems.map(productItem);
 
   return (
     <section
-      key={"__products__" + categoryKey}
+      key={"__products__" + id}
       id={id}
       className="mx-auto container-fluid container-lg"
     >
@@ -22,7 +27,7 @@ export default function ({ id, title, categoryKey }) {
         </a>
       </p>
 
-      <Carousel innerItems={targetItems} />
+      <Carousel innerItems={products} />
     </section>
   );
 }

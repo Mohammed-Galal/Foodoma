@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
-import Products, { increment } from "./products.js";
+import Products from "./products/index.js";
 import User from "./user.js";
 
 // const reducer = combineReducers({ Products, User });
@@ -18,6 +18,6 @@ const APP_STATE = configureStore({ reducer: { Products, User } });
 
 // APP_STATE.dispatch(increment());
 
-// console.log(APP_STATE.getState());
+// console.log(APP_STATE.getState().Products);
 
 export default APP_STATE;

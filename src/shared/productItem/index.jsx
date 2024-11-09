@@ -1,28 +1,9 @@
+/* eslint-disable import/no-anonymous-default-export */
 /* eslint-disable jsx-a11y/alt-text */
 import { Link } from "react-router-dom";
-import data from "./data.json";
 import "./index.scss";
 
-const categories = {
-    is_new: [],
-    is_popular: [],
-    is_recommended: [],
-  },
-  categoriesKeys = Object.keys(categories);
-
-categories.has_discount = [];
-
-export default categories;
-
-export const productItems = data.map(function (item, I) {
-  if (!!item.is_active) return false;
-  const result = productItem(item, I);
-  categoriesKeys.forEach((K) => !!item[K] && categories[K].push(result));
-  if (item.old_price !== "0.00") categories.has_discount.push(result);
-  return result;
-});
-
-function productItem(item, I) {
+export default function (item, I) {
   const { name, image, price, is_new } = item,
     key = item.item_category_id * item.restaurant_id + I,
     cat = item.addon_categories[0].name;
