@@ -6,7 +6,7 @@ import store from "../store";
 
 // import Bookings from "./Bookings";
 import HomePage from "./Home";
-// import Product from "./Product";
+import Product from "./Product";
 
 import Header from "../Header";
 import Nav from "../Nav";
@@ -24,11 +24,13 @@ export default (
       <Provider store={store}>
         {createPortal(Header(isMobileView), header)}
         <Routes>
-          {/* <Route
+          <Route
             path="/product-item"
             caseSensitive={true}
             Component={Product}
           />
+
+          {/* 
           <Route
             caseSensitive={true}
             path="/early-booking"

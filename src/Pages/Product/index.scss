@@ -108,7 +108,7 @@
     & > .checkout {
       gap: 0 1rem;
 
-      & > button {
+      & > button:not(:last-child) {
         background-color: #184369;
         color: #fff;
         font-size: 1rem;
@@ -116,7 +116,7 @@
         scale: 0.8;
       }
 
-      & > a {
+      & > button:last-child {
         color: #fff;
         background-color: var(--primary);
         padding: 4px 16px;

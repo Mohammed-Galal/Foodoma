@@ -3,18 +3,23 @@ import data from "./data.json";
 
 const Products = {
     name: "products",
-    initialState: { loaded: false, data },
+    initialState: { loaded: false, data, cart: [] },
   },
   reducers = (Products.reducers = {});
 
 reducers.init = function (state, action) {
   state.loaded = true;
   state.storeName = action.name;
-  state.products = action.products;
+  // state.data = action.products;
 };
 
-reducers.filterBy = function ({ products }, { type }) {
-  const iterator = products.values(),
+reducers.addToCart = function (state, { id, quantity }) {
+  console.log(arguments);
+  state.data.forEach((p) => p.id === id && state.data.push({ id, quantity }));
+};
+
+reducers.filterBy = function ({ data }, { type }) {
+  const iterator = data.values(),
     result = [];
 
   let currItem = iterator.next();
@@ -24,5 +29,5 @@ reducers.filterBy = function ({ products }, { type }) {
 };
 
 const Store = createSlice(Products);
-export const { init, filterBy } = Store.actions;
+export const { init, filterBy, addToCart } = Store.actions;
 export default Store.reducer;

@@ -1,11 +1,14 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { useState } from "react";
+import { useStore, useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { addToCart } from "../../store/products";
+import productItem from "../../shared/productItem";
 import Carousel from "../../shared/Carousel";
-import { productItems } from "../../shared/productItem";
 import "./index.scss";
 
-const nxtIcon = (
+const cartSvg = svg(),
+  nxtIcon = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       version="1.1"
@@ -23,115 +26,135 @@ const nxtIcon = (
 المكونات: دقيق - زبدة -`;
 
 export default function () {
-  const quantity = useState(0),
+  const store = useStore().getState().Products,
+    items = store.data,
     { state } = useLocation();
+
+  console.log(store);
 
   return (
     <>
-      <section
-        id="product"
-        className="container-fluid container-lg d-flex flex-wrap flex-lg-nowrap"
-      >
-        <div className="d-flex flex-column">
+      <ProductInfo {...state} />
+      <Related items={items} />
+    </>
+  );
+}
+
+function ProductInfo(state) {
+  const dispatch = useDispatch(),
+    // items = store.getState().Products.data,
+    [quantity, setQuntity] = useState(0);
+
+  return (
+    <section
+      id="product"
+      className="container-fluid container-lg d-flex flex-wrap flex-lg-nowrap"
+    >
+      <div className="d-flex flex-column">
+        <img src="/assets/home/products/(0).png" alt="product" />
+        <div className="d-flex justify-content-center">
           <img src="/assets/home/products/(0).png" alt="product" />
-          <div className="d-flex justify-content-center">
-            <img src="/assets/home/products/(0).png" alt="product" />
-            <img src="/assets/home/products/(0).png" alt="product" />
-            <img src="/assets/home/products/(0).png" alt="product" />
-            <img src="/assets/home/products/(0).png" alt="product" />
-          </div>
+          <img src="/assets/home/products/(0).png" alt="product" />
+          <img src="/assets/home/products/(0).png" alt="product" />
+          <img src="/assets/home/products/(0).png" alt="product" />
         </div>
-        <div className="align-items-start d-flex flex-column justify-content-between">
-          <ul className="d-flex gap-1 list-unstyled m-0 p-0">
-            <li>mon10</li>
-            <li>{nxtIcon}</li>
-            <li>الصنف</li>
-            <li>{nxtIcon}</li>
-            <li>{state.name}</li>
-          </ul>
+      </div>
+      <div className="align-items-start d-flex flex-column justify-content-between">
+        <ul className="d-flex gap-1 list-unstyled m-0 p-0">
+          <li>mon10</li>
+          <li>{nxtIcon}</li>
+          <li>الصنف</li>
+          <li>{nxtIcon}</li>
+          <li>{state.name}</li>
+        </ul>
 
-          <p className="title h2">{state.name}</p>
-          <p className="state text-center">
-            {!!state.is_active ? "متوفر" : "غير متوفر"}
-          </p>
-
-          {state.desc || fallbackStr}
-
-          <p className="price">
-            <span>{state.price} ر.س</span>
-            /للقطعة
-          </p>
-          <p className="align-items-center d-flex rate">
-            <img src="/assets/home/icons/star.svg" alt="star" /> 5
-            <Link to="/rate">اكتب رأيك</Link>
-          </p>
-          <div className="addons d-flex flex-wrap">
-            <span className="h5">الإضافات</span>
-            <ul className="d-grid m-0 p-0">
-              {state.addon_categories.map(addonItem)}
-            </ul>
-          </div>
-          <textarea
-            placeholder="ملاحظات"
-            className="input-group-text"
-          ></textarea>
-          <div className="align-items-center checkout d-flex">
-            <button
-              type="button"
-              className="align-items-center btn d-flex justify-content-center"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                // xmlns:xlink="http://www.w3.org/1999/xlink"
-                version="1.1"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                data-tags="plus"
-              >
-                <g fill="currentColor" transform="scale(0.0234375 0.0234375)">
-                  <path d="M213.333 554.667h256v256c0 23.552 19.115 42.667 42.667 42.667s42.667-19.115 42.667-42.667v-256h256c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-256v-256c0-23.552-19.115-42.667-42.667-42.667s-42.667 19.115-42.667 42.667v256h-256c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667z" />
-                </g>
-              </svg>
-            </button>
-            {quantity}
-            <button
-              type="button"
-              className="align-items-center btn d-flex justify-content-center"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                // xmlns:xlink="http://www.w3.org/1999/xlink"
-                version="1.1"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                data-tags="minus"
-              >
-                <g fill="currentColor" transform="scale(0.0234375 0.0234375)">
-                  <path d="M213.333 554.667h597.333c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-597.333c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667z" />
-                </g>
-              </svg>
-            </button>
-            <Link to="/checkout">
-              اضف الى العربة
-              {svg()}
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      <section id="related" className="container">
-        <p className="h3">
-          <span>منتجات ذات صلة</span>
+        <p className="title h2">{state.name}</p>
+        <p className="state text-center">
+          {!!state.is_active ? "متوفر" : "غير متوفر"}
         </p>
 
-        <Carousel
-          customConfig={{ autoplay: false, scrollbar: false }}
-          innerItems={productItems}
-        />
-      </section>
-    </>
+        {state.desc || fallbackStr}
+
+        <p className="price">
+          <span>{state.price} ر.س</span>
+          /للقطعة
+        </p>
+        <p className="align-items-center d-flex rate">
+          <img src="/assets/home/icons/star.svg" alt="star" /> 5
+          <Link to="/rate">اكتب رأيك</Link>
+        </p>
+        <div className="addons d-flex flex-wrap">
+          <span className="h5">الإضافات</span>
+          <ul className="d-grid m-0 p-0">
+            {state.addon_categories.map(addonItem)}
+          </ul>
+        </div>
+        <textarea placeholder="ملاحظات" className="input-group-text"></textarea>
+        <div className="align-items-center checkout d-flex">
+          <button
+            type="button"
+            className="align-items-center btn d-flex justify-content-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              // xmlns:xlink="http://www.w3.org/1999/xlink"
+              version="1.1"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              data-tags="plus"
+            >
+              <g fill="currentColor" transform="scale(0.0234375 0.0234375)">
+                <path d="M213.333 554.667h256v256c0 23.552 19.115 42.667 42.667 42.667s42.667-19.115 42.667-42.667v-256h256c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-256v-256c0-23.552-19.115-42.667-42.667-42.667s-42.667 19.115-42.667 42.667v256h-256c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667z" />
+              </g>
+            </svg>
+          </button>
+          {quantity}
+          <button
+            type="button"
+            className="align-items-center btn d-flex justify-content-center"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              // xmlns:xlink="http://www.w3.org/1999/xlink"
+              version="1.1"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              data-tags="minus"
+            >
+              <g fill="currentColor" transform="scale(0.0234375 0.0234375)">
+                <path d="M213.333 554.667h597.333c23.552 0 42.667-19.115 42.667-42.667s-19.115-42.667-42.667-42.667h-597.333c-23.552 0-42.667 19.115-42.667 42.667s19.115 42.667 42.667 42.667z" />
+              </g>
+            </svg>
+          </button>
+          <button type="button" className="btn" onClick={addItem}>
+            اضف الى العربة
+            {cartSvg}
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+  function addItem() {
+    dispatch(addToCart({ id: state.id, quantity }));
+  }
+}
+
+function Related({ items }) {
+  // productItems = items.filter((P) => p),
+
+  return (
+    <section id="related" className="container">
+      <p className="h3">
+        <span>منتجات ذات صلة</span>
+      </p>
+
+      <Carousel
+        customConfig={{ autoplay: false, scrollbar: false }}
+        innerItems={items.map(productItem)}
+      />
+    </section>
   );
 }
 

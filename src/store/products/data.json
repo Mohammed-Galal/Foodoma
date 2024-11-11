@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "name": "قالب شوكولاتة وفراولة",
     "image": "/assets/home/products/(1).png",
     "price": "22.00",
@@ -9,6 +10,7 @@
     "item_category_id": 1
   },
   {
+    "id": 2,
     "name": "سويس رول فستق",
     "image": "/assets/home/products/(4).png",
     "price": "10.00",
@@ -18,6 +20,7 @@
     "item_category_id": 2
   },
   {
+    "id": 3,
     "name": "ليزي كيك",
     "image": "/assets/home/products/(3).png",
     "price": "15.00",
@@ -27,6 +30,7 @@
     "item_category_id": 3
   },
   {
+    "id": 4,
     "name": "قالب شوكولاتة 24 سم",
     "image": "/assets/home/products/(0).png",
     "price": "25.00",
@@ -36,6 +40,7 @@
     "item_category_id": 4
   },
   {
+    "id": 5,
     "name": "قالب شوكولاتة وفراولة",
     "image": "/assets/home/products/(1).png",
     "price": "22.00",
@@ -45,6 +50,7 @@
     "item_category_id": 1
   },
   {
+    "id": 6,
     "name": "سويس رول فستق",
     "image": "/assets/home/products/(4).png",
     "price": "10.00",
@@ -54,6 +60,7 @@
     "item_category_id": 2
   },
   {
+    "id": 7,
     "name": "ليزي كيك",
     "image": "/assets/home/products/(3).png",
     "price": "15.00",
