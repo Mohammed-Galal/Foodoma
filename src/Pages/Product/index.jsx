@@ -30,9 +30,11 @@ export default function () {
     productId = Number(useParams().id),
     state = items.find((e) => e.id === productId);
 
+  const inCart = store.cart.find((e) => e.id === productId);
+
   return (
     <>
-      <ProductInfo {...state} />
+      <ProductInfo {...state} quantity={inCart ? inCart.quantity : 0} />
       <Related items={items} />
     </>
   );
@@ -40,7 +42,7 @@ export default function () {
 
 function ProductInfo(state) {
   const dispatch = useDispatch(),
-    [quantity, setQuntity] = useState(0);
+    [quantity, setQuntity] = useState(state.quantity);
 
   return (
     <section

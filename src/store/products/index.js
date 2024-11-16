@@ -16,7 +16,7 @@ reducers.init = function (state, action) {
 reducers.addToCart = function (state, { payload }) {
   const cart = state.cart,
     cartItem = cart.find((e) => e.id === payload.id);
-  if (cartItem) cartItem.quantity++;
+  if (cartItem) cartItem.quantity = payload.quantity;
   else cart[cart.length] = payload;
   state.cart = Object.assign([], cart);
 };
