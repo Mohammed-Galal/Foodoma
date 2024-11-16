@@ -25,8 +25,8 @@ export default function (item, I) {
       <img src={image} alt={name} />
 
       <Link
-        to="/product-item"
-        state={item}
+        to={"/products/" + item.id}
+        // state={item}
         className="desc text-decoration-none d-flex flex-column"
       >
         <span className="h5 m-0">{name}</span>

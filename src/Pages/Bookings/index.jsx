@@ -1,11 +1,9 @@
 import { useState } from "react";
-import categories from "../../shared/productItem";
+import { useStore } from "react-redux";
+import productItem from "../../shared/productItem";
 import "./index.scss";
 
-const targetItems = categories.is_new;
-
 const expireDate = new Date();
-
 // setting Fixed Time (currTime(ms) + expireTime(ms))
 expireDate.setTime(expireDate.getTime() + 172800000);
 
@@ -33,14 +31,7 @@ export default (
       </div>
     </section>
 
-    <section
-      id="book-products"
-      className="align-items-stretch px-2 mx-auto d-flex flex-wrap "
-    >
-      <p className="h2 mb-1">منتجات ذات صلة</p>
-      {targetItems}
-      {targetItems}
-    </section>
+    <BookProducts />
   </>
 );
 
@@ -60,5 +51,23 @@ function Timer() {
       <samp>{Math.floor(minutes % 60)}</samp>:
       <samp>{Math.floor(houres % 24)}</samp>
     </span>
+  );
+}
+
+function BookProducts() {
+  const targetItems = useStore()
+    .getState()
+    .Products.data.filter((e) => !!e.is_new)
+    .map(productItem);
+
+  return (
+    <section
+      id="book-products"
+      className="align-items-stretch px-2 mx-auto d-flex flex-wrap "
+    >
+      <p className="h2 mb-1">منتجات ذات صلة</p>
+      {targetItems}
+      {targetItems}
+    </section>
   );
 }

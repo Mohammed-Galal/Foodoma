@@ -1,0 +1,118 @@
+main {
+  & > #cart-breadcrumb {
+    color: var(--midgray);
+  }
+
+  & > #cart {
+    & > ul {
+      width: 100%;
+      max-width: 782px;
+      color: var(--primary);
+      border: 1px solid #f8f8f8;
+      border-radius: 24px;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: max-content;
+
+      hr {
+        border-color: #f8f8f8;
+        opacity: 1;
+      }
+
+      & > li {
+        align-self: self-start;
+      }
+
+      & > li.seperator,
+      & > li:last-child {
+        grid-column-end: span 4;
+      }
+
+      & > li[class] {
+        font-weight: 600;
+      }
+
+      & > li.item-name > * {
+        color: inherit;
+      }
+
+      & > li.item-price {
+        color: var(--midgray);
+        font-size: smaller;
+      }
+
+      & > li.item-quantity {
+        color: var(--midgray);
+
+        & > button {
+          background-color: var(--primary);
+          width: 24px;
+          color: #fff;
+          clip-path: circle();
+        }
+      }
+
+      & > li:last-child {
+        font-weight: 700;
+        display: flex;
+        gap: 16px;
+        align-self: self-end;
+
+        input {
+          text-align: justify;
+          font-size: small;
+          flex-grow: 1;
+          max-width: 400px;
+          font-weight: 300;
+          border-radius: 24px;
+          border-color: #bedcf1;
+          background-color: #fff;
+        }
+
+        button {
+          background-color: var(--primary);
+          color: #fff;
+          font-size: 14px;
+          font-weight: 200;
+          border-radius: 24px;
+        }
+      }
+    }
+
+    & > div {
+      border: 1px solid #f8f8f8;
+      border-radius: 24px;
+
+      flex-grow: 1;
+      border: 1px solid #f8f8f8;
+      border-radius: 24px;
+
+      & > p {
+        border-bottom: 1px solid #f8f8f8;
+        color: var(--primary);
+
+        &:nth-child(3) {
+          border-top: 1px solid #f8f8f8;
+        }
+      }
+
+      span {
+        display: flex;
+        justify-content: space-between;
+        color: var(--primary);
+
+        & > samp {
+          font-family: inherit;
+          color: var(--midgray);
+        }
+      }
+
+      & > a {
+        background-color: var(--primary);
+        border-radius: 24px;
+        color: #fff;
+        font-size: medium;
+        font-weight: 300;
+      }
+    }
+  }
+}

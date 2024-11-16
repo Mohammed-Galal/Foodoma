@@ -1,8 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { useState } from "react";
-import { useStore, useDispatch, useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
-import { addToCart } from "../../store/products";
+import { useStore, useDispatch } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import productItem from "../../shared/productItem";
 import Carousel from "../../shared/Carousel";
 import "./index.scss";
@@ -28,9 +27,8 @@ const cartSvg = svg(),
 export default function () {
   const store = useStore().getState().Products,
     items = store.data,
-    { state } = useLocation();
-
-  console.log(store);
+    productId = Number(useParams().id),
+    state = items.find((e) => e.id === productId);
 
   return (
     <>
@@ -42,7 +40,6 @@ export default function () {
 
 function ProductInfo(state) {
   const dispatch = useDispatch(),
-    // items = store.getState().Products.data,
     [quantity, setQuntity] = useState(0);
 
   return (
@@ -94,10 +91,10 @@ function ProductInfo(state) {
           <button
             type="button"
             className="align-items-center btn d-flex justify-content-center"
+            onClick={() => setQuntity(quantity + 1)}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              // xmlns:xlink="http://www.w3.org/1999/xlink"
               version="1.1"
               width="24"
               height="24"
@@ -113,10 +110,10 @@ function ProductInfo(state) {
           <button
             type="button"
             className="align-items-center btn d-flex justify-content-center"
+            onClick={() => setQuntity(Math.max(0, quantity - 1))}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              // xmlns:xlink="http://www.w3.org/1999/xlink"
               version="1.1"
               width="24"
               height="24"
@@ -128,16 +125,22 @@ function ProductInfo(state) {
               </g>
             </svg>
           </button>
-          <button type="button" className="btn" onClick={addItem}>
-            اضف الى العربة
-            {cartSvg}
-          </button>
+
+          {quantity > 0 && (
+            <Link to="/" className="btn" onClick={addItemToCart}>
+              اضف الى العربة
+              {cartSvg}
+            </Link>
+          )}
         </div>
       </div>
     </section>
   );
-  function addItem() {
-    dispatch(addToCart({ id: state.id, quantity }));
+  function addItemToCart() {
+    dispatch({
+      type: "products/addToCart",
+      payload: { id: state.id, quantity },
+    });
   }
 }
 

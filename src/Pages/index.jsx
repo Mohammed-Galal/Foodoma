@@ -4,9 +4,10 @@ import { Provider } from "react-redux";
 import { createPortal } from "react-dom";
 import store from "../store";
 
-// import Bookings from "./Bookings";
+import Bookings from "./Bookings";
 import HomePage from "./Home";
 import Product from "./Product";
+import Cart from "./Cart";
 
 import Header from "../Header";
 import Nav from "../Nav";
@@ -25,17 +26,18 @@ export default (
         {createPortal(Header(isMobileView), header)}
         <Routes>
           <Route
-            path="/product-item"
+            path="/products/:id"
             caseSensitive={true}
             Component={Product}
           />
 
-          {/* 
           <Route
             caseSensitive={true}
             path="/early-booking"
             element={Bookings}
-          /> */}
+          />
+
+          <Route path="/cart" Component={Cart} caseSensitive={true} />
           <Route path="*" element={HomePage} />
         </Routes>
         {createPortal(Nav(isMobileView), nav)}

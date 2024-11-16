@@ -13,21 +13,25 @@ reducers.init = function (state, action) {
   // state.data = action.products;
 };
 
-reducers.addToCart = function (state, { id, quantity }) {
-  console.log(arguments);
-  state.data.forEach((p) => p.id === id && state.data.push({ id, quantity }));
+reducers.addToCart = function (state, { payload }) {
+  const cart = state.cart,
+    cartItem = cart.find((e) => e.id === payload.id);
+  if (cartItem) cartItem.quantity++;
+  else cart[cart.length] = payload;
+  state.cart = Object.assign([], cart);
 };
 
-reducers.filterBy = function ({ data }, { type }) {
-  const iterator = data.values(),
-    result = [];
+reducers.reduce_cart_item = function (state, { payload }) {
+  const cartItem = state.cart.find((e) => e.id === payload.id);
+  cartItem.quantity--;
+  state.cart = state.cart.filter((e) => e.quantity !== 0);
+};
 
-  let currItem = iterator.next();
-  while (!currItem.done) !!currItem.value[type] && result.push(currItem.value);
-
-  return result;
+reducers.remove_cart_item = function (state, { payload: id }) {
+  const cart = state.cart.filter((e) => e.id !== id);
+  state.cart = cart;
 };
 
 const Store = createSlice(Products);
-export const { init, filterBy, addToCart } = Store.actions;
+// export const { init, log, addToCart } = Store.actions;
 export default Store.reducer;

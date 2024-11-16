@@ -108,7 +108,7 @@
     & > .checkout {
       gap: 0 1rem;
 
-      & > button:not(:last-child) {
+      & > button {
         background-color: #184369;
         color: #fff;
         font-size: 1rem;
@@ -116,7 +116,7 @@
         scale: 0.8;
       }
 
-      & > button:last-child {
+      & > a {
         color: #fff;
         background-color: var(--primary);
         padding: 4px 16px;
@@ -129,49 +129,5 @@
         }
       }
     }
-  }
-}
-
-#related {
-  [class^="swiper-button"] {
-    width: unset;
-    height: unset;
-    background-color: var(--primary);
-    border-radius: 4px;
-    color: #ecf5ff;
-    padding: 8px 10px;
-    opacity: var(--controllers-opacity);
-    transition: var(--hover-transition);
-
-    &.swiper-button-prev {
-      transform: translateX(var(--translate-val));
-    }
-
-    &.swiper-button-next {
-      transform: translateX(calc(0% - var(--translate-val)));
-    }
-
-    &:hover {
-      opacity: 1;
-    }
-
-    &::after {
-      font-size: 20px;
-    }
-  }
-
-  object {
-    max-width: 24px;
-    max-height: 24px;
-  }
-
-  &:hover {
-    --translate-val: 0;
-    --controllers-opacity: 0.9;
-  }
-
-  .swiper-slide {
-    height: auto;
-    width: auto;
   }
 }
