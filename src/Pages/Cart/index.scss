@@ -1,10 +1,15 @@
 main {
   & > #cart-breadcrumb {
     color: var(--midgray);
+
+    & > li:last-child {
+      color: #bdbdbd;
+    }
   }
 
   & > #cart {
     & > ul {
+      align-self: stretch;
       width: 100%;
       max-width: 782px;
       color: var(--primary);
@@ -98,9 +103,11 @@ main {
       span {
         display: flex;
         justify-content: space-between;
+        font-weight: 700;
         color: var(--primary);
 
         & > samp {
+          font-weight: normal;
           font-family: inherit;
           color: var(--midgray);
         }

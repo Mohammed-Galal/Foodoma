@@ -2,6 +2,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import NXT from "../../icons/NXT";
 import Recommended from "./Recommended";
 import "./index.scss";
 
@@ -24,7 +25,9 @@ export default function () {
         className="d-flex gap-2 justify-content-center list-unstyled m-0 px-0 py-5"
       >
         <li>السلة</li>
+        <li>{NXT}</li>
         <li>الدفع</li>
+        <li>{NXT}</li>
         <li>تأكيد الطلب</li>
       </ul>
 
