@@ -8,6 +8,7 @@ import Bookings from "./Bookings";
 import HomePage from "./Home";
 import Product from "./Product";
 import Cart from "./Cart";
+import Design from "./Design";
 
 import Header from "../Header";
 import Nav from "../Nav";
@@ -32,9 +33,15 @@ export default (
           />
 
           <Route
-            caseSensitive={true}
             path="/early-booking"
+            caseSensitive={true}
             element={Bookings}
+          />
+
+          <Route
+            path={"/design/:style"}
+            caseSensitive={true}
+            element={Design}
           />
 
           <Route path="/cart" Component={Cart} caseSensitive={true} />
