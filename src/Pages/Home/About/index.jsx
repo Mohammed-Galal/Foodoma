@@ -1,26 +1,47 @@
 import "./index.scss";
-import { useState } from "react";
-
+import { useEffect, useRef, useState } from "react";
 /* eslint-disable import/no-anonymous-default-export */
 
-export default () => {
-  const [count, setCount] = useState(1);
+const options = {
+  root: null,
+  rootMargin: "0px",
+  threshold: 1.0,
+};
 
-  // setTimeout(function () {
-  //   count === 3000 || setCount(count * 2);
-  // }, 50);
+let observer;
+
+export default () => {
+  const [count, setCount] = useState(1),
+    cardsContainer = useRef(null);
+
+  useEffect(
+    function () {
+      if (count > 1) increase();
+      else {
+        observer = new IntersectionObserver(callback, options);
+        observer.observe(cardsContainer.current);
+
+        let called = false;
+        function callback() {
+          called || setCount(count + 1);
+          called = true;
+        }
+      }
+    },
+    [count]
+  );
 
   return (
     <section
       key="about-us"
       id="about-us"
-      className="container-fluid container-lg d-flex flex-column text-center"
+      className="container-fluid container-lg d-flex flex-column gap-3 text-center"
     >
-      <span className="h3">أرقام نفتخر بها</span>
+      <span className="h3 m-0">أرقام نفتخر بها</span>
       نحن نسهل عليك الحصول على أفضل خدمة أينما كنت. اطلب الآن للشحن على مستوى
       البلاد، أو قدم طلبًا للاستلام من متجرك المحلي، <br />
       أو تواصل مع فريقنا لترتيب خدمة تقديم الطعام المخصصة لمناسبتك القادمة.
-      <div className="d-flex flex-wrap text-center w-100">
+      <div ref={cardsContainer} className="d-flex flex-wrap text-center w-100">
         <div className="d-flex flex-column">
           <img src="/assets/home/icons/ph_stamp-light.svg" alt="LIGHT" />
           <Inc curr={count} until={73} />
@@ -39,6 +60,13 @@ export default () => {
       </div>
     </section>
   );
+
+  function increase() {
+    count < 3000 &&
+      setTimeout(function () {
+        setCount(count * 2);
+      }, 50);
+  }
 };
 
 function Inc({ curr, until }) {

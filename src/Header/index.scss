@@ -25,6 +25,14 @@ body:not(#mobile) > header {
       a {
         text-decoration: none;
         color: var(--primary);
+
+        & > .badge {
+          position: absolute;
+          background-color: #ffcd00;
+          clip-path: circle();
+          left: 10px;
+          top: -4px;
+        }
       }
     }
   }

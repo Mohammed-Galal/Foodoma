@@ -40,7 +40,7 @@ export default (
 
 function Form() {
   const params = useParams(),
-    [quantity, setQuantity] = useState(0);
+    [quantity, setQuantity] = useState(1);
 
   const [size, setSize] = useState(1),
     [shape, setShape] = useState("circle");
@@ -179,7 +179,7 @@ function Form() {
           {quantity}
           <button
             type="button"
-            onClick={() => quantity && setQuantity(quantity - 1)}
+            onClick={() => quantity - 1 && setQuantity(quantity - 1)}
           >
             {Minus}
           </button>

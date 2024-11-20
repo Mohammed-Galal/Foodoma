@@ -23,7 +23,7 @@ export default function () {
 
   return (
     <>
-      <ProductInfo {...state} quantity={inCart ? inCart.quantity : 0} />
+      <ProductInfo {...state} quantity={inCart ? inCart.quantity : 1} />
       <Related items={items} />
     </>
   );
@@ -90,17 +90,15 @@ function ProductInfo(state) {
           <button
             type="button"
             className="align-items-center btn d-flex justify-content-center"
-            onClick={() => setQuntity(Math.max(0, quantity - 1))}
+            onClick={() => setQuntity(Math.max(1, quantity - 1))}
           >
             {Minus}
           </button>
 
-          {quantity > 0 && (
-            <Link to="/" className="btn" onClick={addItemToCart}>
-              اضف الى العربة
-              {Cart}
-            </Link>
-          )}
+          <Link to="/" className="btn" onClick={addItemToCart}>
+            اضف الى العربة
+            {Cart}
+          </Link>
         </div>
       </div>
     </section>
