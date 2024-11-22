@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 
 import Products from "./products/index.js";
 import User from "./user.js";

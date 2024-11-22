@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createPortal } from "react-dom";
+import isMobileView from "../shared/isMobile.js";
 import store from "../store";
 
 import Bookings from "./Bookings";
@@ -9,6 +10,7 @@ import HomePage from "./Home";
 import Product from "./Product";
 import Cart from "./Cart";
 import Design from "./Design";
+import Settings from "./Settings";
 
 import Header from "../Header";
 import Nav from "../Nav";
@@ -18,14 +20,14 @@ const body = document.body;
 const header = document.createElement("header"),
   nav = document.querySelector("nav");
 
-const isMobileView = window.outerWidth < 576;
-
 export default (
   <React.StrictMode>
     <BrowserRouter>
       <Provider store={store}>
         {createPortal(Header(isMobileView), header)}
         <Routes>
+          <Route path="/settings/:tab?" Component={Settings} />
+
           <Route
             path="/products/:id"
             caseSensitive={true}

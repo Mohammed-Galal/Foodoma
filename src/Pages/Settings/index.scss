@@ -1,0 +1,51 @@
+#settings-mobile {
+  & > #personal {
+    font-weight: 600;
+    background-color: #fbfbfb;
+    color: var(--primary);
+    font-size: larger;
+
+    & > img {
+      shape-outside: circle();
+    }
+
+    & > .info > span {
+      line-height: 1.6;
+
+      &:first-child {
+        margin-bottom: 6px;
+      }
+
+      &:not(:first-child) {
+        font-size: small;
+        color: var(--midgray);
+      }
+    }
+  }
+
+  & > ul {
+    color: var(--primary);
+    font-weight: 600;
+    row-gap: 16px;
+
+    a {
+      aspect-ratio: 1/1;
+      border: 2px solid #a6cee8;
+      border-radius: 24px;
+      text-decoration: none;
+      color: inherit;
+    }
+  }
+
+  & > button {
+    display: block;
+    position: sticky;
+    bottom: 120px;
+    margin: 0 auto;
+    border-radius: 24px;
+    width: 70%;
+    background-color: var(--primary);
+    color: #fff;
+    z-index: 9;
+  }
+}

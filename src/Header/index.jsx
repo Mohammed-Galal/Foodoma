@@ -6,9 +6,5 @@ import "./index.scss";
 export default function (isMobileDevice) {
   const Target = isMobileDevice ? mobile : desktop;
 
-  return (
-    <>
-      <Target />
-    </>
-  );
+  return <Target />;
 }
