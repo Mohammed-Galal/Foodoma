@@ -31,7 +31,8 @@ div.product-item {
       font-weight: 500;
     }
 
-    & > object {
+    & > img {
+      cursor: pointer;
       margin-right: auto;
     }
   }

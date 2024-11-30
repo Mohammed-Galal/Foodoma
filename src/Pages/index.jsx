@@ -20,6 +20,8 @@ const body = document.body;
 const header = document.createElement("header"),
   nav = document.querySelector("nav");
 
+isMobileView && (body.id = "mobile");
+
 export default (
   <React.StrictMode>
     <BrowserRouter>
@@ -55,5 +57,4 @@ export default (
   </React.StrictMode>
 );
 
-isMobileView && (body.id = "mobile");
 body.prepend(header);

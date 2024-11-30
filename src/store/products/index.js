@@ -3,7 +3,7 @@ import data from "./data.json";
 
 const Products = {
     name: "products",
-    initialState: { loaded: false, data, cart: [] },
+    initialState: { loaded: false, data, cart: [], fav: [] },
   },
   reducers = (Products.reducers = {});
 
@@ -32,6 +32,16 @@ reducers.remove_cart_item = function (state, { payload: id }) {
   state.cart = cart;
 };
 
+reducers.addToFav = function (state, { payload }) {
+  if (state.fav.indexOf(payload) > -1) return;
+  state.fav.push(payload);
+  state.fav = Object.assign([], state.fav);
+};
+
+reducers.removeFromFav = function (state, { payload }) {
+  state.fav = state.fav.filter((e) => e.id !== payload.id);
+};
+
 const Store = createSlice(Products);
-// export const { init, log, addToCart } = Store.actions;
+export const { addToFav, removeFromFav } = Store.actions;
 export default Store.reducer;

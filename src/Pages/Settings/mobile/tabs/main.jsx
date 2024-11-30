@@ -1,11 +1,10 @@
-/* eslint-disable import/no-anonymous-default-export */
 import { Link } from "react-router-dom";
-import Power from "../../icons/Power";
+import Power from "../../../../icons/Power";
 
-export default function ({ name }) {
+export default function main() {
   return (
     <>
-      <ul id={name} className="list-unstyled mx-0 my-5 p-0 row">
+      <ul className="list-unstyled mx-auto my-5 p-0 row container">
         <li className="col-4">
           <Link
             className="align-items-center d-flex flex-column gap-3 p-3 justify-content-center"
@@ -67,7 +66,7 @@ export default function ({ name }) {
         </li>
       </ul>
 
-      <button type="button" className="btn">
+      <button type="button" className="btn container">
         تسجيل الخروج {Power}
       </button>
     </>

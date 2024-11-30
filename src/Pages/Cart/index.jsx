@@ -8,7 +8,7 @@ import "./index.scss";
 
 let totalPrice;
 
-const delivery = Math.ceil(Math.random() * 15),
+export const delivery = Math.ceil(Math.random() * 15),
   discount = Math.ceil(Math.random() * 5);
 
 export default function () {

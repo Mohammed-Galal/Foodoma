@@ -1,12 +1,12 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable import/no-anonymous-default-export */
-import { useStore } from "react-redux";
+import { useSelector } from "react-redux";
 import productItem from "../../../shared/productItem";
 import Carousel from "../../../shared/Carousel";
 import "./index.scss";
 
 export default function ({ id, title, categoryKey }) {
-  const items = useStore().getState().Products.data,
+  const items = useSelector((e) => e.Products).data,
     targetItems = categoryKey
       ? items.filter((item) => !!item[categoryKey])
       : items,

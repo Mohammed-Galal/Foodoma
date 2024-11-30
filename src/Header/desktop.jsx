@@ -19,7 +19,7 @@ export default function () {
           <Link to="/branches">الفروع</Link>
         </li>
         <li>
-          <Link to="/about-us">من نحن؟</Link>
+          <Link to="/settings/about-us">من نحن؟</Link>
         </li>
       </ul>
 
@@ -33,7 +33,7 @@ export default function () {
 
       <ul className="align-items-center d-flex list-unstyled m-0 p-0">
         <li>
-          <Link to="/account">
+          <Link to="/settings/account">
             <img
               src="/assets/home/icons/fluent_person-16-regular.svg"
               alt="account"
@@ -41,7 +41,7 @@ export default function () {
           </Link>
         </li>
         <li>
-          <Link to="/fav">
+          <Link to="/settings/fav">
             <img src="/assets/home/icons/header heart.svg" alt="favorites" />
           </Link>
         </li>

@@ -1,12 +1,25 @@
 /* eslint-disable import/no-anonymous-default-export */
 /* eslint-disable jsx-a11y/alt-text */
 import { Link } from "react-router-dom";
+import S from "../../store";
 import "./index.scss";
 
+const dispatch = S.dispatch;
+// console.log(S.getState());
+
 export default function (item, I) {
-  const { name, image, price, is_new } = item,
+  const { fav: favs } = S.getState().Products,
+    isHearted = favs.indexOf(item) > -1,
+    { name, image, price, is_new } = item,
     key = item.item_category_id * item.restaurant_id + I,
     cat = item.addon_categories[0].name;
+
+  function toggleFav() {
+    dispatch({
+      type: "products/" + (isHearted ? "removeFromFav" : "addToFav"),
+      payload: item,
+    });
+  }
 
   return (
     <div
@@ -16,10 +29,11 @@ export default function (item, I) {
       <div className="align-items-center d-flex">
         {is_new ? <span>جديد</span> : ""}
 
-        <object
-          data="/assets/home/icons/heart.svg"
-          datatype="image/svg+xml"
-        ></object>
+        <img
+          onClick={toggleFav}
+          src={"/assets/home/icons/heart" + (isHearted ? "ed" : "") + ".svg"}
+          alt="fav"
+        />
       </div>
 
       <img src={image} alt={name} />
