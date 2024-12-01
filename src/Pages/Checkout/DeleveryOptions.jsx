@@ -4,23 +4,39 @@ const homeOption = (
   <React.Fragment key="Home">
     <label>
       العنوان
-      <input type="text" placeholder="عنوان الاستلام" />
+      <input
+        className="input-group mt-2 p-2"
+        type="text"
+        placeholder="عنوان الاستلام"
+      />
     </label>
 
     <div className="row">
-      <label>
+      <label className="col-12 col-md-4">
         الشقة
-        <input type="text" placeholder="الشقة" />
+        <input
+          className="input-group mt-2 p-2"
+          type="text"
+          placeholder="الشقة"
+        />
       </label>
 
-      <label>
+      <label className="col-12 col-md-4">
         الطابق
-        <input type="number" placeholder="الطابق" />
+        <input
+          className="input-group mt-2 p-2"
+          type="number"
+          placeholder="الطابق"
+        />
       </label>
 
-      <label>
+      <label className="col-12 col-md-4">
         المنزل
-        <input type="number" placeholder="المنزل" />
+        <input
+          className="input-group mt-2 p-2"
+          type="number"
+          placeholder="المنزل"
+        />
       </label>
     </div>
   </React.Fragment>
@@ -29,7 +45,7 @@ const homeOption = (
 const branchOption = (
   <label key="branch">
     الفرع
-    <select defaultValue="0">
+    <select className="input-group mt-2 p-2" defaultValue="0">
       <option value="0">الفرع</option>
     </select>
   </label>
@@ -39,17 +55,23 @@ export default function DeleveryOptions() {
   const [delevery, setDelevery] = useState(false);
 
   return (
-    <div>
-      <span className="title"></span>
-      <div>
+    <div className="d-flex flex-column gap-2">
+      <span className="title" style={{ color: "var(--primary)" }}></span>
+      <div className="d-flex gap-2">
         <button
           onClick={() => setDelevery(false)}
           type="button"
-          className="btn"
+          data-active={!delevery}
+          className="btn px-3"
         >
           الاستلام من الفرع
         </button>
-        <button onClick={() => setDelevery(true)} type="button" className="btn">
+        <button
+          onClick={() => setDelevery(true)}
+          type="button"
+          data-active={delevery}
+          className="btn px-3"
+        >
           التوصيل للمنزل
         </button>
       </div>

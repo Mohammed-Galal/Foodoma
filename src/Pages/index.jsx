@@ -11,6 +11,7 @@ import Product from "./Product";
 import Cart from "./Cart";
 import Design from "./Design";
 import Settings from "./Settings";
+import Checkout from "./Checkout";
 
 import Header from "../Header";
 import Nav from "../Nav";
@@ -49,6 +50,8 @@ export default (
           />
 
           <Route path="/cart" Component={Cart} caseSensitive={true} />
+
+          <Route path="/checkout" element={Checkout} caseSensitive={true} />
           <Route path="*" element={HomePage} />
         </Routes>
         {createPortal(Nav(isMobileView), nav)}

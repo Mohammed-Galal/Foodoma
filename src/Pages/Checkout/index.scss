@@ -1,0 +1,82 @@
+#checkout {
+  ul {
+    color: var(--midgray);
+
+    & > li.h5 {
+      color: var(--primary);
+    }
+  }
+
+  & form {
+    .input-group {
+      border-radius: 6px;
+      border: 1px solid #c9e2f4;
+      resize: none;
+      outline: none !important;
+    }
+
+    .btn {
+      scale: 0.9;
+      border: 1px solid #cdcdcd;
+      border-radius: 241px;
+      color: var(--midgray);
+
+      &[data-active="true"] {
+        background-color: #c9e2f4;
+        color: var(--primary);
+        border-color: #c9e2f4;
+      }
+    }
+
+    .btn:checked {
+      display: none;
+    }
+
+    & > div:last-child > span.h6 {
+      color: var(--primary);
+    }
+  }
+
+  & > div > div {
+    position: sticky;
+    top: 160px;
+    border: 1px solid #f1f1f1;
+    border-radius: 24px;
+
+    hr {
+      border-color: #f1f1f1;
+    }
+
+    p {
+      font-size: smaller;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &:not(.total) > span {
+        color: var(--midgray);
+      }
+
+      &.total > span {
+        color: var(--primary);
+        font-size: larger;
+      }
+    }
+
+    label {
+      font-size: smaller;
+      font-weight: 600;
+    }
+
+    & > .title {
+      color: var(--primary);
+    }
+
+    & > button {
+      scale: 0.9;
+      background-color: var(--primary);
+      color: #fff;
+      border-radius: 24px;
+    }
+  }
+}
