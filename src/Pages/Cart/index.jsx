@@ -31,6 +31,18 @@ export default function () {
         <li>تأكيد الطلب</li>
       </ul>
 
+      <div
+        className="align-items-center container d-flex flex-column gap-3 h5 my-0"
+        style={{ cssText: "color: var(--primary); font-weight: 600;" }}
+      >
+        أضف 100 ر.س للسلة وأحصل على 10 ر.س كاش باك!
+        <progress
+          value="68"
+          max="100"
+          style={{ cssText: "max-width: 500px;" }}
+        ></progress>
+      </div>
+
       <section
         id="cart"
         className="align-items-baseline container d-flex flex-wrap gap-3"
