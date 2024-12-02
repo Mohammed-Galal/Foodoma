@@ -9,7 +9,7 @@ import "./index.scss";
 let totalPrice;
 
 export const delivery = Math.ceil(Math.random() * 15),
-  discount = Math.ceil(Math.random() * 5);
+  discount = -Math.ceil(Math.random() * 5);
 
 export default function () {
   totalPrice = 0;
@@ -73,7 +73,7 @@ export default function () {
 
             <span>
               <samp>الخصم</samp>
-              {discount} ر.س
+              {Math.abs(discount)} ر.س
             </span>
           </p>
 

@@ -5,6 +5,7 @@ import tabs from "./tabs";
 
 import Globe from "../../../icons/Globe";
 import AltArrowDown from "../../../icons/Arrow_Down";
+import Power from "../../../icons/Power";
 
 export default function () {
   const tabName = useParams().tab,
@@ -19,13 +20,13 @@ export default function () {
         <AccountInfo />
 
         <div
-          className="d-grid mt-5"
+          className="d-grid mt-5 gap-3"
           style={{ "grid-template-columns": "256px 1fr" }}
         >
-          <ul className="list-unstyled p-0 m-0">
-            <li>
+          <ul id="menu" className="list-unstyled p-0 m-0">
+            <li className="pb-2">
               <NavLink
-                className="align-items-center d-flex gap-2 py-3 text-decoration-none"
+                className="align-items-center d-grid gap-2 text-decoration-none"
                 to="/settings/addresses"
               >
                 <img src="/assets/settings/address.png" alt="Icon" />
@@ -33,9 +34,9 @@ export default function () {
               </NavLink>
             </li>
 
-            <li>
+            <li className="py-2">
               <NavLink
-                className="align-items-center d-flex gap-2 py-3 text-decoration-none"
+                className="align-items-center d-grid gap-2 text-decoration-none"
                 to="/settings/history"
               >
                 <img src="/assets/settings/delivery.png" alt="Icon" />
@@ -43,9 +44,9 @@ export default function () {
               </NavLink>
             </li>
 
-            <li>
+            <li className="py-2">
               <NavLink
-                className="align-items-center d-flex gap-2 py-3 text-decoration-none"
+                className="align-items-center d-grid gap-2 text-decoration-none"
                 to="/settings/fav"
               >
                 <img src="/assets/settings/shop.png" alt="Icon" />
@@ -53,9 +54,9 @@ export default function () {
               </NavLink>
             </li>
 
-            <li>
+            <li className="py-2">
               <NavLink
-                className="align-items-center d-flex gap-2 py-3 text-decoration-none"
+                className="align-items-center d-grid gap-2 text-decoration-none"
                 to="/settings/wallet"
               >
                 <img src="/assets/settings/wallet.png" alt="Icon" />
@@ -63,23 +64,23 @@ export default function () {
               </NavLink>
             </li>
 
-            <li>
+            <li className="py-2">
               <NavLink
-                className="align-items-center d-flex gap-2 py-3 text-decoration-none"
-                to="/settings"
+                className="align-items-center d-grid gap-2 text-decoration-none"
+                to="/settings/account"
               >
                 <img src="/assets/settings/gears.png" alt="Icon" />
                 الاعدادات
               </NavLink>
             </li>
 
-            <li>
+            <li className="py-2">
               <NavLink
-                className="align-items-center d-flex gap-2 py-3 text-decoration-none"
-                to="/settings/about"
+                className="align-items-center d-grid gap-2 text-decoration-none"
+                to="/settings/logout"
               >
-                <img src="/assets/settings/address.png" alt="Icon" />
-                حول التطبيق
+                {Power}
+                تسجيل الخروج
               </NavLink>
             </li>
           </ul>

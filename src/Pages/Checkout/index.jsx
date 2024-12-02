@@ -89,7 +89,7 @@ function OrderInfo() {
         </p>
         <p>
           الخصم
-          <span>{discount} ر.س</span>
+          <span>{Math.abs(discount)} ر.س</span>
         </p>
       </div>
       <hr />

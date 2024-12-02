@@ -1,3 +1,33 @@
+#settings {
+  #menu {
+    li {
+      border-bottom: 1px solid #d4e8f6;
+
+      a {
+        min-height: 45px;
+        color: var(--primary);
+        grid-template-columns: 72px 1fr;
+
+        &:hover,
+        &.active {
+          background-color: #d4e8f6;
+          border-radius: 16px;
+        }
+
+        svg path {
+          stroke: currentColor;
+        }
+
+        img,
+        svg {
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+    }
+  }
+}
+
 #settings-mobile {
   & > #personal {
     font-weight: 600;

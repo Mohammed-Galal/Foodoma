@@ -26,7 +26,7 @@ export default function () {
         </div>
       </div>
 
-      <TargetTab name={tabName} />
+      {TargetTab && <TargetTab name={tabName} />}
     </section>
   );
 }

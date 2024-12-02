@@ -41,6 +41,33 @@ body {
   --gradient-4: linear-gradient(0deg, #1faf38 -9900%, #60d669 100%);
 }
 
+progress {
+  width: 100%;
+  max-width: 200px;
+  height: 8px;
+  border-radius: 24px;
+  overflow: hidden;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #bdbdbd;
+  border-radius: 10px;
+}
+
+progress::-webkit-progress-value {
+  background-color: #ffcd00;
+  border-radius: 10px 0 0 10px;
+  transition: width 0.2s ease;
+}
+
+progress::-moz-progress-bar {
+  background-color: #ffcd00;
+  border-radius: 10px 0 0 10px;
+  transition: width 0.2s ease;
+}
+
 .swiper {
   color: var(--primary);
 

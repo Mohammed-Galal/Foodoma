@@ -1,1 +1,2 @@
-export default window ? window.outerWidth < 576 : true;
+const mobileScreen = window.matchMedia("(max-width: 576px)");
+export default mobileScreen.matches;
