@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 export default (
   <ul className="m-0 mx-auto py-2 container list-unstyled d-grid">
     <li>
-      <NavLink to="/account">
+      <NavLink to="/settings/account">
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,7 @@ export default (
     </li>
 
     <li>
-      <NavLink to="/fav">
+      <NavLink to="/settings/fav">
         <div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
