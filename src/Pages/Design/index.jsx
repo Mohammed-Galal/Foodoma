@@ -8,6 +8,8 @@ import { useState } from "react";
 
 /* eslint-disable jsx-a11y/alt-text */
 
+let extraFees = 5;
+
 export default (
   <>
     <aside>
@@ -48,7 +50,13 @@ function Form() {
   return (
     <form className="d-flex flex-wrap gap-3" encType="multipart/form-data">
       <div className="align-items-center d-flex flex-column gap-4 justify-content-around">
-        <input id="img-file" type="file" accept="image/*" />
+        <img id="img-preview" src="/assets/home/img-placeholder.png" alt="PH" />
+        <input
+          onChange={handleChange}
+          id="img-file"
+          type="file"
+          accept="image/*"
+        />
         <label className="pb-1" htmlFor="img-file">
           أضف صورة
         </label>
@@ -117,7 +125,7 @@ function Form() {
               type="radio"
               name="shape"
               value="circle"
-              onChange={() => setShape("circle")}
+              onChange={() => (extraFees = 5) && setShape("circle")}
               checked={shape === "circle"}
             />
             /5 ر.س
@@ -129,7 +137,7 @@ function Form() {
               type="radio"
               name="shape"
               value="square"
-              onChange={() => setShape("square")}
+              onChange={() => (extraFees = 10) && setShape("square")}
               checked={shape === "square"}
             />
             /10 ر.س
@@ -141,7 +149,7 @@ function Form() {
               type="radio"
               name="shape"
               value="rect"
-              onChange={() => setShape("rect")}
+              onChange={() => (extraFees = 15) && setShape("rect")}
               checked={shape === "rect"}
             />
             /15 ر.س
@@ -187,8 +195,16 @@ function Form() {
             اضف الى العربة
             {Cart}
           </button>
+
+          <span className="h5 m-0">{extraFees} ر.س</span>
         </li>
       </ul>
     </form>
   );
+}
+
+function handleChange({ target }) {
+  const imgPrev = document.getElementById("img-preview"),
+    files = target.files;
+  if (files.length) imgPrev.src = URL.createObjectURL(files[0]);
 }

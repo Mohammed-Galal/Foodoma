@@ -13,6 +13,8 @@ import "./index.scss";
 const fallbackStr = `كعكة الفانيليا ذات الطراز القديم هي قلب وروح ماجنوليا بيكري. هنا، نأخذ نفس الخليط الذي نستخدمه لصنع الكعك الشهير الخاص بنا لصنع كعكة غنية بالزبدة مع فتات خفيفة، ونضعها في طبقة من كريمة زبدة الفانيليا أو الشوكولاتة.
 المكونات: دقيق - زبدة -`;
 
+let addonsPrice;
+
 export default function () {
   const store = useStore().getState().Products,
     items = store.data,
@@ -32,6 +34,10 @@ export default function () {
 function ProductInfo(state) {
   const dispatch = useDispatch(),
     [quantity, setQuntity] = useState(state.quantity);
+
+  addonsPrice = 0;
+
+  const [addons, setAddons] = useState([]);
 
   return (
     <section
@@ -95,10 +101,17 @@ function ProductInfo(state) {
             {Minus}
           </button>
 
-          <Link to="/" className="btn" onClick={addItemToCart}>
+          <div className="btn" onClick={addItemToCart}>
             اضف الى العربة
             {Cart}
-          </Link>
+          </div>
+
+          <span
+            className="h5 m-0"
+            style={{ fontWeight: "600", color: "var(--primary)" }}
+          >
+            {addonsPrice} ر.س
+          </span>
         </div>
       </div>
     </section>
@@ -108,6 +121,30 @@ function ProductInfo(state) {
       type: "products/addToCart",
       payload: { id: state.id, quantity },
     });
+  }
+
+  function addonItem({ name }) {
+    const isAdded = addons.indexOf(name) > -1;
+
+    isAdded && (addonsPrice += 10);
+
+    return (
+      <li
+        onClick={handleAddon}
+        key={name}
+        data-active={isAdded}
+        className="d-flex align-items-center justify-content-between"
+      >
+        {name}
+        <span>{isAdded ? Minus : Plus}</span>
+      </li>
+    );
+
+    function handleAddon() {
+      isAdded
+        ? setAddons(addons.filter((e) => e !== name))
+        : setAddons([name].concat(addons));
+    }
   }
 }
 
@@ -125,18 +162,6 @@ function Related({ items }) {
         innerItems={items.map(productItem)}
       />
     </section>
-  );
-}
-
-function addonItem({ name }) {
-  return (
-    <li
-      key={name}
-      className="d-flex align-items-center justify-content-between"
-    >
-      {name}
-      <span>+</span>
-    </li>
   );
 }
 

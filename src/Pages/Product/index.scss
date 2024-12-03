@@ -87,7 +87,8 @@
             color: var(--primary);
           }
 
-          &:hover {
+          &:hover,
+          &[data-active="true"] {
             color: var(--primary);
             background-color: #a8d0ec;
             border-color: #a8d0ec;
@@ -116,7 +117,7 @@
         scale: 0.8;
       }
 
-      & > a {
+      & > div {
         color: #fff;
         background-color: var(--primary);
         padding: 4px 16px;

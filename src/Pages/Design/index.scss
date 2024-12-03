@@ -39,10 +39,8 @@ aside {
       color: var(--primary);
       // max-width: 480px;
 
-      &::before {
-        content: "";
-        background: url("../../../public/assets/home/img-placeholder.png");
-        width: 250px;
+      & > img {
+        max-height: 425px;
         aspect-ratio: 1/1;
         background-size: contain;
         filter: brightness(0.7);
@@ -137,18 +135,25 @@ aside {
         }
       }
 
-      & > li:last-child > button {
-        border: 0;
-        background-color: var(--primary);
-        color: #fff;
+      & > li:last-child {
+        & > button {
+          border: 0;
+          background-color: var(--primary);
+          color: #fff;
 
-        &:not(:last-child) {
-          clip-path: circle();
+          &:not(:last-of-type) {
+            clip-path: circle();
+          }
+
+          &:last-of-type {
+            border-radius: 24px;
+            padding: 0.25rem 0.75rem;
+          }
         }
 
-        &:last-child {
-          border-radius: 24px;
-          padding: 0.25rem 0.75rem;
+        & > span {
+          color: var(--primary);
+          font-weight: 600;
         }
       }
     }
