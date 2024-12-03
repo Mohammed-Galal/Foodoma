@@ -110,7 +110,7 @@ function ProductInfo(state) {
             className="h5 m-0"
             style={{ fontWeight: "600", color: "var(--primary)" }}
           >
-            {addonsPrice} ر.س
+            {state.price * quantity + addonsPrice} ر.س
           </span>
         </div>
       </div>
@@ -119,7 +119,7 @@ function ProductInfo(state) {
   function addItemToCart() {
     dispatch({
       type: "products/addToCart",
-      payload: { id: state.id, quantity },
+      payload: { id: state.id, quantity, extraFees: addonsPrice },
     });
   }
 

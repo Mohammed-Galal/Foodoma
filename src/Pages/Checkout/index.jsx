@@ -130,7 +130,7 @@ function OrderInfo() {
   );
 }
 
-function productItem({ id, quantity }) {
+function productItem({ id, quantity, extraFees }) {
   const itemData = this.data.find((p) => p.id === id);
 
   const price = itemData.price || Math.ceil(Math.random() * 10);
