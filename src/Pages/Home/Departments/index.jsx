@@ -21,14 +21,16 @@ export default ({ sectionName }) => (
       </p>
     )}
 
-    <div className="d-flex flex-wrap">{data.map(sectionItem)}</div>
+    <div className="d-flex flex-wrap gap-3 justify-content-around">
+      {data.map(sectionItem)}
+    </div>
   </section>
 );
 
 function sectionItem({ img, title, href }, I) {
   return (
     <a
-      className="align-items-center d-flex flex-column mx-auto"
+      className="align-items-center d-flex flex-column gap-2 p-4"
       href={href}
       key={I}
     >

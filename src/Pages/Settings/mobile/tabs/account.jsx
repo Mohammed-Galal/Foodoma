@@ -10,7 +10,7 @@ export default function () {
       >
         <Link
           className="text-decoration-none"
-          style={{ color: "var(--midgray)" }}
+          style={{ color: "var(--midgray)", border: "none" }}
           to="/"
         >
           تحديث البيانات الشخصية
@@ -23,7 +23,7 @@ export default function () {
       >
         <Link
           className="text-decoration-none"
-          style={{ color: "var(--midgray)" }}
+          style={{ color: "var(--midgray)", border: "none" }}
           to="/"
         >
           البطاقات المحفوظة

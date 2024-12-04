@@ -21,7 +21,7 @@ export default ({ sectionName }) => (
     {/* نحن نسهل عليك الحصول على أفضل خدمة أينما كنت. اطلب الآن للشحن على مستوى
     البلاد، أو قدم طلبًا للاستلام من متجرك المحلي، أو تواصل مع فريقنا لترتيب
     خدمة تقديم الطعام المخصصة لمناسبتك القادمة. */}
-    <div className="align-items-stretch d-flex flex-wrap flex-lg-nowrap">
+    <div className="align-items-stretch d-flex flex-wrap flex-lg-nowrap gap-3">
       <div className="align-items-stretch d-grid">
         <p className="align-items-center d-flex flex-column h-100 justify-content-evenly m-0">
           <span className="d-block h4">الطلبات الخاصة</span>

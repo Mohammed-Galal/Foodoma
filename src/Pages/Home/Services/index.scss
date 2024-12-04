@@ -1,7 +1,5 @@
 #services {
   & > div {
-    gap: calc(var(--bs-gutter-x) * 0.5);
-
     & > div {
       border-radius: 12px;
       width: 100%;
