@@ -12,7 +12,7 @@ export default () => (
         الشوكولاتة.
       </p>
 
-      <a href="/" className="text-decoration-none">
+      <a href="/public/mobile/" className="text-decoration-none">
         جميع المنتجات
       </a>
     </div>

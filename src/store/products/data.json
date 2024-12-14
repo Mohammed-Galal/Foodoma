@@ -5,7 +5,7 @@
     "image": "/assets/home/products/(1).png",
     "price": "22.00",
     "is_new": 1,
-    "addon_categories": [{ "name": "تورته" }],
+    "addon_categories": [{ "name": "تورته", "price": "10.00" }],
     "restaurant_id": 2,
     "item_category_id": 1
   },
@@ -15,7 +15,7 @@
     "image": "/assets/home/products/(4).png",
     "price": "10.00",
     "is_new": 0,
-    "addon_categories": [{ "name": "جاتوه" }],
+    "addon_categories": [{ "name": "جاتوه", "price": "10.00" }],
     "restaurant_id": 2,
     "item_category_id": 2
   },
@@ -25,7 +25,7 @@
     "image": "/assets/home/products/(3).png",
     "price": "15.00",
     "is_new": 0,
-    "addon_categories": [{ "name": "جاتوه" }],
+    "addon_categories": [{ "name": "جاتوه", "price": "10.00" }],
     "restaurant_id": 2,
     "item_category_id": 3
   },
@@ -35,7 +35,7 @@
     "image": "/assets/home/products/(0).png",
     "price": "25.00",
     "is_new": 1,
-    "addon_categories": [{ "name": "تورته" }],
+    "addon_categories": [{ "name": "تورته", "price": "10.00" }],
     "restaurant_id": 2,
     "item_category_id": 4
   },
@@ -45,7 +45,7 @@
     "image": "/assets/home/products/(1).png",
     "price": "22.00",
     "is_new": 1,
-    "addon_categories": [{ "name": "تورته" }],
+    "addon_categories": [{ "name": "تورته", "price": "10.00" }],
     "restaurant_id": 2,
     "item_category_id": 1
   },
@@ -55,7 +55,7 @@
     "image": "/assets/home/products/(4).png",
     "price": "10.00",
     "is_new": 0,
-    "addon_categories": [{ "name": "جاتوه" }],
+    "addon_categories": [{ "name": "جاتوه", "price": "10.00" }],
     "restaurant_id": 2,
     "item_category_id": 2
   },
@@ -65,7 +65,7 @@
     "image": "/assets/home/products/(3).png",
     "price": "15.00",
     "is_new": 0,
-    "addon_categories": [{ "name": "جاتوه" }],
+    "addon_categories": [{ "name": "جاتوه", "price": "10.00" }],
     "restaurant_id": 2,
     "item_category_id": 3
   }

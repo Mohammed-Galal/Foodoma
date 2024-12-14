@@ -35,9 +35,11 @@ function ProductInfo(state) {
   const dispatch = useDispatch(),
     [quantity, setQuntity] = useState(state.quantity);
 
+  const [addons, setAddons] = useState([]);
+
   addonsPrice = 0;
 
-  const [addons, setAddons] = useState([]);
+  window.scroll(0, 0);
 
   return (
     <section
@@ -123,7 +125,7 @@ function ProductInfo(state) {
     });
   }
 
-  function addonItem({ name }) {
+  function addonItem({ name, price: addonPrice }) {
     const isAdded = addons.indexOf(name) > -1;
 
     isAdded && (addonsPrice += 10);
@@ -133,9 +135,10 @@ function ProductInfo(state) {
         onClick={handleAddon}
         key={name}
         data-active={isAdded}
-        className="d-flex align-items-center justify-content-between"
+        className="d-flex align-items-center justify-content-between gap-2"
       >
-        {name}
+        <b>{name}</b>
+        {addonPrice}
         <span>{isAdded ? Minus : Plus}</span>
       </li>
     );
@@ -164,43 +167,3 @@ function Related({ items }) {
     </section>
   );
 }
-
-/*
-{
-            "id": 2,
-            "restaurant_id": 2,
-            "item_category_id": 1,
-            "name": "Date Cake",
-            "price": "10.00",
-            "old_price": "0.00",
-            "image": "/assets/img/items/1726654329n0kJib8ot7.jpg",
-            "is_recommended": 1,
-            "is_popular": 1,
-            "is_new": 1,
-            "desc": "<p><span style=\"font-family: Arial; font-size: 15px; white-space-collapse: preserve;\">Date Cake</span><br></p>",
-            "placeholder_image": null,
-            "is_active": 1,
-            "is_veg": null,
-            "order_column": null,
-            "zone_id": 1,
-            "deleted_at": null,
-            "addon_categories": [
-                {
-                    "id": 1,
-                    "name": "Cake",
-                    "type": "MULTI",
-                    "user_id": 1,
-                    "created_at": "2024-09-14 14:55:41",
-                    "updated_at": "2024-09-18 06:19:32",
-                    "description": null,
-                    "addon_limit": 0,
-                    "deleted_at": null,
-                    "pivot": {
-                        "item_id": 2,
-                        "addon_category_id": 1
-                    },
-                    "addons": []
-                }
-            ]
-        }
-*/

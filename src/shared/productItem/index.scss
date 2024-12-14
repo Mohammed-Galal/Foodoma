@@ -16,10 +16,6 @@ div.product-item {
   --btn-opacity: 0.9;
   --hover-length: -50px;
 
-  &:hover > .desc {
-    transform: translateY(var(--hover-length));
-  }
-
   & > div:first-child {
     height: 28px;
     & > span {
@@ -41,77 +37,82 @@ div.product-item {
     font-weight: 500;
   }
 
-  & > img {
-    height: 200px;
-    display: block;
+  &:hover .desc {
+    transform: translateY(var(--hover-length));
   }
 
-  & > .desc {
-    color: var(--primary);
-    transition: transform var(--hover-transition);
-    transform: translate(0);
-    background-color: #fff;
-    gap: inherit;
-
-    & > span:first-child {
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      -webkit-line-clamp: 2;
+  & > a {
+    & > img {
+      height: 200px;
+      display: block;
     }
 
-    & > .rate {
-      color: var(--midgray);
+    & > .desc {
+      color: var(--primary);
+      transition: transform var(--hover-transition);
+      transform: translate(0);
+      background-color: #fff;
 
-      & > object {
-        margin-left: 4px;
+      & > span:first-child {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 2;
       }
 
-      & > span {
-        margin-right: auto;
-        background-color: #e4f4ff;
-        padding: 8px 14px;
-        line-height: 1;
-        border-radius: 27px;
-        color: var(--primary);
-      }
-    }
+      & > .rate {
+        color: var(--midgray);
 
-    & > .price {
-      color: var(--midgray);
-      font-size: 1.1rem;
+        & > object {
+          margin-left: 4px;
+        }
 
-      & > span {
-        color: #a8d0ec;
-      }
-    }
-
-    & > button {
-      transition: all var(--hover-transition);
-      margin-bottom: var(--hover-length);
-      background-color: var(--primary);
-      color: #fff;
-      opacity: var(--btn-opacity);
-      font-size: 16px;
-      max-height: var(--btn-height);
-      overflow: hidden;
-
-      & > * {
-        height: var(--btn-height);
-        flex-shrink: 0;
-        position: relative;
+        & > span {
+          margin-right: auto;
+          background-color: #e4f4ff;
+          padding: 8px 14px;
+          line-height: 1;
+          border-radius: 27px;
+          color: var(--primary);
+        }
       }
 
-      & > span {
-        width: 100%;
-        transition: margin-top var(--hover-transition);
+      & > .price {
+        color: var(--midgray);
+        font-size: 1.1rem;
+
+        & > span {
+          color: #a8d0ec;
+        }
       }
 
-      &:hover {
-        --btn-opacity: 1;
-        & > span:first-child {
-          margin-top: calc(0px - var(--btn-height));
+      & > button {
+        transition: all var(--hover-transition);
+        margin-bottom: var(--hover-length);
+        background-color: var(--primary);
+        color: #fff;
+        opacity: var(--btn-opacity);
+        font-size: 16px;
+        max-height: var(--btn-height);
+        overflow: hidden;
+
+        & > * {
+          height: var(--btn-height);
+          flex-shrink: 0;
+          position: relative;
+        }
+
+        & > span {
+          width: 100%;
+          transition: margin-top var(--hover-transition);
+        }
+
+        &:hover {
+          --btn-opacity: 1;
+          & > span:first-child {
+            margin-top: calc(0px - var(--btn-height));
+          }
         }
       }
     }

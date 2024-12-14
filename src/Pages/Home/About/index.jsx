@@ -35,7 +35,7 @@ export default () => {
     <section
       key="about-us"
       id="about-us"
-      className="container-fluid container-lg d-flex flex-column gap-3 text-center"
+      className="container-fluid container-lg d-flex flex-column text-center"
     >
       <span className="h3 m-0">أرقام نفتخر بها</span>
       نحن نسهل عليك الحصول على أفضل خدمة أينما كنت. اطلب الآن للشحن على مستوى

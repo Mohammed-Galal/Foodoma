@@ -11,7 +11,7 @@ import {
 const defaultConfig = {};
 defaultConfig.modules = [Autoplay, A11y, Scrollbar, Pagination, Navigation];
 defaultConfig.navigation = true;
-defaultConfig.spaceBetween = 60;
+defaultConfig.spaceBetween = 28;
 defaultConfig.slidesPerView = "auto";
 defaultConfig.autoplay = {
   delay: 1500,

@@ -15,7 +15,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 export default () => (
   <section key="rates" id="rates">
     <div className="container-fluid container-lg">
-      <span className="d-block h3 mb-3 text-center">آراء عملائنا</span>
+      <span className="d-block h3 text-center">آراء عملائنا</span>
       <Swiper
         modules={[A11y, Scrollbar, Pagination, Navigation]}
         navigation

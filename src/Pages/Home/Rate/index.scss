@@ -4,6 +4,7 @@
   & > div {
     & > span {
       color: var(--primary);
+      margin-bottom: var(--internal-gap);
     }
 
     .card {

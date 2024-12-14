@@ -15,7 +15,10 @@ export default () => (
     <p className="d-flex align-items-center">
       <span className="h3">تصاميم جاهزة لكل مناسبة</span>
 
-      <a href="/" className="d-flex align-items-center text-decoration-none">
+      <a
+        href="/public/mobile/"
+        className="d-flex align-items-center text-decoration-none"
+      >
         جميع المنتجات <object data="/assets/home/icons/left-arrow.svg"></object>
       </a>
     </p>

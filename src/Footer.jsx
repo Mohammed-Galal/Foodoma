@@ -27,13 +27,13 @@ export default (
         </div>
         <div className="col-12 col-lg-3 col-md-6 d-flex flex-column">
           <span className="h4 mb-3">روابط مساعدة</span>
-          <a className="mb-2 text-decoration-none" href="/">
+          <a className="mb-2 text-decoration-none" href="/public/mobile/">
             نبذة عن مون 10
           </a>
-          <a className="mb-2 text-decoration-none" href="/">
+          <a className="mb-2 text-decoration-none" href="/public/mobile/">
             تواصل معنا
           </a>
-          <a className="mb-2 text-decoration-none" href="/">
+          <a className="mb-2 text-decoration-none" href="/public/mobile/">
             الأسئلة الشائعة
           </a>
         </div>
@@ -74,13 +74,13 @@ export default (
       </div>
 
       <div id="policy" className="row mt-3">
-        <a className="text-decoration-none" href="/">
+        <a className="text-decoration-none" href="/public/mobile/">
           سياسة الخصوصية
         </a>
-        <a className="text-decoration-none" href="/">
+        <a className="text-decoration-none" href="/public/mobile/">
           سياسة الاسترجاع
         </a>
-        <a className="text-decoration-none" href="/">
+        <a className="text-decoration-none" href="/public/mobile/">
           الأحكام والشروط
         </a>
 

@@ -42,7 +42,7 @@ export default function () {
 
           <div className="gap-3 justify-content-around mt-5 row m-0">
             <a
-              href="/"
+              href="/public/mobile/"
               className="align-items-center col-12 col-lg d-flex flex-column gap-3 py-2 text-decoration-none"
               style={{
                 cssText:
@@ -61,7 +61,7 @@ export default function () {
             </a>
 
             <a
-              href="/"
+              href="/public/mobile/"
               className="align-items-center col-12 col-lg d-flex flex-column gap-3 py-2 text-decoration-none"
               style={{
                 cssText:
