@@ -11,6 +11,12 @@ import {
 } from "reactstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
 
+import insta from "./insta";
+import snapshot from "./snapshot";
+import whatsapp from "./whatsapp";
+
+const icons = { insta, snapshot, whatsapp };
+
 /* eslint-disable import/no-anonymous-default-export */
 export default () => (
   <section key="rates" id="rates">
@@ -21,9 +27,9 @@ export default () => (
         navigation
         pagination={{ clickable: true }}
         scrollbar={{ draggable: true }}
-        spaceBetween={50}
+        spaceBetween={24}
         slidesPerView="auto"
-        loop={true}
+        // loop={true}
       >
         {data.map(rateItem)}
       </Swiper>
@@ -31,20 +37,23 @@ export default () => (
   </section>
 );
 
-function rateItem({ author, rate }, I) {
+function rateItem({ author, rate, comment }, I) {
   const rateContainer = [];
 
   let index = 0;
   while (index < 5) rateContainer[index] = starIcon(index < rate, index++);
 
   return (
-    <SwiperSlide key={I}>
+    <SwiperSlide key={I} style={{ maxWidth: "380px" }}>
       <Card>
-        <CardHeader>{author.name}</CardHeader>
+        <CardHeader className="d-flex gap-2 align-items-center">
+          {icons[author.platform]}
+          {author.name}
+        </CardHeader>
 
         <CardBody>
-          <CardTitle>{author.name}</CardTitle>
-          <CardText>{author.comment}</CardText>
+          {/* <CardTitle>{author.name}</CardTitle> */}
+          <CardText>{comment}</CardText>
         </CardBody>
 
         <CardFooter>{rateContainer}</CardFooter>

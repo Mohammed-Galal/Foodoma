@@ -1,6 +1,11 @@
 #rates {
   background-color: aliceblue;
 
+  .swiper-wrapper {
+    margin: 0;
+    justify-content: space-between;
+  }
+
   & > div {
     & > span {
       color: var(--primary);
@@ -8,6 +13,8 @@
     }
 
     .card {
+      overflow: hidden;
+      border-radius: 16px;
       border-color: #ffcd00;
       max-width: 380px;
       --bs-card-cap-bg: #fff;

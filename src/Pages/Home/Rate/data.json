@@ -1,9 +1,26 @@
 [
   {
     "author": {
-      "platform": "",
-      "comment": "أطيب كاب كيك في العالم"
+      "platform": "insta",
+      "name": "حمد عبدالله"
     },
+    "comment": "أطيب كاب كيك في العالم",
+    "rate": 4
+  },
+  {
+    "author": {
+      "platform": "whatsapp",
+      "name": "أمل محمد"
+    },
+    "comment": "أطيب كاب كيك في العالم",
+    "rate": 5
+  },
+  {
+    "author": {
+      "platform": "snapshot",
+      "name": "وجدان أحمد"
+    },
+    "comment": "أطيب كاب كيك في العالم",
     "rate": 4
   }
 ]

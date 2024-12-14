@@ -23,7 +23,11 @@ export default (
           >
             +966502052280
           </a>
-          <div className="social"></div>
+          <img
+            src="/assets/footer.png"
+            alt="sociel"
+            style={{ maxWidth: "141px" }}
+          />
         </div>
         <div className="col-12 col-lg-3 col-md-6 d-flex flex-column">
           <span className="h4 mb-3">روابط مساعدة</span>
