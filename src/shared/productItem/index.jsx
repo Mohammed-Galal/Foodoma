@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import S from "../../store";
 import "./index.scss";
 
+const baseUrl = "https://mon10.doobagency.com/";
+
 const dispatch = S.dispatch;
 // console.log(S.getState());
 
@@ -37,7 +39,7 @@ export default function (item, I) {
       </div>
 
       <Link to={"/products/" + item.id} className="text-decoration-none">
-        <img src={image} className="mb-2" alt={name} />
+        <img src={image ? baseUrl + image : ""} className="mb-2" alt={name} />
 
         <div className="desc d-flex flex-column gap-3">
           <span className="h5 m-0">{name}</span>

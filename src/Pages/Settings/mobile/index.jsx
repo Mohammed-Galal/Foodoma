@@ -3,10 +3,13 @@ import { useParams } from "react-router-dom";
 import tabs from "./tabs";
 import Globe from "../../../icons/Globe";
 import AltArrowDown from "../../../icons/Arrow_Down";
+import { useSelector } from "react-redux";
 
 export default function () {
   const tabName = useParams().tab || "main",
     TargetTab = tabs[tabName];
+
+  const { name, email, phone } = useSelector((e) => e.User).data;
 
   return (
     <section id="settings-mobile" className="position-relative">
@@ -14,9 +17,9 @@ export default function () {
         <img src="/assets/settings/avatar.png" alt="avatar" />
 
         <div class="d-flex flex-column flex-grow-1 info overflow-hidden">
-          <span>الاسم</span>
-          <span>useremail@gmail.com</span>
-          <span>+20123456789</span>
+          <span>{name}</span>
+          <span>{email}</span>
+          <span>+{phone}</span>
         </div>
 
         <div class="align-items-center d-flex gap-2 langs">

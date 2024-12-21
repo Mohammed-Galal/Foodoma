@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import isMobileView from "../shared/isMobile.js";
 import store from "../store";
 
+import User from "./User";
 import Bookings from "./Bookings";
 import HomePage from "./Home";
 import Product from "./Product";
@@ -29,6 +30,8 @@ export default (
       <Provider store={store}>
         {createPortal(Header(isMobileView), header)}
         <Routes>
+          <Route path="/user/:action?" Component={User} />
+
           <Route path="/settings/:tab?" Component={Settings} />
 
           <Route

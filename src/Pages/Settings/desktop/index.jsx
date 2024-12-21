@@ -6,6 +6,7 @@ import tabs from "./tabs";
 import Globe from "../../../icons/Globe";
 import AltArrowDown from "../../../icons/Arrow_Down";
 import Power from "../../../icons/Power";
+import { useSelector } from "react-redux";
 
 export default function () {
   const tabName = useParams().tab,
@@ -93,6 +94,9 @@ export default function () {
 }
 
 function AccountInfo() {
+  const DATA = useSelector((e) => e.User).data,
+    { name, email, phone } = DATA;
+
   return (
     <div id="account" className="align-items-center d-flex gap-3">
       <img src="/assets/settings/avatar.png" alt="avatar" />
@@ -102,10 +106,10 @@ function AccountInfo() {
         style={{ cssText: "color: var(--midgray)" }}
       >
         <span className="h4" style={{ color: "var(--primary)" }}>
-          {"الاسم"}
+          {name}
         </span>
-        <span>{"useremail@gmail.com"}</span>
-        <span>{"+20123456789"}</span>
+        <span>{email}</span>
+        <span>{phone}</span>
       </p>
 
       <div

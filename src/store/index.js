@@ -1,23 +1,42 @@
 /* eslint-disable no-unused-vars */
 import { configureStore } from "@reduxjs/toolkit";
 
-import Products from "./products/index.js";
+import Products from "./products.js";
 import User from "./user.js";
+import Restaurant from "./restaurant.js";
 
-// const reducer = combineReducers({ Products, User });
-const APP_STATE = configureStore({ reducer: { Products, User } });
-
-// const storeApi =
-//   "https://food.doobagency.com/public/api/get-restaurant-items/h-alslam-jd-gHvBrHEMIoUN0jY";
-
-// fetch(storeApi, {
-//   method: "POST",
-// });
-
-// console.log(APP_STATE.getState());
-
-// APP_STATE.dispatch(increment());
-
-// console.log(APP_STATE.getState().Products);
+const baseUrl = "https://mon10.doobagency.com/public/api";
+const APP_STATE = configureStore({ reducer: { Products, User, Restaurant } });
 
 export default APP_STATE;
+
+fetch(baseUrl + "/get-delivery-restaurants", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({}),
+})
+  .then((res) => res.json())
+  .then((data) => {
+    APP_STATE.dispatch({
+      type: "restaurant/init",
+      payload: data,
+    });
+
+    fetch(baseUrl + "/get-restaurant-items/" + data[0].slug, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({}),
+    })
+      .then((D) => D.json())
+      .then((products) => {
+        APP_STATE.dispatch({
+          type: "products/init",
+          payload: products.items,
+        });
+      })
+      .catch(console.log);
+  });

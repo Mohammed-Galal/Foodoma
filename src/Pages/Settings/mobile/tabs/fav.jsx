@@ -10,7 +10,7 @@ export default function () {
   return (
     <div className="fav">
       <span
-        class="d-block h3 mb-3"
+        className="d-block h3 mb-3"
         style={{ cssText: " font-weight: 600; color: var(--primary)" }}
       >
         المفضلة

@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
+import { Link } from "react-router-dom";
 import "./index.scss";
 
 /* eslint-disable import/no-anonymous-default-export */
@@ -30,9 +31,9 @@ export default ({ sectionName }) => (
           <span className="d-block h4">الطلبات الخاصة</span>
           صمم المنتجات الخاصة بك بنفسك.. <br />
           عن طريق التحكم فى كافة الاضافات
-          <a href="/design" className="text-decoration-none">
+          <Link to="/design/cream" className="text-decoration-none">
             اطلب الآن
-          </a>
+          </Link>
         </p>
         <img src="/assets/home/services/1.png" alt="special order" />
       </div>
@@ -42,22 +43,12 @@ export default ({ sectionName }) => (
           <span className="d-block h4">الحجز المبكر</span>
           خصم -15% على الحجز المبكر <br />
           لكيكات اليوم الوطني السعودي
-          <a href="/design" className="text-decoration-none">
+          <Link to="/design/cream" className="text-decoration-none">
             احجز الآن
-          </a>
+          </Link>
         </p>
         <img src="/assets/home/services/2.png" alt="early order" />
       </div>
     </div>
   </section>
 );
-
-/*
-<div class=><div style="
-   
-" class=><p class=><span class="d-block h4">الطلبات الخاصة</span>صمم المنتجات الخاصة بك بنفسك.. عن طريق التحكم فى كافة الاضافات<a href="/design" class="text-decoration-none">صمم كيكتك بنفسك</a></p><img src="/assets/home/services/1.png" alt="special order" style="
-    max-height: 210px;
-"></div><div style="
-    flex-grow: 1;
-"><p><span class="d-block h4">الطلبات الخاصة</span>نحن نسهل عليك الحصول على أفضل خدمة أينما كنت.<a href="/design" class="text-decoration-none">صمم كيكتك بنفسك</a></p><img src="/assets/home/services/2.png" alt="early order"></div></div>
-*/

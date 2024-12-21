@@ -1,16 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import data from "./data.json";
 
 const Products = {
     name: "products",
-    initialState: { loaded: false, data, cart: [], fav: [] },
+    initialState: { loaded: false, data: [], cart: [], fav: [] },
   },
   reducers = (Products.reducers = {});
 
 reducers.init = function (state, action) {
   state.loaded = true;
-  state.storeName = action.name;
-  // state.data = action.products;
+
+  const itemsObj = action.payload,
+    items = [];
+  Object.keys(itemsObj).forEach((k) => items.push.apply(items, itemsObj[k]));
+
+  state.data = items;
 };
 
 reducers.addToCart = function (state, { payload }) {
