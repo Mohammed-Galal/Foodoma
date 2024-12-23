@@ -1,11 +1,10 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { useSelector } from "react-redux";
-import ProductItem from "../../../../shared/productItem";
 import Carousel from "../../../../shared/Carousel";
+import { useSelector } from "react-redux";
+import productItem from "../../../../shared/productItem";
 
 export default function () {
-  const { fav } = useSelector((e) => e.Products),
-    items = fav.map(ProductItem);
+  const favs = useSelector((state) => state.Products.fav).map(productItem);
 
   return (
     <div className="fav">
@@ -16,7 +15,7 @@ export default function () {
         المفضلة
       </span>
 
-      <Carousel innerItems={items} />
+      {favs && <Carousel innerItems={favs} />}
     </div>
   );
 }

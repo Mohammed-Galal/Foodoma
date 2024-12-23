@@ -35,14 +35,8 @@ reducers.remove_cart_item = function (state, { payload: id }) {
   state.cart = cart;
 };
 
-reducers.addToFav = function (state, { payload }) {
-  if (state.fav.indexOf(payload) > -1) return;
-  state.fav.push(payload);
-  state.fav = Object.assign([], state.fav);
-};
-
-reducers.removeFromFav = function (state, { payload }) {
-  state.fav = state.fav.filter((e) => e.id !== payload.id);
+reducers.getFavourites = function (state, { payload }) {
+  state.fav = payload;
 };
 
 const Store = createSlice(Products);

@@ -6,7 +6,7 @@ import Carousel from "../../../shared/Carousel";
 import "./index.scss";
 
 export default function ({ id, title, categoryKey }) {
-  const items = useSelector((e) => e.Products).data,
+  const { data: items, fav } = useSelector((e) => e.Products),
     targetItems = categoryKey
       ? items.filter((item) => !!item[categoryKey])
       : items,

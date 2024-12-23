@@ -5,10 +5,30 @@ import Products from "./products.js";
 import User from "./user.js";
 import Restaurant from "./restaurant.js";
 
-const baseUrl = "https://mon10.doobagency.com/public/api";
 const APP_STATE = configureStore({ reducer: { Products, User, Restaurant } });
 
 export default APP_STATE;
+
+const baseUrl = "https://mon10.doobagency.com/public/api";
+
+export const getFavourites = function () {
+  fetch(baseUrl + "/get-favorite-items", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + localStorage.getItem("token"),
+    },
+  })
+    .then((res) => res.json())
+    .then((res) =>
+      APP_STATE.dispatch({
+        type: "products/getFavourites",
+        payload: res,
+      })
+    );
+};
+
+getFavourites();
 
 fetch(baseUrl + "/get-delivery-restaurants", {
   method: "POST",

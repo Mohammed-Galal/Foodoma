@@ -1,26 +1,29 @@
 /* eslint-disable import/no-anonymous-default-export */
 /* eslint-disable jsx-a11y/alt-text */
 import { Link } from "react-router-dom";
-import S from "../../store";
+import S, { getFavourites } from "../../store";
 import "./index.scss";
 
-const baseUrl = "https://mon10.doobagency.com/";
-
-const dispatch = S.dispatch;
-// console.log(S.getState());
+const baseUrl = "https://mon10.doobagency.com/public/api";
 
 export default function (item, I) {
   const { fav: favs } = S.getState().Products,
-    isHearted = favs.indexOf(item) > -1,
+    isHearted = favs.some((e) => e.id === item.id),
     { name, image, price, is_new } = item,
     key = item.item_category_id * item.restaurant_id + I,
     cat = item.addon_categories[0].name;
 
   function toggleFav() {
-    dispatch({
-      type: "products/" + (isHearted ? "removeFromFav" : "addToFav"),
-      payload: item,
-    });
+    fetch(baseUrl + "/toggle-favorite-item", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+      body: JSON.stringify({ id: item.id }),
+    })
+      .then((res) => res.json())
+      .then(getFavourites);
   }
 
   return (
