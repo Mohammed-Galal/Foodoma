@@ -41,6 +41,32 @@ body {
   --gradient-4: linear-gradient(0deg, #1faf38 -9900%, #60d669 100%);
 }
 
+.animate-reveal {
+  animation: reveal 1000ms ease-in-out forwards;
+}
+
+@keyframes reveal {
+  0% {
+    transform: translate3d(100%, 0px, 0px) skewX(-30deg);
+    opacity: 0;
+  }
+
+  60% {
+    transform: skewX(20deg);
+    opacity: 1;
+  }
+
+  80% {
+    transform: skewX(-5deg);
+    opacity: 1;
+  }
+
+  100% {
+    transform: none;
+    opacity: 1;
+  }
+}
+
 progress {
   width: 100%;
   max-width: 200px;

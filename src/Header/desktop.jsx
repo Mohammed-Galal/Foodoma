@@ -1,12 +1,9 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { Navigate } from "react-router-dom";
-import { useSelector, useStore } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function () {
   let itemsQuantity = 0;
-
-  const authentcated = useSelector((e) => e.User).loaded;
 
   useSelector((e) => e.Products).cart.forEach(
     (p) => (itemsQuantity += p.quantity)
@@ -36,7 +33,7 @@ export default function () {
 
       <ul className="align-items-center d-flex list-unstyled m-0 p-0">
         <li>
-          <Link to={authentcated ? "/settings/addresses" : "/user/login"}>
+          <Link to="/settings/addresses">
             <img
               src="/assets/home/icons/fluent_person-16-regular.svg"
               alt="account"
