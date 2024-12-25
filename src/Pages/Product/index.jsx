@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { useState } from "react";
+import React, { useState } from "react";
 import { useStore, useDispatch } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import productItem from "../../shared/productItem";
@@ -14,6 +14,8 @@ const fallbackStr = `كعكة الفانيليا ذات الطراز القدي�
 المكونات: دقيق - زبدة -`;
 
 let addonsPrice;
+
+const docFrag = document.createElement("div");
 
 export default function () {
   const store = useStore().getState().Products,
@@ -39,7 +41,7 @@ function ProductInfo(state) {
 
   addonsPrice = 0;
 
-  window.scroll(0, 0);
+  docFrag.innerHTML = state.desc || fallbackStr;
 
   return (
     <section
@@ -55,7 +57,7 @@ function ProductInfo(state) {
           <img src="/assets/home/products/(0).png" alt="product" />
         </div>
       </div>
-      <div className="align-items-start d-flex flex-column justify-content-between">
+      <div className="align-items-start d-flex flex-column flex-grow-1 justify-content-between">
         <ul className="d-flex gap-1 list-unstyled m-0 p-0">
           <li>mon10</li>
           <li>{NXT}</li>
@@ -69,7 +71,12 @@ function ProductInfo(state) {
           {!!state.is_active ? "متوفر" : "غير متوفر"}
         </p>
 
-        {state.desc || fallbackStr}
+        {state.desc && (
+          <p
+            className="desc"
+            dangerouslySetInnerHTML={{ __html: docFrag.textContent }}
+          ></p>
+        )}
 
         <p className="price">
           <span>{state.price} ر.س</span>
@@ -82,7 +89,7 @@ function ProductInfo(state) {
         <div className="addons d-flex flex-wrap">
           <span className="h5">الإضافات</span>
           <ul className="d-grid m-0 p-0">
-            {state.addon_categories.map(addonItem)}
+            {state.addon_categories?.map(addonItem)}
           </ul>
         </div>
         <textarea placeholder="ملاحظات" className="input-group-text"></textarea>

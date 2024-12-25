@@ -1,5 +1,5 @@
-import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Provider, useSelector } from "react-redux";
 import { createPortal } from "react-dom";
 import isMobileView from "../shared/isMobile.js";
@@ -39,12 +39,19 @@ export default (
 function App() {
   const storeDefined = useSelector((e) => e.Restaurant).loaded;
 
+  const location = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    // Add your custom event logic here
+  }, [location]);
+
   return !storeDefined ? (
     <Restaurant />
   ) : (
     <>
       {createPortal(Header(isMobileView), header)}
-      <Routes>
+      <Routes onNav={console.log}>
         <Route path="/user/:action?" Component={User} />
         <Route path="/settings/:tab?" Component={Settings} />
         <Route path="/products/:id" caseSensitive={true} Component={Product} />

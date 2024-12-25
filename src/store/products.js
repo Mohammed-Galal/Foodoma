@@ -35,7 +35,7 @@ reducers.remove_cart_item = function (state, { payload: id }) {
   state.cart = cart;
 };
 
-reducers.getFavourites = function (state, { payload }) {
+reducers.initFavourites = function (state, { payload }) {
   state.fav = payload;
 };
 
