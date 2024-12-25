@@ -30,33 +30,33 @@ export const getFavourites = function () {
 
 getFavourites();
 
-fetch(baseUrl + "/get-delivery-restaurants", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  body: JSON.stringify({}),
-})
-  .then((res) => res.json())
-  .then((data) => {
-    APP_STATE.dispatch({
-      type: "restaurant/init",
-      payload: data,
-    });
+// fetch(baseUrl + "/get-delivery-restaurants", {
+//   method: "POST",
+//   headers: {
+//     "Content-Type": "application/json",
+//   },
+//   body: JSON.stringify({}),
+// })
+//   .then((res) => res.json())
+//   .then((data) => {
+//     APP_STATE.dispatch({
+//       type: "restaurant/init",
+//       payload: data[0],
+//     });
 
-    fetch(baseUrl + "/get-restaurant-items/" + data[0].slug, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({}),
-    })
-      .then((D) => D.json())
-      .then((products) => {
-        APP_STATE.dispatch({
-          type: "products/init",
-          payload: products.items,
-        });
-      })
-      .catch(console.log);
-  });
+//     fetch(baseUrl + "/get-restaurant-items/" + data[0].slug, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({}),
+//     })
+//       .then((D) => D.json())
+//       .then((products) => {
+//         APP_STATE.dispatch({
+//           type: "products/init",
+//           payload: products.items,
+//         });
+//       })
+//       .catch(console.log);
+//   });

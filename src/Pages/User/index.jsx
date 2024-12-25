@@ -2,6 +2,7 @@
 import { useStore } from "react-redux";
 import store from "../../store/index.js";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import { useLayoutEffect } from "react";
 
 const dispatch = store.dispatch,
   Base = "https://mon10.doobagency.com/public/api",
@@ -12,13 +13,14 @@ export default function () {
   const navigate = useNavigate();
   const authed = useStore().getState().User.loaded;
 
-  if (authed) navigate("/");
-  else
-    return (
-      <section id="user-credits" className="container">
-        <TargetPage />
-      </section>
-    );
+  useLayoutEffect(() => {
+    authed && navigate("/");
+  }, [authed]);
+  return (
+    <section id="user-credits" className="container">
+      <TargetPage />
+    </section>
+  );
 }
 
 // email: "mkjj@gmail.com",

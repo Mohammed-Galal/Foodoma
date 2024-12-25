@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const Store = { name: "restaurant", initialState: {} },
+const Store = { name: "restaurant", initialState: { loaded: false, data: {} } },
   reducers = (Store.reducers = {});
 
 reducers.init = function (state, action) {
-  Object.assign(state, action.payload[0]);
+  state.loaded = true;
+  state.data = action.payload;
 };
 
 // Action creators are generated for each case reducer function

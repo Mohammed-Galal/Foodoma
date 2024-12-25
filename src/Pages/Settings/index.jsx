@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -12,6 +12,9 @@ export default function () {
   const navigate = useNavigate(),
     isAuthed = useSelector((e) => e.User).loaded;
 
-  useEffect(() => isAuthed || navigate("/user/login"), [isAuthed]);
+  useLayoutEffect(() => {
+    isAuthed || navigate("/user/login");
+  }, [isAuthed]);
+
   return isMobileView ? <Mobile /> : <Desktop />;
 }
