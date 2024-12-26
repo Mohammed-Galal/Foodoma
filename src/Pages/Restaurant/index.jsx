@@ -62,6 +62,7 @@ export default function Restaurant() {
               fontWeight: "600",
               fontSize: "small",
               "--btn-height": "100%",
+              alignSelf: "stretch",
             }}
           />
         </label>
