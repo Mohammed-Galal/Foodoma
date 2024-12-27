@@ -15,7 +15,8 @@ const fallbackStr = `كعكة الفانيليا ذات الطراز القدي�
 
 let addonsPrice;
 
-const docFrag = document.createElement("div");
+const baseUrl = "https://mon10.doobagency.com",
+  docFrag = document.createElement("div");
 
 export default function () {
   const store = useStore().getState().Products,
@@ -43,18 +44,22 @@ function ProductInfo(state) {
 
   docFrag.innerHTML = state.desc || fallbackStr;
 
+  console.log(state);
+
+  const imageSrc = baseUrl + (state.image || "");
+
   return (
     <section
       id="product"
       className="container-fluid container-lg d-flex flex-wrap flex-lg-nowrap"
     >
       <div className="d-flex flex-column">
-        <img src="/assets/home/products/(0).png" alt="product" />
+        <img src={imageSrc} alt="product" />
         <div className="d-flex justify-content-center">
-          <img src="/assets/home/products/(0).png" alt="product" />
-          <img src="/assets/home/products/(0).png" alt="product" />
-          <img src="/assets/home/products/(0).png" alt="product" />
-          <img src="/assets/home/products/(0).png" alt="product" />
+          <img src={imageSrc} alt="product" />
+          <img src={imageSrc} alt="product" />
+          <img src={imageSrc} alt="product" />
+          <img src={imageSrc} alt="product" />
         </div>
       </div>
       <div className="align-items-start d-flex flex-column flex-grow-1 justify-content-between">

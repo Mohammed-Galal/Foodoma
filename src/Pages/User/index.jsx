@@ -15,7 +15,7 @@ export default function () {
 
   useLayoutEffect(() => {
     authed && navigate("/");
-  }, [authed]);
+  });
   return (
     <section id="user-credits" className="container">
       <TargetPage />
@@ -23,12 +23,12 @@ export default function () {
   );
 }
 
-// email: "mkjj@gmail.com",
-// password: "01065487118",
-
 function Login() {
   const navigate = useNavigate();
-  const reqBody = {};
+  const reqBody = {
+    email: "mkjj@gmail.com",
+    password: "01065487118",
+  };
 
   return (
     <div className="container">

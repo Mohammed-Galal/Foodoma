@@ -1,7 +1,14 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import NewAddress from "../../NewAddress";
 
 export default function () {
+  const [showNewAddress, setShowNewAddress] = useState(false);
+
+  function deActivate() {
+    setShowNewAddress(false);
+  }
+
   return (
     <div className="addresses d-flex flex-column gap-3">
       <span className="h5 m-0 title" style={{ color: "var(--primary)" }}>
@@ -15,15 +22,18 @@ export default function () {
         })}
       </ul>
 
-      <Link
+      <NewAddress isActive={showNewAddress} deActivate={deActivate} />
+
+      <button
         className="btn mt-auto mx-auto px-5"
+        onClick={() => setShowNewAddress(!showNewAddress)}
         style={{
           cssText:
-            " background-color: var(--primary); color: #fff; border-radius: 24px; scale: 0.9; position: sticky; bottom: 72px;",
+            "background-color: var(--primary); color: #fff; border-radius: 24px; scale: 0.9; position: sticky; bottom: 72px;",
         }}
       >
         أضف عنوان جديد
-      </Link>
+      </button>
     </div>
   );
 }

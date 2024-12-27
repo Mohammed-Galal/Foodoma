@@ -1,5 +1,15 @@
 /* eslint-disable import/no-anonymous-default-export */
+
+import { useState } from "react";
+import NewAddress from "../../NewAddress";
+
 export default function () {
+  const [showNewAddress, setShowNewAddress] = useState(false);
+
+  function deActivate() {
+    setShowNewAddress(false);
+  }
+
   return (
     <div id="addresses" className="container d-grid gap-4">
       <p
@@ -16,8 +26,11 @@ export default function () {
         />
       </ul>
 
+      <NewAddress isActive={showNewAddress} deActivate={deActivate} />
+
       <button
         type="button"
+        onClick={() => setShowNewAddress(true)}
         className="btn mx-auto"
         style={{
           cssText:

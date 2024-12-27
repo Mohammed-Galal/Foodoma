@@ -14,7 +14,7 @@ export default function () {
 
   useLayoutEffect(() => {
     isAuthed || navigate("/user/login");
-  }, [isAuthed]);
+  });
 
   return isMobileView ? <Mobile /> : <Desktop />;
 }

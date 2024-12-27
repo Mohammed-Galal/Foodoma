@@ -12,7 +12,11 @@ export default function (item, I) {
     isHearted = favs.some((e) => e.id === item.id),
     { name, image, price, is_new } = item,
     key = item.item_category_id * item.restaurant_id + I,
-    cat = item.addon_categories[0]?.name;
+    cat = item.addon_categories?.length && (
+      <span className="align-items-center d-flex">
+        {item.addon_categories[0].name}
+      </span>
+    );
 
   function toggleFav() {
     fetch(baseUrl + "/toggle-favorite-item", {
@@ -55,7 +59,7 @@ export default function (item, I) {
             ></object>
             {Math.ceil(Math.random() * 5)}
 
-            <span className="align-items-center d-flex">{cat}</span>
+            {cat}
           </div>
 
           <div className="align-items-center d-flex price">

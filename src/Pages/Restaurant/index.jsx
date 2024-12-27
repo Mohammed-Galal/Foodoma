@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./index.scss";
 
-const cities = ["حي السلامة", "حي الصفا", "حي النزهة", "حي السامر"],
+const EMPTY_STR = "",
+  cities = ["حي السلامة", "حي الصفا", "حي النزهة", "حي السامر"],
   baseUrl = "https://mon10.doobagency.com/public/api/",
   fetchOpts = {
     method: "POST",
@@ -15,7 +16,7 @@ const cities = ["حي السلامة", "حي الصفا", "حي النزهة", "
 
 export default function Restaurant() {
   const restaurants = useSelector((state) => state.Restaurant).branches,
-    [filterValue, setFilter] = useState(null),
+    [filterValue, setFilter] = useState(""),
     redirect = useNavigate(),
     dispatch = useDispatch();
 
@@ -81,6 +82,7 @@ export default function Restaurant() {
           placeholder="ابحث عن الفروع"
           className="py-1 px-3"
           onChange={(e) => setFilter(e.target.value)}
+          value={filterValue}
           style={{
             outline: "none",
             border: "inherit",
@@ -131,7 +133,7 @@ export default function Restaurant() {
   }
 
   function restItem({ name, slug }, I) {
-    if (filterValue === null || testFilter(name)) {
+    if (filterValue === EMPTY_STR || testFilter(name)) {
       return (
         <li
           className={"p-2 " + (currLoc === slug ? "active" : "")}
