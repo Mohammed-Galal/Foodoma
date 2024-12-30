@@ -33,6 +33,12 @@ export default function () {
 
       <ul className="align-items-center d-flex list-unstyled m-0 p-0">
         <li>
+          <Link to="/alerts">
+            <img src="/assets/home/icons/Bell Bing.svg" alt="alerts" />
+          </Link>
+        </li>
+
+        <li>
           <Link to="/settings/addresses">
             <img
               src="/assets/home/icons/fluent_person-16-regular.svg"

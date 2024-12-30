@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import isMobileView from "../shared/isMobile.js";
 import store from "../store";
 
+import Alerts from "./Alerts";
 import User from "./User";
 import Bookings from "./Bookings";
 import HomePage from "./Home";
@@ -52,6 +53,7 @@ function App() {
     <>
       {createPortal(Header(isMobileView), header)}
       <Routes onNav={console.log}>
+        <Route path="/alerts" Component={Alerts} caseSensitive={true} />
         <Route path="/user/:action?" Component={User} />
         <Route path="/settings/:tab?" Component={Settings} />
         <Route path="/products/:id" caseSensitive={true} Component={Product} />

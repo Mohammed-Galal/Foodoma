@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function () {
+export default function MobileHeader() {
   return (
     <div className="container align-items-center d-grid py-2">
       <button type="button" className="btn">

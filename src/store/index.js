@@ -5,15 +5,16 @@ import Products from "./products.js";
 import User from "./user.js";
 import Restaurant from "./restaurant.js";
 
-const fetchOpts = {
+const APP_STATE = configureStore({ reducer: { Products, User, Restaurant } }),
+  fetchOpts = {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + localStorage.getItem("token"),
+    get headers() {
+      const obj = { "Content-Type": "application/json" },
+        token = window.localStorage.getItem("token");
+      token && (obj["Authorization"] = token);
+      return obj;
     },
-  },
-  APP_STATE = configureStore({ reducer: { Products, User, Restaurant } });
-
+  };
 export default APP_STATE;
 
 const baseUrl = "https://mon10.doobagency.com/public/api";
@@ -28,17 +29,26 @@ fetch(baseUrl + "/get-all-restaurant", fetchOpts)
   );
 
 export const getFavourites = function () {
-  fetch(baseUrl + "/get-favorite-items", fetchOpts)
-    .then((res) => res.json())
-    .then((res) =>
-      APP_STATE.dispatch({
-        type: "products/initFavourites",
-        payload: res,
-      })
-    );
-};
+    if (fetchOpts.headers.Authorization === undefined) return;
 
-getFavourites();
+    fetch(baseUrl + "/get-favorite-items", fetchOpts)
+      .then((res) => res.json())
+      .then((res) =>
+        APP_STATE.dispatch({
+          type: "products/initFavourites",
+          payload: res,
+        })
+      );
+  },
+  getUserAlerts = function () {
+    fetch(baseUrl + "/get-user-notifications", fetchOpts)
+      .then((r) => r.json())
+      .then(
+        (r) =>
+          r.length && APP_STATE.dispatch({ type: "user/setAlerts", payload: r })
+      )
+      .catch(console.error);
+  };
 
 // fetch(baseUrl + "/get-delivery-restaurants", {
 //   method: "POST",

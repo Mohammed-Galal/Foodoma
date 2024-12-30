@@ -1,8 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { useStore } from "react-redux";
-import store from "../../store/index.js";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useLayoutEffect } from "react";
+import { useStore } from "react-redux";
+import store, { getUserAlerts } from "../../store/index.js";
 
 const dispatch = store.dispatch,
   Base = "https://mon10.doobagency.com/public/api",
@@ -105,7 +105,6 @@ function Login() {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        // Authorization: `Bearer ${token}`
       },
       body: JSON.stringify(reqBody),
     })
@@ -219,7 +218,6 @@ function Register() {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        // Authorization: `Bearer ${token}`
       },
       body: JSON.stringify(reqBody),
     })
@@ -234,12 +232,9 @@ function handleUserData(r) {
   const succeded = !!r.success;
 
   if (succeded) {
-    const token = r.data.auth_token;
-    window.localStorage.setItem("token", token);
-
     // redux Code
     dispatch({ type: "user/init", payload: r.data });
-
+    getUserAlerts();
     return true;
   }
 
