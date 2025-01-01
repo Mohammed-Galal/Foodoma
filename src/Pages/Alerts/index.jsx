@@ -29,14 +29,53 @@ export default function Alerts() {
   );
 
   return (
-    <section>
-      <div>
-        <h1>{unRead.length} unread alerts</h1>
-        <button onClick={markAllAsRead}>Mark all as read</button>
-        <ul className="unread">{unRead}</ul>
+    <section className="container d-grid gap-3">
+      <div
+        className="overflow-hidden"
+        style={{
+          border: "1px solid var(--bs-primary-bg-subtle)",
+          borderRadius: "8px",
+        }}
+      >
+        <div
+          className="d-flex align-items-center gap-3 justify-content-between px-2 py-1"
+          style={{
+            borderBottom: "1px solid var(--lightgray)",
+            backgroundColor: "aliceblue",
+          }}
+        >
+          <h5 className="m-0">{unRead.length} الاشعارات غير المقروءة</h5>
+          <button
+            className="btn"
+            style={{ border: "none", outline: "none" }}
+            onClick={markAllAsRead}
+          >
+            تمييز الكل كمقروء
+          </button>
+        </div>
+
+        <ul className="list-unstyled m-0 p-0 w-100">{unRead}</ul>
       </div>
 
-      <ul className="read">{read}</ul>
+      <div
+        className="overflow-hidden"
+        style={{
+          border: "1px solid var(--bs-primary-bg-subtle)",
+          borderRadius: "8px",
+        }}
+      >
+        <h5
+          className="m-0 p-2"
+          style={{
+            borderBottom: "1px solid var(--lightgray)",
+            backgroundColor: "aliceblue",
+          }}
+        >
+          {read.length} الاشعارات المقروءة
+        </h5>
+
+        <ul className="list-unstyled m-0 p-0 w-100">{read}</ul>
+      </div>
     </section>
   );
 }
@@ -47,9 +86,16 @@ function alertItem({ data, id }) {
   data = JSON.parse(data);
 
   return (
-    <li key={id} onClick={markAlertAsRead}>
-      <h3>{data.title}</h3>
-      <p>{data.message}</p>
+    <li
+      className="d-grid gap-2 px-3 py-2 mt-3"
+      style={{
+        backgroundColor: "aliceblue",
+      }}
+      key={id}
+      onClick={markAlertAsRead}
+    >
+      <span className="h5 m-0">{data.title}</span>
+      {data.message}
     </li>
   );
 
