@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 export default function () {
   let itemsQuantity = 0;
 
+  const alerts = useSelector((e) => e.User).alerts.filter((e) => !e.is_read);
+
   useSelector((e) => e.Products).cart.forEach(
     (p) => (itemsQuantity += p.quantity)
   );
@@ -35,6 +37,7 @@ export default function () {
         <li>
           <Link to="/alerts">
             <img src="/assets/home/icons/Bell Bing.svg" alt="alerts" />
+            <span className="badge">{alerts.length}</span>
           </Link>
         </li>
 

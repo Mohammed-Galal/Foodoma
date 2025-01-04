@@ -22,6 +22,7 @@ body:not(#mobile) > header {
       a {
         text-decoration: none;
         color: var(--primary);
+        position: relative;
 
         & > .badge {
           position: absolute;

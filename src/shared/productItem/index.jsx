@@ -8,7 +8,9 @@ const Base = "https://mon10.doobagency.com/",
   baseUrl = Base + "public/api";
 
 export default function (item, I) {
-  const { fav: favs } = S.getState().Products,
+  const store = S.getState(),
+    { fav: favs } = store.Products,
+    { loaded } = store.User,
     isHearted = favs.some((e) => e.id === item.id),
     { name, image, price, is_new } = item,
     key = item.item_category_id * item.restaurant_id + I,
@@ -18,7 +20,19 @@ export default function (item, I) {
       </span>
     );
 
-  function toggleFav() {
+  const vid = (
+    <video
+      src="https://mon10.doobagency.com/assets/heart.mp4"
+      style={{ maxHeight: "84px", marginLeft: "-22px" }}
+      onClick={toggleFav}
+      ref={handleFav}
+    ></video>
+  );
+
+  function toggleFav({ target }) {
+    if (!loaded) return alert("يجب تسجيل الدخول اولاً");
+    target.parentElement.parentElement.classList.add("loading");
+
     fetch(baseUrl + "/toggle-favorite-item", {
       method: "POST",
       headers: {
@@ -31,19 +45,56 @@ export default function (item, I) {
       .then(getFavourites);
   }
 
+  function handleFav(self) {
+    if (self === null) return;
+    let timeout;
+
+    self.parentElement.parentElement.classList.remove("loading");
+
+    (isHearted ? play : reverse)();
+
+    function play() {
+      if (self.currentTime > 2.605639) return clearTimeout(timeout);
+      self.currentTime += 0.1;
+      timeout = setTimeout(play, 30);
+    }
+
+    function reverse() {
+      if (self.currentTime > 0) {
+        self.currentTime -= 0.1;
+        timeout = setTimeout(reverse, 30);
+      } else return clearTimeout(timeout);
+    }
+  }
+
   return (
     <div
       key={key}
-      className="d-flex flex-column justify-content-between product-item px-4 py-2"
+      className="d-flex flex-column justify-content-between product-item px-4 py-2 position-relative"
     >
-      <div className="align-items-center d-flex">
+      <div className="align-items-center d-flex justify-content-between">
         {is_new ? <span>جديد</span> : ""}
 
-        <img
+        {loaded && vid}
+
+        {/* <div
+          className="fav-icon"
+          style={{
+            width: "30px",
+            height: "30px",
+            background:
+              'url("https://mon10.doobagency.com/assets/img/various/heart.png") -35px -35px no-repeat',
+            cursor: "pointer",
+            transition: "background-position 1s steps(28)",
+            transform: "scale(0.8)",
+          }}
+        ></div> */}
+
+        {/* <img
           onClick={toggleFav}
-          src={"/assets/home/icons/heart" + (isHearted ? "ed" : "") + ".svg"}
+          src="https://mon10.doobagency.com/assets/img/various/heart.png"
           alt="fav"
-        />
+        /> */}
       </div>
 
       <Link to={"/products/" + item.id} className="text-decoration-none">

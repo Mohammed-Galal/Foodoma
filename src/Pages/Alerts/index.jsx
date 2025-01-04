@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux";
 import { getUserAlerts } from "../../store";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLayoutEffect } from "react";
 
-const baseUrl = "https://mon10.doobagency.com/public/api",
+const base = "https://mon10.doobagency.com",
+  baseUrl = base + "/public/api",
   fetchOptions = {
     method: "POST",
     get headers() {
@@ -15,87 +16,75 @@ const baseUrl = "https://mon10.doobagency.com/public/api",
 
 export default function Alerts() {
   const redirect = useNavigate(),
-    { loaded, alerts: Alerts } = useSelector((state) => state.User);
+    User = useSelector((state) => state.User),
+    loaded = User.loaded,
+    alerts = User.alerts.map(alertItem);
 
   useLayoutEffect(() => {
     loaded || redirect("/user");
   }, [loaded]);
 
-  const unRead = [],
-    read = [];
-
-  Alerts.forEach((alert) =>
-    (!!alert.is_read ? read : unRead).push(alertItem(alert))
-  );
-
   return (
-    <section className="container d-grid gap-3">
-      <div
-        className="overflow-hidden"
-        style={{
-          border: "1px solid var(--bs-primary-bg-subtle)",
-          borderRadius: "8px",
-        }}
+    <section className="align-items-start container d-flex flex-column gap-3">
+      <button
+        className="btn"
+        style={{ border: "none", outline: "none" }}
+        onClick={markAllAsRead}
       >
-        <div
-          className="d-flex align-items-center gap-3 justify-content-between px-2 py-1"
-          style={{
-            borderBottom: "1px solid var(--lightgray)",
-            backgroundColor: "aliceblue",
-          }}
-        >
-          <h5 className="m-0">{unRead.length} الاشعارات غير المقروءة</h5>
-          <button
-            className="btn"
-            style={{ border: "none", outline: "none" }}
-            onClick={markAllAsRead}
-          >
-            تمييز الكل كمقروء
-          </button>
-        </div>
+        تمييز الكل كمقروء
+      </button>
 
-        <ul className="list-unstyled m-0 p-0 w-100">{unRead}</ul>
-      </div>
-
-      <div
-        className="overflow-hidden"
-        style={{
-          border: "1px solid var(--bs-primary-bg-subtle)",
-          borderRadius: "8px",
-        }}
-      >
-        <h5
-          className="m-0 p-2"
-          style={{
-            borderBottom: "1px solid var(--lightgray)",
-            backgroundColor: "aliceblue",
-          }}
-        >
-          {read.length} الاشعارات المقروءة
-        </h5>
-
-        <ul className="list-unstyled m-0 p-0 w-100">{read}</ul>
-      </div>
+      <ul className="list-unstyled m-0 p-0 w-100" style={{ maxWidth: "992px" }}>
+        {alerts}
+      </ul>
     </section>
   );
 }
 
-function alertItem({ data, id }) {
-  const reqBody = { notification_id: id };
-
+function alertItem({ data, id, is_read, created_at }) {
   data = JSON.parse(data);
+
+  const reqBody = { notification_id: id },
+    img = data.custom_image ? (
+      <img
+        src={base + data.custom_image}
+        className="mx-auto"
+        style={{ maxHeight: 150 + "px" }}
+        alt="custom"
+      />
+    ) : null,
+    outletChildren = (
+      <>
+        <span className="float-start">{created_at.split(" ")[0]}</span>
+        <span className="h5 d-block h5 m-0">{data.title}</span>
+        {data.message}
+      </>
+    ),
+    outlet = data.click_action ? (
+      <Link
+        to={data.click_action}
+        className="px-3 py-2 text-decoration-none"
+        style={{ color: "currentColor" }}
+      >
+        {outletChildren}
+      </Link>
+    ) : (
+      <div className="px-3 py-2">{outletChildren}</div>
+    );
 
   return (
     <li
-      className="d-grid gap-2 px-3 py-2 mt-3"
+      className="d-grid gap-3 mt-3"
       style={{
         backgroundColor: "aliceblue",
+        borderRadius: "0.5rem",
+        opacity: is_read ? 0.5 : 1,
       }}
       key={id}
       onClick={markAlertAsRead}
     >
-      <span className="h5 m-0">{data.title}</span>
-      {data.message}
+      {img}
+      {outlet}
     </li>
   );
 

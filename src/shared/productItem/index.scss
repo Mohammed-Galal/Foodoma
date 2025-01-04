@@ -4,6 +4,25 @@
 }
 
 div.product-item {
+  &.loading {
+    pointer-events: none;
+
+    &::after {
+      content: "";
+      background: rgba(255, 255, 255, 0.781)
+        url("https://mon10.doobagency.com/assets/loader.gif") no-repeat center;
+      background-size: cover;
+      position: absolute;
+      display: block;
+      clear: both;
+      z-index: 3;
+      right: 0;
+      left: 0;
+      top: 0;
+      bottom: 0;
+    }
+  }
+
   height: 100%;
   width: 252px;
   overflow: hidden;
@@ -35,11 +54,11 @@ div.product-item {
     font-weight: 500;
   }
 
-  &:hover .desc {
-    transform: translateY(var(--hover-length));
-  }
-
   & > a {
+    &:hover .desc {
+      transform: translateY(var(--hover-length));
+    }
+
     & > img {
       height: 200px;
       display: block;
