@@ -15,7 +15,7 @@ const fallbackStr = `كعكة الفانيليا ذات الطراز القدي�
 
 let addonsPrice;
 
-const baseUrl = "https://mon10.doobagency.com",
+const baseUrl = "https://mon10.amir-adel.com",
   docFrag = document.createElement("div");
 
 export default function () {
@@ -43,8 +43,6 @@ function ProductInfo(state) {
   addonsPrice = 0;
 
   docFrag.innerHTML = state.desc || fallbackStr;
-
-  console.log(state);
 
   const imageSrc = baseUrl + (state.image || "");
 

@@ -5,7 +5,7 @@ import { useStore } from "react-redux";
 import store, { getUserAlerts } from "../../store/index.js";
 
 const dispatch = store.dispatch,
-  Base = "https://mon10.doobagency.com/public/api",
+  Base = "https://mon10.amir-adel.com/public/api",
   Components = { login: Login, register: Register };
 
 export default function () {
@@ -42,7 +42,7 @@ function Login() {
       >
         <img
           className="animate-reveal"
-          src="https://mon10.doobagency.com/assets/img/various/login-illustration.png"
+          src="https://mon10.amir-adel.com/assets/img/various/login-illustration.png"
           alt="avatar"
         />
 
@@ -140,7 +140,7 @@ function Register() {
       >
         <img
           className="animate-reveal"
-          src="https://mon10.doobagency.com/assets/img/various/login-illustration.png"
+          src="https://mon10.amir-adel.com/assets/img/various/login-illustration.png"
           alt="avatar"
         />
 

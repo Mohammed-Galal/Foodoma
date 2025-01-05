@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import S, { getFavourites } from "../../store";
 import "./index.scss";
 
-const Base = "https://mon10.doobagency.com/",
+const Base = "https://mon10.amir-adel.com/",
   baseUrl = Base + "public/api";
 
 export default function (item, I) {
@@ -22,7 +22,7 @@ export default function (item, I) {
 
   const vid = (
     <video
-      src="https://mon10.doobagency.com/assets/heart.mp4"
+      src="https://mon10.amir-adel.com/assets/heart.mp4"
       style={{ maxHeight: "84px", marginLeft: "-22px" }}
       onClick={toggleFav}
       ref={handleFav}
@@ -83,7 +83,7 @@ export default function (item, I) {
             width: "30px",
             height: "30px",
             background:
-              'url("https://mon10.doobagency.com/assets/img/various/heart.png") -35px -35px no-repeat',
+              'url("https://mon10.amir-adel.com/assets/img/various/heart.png") -35px -35px no-repeat',
             cursor: "pointer",
             transition: "background-position 1s steps(28)",
             transform: "scale(0.8)",
@@ -92,7 +92,7 @@ export default function (item, I) {
 
         {/* <img
           onClick={toggleFav}
-          src="https://mon10.doobagency.com/assets/img/various/heart.png"
+          src="https://mon10.amir-adel.com/assets/img/various/heart.png"
           alt="fav"
         /> */}
       </div>

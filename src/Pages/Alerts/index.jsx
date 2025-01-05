@@ -3,7 +3,7 @@ import { getUserAlerts } from "../../store";
 import { Link, useNavigate } from "react-router-dom";
 import { useLayoutEffect } from "react";
 
-const base = "https://mon10.doobagency.com",
+const base = "https://mon10.amir-adel.com",
   baseUrl = base + "/public/api",
   fetchOptions = {
     method: "POST",

@@ -37,7 +37,7 @@ export default function () {
       >
         أضف 100 ر.س للسلة وأحصل على 10 ر.س كاش باك!
         <progress
-          value="68"
+          value={totalPrice}
           max="100"
           style={{ cssText: "max-width: 500px;" }}
         ></progress>

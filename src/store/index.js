@@ -17,7 +17,7 @@ const APP_STATE = configureStore({ reducer: { Products, User, Restaurant } }),
   };
 export default APP_STATE;
 
-const baseUrl = "https://mon10.doobagency.com/public/api";
+const baseUrl = "https://mon10.amir-adel.com/public/api";
 
 fetch(baseUrl + "/get-all-restaurant", fetchOpts)
   .then((res) => res.json())

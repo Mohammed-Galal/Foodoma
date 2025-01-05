@@ -5,7 +5,7 @@ import "./index.scss";
 
 const EMPTY_STR = "",
   cities = ["حي السلامة", "حي الصفا", "حي النزهة", "حي السامر"],
-  baseUrl = "https://mon10.doobagency.com/public/api/",
+  baseUrl = "https://mon10.amir-adel.com/public/api/",
   fetchOpts = {
     method: "POST",
     headers: {
