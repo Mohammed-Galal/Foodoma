@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useLayoutEffect } from "react";
-import { useStore } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 import store, { getUserAlerts } from "../../store/index.js";
 
 const dispatch = store.dispatch,
@@ -11,11 +11,12 @@ const dispatch = store.dispatch,
 export default function () {
   const TargetPage = Components[useParams().action || "login"];
   const navigate = useNavigate();
-  const authed = useStore().getState().User.loaded;
+  const authed = useSelector((e) => e.User).loaded;
 
   useLayoutEffect(() => {
     authed && navigate("/");
   });
+
   return (
     <section id="user-credits" className="container">
       <TargetPage />

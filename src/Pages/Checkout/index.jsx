@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { useStore } from "react-redux";
+import { useDispatch, useStore } from "react-redux";
 import { useLayoutEffect, useState } from "react";
 import NXT from "../../icons/NXT";
 import React from "react";
@@ -16,11 +16,12 @@ const placeOrderApi = "https://mon10.amir-adel.com/public/api/place-order",
 
 export default function () {
   const store = useStore().getState(),
+    dispatch = useDispatch(),
     redirect = useNavigate();
 
   useLayoutEffect(() => {
     store.User.loaded || redirect("/user/login");
-  }, [store.User.loaded]);
+  });
 
   const branches = store.Restaurant.branches,
     userAddresses = store.User.addresses;
@@ -120,7 +121,10 @@ export default function () {
 
     fetch(placeOrderApi, fetchOpts)
       .then((r) => r.json())
-      .then((r) => redirect("/"));
+      .then((r) => {
+        dispatch({ type: "products/clearCart" });
+        redirect("/");
+      });
   }
 }
 
@@ -132,7 +136,7 @@ function OrderInfo({ Children }) {
     products = store.Products,
     cart = products.cart;
 
-  totalPrice = delivery;
+  totalPrice = +delivery;
 
   const items = cart.map(productItem, products);
   return (

@@ -39,6 +39,10 @@ reducers.initFavourites = function (state, { payload }) {
   state.fav = payload;
 };
 
+reducers.clearCart = function (s) {
+  s.cart = [];
+};
+
 const Store = createSlice(Products);
 export const { addToFav, removeFromFav } = Store.actions;
 export default Store.reducer;

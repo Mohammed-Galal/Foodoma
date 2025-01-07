@@ -19,7 +19,7 @@ export default function () {
   const delivery = restaurant.data.delivery_charges,
     discount = 0;
 
-  totalPrice = delivery;
+  totalPrice = 0;
 
   const Products = useSelector((S) => S.Products),
     cart = Products.cart,
@@ -99,7 +99,7 @@ export default function () {
 
             <span className="total">
               <samp>الإجمالي</samp>
-              {totalPrice + delivery + discount} ر.س
+              {+delivery + totalPrice + discount} ر.س
             </span>
 
             <Link className="btn" to="/checkout">
