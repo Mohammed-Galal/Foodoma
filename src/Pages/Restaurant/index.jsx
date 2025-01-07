@@ -39,6 +39,7 @@ export default function Restaurant() {
         <label
           className="align-items-center d-flex justify-content-between"
           style={{
+            cursor: "pointer",
             border: "inherit",
             borderRadius: "24px",
             overflow: "hidden",
@@ -48,12 +49,11 @@ export default function Restaurant() {
             fontWeight: "600",
           }}
         >
-          سيضمن تشغيل "تحديد موقع الجهاز" عنوانًا دقيقًا وتوصيلًا خاليًا من
-          المتاعب
+          يتطلب هذا الخيار تفعيل الـGPS
           <input
             className="btn px-3"
             type="button"
-            value="تشغيل الGPS"
+            value="اختيار أقرب مطعم"
             onClick={getUserLocation}
             style={{
               border: "none",
@@ -108,22 +108,6 @@ export default function Restaurant() {
           {restaurants.map(restItem)}
         </ul>
       </div>
-
-      {/* <button
-        className="btn"
-        type="button"
-        onClick={confirmLocation}
-        style={{
-          backgroundColor: "var(--primary)",
-          color: "#fff",
-          borderRadius: "24px",
-          maxWidth: "400px",
-          margin: "0 auto",
-          width: "100%",
-        }}
-      >
-        تأكيد
-      </button> */}
     </section>
   );
 
@@ -164,6 +148,32 @@ export default function Restaurant() {
       });
   }
 
+  function getUserLocation() {
+    if (!("geolocation" in navigator))
+      return alert("Geolocation is not supported by your browser.");
+
+    const coords = {};
+    navigator.geolocation.getCurrentPosition(
+      (POS) => {
+        coords.latitude = "" + POS.coords.latitude;
+        coords.longitude = "" + POS.coords.longitude;
+
+        // alert(`موقعك: Latitude: ${latitude}, Longitude: ${longitude}`);
+      },
+      (error) => alert(`لم يتمكن المتصفح من تحديد موقعك`)
+    );
+
+    fetch(baseUrl + "get-delivery-restaurants/", {
+      method: "POST",
+      body: JSON.stringify(coords),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((r) => r.json())
+      .then((data) => confirmLocation(data[0].slug));
+  }
+
   function fetchMenu() {
     fetch(baseUrl + "get-restaurant-items/" + currLoc, fetchOpts)
       .then((res) => res.json())
@@ -172,20 +182,5 @@ export default function Restaurant() {
         // Redirect to the restaurant page
         redirect("/");
       });
-  }
-}
-
-function getUserLocation() {
-  if ("geolocation" in navigator) {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        const latitude = position.coords.latitude;
-        const longitude = position.coords.longitude;
-        alert(`موقعك: Latitude: ${latitude}, Longitude: ${longitude}`);
-      },
-      (error) => alert(`لم يتمكن المتصفح من تحديد موقعك`)
-    );
-  } else {
-    console.error("Geolocation is not supported by your browser.");
   }
 }
