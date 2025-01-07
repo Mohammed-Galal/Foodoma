@@ -52,7 +52,7 @@ function App() {
   ) : (
     <>
       {createPortal(Header(isMobileView), header)}
-      <Routes onNav={console.log}>
+      <Routes>
         <Route path="/alerts" Component={Alerts} caseSensitive={true} />
         <Route path="/user/:action?" Component={User} />
         <Route path="/settings/:tab?" Component={Settings} />
@@ -60,7 +60,7 @@ function App() {
         <Route path="/early-booking" caseSensitive={true} element={Bookings} />
         <Route path={"/design/:style"} caseSensitive={true} element={Design} />
         <Route path="/cart" Component={Cart} caseSensitive={true} />
-        <Route path="/checkout" element={Checkout} caseSensitive={true} />
+        <Route path="/checkout" Component={Checkout} caseSensitive={true} />
         <Route path="/" element={HomePage} caseSensitive={true} />
       </Routes>
       {createPortal(Nav(isMobileView), nav)}

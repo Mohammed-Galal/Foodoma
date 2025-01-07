@@ -8,6 +8,7 @@ const Store = {
 
 reducers.init = function (state, action) {
   state.loaded = true;
+  action.payload.delivery_charges ||= 0;
   state.data = action.payload;
 };
 

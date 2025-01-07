@@ -7,37 +7,32 @@
     }
   }
 
-  & form {
-    .input-group {
-      border-radius: 6px;
-      border: 1px solid #c9e2f4;
-      resize: none;
-      outline: none !important;
-    }
+  & > .container > div:first-child {
+    flex-grow: 1;
 
-    .btn {
-      scale: 0.9;
+    & .btn,
+    & li {
       border: 1px solid #cdcdcd;
       border-radius: 241px;
       color: var(--midgray);
 
+      &:not(li) {
+        scale: 0.9;
+      }
+
+      &:hover,
       &[data-active="true"] {
+        cursor: pointer;
         background-color: #c9e2f4;
         color: var(--primary);
         border-color: #c9e2f4;
       }
     }
-
-    .btn:checked {
-      display: none;
-    }
-
-    & > div:last-child > span.h6 {
-      color: var(--primary);
-    }
   }
 
-  & > div > div {
+  & > .container > div:last-child {
+    width: 450px;
+    max-width: 100%;
     position: sticky;
     top: 160px;
     border: 1px solid #f1f1f1;

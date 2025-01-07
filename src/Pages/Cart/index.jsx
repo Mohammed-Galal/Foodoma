@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, useStore } from "react-redux";
 import { Link } from "react-router-dom";
 import NXT from "../../icons/NXT";
 import Recommended from "./Recommended";
@@ -10,11 +10,15 @@ const baseUrl = "https://mon10.amir-adel.com";
 
 let totalPrice;
 
-export const delivery = Math.ceil(Math.random() * 15),
-  discount = -Math.ceil(Math.random() * 5);
+//  -Math.ceil(Math.random() * 5);
 
 export default function () {
-  totalPrice = 0;
+  const restaurant = useStore().getState().Restaurant;
+
+  const delivery = restaurant.data.delivery_charges,
+    discount = 0;
+
+  totalPrice = delivery;
 
   const store = useSelector((S) => S.Products),
     cart = store.cart,

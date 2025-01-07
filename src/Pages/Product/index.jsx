@@ -131,11 +131,12 @@ function ProductInfo(state) {
   function addItemToCart() {
     dispatch({
       type: "products/addToCart",
-      payload: { id: state.id, quantity, extraFees: addonsPrice },
+      payload: { id: state.id, info: state, quantity, addons },
     });
   }
 
-  function addonItem({ name, price: addonPrice }) {
+  function addonItem(ADD) {
+    const { name, price: addonPrice } = ADD;
     const isAdded = addons.indexOf(name) > -1;
 
     isAdded && (addonsPrice += 10);

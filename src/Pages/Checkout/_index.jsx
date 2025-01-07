@@ -1,53 +1,24 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { useStore } from "react-redux";
-import { useState } from "react";
-import NXT from "../../icons/NXT";
-import React from "react";
-import "./index.scss";
-import { useNavigate } from "react-router-dom";
+import { useRef, useState } from "react";
+import { delivery, discount } from "../Cart";
 
-const discount = 0;
+import DeleveryOptions from "./DeleveryOptions";
+import LocationOptions from "./LocationOptions";
+import "./index.scss";
+
+import NXT from "../../icons/NXT";
 
 let totalPrice;
 
-const placeOrderApi = "https://mon10.amir-adel.com/public/api/place-order",
-  opts = { user: { data: {} } },
-  emptyStr = "";
+const emptyStr = "";
 
 export default function () {
   const store = useStore().getState(),
-    redirect = useNavigate(),
-    branches = store.Restaurant.branches,
-    userAddresses = store.User.addresses;
+    orders = store.Products.cart.map(extractData),
+    user = store.User;
 
-  const [delevery, setDelevery] = useState(true);
-  const [addressIndex, setAddressIndex] = useState(0);
-  const [branchIndex, setBranchIndex] = useState(0);
-
-  opts.order = store.Products.cart.map(extractData);
-  opts.user.data.default_address = userAddresses[addressIndex];
-
-  const items = delevery
-    ? userAddresses.map((e, I) => (
-        <li
-          key={e.id}
-          className="px-3 py-1"
-          data-active={addressIndex === I}
-          onClick={() => setAddressIndex(I)}
-        >
-          {e.tag}
-        </li>
-      ))
-    : branches.map((e, I) => (
-        <li
-          key={e.slug}
-          className="px-3 py-1"
-          data-active={branchIndex === I}
-          onClick={() => setBranchIndex(I)}
-        >
-          {e.name}
-        </li>
-      ));
+  console.log(user);
 
   return (
     <section id="checkout">
@@ -59,79 +30,70 @@ export default function () {
         <li>تأكيد الطلب</li>
       </ul>
 
-      <div className="container d-flex flex-wrap flex-lg-nowrap gap-3 justify-content-center align-items-start">
-        <div className="d-flex flex-column gap-2 p-3 w-100">
-          <span className="title" style={{ color: "var(--primary)" }}>
-            طريقة الاستلام
-          </span>
+      <div className="container d-flex flex-wrap gap-3 justify-content-center align-items-start">
+        <form className="align-items-stretch col-12 col-lg-8 d-flex flex-column gap-3">
+          {/* <label>
+            الاسم بالكامل
+            <input
+              className="input-group mt-2 p-2"
+              type="text"
+              placeholder="الاسم بالكامل"
+            />
+          </label>
 
-          <div className="d-flex gap-2">
-            <button
-              onClick={() => setDelevery(false)}
-              type="button"
-              data-active={!delevery}
-              className="btn px-3"
-            >
-              الاستلام من الفرع
-            </button>
+          <label>
+            رقم الجوال
+            <input
+              type="number"
+              placeholder="رقم الجوال"
+              className="input-group mt-2 p-2"
+            />
+          </label> */}
 
-            <button
-              onClick={() => setDelevery(true)}
-              type="button"
-              data-active={delevery}
-              className="btn px-3"
-            >
-              التوصيل للمنزل
-            </button>
-          </div>
+          <DeleveryOptions />
 
-          <ul className="p-0 m-0 list-unstyled d-grid gap-2">{items}</ul>
-        </div>
+          <label>
+            تاريخ الاستلام
+            <input
+              className="input-group justify-content-center mt-2 p-2"
+              type="date"
+              placeholder="تاريخ الاستلام"
+            />
+          </label>
 
-        <OrderInfo
-          Children={
-            <button
-              type="button"
-              onClick={placeOrder}
-              className="btn d-flex justify-content-center mt-4 mx-auto w-100"
-            >
-              أكمل الدفع
-            </button>
-          }
-        />
+          {/* <textarea
+            className="input-group p-2"
+            rows="2"
+            placeholder="ملاحظات الأوردر"
+          ></textarea> */}
+
+          {/* <LocationOptions /> */}
+        </form>
+
+        <OrderInfo>
+          <button
+            type="button"
+            className="btn d-flex justify-content-center mt-4 mx-auto w-100"
+          >
+            أكمل الدفع
+          </button>
+        </OrderInfo>
       </div>
     </section>
   );
-
-  function placeOrder() {
-    const fetchOpts = {
-      method: "POST",
-      body: JSON.stringify(opts),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: window.localStorage.getItem("token"),
-      },
-    };
-
-    fetch(placeOrderApi, fetchOpts)
-      .then((r) => r.json())
-      .then((r) => redirect("/"));
-  }
 }
 
 function OrderInfo({ Children }) {
+  totalPrice = delivery + discount;
+
   const [useCreditCard, setCredit] = useState(true);
 
-  const store = useStore().getState(),
-    delivery = store.Restaurant.data.delivery_charges,
-    products = store.Products,
-    cart = products.cart;
+  const store = useStore().getState().Products,
+    cart = store.cart,
+    items = cart.map(productItem, store);
 
-  totalPrice = delivery;
-
-  const items = cart.map(productItem, products);
   return (
-    <div className="p-3 flex-shrink-0">
+    <div className="col p-3">
       <span className="h5 title">الطلب</span>
 
       <hr />
@@ -214,24 +176,6 @@ function extractData(i) {
     selectedaddons: [],
   };
 }
-
-Object.assign(opts, {
-  coupon: {
-    code: "",
-  },
-  tipAmount: "",
-  cash_change_amount: "",
-  pending_payment: "",
-  method: "COD",
-  partial_wallet: "",
-  order_comment: "comment",
-  is_scheduled: "",
-  schedule_date: "",
-  schedule_slot: "",
-  auto_acceptable: false,
-  delivery_type: "",
-  location: "",
-});
 
 /*
 {

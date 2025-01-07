@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { useState } from "react";
-import NewAddress from "../../NewAddress";
 import { useStore } from "react-redux";
+import NewAddress from "../../NewAddress";
 
 const emptyStr = "";
 
@@ -41,7 +41,7 @@ export default function () {
               </span>
             </div>
 
-            <input type="radio" />
+            {/* <input type="radio" /> */}
           </label>
         </li>
 
@@ -90,7 +90,7 @@ function AddressItem({ created_at, tag, house, address, landmark }) {
           {`${house}, ${address}, ${landmark}`}
         </div>
 
-        <input type="radio" />
+        {/* <input type="radio" /> */}
       </label>
     </li>
   );

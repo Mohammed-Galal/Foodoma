@@ -163,7 +163,7 @@ export default function Restaurant() {
       (error) => alert(`لم يتمكن المتصفح من تحديد موقعك`)
     );
 
-    fetch(baseUrl + "get-delivery-restaurants/", {
+    fetch(baseUrl + "get-delivery-restaurants", {
       method: "POST",
       body: JSON.stringify(coords),
       headers: {
