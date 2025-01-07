@@ -2,7 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const User = {
     name: "user",
-    initialState: { loaded: false, data: {}, loc: {}, alerts: [] },
+    initialState: {
+      loaded: false,
+      data: {},
+      loc: {},
+      alerts: [],
+      addresses: [],
+    },
   },
   reducers = (User.reducers = {});
 
@@ -14,12 +20,21 @@ reducers.init = function (state, action) {
   window.localStorage.setItem("token", "Bearer " + token);
 };
 
+reducers.logout = function () {
+  window.localStorage.removeItem("token");
+  window.location.reload();
+};
+
 reducers.setLoc = function (state, action) {
   state.loc = action.payload;
 };
 
 reducers.setAlerts = function (state, action) {
   state.alerts = action.payload;
+};
+
+reducers.setAddresses = function (state, action) {
+  state.addresses = action.payload;
 };
 
 // Action creators are generated for each case reducer function

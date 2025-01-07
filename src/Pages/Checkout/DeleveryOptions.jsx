@@ -56,7 +56,9 @@ export default function DeleveryOptions() {
 
   return (
     <div className="d-flex flex-column gap-2">
-      <span className="title" style={{ color: "var(--primary)" }}></span>
+      <span className="title" style={{ color: "var(--primary)" }}>
+        طريقة الاستلام
+      </span>
       <div className="d-flex gap-2">
         <button
           onClick={() => setDelevery(false)}

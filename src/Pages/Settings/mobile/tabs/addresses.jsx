@@ -2,13 +2,16 @@
 
 import { useState } from "react";
 import NewAddress from "../../NewAddress";
+import { useStore } from "react-redux";
+
+const emptyStr = "";
 
 export default function () {
-  const [showNewAddress, setShowNewAddress] = useState(false);
+  const addresses = useStore().getState().User.addresses,
+    addressItems = addresses.map(AddressItem);
 
-  function deActivate() {
-    setShowNewAddress(false);
-  }
+  const [showNewAddress, setShowNewAddress] = useState(false),
+    deActivate = () => setShowNewAddress(false);
 
   return (
     <div id="addresses" className="container d-grid gap-4">
@@ -20,10 +23,29 @@ export default function () {
       </p>
 
       <ul className="d-grid gap-3 list-unstyled m-0 p-0">
-        <AddressItem
-          name="موقعك الحالي"
-          info="شارع، حي، منطقة الرياض، السعودية"
-        />
+        <li
+          style={{ cssText: "border: 2px solid #a8d0ec; border-radius: 24px" }}
+        >
+          <label className="align-items-center d-flex gap-2 h-100 justify-content-start p-3 w-100">
+            <img src="/assets/settings/address.png" alt="icon" />
+
+            <div
+              className="d-grid gap-2"
+              style={{ cssText: "color: var(--midgray); font-weight: 600" }}
+            >
+              <span
+                style={{ cssText: "color: var(--primary); font-weight: bold" }}
+                class="h5 m-0"
+              >
+                موقعك الحالي
+              </span>
+            </div>
+
+            <input type="radio" style={{ marginRight: "auto" }} />
+          </label>
+        </li>
+
+        {addressItems}
       </ul>
 
       <NewAddress isActive={showNewAddress} deActivate={deActivate} />
@@ -43,9 +65,16 @@ export default function () {
   );
 }
 
-function AddressItem({ name, info }) {
+function AddressItem({ created_at, tag, house, address, landmark }) {
+  address ||= emptyStr;
+  house ||= emptyStr;
+  landmark ||= emptyStr;
+
   return (
-    <li style={{ cssText: "border: 2px solid #a8d0ec; border-radius: 24px" }}>
+    <li
+      key={created_at}
+      style={{ cssText: "border: 2px solid #a8d0ec; border-radius: 24px" }}
+    >
       <label className="align-items-center d-flex gap-2 h-100 justify-content-start p-3 w-100">
         <img src="/assets/settings/address.png" alt="icon" />
 
@@ -57,9 +86,9 @@ function AddressItem({ name, info }) {
             style={{ cssText: "color: var(--primary); font-weight: bold" }}
             class="h5 m-0"
           >
-            {name}
+            {tag}
           </span>
-          {info}
+          {`${house}, ${address}, ${landmark}`}
         </div>
 
         <input type="radio" style={{ marginRight: "auto" }} />

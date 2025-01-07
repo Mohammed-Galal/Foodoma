@@ -6,6 +6,8 @@ import NXT from "../../icons/NXT";
 import Recommended from "./Recommended";
 import "./index.scss";
 
+const baseUrl = "https://mon10.amir-adel.com";
+
 let totalPrice;
 
 export const delivery = Math.ceil(Math.random() * 15),
@@ -43,63 +45,73 @@ export default function () {
         ></progress>
       </div>
 
-      <section
-        id="cart"
-        className="align-items-baseline container d-flex flex-wrap gap-3"
-      >
-        <ul className="text-center d-grid g-3 gap-3 list-unstyled m-0 overflow-hidden p-3">
-          <li>المنتج</li>
-          <li>السعر</li>
-          <li>العدد</li>
-          <li>الاجمالي</li>
+      {cart.length ? (
+        <section
+          id="cart"
+          className="align-items-baseline container d-flex flex-wrap gap-3"
+        >
+          <ul className="text-center d-grid g-3 gap-3 list-unstyled m-0 overflow-hidden p-3">
+            <li>المنتج</li>
+            <li>السعر</li>
+            <li>العدد</li>
+            <li>الاجمالي</li>
 
-          <li className="seperator">
-            <hr className="m-0" />
-          </li>
+            <li className="seperator">
+              <hr className="m-0" />
+            </li>
 
-          {items}
+            {items}
 
-          <li>
-            <input
-              type="text"
-              className="input-group-text"
-              placeholder="أضف كود الخصم"
-            />
-            <button className="btn px-3 py-2">أضف</button>
-          </li>
-        </ul>
+            <li>
+              <input
+                type="text"
+                className="input-group-text"
+                placeholder="أضف كود الخصم"
+              />
+              <button className="btn px-3 py-2">أضف</button>
+            </li>
+          </ul>
 
-        <div className="d-grid gap-3 p-3">
-          <p className="h4 m-0 pb-2">إجمالي العربة</p>
-
-          <span>
-            <samp>إجمالي المنتجات</samp>
-            {totalPrice} ر.س
-          </span>
-
-          <p className="d-grid gap-3 m-0 py-2">
-            <span>
-              <samp>التوصيل</samp>
-              {delivery} ر.س
-            </span>
+          <div className="d-grid gap-3 p-3">
+            <p className="h4 m-0 pb-2">إجمالي العربة</p>
 
             <span>
-              <samp>الخصم</samp>
-              {Math.abs(discount)} ر.س
+              <samp>إجمالي المنتجات</samp>
+              {totalPrice} ر.س
             </span>
-          </p>
 
-          <span className="total">
-            <samp>الإجمالي</samp>
-            {totalPrice + delivery + discount} ر.س
-          </span>
+            <p className="d-grid gap-3 m-0 py-2">
+              <span>
+                <samp>التوصيل</samp>
+                {delivery} ر.س
+              </span>
 
-          <Link className="btn" to="/checkout">
-            أكمل الدفع
-          </Link>
+              <span>
+                <samp>الخصم</samp>
+                {Math.abs(discount)} ر.س
+              </span>
+            </p>
+
+            <span className="total">
+              <samp>الإجمالي</samp>
+              {totalPrice + delivery + discount} ر.س
+            </span>
+
+            <Link className="btn" to="/checkout">
+              أكمل الدفع
+            </Link>
+          </div>
+        </section>
+      ) : (
+        <div className="container d-flex justify-content-center my-3 overflow-hidden">
+          <img
+            className="animate-shake"
+            src={baseUrl + "/assets/img/various/cart-empty.png"}
+            style={{ maxHeight: 450 + "px" }}
+            alt="no items"
+          />
         </div>
-      </section>
-
+      )}
       <Recommended items={store.data} />
     </>
   );

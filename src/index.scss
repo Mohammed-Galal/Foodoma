@@ -45,6 +45,32 @@ body {
   animation: reveal 1000ms ease-in-out forwards;
 }
 
+.animate-shake {
+  animation-name: shake;
+  animation-duration: 1s;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: forwards;
+  animation-iteration-count: 2;
+}
+
+@keyframes shake {
+  20% {
+    transform: rotate3d(0, 0, 1, 15deg);
+  }
+  40% {
+    transform: rotate3d(0, 0, 1, -10deg);
+  }
+  60% {
+    transform: rotate3d(0, 0, 1, 5deg);
+  }
+  80% {
+    transform: rotate3d(0, 0, 1, -5deg);
+  }
+  100% {
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+}
+
 @keyframes reveal {
   0% {
     transform: translate3d(100%, 0px, 0px) skewX(-30deg);

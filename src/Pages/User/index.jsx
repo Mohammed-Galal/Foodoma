@@ -26,8 +26,8 @@ export default function () {
 function Login() {
   const navigate = useNavigate();
   const reqBody = {
-    email: "mkjj@gmail.com",
-    password: "01065487118",
+    // email: "mkjj@gmail.com",
+    // password: "01065487118",
   };
 
   return (
@@ -101,6 +101,9 @@ function Login() {
   );
 
   function registerUser() {
+    if (!("email" in reqBody && "password" in reqBody))
+      return alert("يرجى ملئ جميع البيانات");
+
     fetch(Base + "/login", {
       method: "POST",
       headers: {

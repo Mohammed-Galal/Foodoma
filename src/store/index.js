@@ -32,7 +32,7 @@ export const getFavourites = function () {
     if (fetchOpts.headers.Authorization === undefined) return;
 
     fetch(baseUrl + "/get-favorite-items", fetchOpts)
-      .then((res) => res.json())
+      .then(toJson)
       .then((res) =>
         APP_STATE.dispatch({
           type: "products/initFavourites",
@@ -42,13 +42,34 @@ export const getFavourites = function () {
   },
   getUserAlerts = function () {
     fetch(baseUrl + "/get-user-notifications", fetchOpts)
-      .then((r) => r.json())
+      .then(toJson)
       .then(
         (r) =>
           r.length && APP_STATE.dispatch({ type: "user/setAlerts", payload: r })
       )
       .catch(console.error);
+
+    fetch(baseUrl + "/get-addresses", fetchOpts)
+      .then(toJson)
+      .then((r) => {
+        APP_STATE.dispatch({ type: "user/setAddresses", payload: r });
+      })
+      .catch(console.error);
   };
+
+if (window.localStorage.getItem("token")) {
+  fetch(baseUrl + "/update-user-info", fetchOpts)
+    .then(toJson)
+    .then((r) => {
+      APP_STATE.dispatch({ type: "user/init", payload: r.data });
+      getFavourites();
+      getUserAlerts();
+    });
+}
+
+function toJson(res) {
+  return res.json();
+}
 
 // fetch(baseUrl + "/get-delivery-restaurants", {
 //   method: "POST",

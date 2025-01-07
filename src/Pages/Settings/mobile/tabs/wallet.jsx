@@ -1,6 +1,25 @@
 /* eslint-disable import/no-anonymous-default-export */
 
+import { useLayoutEffect, useState } from "react";
+
+const api = "https://mon10.amir-adel.com/public/api/get-wallet-transactions";
+
 export default function () {
+  const [balance, setBalance] = useState("جاري التحقق");
+
+  useLayoutEffect(function () {
+    fetch(api, {
+      method: "POST",
+      body: JSON.stringify({}),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: window.localStorage.getItem("token"),
+      },
+    })
+      .then((r) => r.json())
+      .then((r) => setBalance(r.balance));
+  });
+
   return (
     <div className="container">
       <div className="row gap-3 justify-content-center">
@@ -23,7 +42,7 @@ export default function () {
         >
           <img src="/assets/settings/coins.png" alt="coins" />
           <span className="flex-grow-1">نقطة</span>
-          100
+          {balance}
         </div>
 
         <div className="col-12 col-lg-8" style={{ textAlign: "center" }}>
@@ -76,7 +95,7 @@ export default function () {
                 أصرف 1000 ر.س أو أكثر
               </span>
               <progress value={460} max={1000}></progress>
-              متبقي 540 ر.س
+              متبقي {1000 - 460} ر.س
             </a>
           </div>
         </div>

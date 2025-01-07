@@ -1,7 +1,11 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { Link } from "react-router-dom";
+import { useStore } from "react-redux";
 import Power from "../../../../icons/Power";
 
 export default function main() {
+  const store = useStore();
+
   return (
     <>
       <ul className="list-unstyled mx-auto my-5 p-0 row container">
@@ -66,9 +70,13 @@ export default function main() {
         </li>
       </ul>
 
-      <button type="button" className="btn container">
+      <button type="button" className="btn container" onClick={logout}>
         تسجيل الخروج {Power}
       </button>
     </>
   );
+
+  function logout() {
+    store.dispatch({ type: "user/logout" });
+  }
 }

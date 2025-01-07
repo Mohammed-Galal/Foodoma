@@ -1,8 +1,22 @@
 /* eslint-disable jsx-a11y/aria-role */
 
-import { useState } from "react";
+import { useStore } from "react-redux";
 
+const saveAddressApi = "https://mon10.amir-adel.com/public/api/save-address";
+
+// new Address Modal
 export default function NewAddress({ isActive, deActivate }) {
+  const store = useStore();
+
+  const opts = {
+    latitude: "",
+    longitude: "",
+    // address: "pjpaijf",
+    // house: "9",
+    // tag: "AAA",
+    get_only_default_address: "",
+  };
+
   return (
     <div
       id="new-address"
@@ -17,8 +31,9 @@ export default function NewAddress({ isActive, deActivate }) {
           <input
             type="text"
             className="input-group-text"
-            placeholder="المنزل"
+            placeholder="عنوان المنزل على سبيل المثال"
             role="input"
+            onChange={(e) => (opts.tag = e.target.value)}
           />
         </label>
 
@@ -29,48 +44,18 @@ export default function NewAddress({ isActive, deActivate }) {
             className="input-group-text"
             placeholder="العنوان"
             role="input"
+            onChange={(e) => (opts.address = e.target.value)}
           />
         </label>
 
-        <div className="row h6">
-          <label className="col-12 col-md-4">
-            الشقة
-            <input
-              type="text"
-              className="input-group-text"
-              placeholder="الشقة"
-              role="input"
-            />
-          </label>
-
-          <label className="col-12 col-md-4">
-            الطابق
-            <input
-              type="text"
-              className="input-group-text"
-              placeholder="الطابق"
-              role="input"
-            />
-          </label>
-
-          <label className="col-12 col-md-4">
-            المنزل
-            <input
-              type="text"
-              className="input-group-text"
-              placeholder="المنزل"
-              role="input"
-            />
-          </label>
-        </div>
-
         <label>
-          رقم الجوال
+          المنزل
           <input
-            type="number"
+            type="text"
             className="input-group-text"
-            placeholder="رقم الجوال"
+            placeholder="المنزل"
             role="input"
+            onChange={(e) => (opts.house = e.target.value)}
           />
         </label>
 
@@ -85,14 +70,38 @@ export default function NewAddress({ isActive, deActivate }) {
               width: "100%",
               borderRadius: "8px",
             }}
-            allowfullscreen=""
+            allowfullscreen="true"
             loading="lazy"
             referrerpolicy="no-referrer-when-downgrade"
           ></iframe>
         </label>
 
-        <button className="btn mx-auto">أضف العنوان</button>
+        <button className="btn mx-auto" onClick={addAddress}>
+          أضف العنوان
+        </button>
       </div>
     </div>
   );
+
+  function addAddress() {
+    if (!checkValidity()) return alert("يجب ملئ جميع البيانات");
+
+    fetch(saveAddressApi, {
+      method: "POST",
+      body: JSON.stringify(opts),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: window.localStorage.getItem("token"),
+      },
+    })
+      .then((r) => r.json())
+      .then((r) => {
+        store.dispatch({ type: "user/setAddresses", payload: r });
+        deActivate();
+      });
+  }
+
+  function checkValidity() {
+    return "address" in opts && "house" in opts && "tag" in opts;
+  }
 }
