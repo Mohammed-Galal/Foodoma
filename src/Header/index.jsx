@@ -38,7 +38,7 @@ function CurrLoc() {
     <div style={{ backgroundColor: "#ecf5ff" }}>
       <ul
         id="branches"
-        className="container d-grid gap-3 list-unstyled my-0 py-2 px-0"
+        className="container d-grid gap-3 list-unstyled my-0 py-2 px-3"
         style={{
           gridTemplateColumns: "1fr auto auto",
           color: "var(--primary)",

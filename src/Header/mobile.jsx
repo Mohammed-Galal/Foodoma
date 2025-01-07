@@ -11,11 +11,9 @@ export default function MobileHeader() {
         <img src="/assets/home/logo.svg" alt="logo" />
       </Link>
 
-      <div></div>
-
-      <button type="button" className="btn">
+      <Link to="/alerts" className="btn text-decoration-none">
         <img src="/assets/home/icons/Bell Bing.svg" alt="notifications" />
-      </button>
+      </Link>
     </div>
   );
 }

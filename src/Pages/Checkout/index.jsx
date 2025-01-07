@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { useStore } from "react-redux";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import NXT from "../../icons/NXT";
 import React from "react";
 import "./index.scss";
@@ -16,8 +16,13 @@ const placeOrderApi = "https://mon10.amir-adel.com/public/api/place-order",
 
 export default function () {
   const store = useStore().getState(),
-    redirect = useNavigate(),
-    branches = store.Restaurant.branches,
+    redirect = useNavigate();
+
+  useLayoutEffect(() => {
+    store.User.loaded || redirect("/user/login");
+  }, [store.User.loaded]);
+
+  const branches = store.Restaurant.branches,
     userAddresses = store.User.addresses;
 
   const [delevery, setDelevery] = useState(true);

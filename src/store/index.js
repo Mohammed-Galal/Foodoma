@@ -17,7 +17,8 @@ const APP_STATE = configureStore({ reducer: { Products, User, Restaurant } }),
   };
 export default APP_STATE;
 
-const baseUrl = "https://mon10.amir-adel.com/public/api";
+const savedRes = window.localStorage.getItem("restaurant"),
+  baseUrl = "https://mon10.amir-adel.com/public/api";
 
 fetch(baseUrl + "/get-all-restaurant", fetchOpts)
   .then((res) => res.json())
@@ -57,6 +58,10 @@ export const getFavourites = function () {
       .catch(console.error);
   };
 
+function toJson(res) {
+  return res.json();
+}
+
 if (window.localStorage.getItem("token")) {
   fetch(baseUrl + "/update-user-info", fetchOpts)
     .then(toJson)
@@ -66,9 +71,19 @@ if (window.localStorage.getItem("token")) {
       getUserAlerts();
     });
 }
+if (savedRes) {
+  const resData = JSON.parse(savedRes);
 
-function toJson(res) {
-  return res.json();
+  APP_STATE.dispatch({
+    type: "restaurant/init",
+    payload: resData,
+  });
+
+  fetch(baseUrl + "/get-restaurant-items/" + resData.slug, fetchOpts)
+    .then(toJson)
+    .then((data) =>
+      APP_STATE.dispatch({ type: "products/init", payload: data })
+    );
 }
 
 // fetch(baseUrl + "/get-delivery-restaurants", {

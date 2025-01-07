@@ -20,7 +20,12 @@ reducers.init = function (state, action) {
   window.localStorage.setItem("token", "Bearer " + token);
 };
 
-reducers.logout = function () {
+reducers.logout = function (state) {
+  state.loaded = false;
+  state.data = {};
+  state.loc = {};
+  state.alerts = [];
+  state.addresses = [];
   window.localStorage.removeItem("token");
   window.location.reload();
 };

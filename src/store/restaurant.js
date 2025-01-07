@@ -10,6 +10,7 @@ reducers.init = function (state, action) {
   state.loaded = true;
   action.payload.delivery_charges ||= 0;
   state.data = action.payload;
+  window.localStorage.setItem("restaurant", JSON.stringify(action.payload));
 };
 
 reducers.INIT_BRANCHES = function (state, action) {

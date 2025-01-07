@@ -13,16 +13,17 @@ let totalPrice;
 //  -Math.ceil(Math.random() * 5);
 
 export default function () {
-  const restaurant = useStore().getState().Restaurant;
+  const store = useStore().getState(),
+    restaurant = store.Restaurant;
 
   const delivery = restaurant.data.delivery_charges,
     discount = 0;
 
   totalPrice = delivery;
 
-  const store = useSelector((S) => S.Products),
-    cart = store.cart,
-    items = cart.map(ProductItem, store);
+  const Products = useSelector((S) => S.Products),
+    cart = Products.cart,
+    items = cart.map(ProductItem, Products);
 
   return (
     <>
@@ -116,7 +117,7 @@ export default function () {
           />
         </div>
       )}
-      <Recommended items={store.data} />
+      <Recommended items={Products.data} />
     </>
   );
 }
