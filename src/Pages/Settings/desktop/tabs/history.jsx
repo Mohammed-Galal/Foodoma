@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable import/no-anonymous-default-export */
 import { useLayoutEffect, useState } from "react";
 import { useStore } from "react-redux";

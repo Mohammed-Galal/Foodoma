@@ -142,6 +142,7 @@ export default function Restaurant() {
     resInfo
       .then((res) => res.json())
       .then((data) => {
+        dispatch({ type: "products/clearCart" });
         dispatch({ type: "restaurant/init", payload: data });
         // get the restaurant menu
         fetchMenu(currLoc);

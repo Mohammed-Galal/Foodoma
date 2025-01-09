@@ -29,7 +29,11 @@ fetch(baseUrl + "/get-all-restaurant", fetchOpts)
     })
   );
 
-export const getFavourites = function () {
+export const logout = function () {
+    APP_STATE.dispatch({ type: "products/clearCart" });
+    APP_STATE.dispatch({ type: "user/logout" });
+  },
+  getFavourites = function () {
     if (fetchOpts.headers.Authorization === undefined) return;
 
     fetch(baseUrl + "/get-favorite-items", fetchOpts)

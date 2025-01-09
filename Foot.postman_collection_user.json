@@ -1,0 +1,1235 @@
+{
+	"info": {
+		"_postman_id": "37437dda-f502-4e59-88d4-186c9a3c574f",
+		"name": "Foot",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Address",
+					"item": [
+						{
+							"name": "get-addresses",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "accessKey",
+										"type": "text",
+										"value": "logixerp"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \n    \n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://food.test/api/get-addresses",
+									"protocol": "http",
+									"host": [
+										"food",
+										"test"
+									],
+									"path": [
+										"api",
+										"get-addresses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "save-address",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "accessKey",
+										"type": "text",
+										"value": "logixerp"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \n    \"latitude\":\"\",\n    \"longitude\":\"\",\n    \"address\":\"\",\n    \"house\":\"\",\n    \"tag\":\"\",\n    \"get_only_default_address\":\"\"\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://food.test/api/save-address",
+									"protocol": "http",
+									"host": [
+										"food",
+										"test"
+									],
+									"path": [
+										"api",
+										"save-address"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete-address",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "accessKey",
+										"type": "text",
+										"value": "logixerp"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \n    \"address_id\":\"4\"\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://food.test/api/delete-address",
+									"protocol": "http",
+									"host": [
+										"food",
+										"test"
+									],
+									"path": [
+										"api",
+										"delete-address"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "set-default-address",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "accessKey",
+										"type": "text",
+										"value": "logixerp"
+									},
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"type": "text",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n   \n    \"default_address_id\":\"4\"\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://food.test/api/set-default-address",
+									"protocol": "http",
+									"host": [
+										"food",
+										"test"
+									],
+									"path": [
+										"api",
+										"set-default-address"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accessKey",
+								"type": "text",
+								"value": "logixerp"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"ahmed shreef\",\n    \"email\":\"blogshreef@gmail.com\",\n    \"phone\":\"01065454118\",\n    \"password\":\"01065454118\",\n    \"address\":{\n\n        \"lat\":\"1245545454.25\",\n        \"lng\":\"1245545454.36\",\n        \"address\":\"9 street\",\n        \"house\":\"num 9\",\n        \"tag\":\"tag\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://food.test/api/register",
+							"protocol": "http",
+							"host": [
+								"food",
+								"test"
+							],
+							"path": [
+								"api",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-user-info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accessKey",
+								"type": "text",
+								"value": "logixerp"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \n    \"address_id\":\"4\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://food.test/api/update-user-info",
+							"protocol": "http",
+							"host": [
+								"food",
+								"test"
+							],
+							"path": [
+								"api",
+								"update-user-info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-user-data",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accessKey",
+								"type": "text",
+								"value": "logixerp"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \n    \"phone\":\"01065454112\",\n    \"email\":\"blogshreef@gmail.com\",\n    \"name\":\"ahmed shreef\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://food.test/api/update-user-data",
+							"protocol": "http",
+							"host": [
+								"food",
+								"test"
+							],
+							"path": [
+								"api",
+								"update-user-data"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-wallet-transactions",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accessKey",
+								"type": "text",
+								"value": "logixerp"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://food.test/api/get-wallet-transactions",
+							"protocol": "http",
+							"host": [
+								"food",
+								"test"
+							],
+							"path": [
+								"api",
+								"get-wallet-transactions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accessKey",
+								"type": "text",
+								"value": "logixerp"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n     \"email\":\"blogshreef@gmail.com\",\n    \"password\":\"01065454118\",\n    \"address\":{\n\n        \"lat\":\"1245545454.25\",\n        \"lng\":\"1245545454.36\",\n        \"address\":\"9 street\",\n        \"house\":\"num 9\",\n        \"tag\":\"tag\"\n    }\n    \n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://food.test/api/login",
+							"protocol": "http",
+							"host": [
+								"food",
+								"test"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Notifications",
+			"item": [
+				{
+					"name": "get-user-notifications",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accessKey",
+								"type": "text",
+								"value": "logixerp"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://food.test/api/get-user-notifications",
+							"protocol": "http",
+							"host": [
+								"food",
+								"test"
+							],
+							"path": [
+								"api",
+								"get-user-notifications"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "mark-all-notifications-read",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accessKey",
+								"type": "text",
+								"value": "logixerp"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n   \n    \"address_id\":\"4\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://food.test/api/mark-all-notifications-read",
+							"protocol": "http",
+							"host": [
+								"food",
+								"test"
+							],
+							"path": [
+								"api",
+								"mark-all-notifications-read"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "mark-one-notification-read",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accessKey",
+								"type": "text",
+								"value": "logixerp"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"notification_id\":22\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://food.test/api/mark-one-notification-read",
+							"protocol": "http",
+							"host": [
+								"food",
+								"test"
+							],
+							"path": [
+								"api",
+								"mark-one-notification-read"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Orders",
+			"item": [
+				{
+					"name": "get-orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accessKey",
+								"type": "text",
+								"value": "logixerp"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://food.test/api/get-orders",
+							"protocol": "http",
+							"host": [
+								"food",
+								"test"
+							],
+							"path": [
+								"api",
+								"get-orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-order-items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accessKey",
+								"type": "text",
+								"value": "logixerp"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"order_id\":22\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://food.test/api/get-order-items",
+							"protocol": "http",
+							"host": [
+								"food",
+								"test"
+							],
+							"path": [
+								"api",
+								"get-order-items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "accessKey",
+								"type": "text",
+								"value": "logixerp"
+							},
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"order\":[\n        {\n            \"restaurant_id\":2,\n            \"id\":\"1\",\n            \"name\":\"test item\",\n            \"price\":\"100\",\n            \"quantity\":\"1\",\n            \"selectedaddons\":[\n                {\n                    \"addon_id\":1,\n                    \"addon_category_name\":\"addon category name\",\n                    \"addon_name\":\"addon Name\",\n                    \"price\":\"20\"\n                }\n            ]\n        }\n        \n    ],\n    \"user\":{\n        \"data\":{\n            \"default_address\":{\n                \"house\":\"9 street\",\n                \"address\":\"cairo nasrcity\",\n                \"latitude\":\"\",\n                \"longitude\":\"\"\n            }\n        }\n\n    },\n    \"coupon\":{\n        \"code\":\"\"\n    },\n    \"tipAmount\":\"\",\n    \"cash_change_amount\":\"\",\n    \"pending_payment\":\"\",\n    \"method\":\"COD\",\n    \"partial_wallet\":\"\",\n    \"order_comment\":\"comment\",\n    \"is_scheduled\":\"\",\n    \"schedule_date\":\"\",\n    \"schedule_slot\":\"\",\n    \"auto_acceptable\":false,\n    \"delivery_type\":\"\",\n    \"location\":\"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://food.test/api/place-order",
+							"protocol": "http",
+							"host": [
+								"food",
+								"test"
+							],
+							"path": [
+								"api",
+								"place-order"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "toggle-favorite-resturant",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accessKey",
+						"type": "text",
+						"value": "logixerp"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"id\":2\n    \n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://food.test/api/toggle-favorite",
+					"protocol": "http",
+					"host": [
+						"food",
+						"test"
+					],
+					"path": [
+						"api",
+						"toggle-favorite"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "toggle-favorite tem",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accessKey",
+						"type": "text",
+						"value": "logixerp"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"id\":1\n    \n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://food.test/api/toggle-favorite-item",
+					"protocol": "http",
+					"host": [
+						"food",
+						"test"
+					],
+					"path": [
+						"api",
+						"toggle-favorite-item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-favorite-stores",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accessKey",
+						"type": "text",
+						"value": "logixerp"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \n    \n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://food.test/api/get-favorite-stores",
+					"protocol": "http",
+					"host": [
+						"food",
+						"test"
+					],
+					"path": [
+						"api",
+						"get-favorite-stores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-favorite-items",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accessKey",
+						"type": "text",
+						"value": "logixerp"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \n    \n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://food.test/api/get-favorite-items",
+					"protocol": "http",
+					"host": [
+						"food",
+						"test"
+					],
+					"path": [
+						"api",
+						"get-favorite-items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-restaurant-items",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accessKey",
+						"type": "text",
+						"value": "logixerp"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \n    \n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://food.test/api/get-restaurant-items/h-alslam-jd-gHvBrHEMIoUN0jY",
+					"protocol": "http",
+					"host": [
+						"food",
+						"test"
+					],
+					"path": [
+						"api",
+						"get-restaurant-items",
+						"h-alslam-jd-gHvBrHEMIoUN0jY"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-restaurant-info",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accessKey",
+						"type": "text",
+						"value": "logixerp"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \n    \n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://food.test/api/get-restaurant-info/h-alslam-jd-gHvBrHEMIoUN0jY",
+					"protocol": "http",
+					"host": [
+						"food",
+						"test"
+					],
+					"path": [
+						"api",
+						"get-restaurant-info",
+						"h-alslam-jd-gHvBrHEMIoUN0jY"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-all-restaurant",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accessKey",
+						"type": "text",
+						"value": "logixerp"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \n    \n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://food.test/api/get-all-restaurant",
+					"protocol": "http",
+					"host": [
+						"food",
+						"test"
+					],
+					"path": [
+						"api",
+						"get-all-restaurant"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "popular-geo-locations",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accessKey",
+						"type": "text",
+						"value": "logixerp"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://food.test/api/popular-geo-locations",
+					"protocol": "http",
+					"host": [
+						"food",
+						"test"
+					],
+					"path": [
+						"api",
+						"popular-geo-locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "popular-locations",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "accessKey",
+						"type": "text",
+						"value": "logixerp"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://food.test/api/popular-locations",
+					"protocol": "http",
+					"host": [
+						"food",
+						"test"
+					],
+					"path": [
+						"api",
+						"popular-locations"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

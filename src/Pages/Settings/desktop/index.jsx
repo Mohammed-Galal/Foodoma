@@ -6,11 +6,10 @@ import tabs from "./tabs";
 import Globe from "../../../icons/Globe";
 import AltArrowDown from "../../../icons/Arrow_Down";
 import Power from "../../../icons/Power";
-import { useSelector, useStore } from "react-redux";
+import { useSelector } from "react-redux";
+import { logout } from "../../../store";
 
 export default function () {
-  const store = useStore();
-
   const tabName = useParams().tab,
     TargetTab = tabs[tabName];
 
@@ -80,7 +79,7 @@ export default function () {
             <li className="py-2">
               <button
                 className="btn align-items-center d-grid gap-2 w-100 p-0 text-end"
-                onClick={() => store.dispatch({ type: "user/logout" })}
+                onClick={logout}
               >
                 {Power}
                 تسجيل الخروج

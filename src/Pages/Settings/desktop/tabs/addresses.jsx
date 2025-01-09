@@ -1,21 +1,28 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { useState } from "react";
-import { useStore } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import NewAddress from "../../NewAddress";
 
 const emptyStr = "";
 
+let I;
 export default function () {
-  const addresses = useStore().getState().User.addresses,
-    addressItems = addresses.map(AddressItem);
+  const { data, addresses } = useSelector((e) => e.User),
+    token = data.auth_token,
+    dispatch = useDispatch();
 
   const [showNewAddress, setShowNewAddress] = useState(false),
     deActivate = () => setShowNewAddress(false);
 
+  const Addresses = [];
+  I = 0;
+  while (I < addresses.length)
+    Addresses[I] = AddressItem(addresses[I++], dispatch, token);
+
   return (
     <div className="addresses d-flex flex-column gap-3">
       <span className="h5 m-0 title" style={{ color: "var(--primary)" }}>
-        اختر عنوان التوصيل
+        العناوين المسجلة
       </span>
 
       <ul className="list-unstyled d-grid gap-3 m-0 p-0">
@@ -40,12 +47,10 @@ export default function () {
                 موقعك الحالي
               </span>
             </div>
-
-            {/* <input type="radio" /> */}
           </label>
         </li>
 
-        {addressItems}
+        {Addresses}
       </ul>
 
       <NewAddress isActive={showNewAddress} deActivate={deActivate} />
@@ -64,20 +69,25 @@ export default function () {
   );
 }
 
-function AddressItem({ created_at, tag, house, address, landmark }) {
+function AddressItem(
+  { id, created_at, tag, house, address, landmark },
+  dispatch,
+  token
+) {
   address ||= emptyStr;
   house ||= emptyStr;
   landmark ||= emptyStr;
 
   return (
-    <li key={created_at}>
-      <label
-        className="align-items-center d-flex gap-2 p-2"
-        style={{
-          cssText:
-            " border-radius: 16px; overflow: hidden; border: 1px solid #c7e0f2; cursor: pointer;",
-        }}
-      >
+    <li
+      key={created_at}
+      style={{
+        cssText:
+          " border-radius: 16px; overflow: hidden; border: 1px solid #c7e0f2; cursor: pointer;",
+      }}
+      className="px-2 d-flex justify-content-between align-items-center gap-2"
+    >
+      <label className="align-items-center d-flex gap-2 py-2">
         <img src="/assets/settings/address.png" alt="Icon" />
 
         <div
@@ -89,9 +99,31 @@ function AddressItem({ created_at, tag, house, address, landmark }) {
           </span>
           {`${house}, ${address}, ${landmark}`}
         </div>
-
-        {/* <input type="radio" /> */}
       </label>
+      <input
+        type="button"
+        onClick={removeAdrress}
+        style={{ fontSize: "smaller" }}
+        className="border-0 btn btn-outline-danger"
+        value="حذف"
+      />
     </li>
   );
+
+  function removeAdrress() {
+    fetch("https://mon10.amir-adel.com/public/api/delete-address", {
+      method: "POST",
+      body: JSON.stringify({ address_id: id }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((e) => e.json())
+      .then((r) => {
+        console.log(r);
+
+        dispatch({ type: "user/setAddresses", payload: r });
+      });
+  }
 }

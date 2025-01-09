@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useLayoutEffect } from "react";
-import { useSelector, useStore } from "react-redux";
+import { useSelector } from "react-redux";
 import store, { getUserAlerts } from "../../store/index.js";
 
 const dispatch = store.dispatch,
