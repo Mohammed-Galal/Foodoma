@@ -8,8 +8,6 @@ import { useNavigate } from "react-router-dom";
 
 const discount = 0;
 
-let totalPrice;
-
 const placeOrderApi = "https://mon10.amir-adel.com/public/api/place-order",
   opts = { user: { data: {} } },
   emptyStr = "";
@@ -19,41 +17,35 @@ export default function () {
     dispatch = useDispatch(),
     redirect = useNavigate();
 
+  const delivery_charges = store.Restaurant.data.delivery_charges,
+    products = store.Products;
+
+  let totalPrice = +delivery_charges;
+
+  const userAddresses = store.User.addresses,
+    [delivery, setDelivery] = useState(emptyStr);
+
+  opts.order = store.Products.cart.map((CI) => {
+    totalPrice += +CI.totalPrice;
+    return extractData(CI);
+  });
+  opts.user.data.default_address =
+    delivery === emptyStr
+      ? userAddresses[0]
+      : userAddresses.find((a) => a.id === +delivery);
+
   useLayoutEffect(() => {
     store.User.loaded || redirect("/user/login");
+    userAddresses.length || redirect("/settings/addresses");
   });
 
-  const branches = store.Restaurant.branches,
-    userAddresses = store.User.addresses;
-
-  const [delevery, setDelevery] = useState(true);
-  const [addressIndex, setAddressIndex] = useState(0);
-  const [branchIndex, setBranchIndex] = useState(0);
-
-  opts.order = store.Products.cart.map(extractData);
-  opts.user.data.default_address = userAddresses[addressIndex];
-
-  const items = delevery
-    ? userAddresses.map((e, I) => (
-        <li
-          key={e.id}
-          className="px-3 py-1"
-          data-active={addressIndex === I}
-          onClick={() => setAddressIndex(I)}
-        >
-          {e.tag}
-        </li>
-      ))
-    : branches.map((e, I) => (
-        <li
-          key={e.slug}
-          className="px-3 py-1"
-          data-active={branchIndex === I}
-          onClick={() => setBranchIndex(I)}
-        >
-          {e.name}
-        </li>
-      ));
+  const items = userAddresses.map((e, i) => {
+    return (
+      <option key={i} value={e.id}>
+        {e.tag}
+      </option>
+    );
+  });
 
   return (
     <section id="checkout">
@@ -65,51 +57,44 @@ export default function () {
         <li>تأكيد الطلب</li>
       </ul>
 
-      <div className="container d-flex flex-wrap flex-lg-nowrap gap-3 justify-content-center align-items-start">
-        <div className="d-flex flex-column gap-2 p-3 w-100">
+      <div className="container d-flex flex-wrap flex-lg-nowrap gap-3 justify-content-center">
+        <div
+          className="d-flex flex-column gap-2 p-3 w-100"
+          style={{ border: "1px solid #f1f1f1", borderRadius: "16px" }}
+        >
           <span className="title" style={{ color: "var(--primary)" }}>
             طريقة الاستلام
           </span>
 
-          <div className="d-flex gap-2">
-            <button
-              onClick={() => setDelevery(false)}
-              type="button"
-              data-active={!delevery}
-              className="btn px-3"
-            >
-              الاستلام من الفرع
-            </button>
-
-            <button
-              onClick={() => setDelevery(true)}
-              type="button"
-              data-active={delevery}
-              className="btn px-3"
-            >
-              التوصيل للمنزل
-            </button>
-          </div>
-
-          <ul className="p-0 m-0 list-unstyled d-grid gap-2">{items}</ul>
+          <select
+            className="input-group-text text-end"
+            style={{
+              outline: "none",
+              borderColor: "#ecf5ff",
+              cursor: "pointer",
+            }}
+            value={delivery}
+            onChange={({ target }) => setDelivery(target.value)}
+          >
+            <option value={emptyStr}>الاستلام من الفرع</option>
+            {items}
+          </select>
         </div>
 
         <OrderInfo
-          Children={
-            <button
-              type="button"
-              onClick={placeOrder}
-              className="btn d-flex justify-content-center mt-4 mx-auto w-100"
-            >
-              أكمل الدفع
-            </button>
-          }
+          cart={products.cart}
+          products={products}
+          delivery={delivery_charges}
+          totalPrice={totalPrice}
+          placeOrder={placeOrder}
         />
       </div>
     </section>
   );
 
   function placeOrder() {
+    opts.delivery_type = delivery !== emptyStr ? "1" : "2";
+
     const fetchOpts = {
       method: "POST",
       body: JSON.stringify(opts),
@@ -128,17 +113,10 @@ export default function () {
   }
 }
 
-function OrderInfo({ Children }) {
-  const [useCreditCard, setCredit] = useState(true);
-
-  const store = useStore().getState(),
-    delivery = store.Restaurant.data.delivery_charges,
-    products = store.Products,
-    cart = products.cart;
-
-  totalPrice = +delivery;
-
+function OrderInfo({ cart, delivery, products, placeOrder, totalPrice }) {
+  const [useCreditCard, setCredit] = useState(false);
   const items = cart.map(productItem, products);
+
   return (
     <div className="p-3 flex-shrink-0">
       <span className="h5 title">الطلب</span>
@@ -185,16 +163,20 @@ function OrderInfo({ Children }) {
         </label>
       </div>
 
-      {Children}
+      <button
+        type="button"
+        onClick={placeOrder}
+        className="btn d-flex justify-content-center mt-4 mx-auto w-100"
+      >
+        أكمل الدفع
+      </button>
     </div>
   );
 }
 
 function productItem({ id, quantity }) {
   const itemData = this.data.find((p) => p.id === id);
-
-  const price = itemData.price || Math.ceil(Math.random() * 10);
-  totalPrice += price * quantity;
+  const price = +itemData.price;
 
   return (
     <li
@@ -220,7 +202,7 @@ function extractData(i) {
     id: emptyStr + id,
     price: emptyStr + price,
     quantity: emptyStr + i.quantity,
-    selectedaddons: [],
+    selectedaddons: i.addons.map((a) => ({ ...a, price: emptyStr + a.price })),
   };
 }
 
@@ -238,7 +220,7 @@ Object.assign(opts, {
   schedule_date: "",
   schedule_slot: "",
   auto_acceptable: false,
-  delivery_type: "",
+  // delivery_type: "",
   location: {
     lat: "",
     lng: "",

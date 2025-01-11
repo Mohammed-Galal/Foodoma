@@ -46,6 +46,6 @@ export default Store.reducer;
 function calcAddonsPrice(arr) {
   let index = 0,
     result = 0;
-  while (index < arr.length) result += +arr[index++].price;
+  while (index < arr.length) result += arr[index++].price;
   return result;
 }

@@ -168,7 +168,7 @@ function ProductInfo(state) {
           addon_id: id,
           addon_category_name,
           addon_name: name,
-          price: price,
+          price: +price,
         };
       }
     );
