@@ -5,11 +5,10 @@ import { Link } from "react-router-dom";
 export default function () {
   let itemsQuantity = 0;
 
-  const alerts = useSelector((e) => e.User).alerts.filter((e) => !e.is_read);
+  const alerts = useSelector((e) => e.User).alerts.filter((e) => !e.is_read),
+    Products = useSelector((e) => e.Products);
 
-  useSelector((e) => e.Products).cart.forEach(
-    (p) => (itemsQuantity += p.quantity)
-  );
+  Products.cart.forEach((p) => (itemsQuantity += p.quantity));
 
   return (
     <div className="align-items-center container d-grid py-3">

@@ -4,11 +4,11 @@ import { useRef, useState } from "react";
 
 export default function () {
   const reqBody = useRef({
-      name: null,
-      phone: null,
-      email: null,
-      new_password: null,
-      password: "",
+      name: "",
+      phone: "",
+      email: "",
+      new_password: "",
+      old_password: "",
     }),
     [changePass, setChangePass] = useState(false);
 
@@ -105,6 +105,6 @@ export default function () {
 
   function confirmPassword() {
     const pass = window.prompt("من فضلك اكتب كلمة المرور");
-    reqBody.current.password = pass;
+    reqBody.current.old_password = pass;
   }
 }

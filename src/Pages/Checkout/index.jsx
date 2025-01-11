@@ -212,7 +212,7 @@ function productItem({ id, quantity }) {
 
 //================ Utils
 function extractData(i) {
-  const { restaurant_id, id, name, price } = i.info;
+  const { restaurant_id, id, name, price } = i;
 
   return {
     name,
@@ -239,7 +239,10 @@ Object.assign(opts, {
   schedule_slot: "",
   auto_acceptable: false,
   delivery_type: "",
-  location: "",
+  location: {
+    lat: "",
+    lng: "",
+  },
 });
 
 /*

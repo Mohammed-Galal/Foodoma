@@ -8,22 +8,21 @@ import "./index.scss";
 
 const baseUrl = "https://mon10.amir-adel.com";
 
-let totalPrice;
-
-//  -Math.ceil(Math.random() * 5);
-
 export default function () {
   const store = useStore().getState(),
+    dispatch = useDispatch(),
     restaurant = store.Restaurant;
 
-  const delivery = restaurant.data.delivery_charges,
+  const delivery = +restaurant.data.delivery_charges,
     discount = 0;
 
-  totalPrice = 0;
+  let totalPrice = 0;
 
-  const Products = useSelector((S) => S.Products),
-    cart = Products.cart,
-    items = cart.map(ProductItem, Products);
+  const { cart, data } = useSelector((S) => S.Products),
+    items = cart.map((item, I) => {
+      totalPrice += item.totalPrice;
+      return ProductItem(item, I, editCartItem);
+    });
 
   return (
     <>
@@ -117,26 +116,27 @@ export default function () {
           />
         </div>
       )}
-      <Recommended items={Products.data} />
+      <Recommended items={data} />
     </>
   );
+
+  function editCartItem(index, quantity) {
+    dispatch({
+      type: "products/updateCartItem",
+      payload: { index, quantity },
+    });
+  }
 }
 
-function ProductItem({ id, quantity }) {
-  const dispatch = useDispatch(),
-    itemData = this.data.find((p) => p.id === id);
-
-  const price = itemData.price || Math.ceil(Math.random() * 10);
-  totalPrice += price * quantity;
-
+function ProductItem({ id, quantity, price, name }, I, editCart) {
   return (
     <React.Fragment key={id * quantity}>
       <li className="item-name align-items-center d-flex gap-3 text-nowrap">
-        <button className="btn p-0" onClick={removeItem}>
+        <button className="btn p-0" onClick={() => editCart(I, 0)}>
           x
         </button>
-        <Link className="text-decoration-none" to={"/products/" + itemData.id}>
-          {itemData.name}
+        <Link className="text-decoration-none" to={"/products/" + id}>
+          {name}
         </Link>
       </li>
 
@@ -145,11 +145,11 @@ function ProductItem({ id, quantity }) {
       </li>
 
       <li className="align-items-center d-flex gap-2 item-quantity justify-content-center">
-        <button className="btn p-0" onClick={increaseItem}>
+        <button className="btn p-0" onClick={() => editCart(I, quantity + 1)}>
           +
         </button>
         {quantity}
-        <button className="btn p-0" onClick={decrement}>
+        <button className="btn p-0" onClick={() => editCart(I, quantity - 1)}>
           -
         </button>
       </li>
@@ -159,27 +159,4 @@ function ProductItem({ id, quantity }) {
       </li>
     </React.Fragment>
   );
-
-  function increaseItem() {
-    quantity++;
-
-    dispatch({
-      type: "products/addToCart",
-      payload: { id, quantity },
-    });
-  }
-
-  function removeItem() {
-    dispatch({
-      type: "products/remove_cart_item",
-      payload: id,
-    });
-  }
-
-  function decrement() {
-    dispatch({
-      type: "products/reduce_cart_item",
-      payload: { id, quantity },
-    });
-  }
 }
