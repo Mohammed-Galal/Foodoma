@@ -25,7 +25,8 @@ reducers.updateCartItem = function (state, { payload }) {
     const cartItem = state.cart[index];
     Object.assign(cartItem, {
       quantity,
-      totalPrice: quantity * cartItem.price + calcAddonsPrice(cartItem.addons),
+      totalPrice:
+        quantity * cartItem.price + calcAddonsPrice(cartItem.addons, quantity),
     });
     state.cart = [...state.cart];
   } else state.cart = state.cart.filter(($, i) => i !== index);
@@ -43,9 +44,9 @@ const Store = createSlice(Products);
 export const { addToFav, removeFromFav } = Store.actions;
 export default Store.reducer;
 
-function calcAddonsPrice(arr) {
+function calcAddonsPrice(arr, quantity) {
   let index = 0,
     result = 0;
   while (index < arr.length) result += arr[index++].price;
-  return result;
+  return result * quantity;
 }

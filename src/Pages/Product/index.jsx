@@ -51,7 +51,7 @@ function ProductInfo(state) {
   docFrag.innerHTML = state.desc || fallbackStr;
 
   let totalPrice = +state.price * quantity;
-  selectedAddons.current.forEach((A) => (totalPrice += +A.price));
+  selectedAddons.current.forEach((A) => (totalPrice += +A.price * quantity));
   return (
     <section
       id="product"
