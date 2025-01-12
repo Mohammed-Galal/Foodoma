@@ -1,8 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const Store = {
+const savedRes = window.localStorage.getItem("restaurant"),
+  existed = !!savedRes,
+  data = existed ? JSON.parse(savedRes) : {},
+  Store = {
     name: "restaurant",
-    initialState: { loaded: false, data: {}, branches: [] },
+    initialState: { loaded: existed, data, branches: [] },
   },
   reducers = (Store.reducers = {});
 

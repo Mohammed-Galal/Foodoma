@@ -5,7 +5,10 @@ import Products from "./products.js";
 import User from "./user.js";
 import Restaurant from "./restaurant.js";
 
-const APP_STATE = configureStore({ reducer: { Products, User, Restaurant } }),
+const APP_STATE = configureStore({ reducer: { Products, User, Restaurant } });
+export default APP_STATE;
+
+const baseUrl = "https://mon10.amir-adel.com/public/api",
   fetchOpts = {
     method: "POST",
     get headers() {
@@ -15,10 +18,6 @@ const APP_STATE = configureStore({ reducer: { Products, User, Restaurant } }),
       return obj;
     },
   };
-export default APP_STATE;
-
-const savedRes = window.localStorage.getItem("restaurant"),
-  baseUrl = "https://mon10.amir-adel.com/public/api";
 
 fetch(baseUrl + "/get-all-restaurant", fetchOpts)
   .then((res) => res.json())
@@ -75,14 +74,10 @@ if (window.localStorage.getItem("token")) {
       getUserAlerts();
     });
 }
-if (savedRes) {
-  const resData = JSON.parse(savedRes);
 
-  APP_STATE.dispatch({
-    type: "restaurant/init",
-    payload: resData,
-  });
-
+const savedRes = APP_STATE.getState().Restaurant;
+if (savedRes.loaded) {
+  const resData = savedRes.data;
   fetch(baseUrl + "/get-restaurant-items/" + resData.slug, fetchOpts)
     .then(toJson)
     .then((data) =>

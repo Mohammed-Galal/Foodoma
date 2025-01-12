@@ -25,33 +25,7 @@ export default function () {
         العناوين المسجلة
       </span>
 
-      <ul className="list-unstyled d-grid gap-3 m-0 p-0">
-        <li>
-          <label
-            className="align-items-center d-flex gap-2 p-2"
-            style={{
-              cssText:
-                " border-radius: 16px; overflow: hidden; border: 1px solid #c7e0f2; cursor: pointer;",
-            }}
-          >
-            <img src="/assets/settings/address.png" alt="Icon" />
-
-            <div
-              className="d-flex flex-column flex-grow-1 m-0"
-              style={{ cssText: "font-size: small; color: var(--midgray)" }}
-            >
-              <span
-                className="h6 m-0"
-                style={{ cssText: "color: var(--primary)" }}
-              >
-                موقعك الحالي
-              </span>
-            </div>
-          </label>
-        </li>
-
-        {Addresses}
-      </ul>
+      <ul className="list-unstyled d-grid gap-3 m-0 p-0">{Addresses}</ul>
 
       <NewAddress isActive={showNewAddress} deActivate={deActivate} />
 
