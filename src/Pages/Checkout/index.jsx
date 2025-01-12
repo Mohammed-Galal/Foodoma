@@ -13,7 +13,7 @@ const placeOrderApi = "https://mon10.amir-adel.com/public/api/place-order",
   emptyStr = "";
 
 export default function () {
-  const [delivery, setDelivery] = useState(0),
+  const [delivery, setDelivery] = useState(false),
     [activeAddress, setActiveAddress] = useState(0),
     store = useStore().getState(),
     dispatch = useDispatch(),
@@ -40,47 +40,38 @@ export default function () {
       ? userAddresses[0]
       : userAddresses.find((a) => a.id === +delivery);
 
-  const items =
-    !!delivery &&
-    userAddresses.map((e, i) => {
-      const style = {
-        width: "100%",
-        border: "2px solid #a8d0ec",
-        borderRadius: "8px",
-      };
+  const items = userAddresses.map((e, i) => {
+    const style = {
+      width: "100%",
+      border: "2px solid #a8d0ec",
+      borderRadius: "8px",
+    };
 
-      return (
-        <li
-          key={i}
-          style={style}
-          value={e.id}
-          data-active={activeAddress === i}
+    return (
+      <li key={i} style={style} value={e.id} data-active={activeAddress === i}>
+        <label
+          onClick={() => setActiveAddress(i)}
+          className="align-items-center d-flex gap-2 h-100 justify-content-start px-3 py-1 w-100"
         >
-          <label
-            onClick={() => setActiveAddress(i)}
-            className="align-items-center d-flex gap-2 h-100 justify-content-start px-3 py-1 w-100"
+          <img src="/assets/settings/address.png" alt="icon" />
+
+          <div
+            className="d-grid gap-2"
+            style={{ cssText: "color: var(--midgray); font-weight: 600" }}
           >
-            <img src="/assets/settings/address.png" alt="icon" />
-
-            <div
-              className="d-grid gap-2"
-              style={{ cssText: "color: var(--midgray); font-weight: 600" }}
+            <span
+              style={{
+                cssText: "color: var(--primary); font-weight: bold",
+              }}
+              class="h5 m-0"
             >
-              <span
-                style={{
-                  cssText: "color: var(--primary); font-weight: bold",
-                }}
-                class="h5 m-0"
-              >
-                {e.tag}
-              </span>
-            </div>
-
-            {/* <input type="radio" style={{ marginRight: "auto" }} /> */}
-          </label>
-        </li>
-      );
-    });
+              {e.tag}
+            </span>
+          </div>
+        </label>
+      </li>
+    );
+  });
 
   return (
     <section id="checkout">
@@ -93,8 +84,8 @@ export default function () {
       </ul>
 
       <div className="container d-flex flex-wrap flex-lg-nowrap gap-3 justify-content-center">
-        <div
-          className="d-grid gap-3 p-3 w-100"
+        <fieldset
+          className="d-flex flex-column gap-3 p-3 w-100"
           style={{
             border: "1px solid rgb(241, 241, 241)",
             borderRadius: "16px",
@@ -102,34 +93,57 @@ export default function () {
             alignContent: "start",
           }}
         >
-          <span
-            className="title"
-            style={{ alignSelf: "center", color: "var(--primary)" }}
+          <legend
+            className="float-none mx-auto px-3 mb-0"
+            style={{
+              alignSelf: "center",
+              color: "var(--primary)",
+              width: "auto",
+            }}
           >
             طريقة الاستلام
-          </span>
+          </legend>
 
-          <select
-            className="input-group-text text-end"
-            style={{
-              outline: "none",
-              borderColor: "#ecf5ff",
-              cursor: "pointer",
-            }}
-            value={delivery}
-            onChange={({ target }) => setDelivery(+target.value)}
-          >
-            <option value="0">الاستلام من الفرع</option>
-            <option value="1">توصيل</option>
-          </select>
+          <div className="d-flex gap-2">
+            <button
+              className="btn d-flex align-items-center gap-2"
+              data-active={!delivery}
+              onClick={() => setDelivery(false)}
+            >
+              <img
+                style={{
+                  maxHeight: "30px",
+                  filter: "grayscale(" + +delivery + ")",
+                }}
+                src="https://mon10.doobagency.com/assets/img/various/self-pickup.png"
+                alt="branch"
+              />
+              الاستلام من الفرع
+            </button>
+            <button
+              className="btn d-flex align-items-center gap-2"
+              data-active={delivery}
+              onClick={() => setDelivery(true)}
+            >
+              <img
+                style={{
+                  maxHeight: "30px",
+                  filter: "grayscale(" + +!delivery + ")",
+                }}
+                src="https://mon10.doobagency.com/assets/img/various/home-delivery.png"
+                alt="delivery"
+              />
+              توصيل
+            </button>
+          </div>
 
           <ul
             className="align-items-stretch d-flex gap-2 list-unstyled m-0 p-0 w-100"
             style={{ gridColumnStart: "span 2" }}
           >
-            {items}
+            {delivery && items}
           </ul>
-        </div>
+        </fieldset>
 
         <OrderInfo
           cart={products.cart}
@@ -191,7 +205,7 @@ function OrderInfo({ cart, delivery, products, placeOrder, totalPrice }) {
         الإجمالي
         <span>{totalPrice} ر.س</span>
       </p>
-
+      {/* 
       <div>
         <span className="d-block h5">طرق الدفع</span>
         <label className="d-flex gap-2 mb-2">
@@ -211,7 +225,7 @@ function OrderInfo({ cart, delivery, products, placeOrder, totalPrice }) {
           />
           الدفع عند الاستلام
         </label>
-      </div>
+      </div> */}
 
       <button
         type="button"
