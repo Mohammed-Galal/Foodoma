@@ -13,16 +13,19 @@ export default function () {
     dispatch = useDispatch(),
     restaurant = store.Restaurant;
 
-  const delivery = +restaurant.data.delivery_charges,
-    discount = 0;
+  const delivery = +restaurant.data.delivery_charges;
 
-  let totalPrice = 0;
+  let discount = 0,
+    totalPrice = 0;
 
   const { cart, data } = useSelector((S) => S.Products),
     items = cart.map((item, I) => {
       totalPrice += item.totalPrice;
       return ProductItem(item, I, editCartItem);
     });
+
+  const discountValue = Math.floor(totalPrice / 100);
+  discountValue && (discount = -(discountValue * 10));
 
   return (
     <>
@@ -56,6 +59,7 @@ export default function () {
         >
           <ul className="text-center d-grid g-3 gap-3 list-unstyled m-0 overflow-hidden p-3">
             <li>المنتج</li>
+            <li>الاضافات</li>
             <li>السعر</li>
             <li>العدد</li>
             <li>الاجمالي</li>
@@ -128,9 +132,23 @@ export default function () {
   }
 }
 
-function ProductItem({ id, quantity, price, name }, I, editCart) {
+function ProductItem({ id, quantity, name, addons, price }, I, editCart) {
+  const Addons =
+    addons.length === 0 ? (
+      <li>بدون اضافات</li>
+    ) : (
+      addons.map((a) => {
+        price += a.price;
+        return (
+          <li key={a.addon_id} className="d-flex justify-content-center">
+            {a.addon_name} -<span> {a.price} ر.س</span>
+          </li>
+        );
+      })
+    );
+
   return (
-    <React.Fragment key={id * quantity}>
+    <React.Fragment key={id * price}>
       <li className="item-name align-items-center d-flex gap-3 text-nowrap">
         <button className="btn p-0" onClick={() => editCart(I, 0)}>
           x
@@ -138,6 +156,15 @@ function ProductItem({ id, quantity, price, name }, I, editCart) {
         <Link className="text-decoration-none" to={"/products/" + id}>
           {name}
         </Link>
+      </li>
+
+      <li>
+        <ul
+          className="d-flex flex-column list-unstyled m-0 p-0 gap-1"
+          style={{ fontSize: "smaller", color: "var(--midgray)" }}
+        >
+          {Addons}
+        </ul>
       </li>
 
       <li className="item-price">

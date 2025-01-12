@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import productItem from "../../shared/productItem";
@@ -31,14 +31,28 @@ export default function () {
 
 function ProductInfo(state) {
   const dispatch = useDispatch(),
-    selectedAddons = useRef(new Set()),
-    redirect = useNavigate();
+    selectedAddons = useRef(new Set());
 
-  const [addonCat, setAddonCat] = useState(""),
+  const [Alert, setAlert] = useState(false),
+    [addonCat, setAddonCat] = useState(""),
     [load, update] = useState(false),
     [quantity, setQuntity] = useState(1);
 
+  useEffect(() => {
+    Alert &&
+      setTimeout(() => {
+        selectedAddons.current.clear();
+        setQuntity(1);
+        setAddonCat("");
+        setAlert(false);
+      }, 3000);
+  }, [Alert]);
+
   if (state === undefined) return false;
+
+  const alertState = Alert
+    ? { opacity: 1, transform: "translateY(0)" }
+    : { opacity: 0, transform: "translateY(100%)" };
 
   const categories = state.addon_categories,
     selectedCat = categories.find(($) => $.name === addonCat),
@@ -55,7 +69,7 @@ function ProductInfo(state) {
   return (
     <section
       id="product"
-      className="container-fluid container-lg d-flex flex-wrap flex-lg-nowrap"
+      className="container-fluid container-lg d-flex flex-wrap"
     >
       <div className="d-flex flex-column">
         <img src={imageSrc} alt="product" />
@@ -66,7 +80,32 @@ function ProductInfo(state) {
           <img src={imageSrc} alt="product" />
         </div>
       </div>
-      <div className="align-items-start d-flex flex-column flex-grow-1 justify-content-between">
+
+      <div
+        className="alert"
+        style={{
+          ...alertState,
+          width: "100%",
+          background: "aliceblue",
+          color: "var(--primary)",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          order: "1",
+          position: "sticky",
+          bottom: "60px",
+          transition: "150ms ease-out",
+        }}
+      >
+        تمت اضافة المنتج الى العربة بنجاح
+        <img
+          src={baseUrl + "/assets/animation.gif"}
+          style={{ maxHeight: "40px" }}
+          alt="loader"
+        />
+      </div>
+
+      <div className="align-items-start d-flex flex-column flex-grow-1 justify-content-between position-relative">
         <ul className="d-flex gap-1 list-unstyled m-0 p-0">
           <li>mon10</li>
           <li>{NXT}</li>
@@ -122,7 +161,7 @@ function ProductInfo(state) {
           <button
             type="button"
             className="align-items-center btn d-flex justify-content-center"
-            onClick={() => setQuntity(quantity + 1)}
+            onClick={() => Alert || setQuntity(quantity + 1)}
           >
             {Plus}
           </button>
@@ -130,7 +169,7 @@ function ProductInfo(state) {
           <button
             type="button"
             className="align-items-center btn d-flex justify-content-center"
-            onClick={() => setQuntity(Math.max(1, quantity - 1))}
+            onClick={() => Alert || setQuntity(Math.max(1, quantity - 1))}
           >
             {Minus}
           </button>
@@ -147,6 +186,25 @@ function ProductInfo(state) {
             {totalPrice} ر.س
           </span>
         </div>
+
+        <div
+          className="position-absolute d-flex align-items-center justify-content-center"
+          style={{
+            top: "0",
+            left: "0",
+            right: "0",
+            bottom: "0",
+            background: "#fff5",
+            pointerEvents: "all",
+            touchAction: "auto",
+            zIndex: "1",
+            opacity: Alert ? 0.6 : 1,
+            visibility: Alert ? "visible" : "hidden",
+            transition: "150ms",
+          }}
+        >
+          <img src={baseUrl + "/assets/img/order-placed.gif"} alt="animation" />
+        </div>
       </div>
     </section>
   );
@@ -157,6 +215,7 @@ function ProductInfo(state) {
   }
 
   function addItemToCart() {
+    if (Alert) return;
     // register addons category_name
     const addonsFilter = [...selectedAddons.current].map(
       ({ id, price, name, addon_category_id }) => {
@@ -187,7 +246,7 @@ function ProductInfo(state) {
       },
     });
 
-    redirect("/");
+    setAlert(true);
   }
 }
 

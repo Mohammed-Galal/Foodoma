@@ -13,31 +13,31 @@ const placeOrderApi = "https://mon10.amir-adel.com/public/api/place-order",
   emptyStr = "";
 
 export default function () {
-  const store = useStore().getState(),
+  const [delivery, setDelivery] = useState(emptyStr),
+    store = useStore().getState(),
     dispatch = useDispatch(),
     redirect = useNavigate();
 
-  const delivery_charges = store.Restaurant.data.delivery_charges,
-    products = store.Products;
-
-  let totalPrice = +delivery_charges;
-
   const userAddresses = store.User.addresses,
-    [delivery, setDelivery] = useState(emptyStr);
-
-  opts.order = store.Products.cart.map((CI) => {
-    totalPrice += +CI.totalPrice;
-    return extractData(CI);
-  });
-  opts.user.data.default_address =
-    delivery === emptyStr
-      ? userAddresses[0]
-      : userAddresses.find((a) => a.id === +delivery);
+    delivery_charges = store.Restaurant.data.delivery_charges,
+    products = store.Products;
 
   useLayoutEffect(() => {
     store.User.loaded || redirect("/user/login");
     userAddresses.length || redirect("/settings/addresses");
   });
+
+  let totalPrice = +delivery_charges;
+
+  opts.order = store.Products.cart.map((CI) => {
+    totalPrice += +CI.totalPrice;
+    return extractData(CI);
+  });
+
+  opts.user.data.default_address =
+    delivery === emptyStr
+      ? userAddresses[0]
+      : userAddresses.find((a) => a.id === +delivery);
 
   const items = userAddresses.map((e, i) => {
     return (
@@ -108,7 +108,7 @@ export default function () {
       .then((r) => r.json())
       .then((r) => {
         dispatch({ type: "products/clearCart" });
-        redirect("/");
+        redirect("/invoice", { state: r });
       });
   }
 }
