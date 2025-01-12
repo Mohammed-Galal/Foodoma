@@ -13,7 +13,8 @@ const placeOrderApi = "https://mon10.amir-adel.com/public/api/place-order",
   emptyStr = "";
 
 export default function () {
-  const [delivery, setDelivery] = useState(emptyStr),
+  const [delivery, setDelivery] = useState(0),
+    [activeAddress, setActiveAddress] = useState(0),
     store = useStore().getState(),
     dispatch = useDispatch(),
     redirect = useNavigate();
@@ -39,13 +40,47 @@ export default function () {
       ? userAddresses[0]
       : userAddresses.find((a) => a.id === +delivery);
 
-  const items = userAddresses.map((e, i) => {
-    return (
-      <option key={i} value={e.id}>
-        {e.tag}
-      </option>
-    );
-  });
+  const items =
+    !!delivery &&
+    userAddresses.map((e, i) => {
+      const style = {
+        width: "100%",
+        border: "2px solid #a8d0ec",
+        borderRadius: "8px",
+      };
+
+      return (
+        <li
+          key={i}
+          style={style}
+          value={e.id}
+          data-active={activeAddress === i}
+        >
+          <label
+            onClick={() => setActiveAddress(i)}
+            className="align-items-center d-flex gap-2 h-100 justify-content-start px-3 py-1 w-100"
+          >
+            <img src="/assets/settings/address.png" alt="icon" />
+
+            <div
+              className="d-grid gap-2"
+              style={{ cssText: "color: var(--midgray); font-weight: 600" }}
+            >
+              <span
+                style={{
+                  cssText: "color: var(--primary); font-weight: bold",
+                }}
+                class="h5 m-0"
+              >
+                {e.tag}
+              </span>
+            </div>
+
+            {/* <input type="radio" style={{ marginRight: "auto" }} /> */}
+          </label>
+        </li>
+      );
+    });
 
   return (
     <section id="checkout">
@@ -59,10 +94,18 @@ export default function () {
 
       <div className="container d-flex flex-wrap flex-lg-nowrap gap-3 justify-content-center">
         <div
-          className="d-flex flex-column gap-2 p-3 w-100"
-          style={{ border: "1px solid #f1f1f1", borderRadius: "16px" }}
+          className="d-grid gap-3 p-3 w-100"
+          style={{
+            border: "1px solid rgb(241, 241, 241)",
+            borderRadius: "16px",
+            gridTemplateColumns: "auto 1fr",
+            alignContent: "start",
+          }}
         >
-          <span className="title" style={{ color: "var(--primary)" }}>
+          <span
+            className="title"
+            style={{ alignSelf: "center", color: "var(--primary)" }}
+          >
             طريقة الاستلام
           </span>
 
@@ -74,11 +117,18 @@ export default function () {
               cursor: "pointer",
             }}
             value={delivery}
-            onChange={({ target }) => setDelivery(target.value)}
+            onChange={({ target }) => setDelivery(+target.value)}
           >
-            <option value={emptyStr}>الاستلام من الفرع</option>
-            {items}
+            <option value="0">الاستلام من الفرع</option>
+            <option value="1">توصيل</option>
           </select>
+
+          <ul
+            className="align-items-stretch d-flex gap-2 list-unstyled m-0 p-0 w-100"
+            style={{ gridColumnStart: "span 2" }}
+          >
+            {items}
+          </ul>
         </div>
 
         <OrderInfo

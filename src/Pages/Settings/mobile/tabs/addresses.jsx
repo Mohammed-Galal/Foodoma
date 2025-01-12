@@ -22,31 +22,7 @@ export default function () {
         اختر عنوان التوصيل
       </p>
 
-      <ul className="d-grid gap-3 list-unstyled m-0 p-0">
-        <li
-          style={{ cssText: "border: 2px solid #a8d0ec; border-radius: 24px" }}
-        >
-          <label className="align-items-center d-flex gap-2 h-100 justify-content-start p-3 w-100">
-            <img src="/assets/settings/address.png" alt="icon" />
-
-            <div
-              className="d-grid gap-2"
-              style={{ cssText: "color: var(--midgray); font-weight: 600" }}
-            >
-              <span
-                style={{ cssText: "color: var(--primary); font-weight: bold" }}
-                class="h5 m-0"
-              >
-                موقعك الحالي
-              </span>
-            </div>
-
-            <input type="radio" style={{ marginRight: "auto" }} />
-          </label>
-        </li>
-
-        {addressItems}
-      </ul>
+      <ul className="d-grid gap-3 list-unstyled m-0 p-0">{addressItems}</ul>
 
       <NewAddress isActive={showNewAddress} deActivate={deActivate} />
 
