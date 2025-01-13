@@ -75,43 +75,17 @@ if (window.localStorage.getItem("token")) {
     });
 }
 
-const savedRes = APP_STATE.getState().Restaurant;
-if (savedRes.loaded) {
-  const resData = savedRes.data;
-  fetch(baseUrl + "/get-restaurant-items/" + resData.slug, fetchOpts)
+const savedSlug = window.localStorage.getItem("slug");
+if (savedSlug) {
+  fetch(baseUrl + "/get-restaurant-info/" + savedSlug, fetchOpts)
     .then(toJson)
-    .then((data) =>
-      APP_STATE.dispatch({ type: "products/init", payload: data })
-    );
+    .then((resData) => {
+      APP_STATE.dispatch({ type: "restaurant/init", payload: resData });
+
+      fetch(baseUrl + "/get-restaurant-items/" + savedSlug, fetchOpts)
+        .then(toJson)
+        .then((data) =>
+          APP_STATE.dispatch({ type: "products/init", payload: data })
+        );
+    });
 }
-
-// fetch(baseUrl + "/get-delivery-restaurants", {
-//   method: "POST",
-//   headers: {
-//     "Content-Type": "application/json",
-//   },
-//   body: JSON.stringify({}),
-// })
-//   .then((res) => res.json())
-//   .then((data) => {
-//     APP_STATE.dispatch({
-//       type: "restaurant/init",
-//       payload: data[0],
-//     });
-
-//     fetch(baseUrl + "/get-restaurant-items/" + data[0].slug, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({}),
-//     })
-//       .then((D) => D.json())
-//       .then((products) => {
-//         APP_STATE.dispatch({
-//           type: "products/init",
-//           payload: products.items,
-//         });
-//       })
-//       .catch(console.log);
-//   });

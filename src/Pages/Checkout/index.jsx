@@ -157,7 +157,7 @@ export default function () {
   );
 
   function placeOrder() {
-    opts.delivery_type = delivery !== emptyStr ? "1" : "2";
+    opts.delivery_type = "" + +delivery;
 
     const fetchOpts = {
       method: "POST",

@@ -158,8 +158,6 @@ export default function Restaurant() {
       (POS) => {
         coords.latitude = "" + POS.coords.latitude;
         coords.longitude = "" + POS.coords.longitude;
-
-        // alert(`موقعك: Latitude: ${latitude}, Longitude: ${longitude}`);
       },
       (error) => alert(`لم يتمكن المتصفح من تحديد موقعك`)
     );

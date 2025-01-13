@@ -1,19 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const savedRes = window.localStorage.getItem("restaurant"),
-  existed = !!savedRes,
-  data = existed ? JSON.parse(savedRes) : {},
-  Store = {
+const Store = {
     name: "restaurant",
-    initialState: { loaded: existed, data, branches: [] },
+    initialState: { loaded: false, data: {}, branches: [] },
   },
   reducers = (Store.reducers = {});
 
 reducers.init = function (state, action) {
   state.loaded = true;
+  window.localStorage.setItem("slug", action.payload.slug);
   action.payload.delivery_charges ||= 0;
   state.data = action.payload;
-  window.localStorage.setItem("restaurant", JSON.stringify(action.payload));
 };
 
 reducers.INIT_BRANCHES = function (state, action) {
