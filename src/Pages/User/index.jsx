@@ -242,5 +242,7 @@ function handleUserData(r) {
     return true;
   }
 
+  alert("يرجى تحري دقة البيانات المطلوبة");
+
   return succeded;
 }

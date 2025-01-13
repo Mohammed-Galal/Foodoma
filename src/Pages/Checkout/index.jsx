@@ -30,15 +30,11 @@ export default function () {
 
   let totalPrice = +delivery_charges;
 
+  opts.user.data.default_address = userAddresses[activeAddress];
   opts.order = store.Products.cart.map((CI) => {
     totalPrice += +CI.totalPrice;
     return extractData(CI);
   });
-
-  opts.user.data.default_address =
-    delivery === emptyStr
-      ? userAddresses[0]
-      : userAddresses.find((a) => a.id === +delivery);
 
   const items = userAddresses.map((e, i) => {
     const style = {
@@ -157,7 +153,7 @@ export default function () {
   );
 
   function placeOrder() {
-    opts.delivery_type = "" + +delivery;
+    opts.delivery_type = emptyStr + +delivery;
 
     const fetchOpts = {
       method: "POST",
