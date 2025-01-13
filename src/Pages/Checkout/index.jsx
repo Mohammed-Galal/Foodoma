@@ -9,65 +9,65 @@ import { useNavigate } from "react-router-dom";
 const discount = 0;
 
 const placeOrderApi = "https://mon10.amir-adel.com/public/api/place-order",
-  opts = { user: { data: {} } },
+  basicBodyReq = {},
+  addresItemStyle = {
+    width: "100%",
+    border: "2px solid #a8d0ec",
+    borderRadius: "8px",
+  },
   emptyStr = "";
 
 export default function () {
-  const [delivery, setDelivery] = useState(false),
-    [activeAddress, setActiveAddress] = useState(0),
-    store = useStore().getState(),
-    dispatch = useDispatch(),
+  const { User, Restaurant, Products } = useStore().getState(),
+    [delivery, setDelivery] = useState(false),
+    [activeAddress, setActiveAddress] = useState(0);
+
+  const dispatch = useDispatch(),
     redirect = useNavigate();
 
-  const userAddresses = store.User.addresses,
-    delivery_charges = store.Restaurant.data.delivery_charges,
-    products = store.Products;
+  const userAddresses = User.addresses,
+    delivery_charges = Restaurant.data.delivery_charges;
 
   useLayoutEffect(() => {
-    store.User.loaded || redirect("/user/login");
+    User.loaded || redirect("/user/login");
     userAddresses.length || redirect("/settings/addresses");
   });
 
   let totalPrice = +delivery_charges;
-
-  opts.user.data.default_address = userAddresses[activeAddress];
-  opts.order = store.Products.cart.map((CI) => {
+  const order = Products.cart.map((CI) => {
     totalPrice += +CI.totalPrice;
     return extractData(CI);
   });
 
-  const items = userAddresses.map((e, i) => {
-    const style = {
-      width: "100%",
-      border: "2px solid #a8d0ec",
-      borderRadius: "8px",
-    };
+  const items = userAddresses.map((e, i) => (
+    <li
+      key={i}
+      style={addresItemStyle}
+      value={e.id}
+      data-active={activeAddress === i}
+    >
+      <label
+        onClick={() => setActiveAddress(i)}
+        className="align-items-center d-flex gap-2 h-100 justify-content-start px-3 py-1 w-100"
+      >
+        <img src="/assets/settings/address.png" alt="icon" />
 
-    return (
-      <li key={i} style={style} value={e.id} data-active={activeAddress === i}>
-        <label
-          onClick={() => setActiveAddress(i)}
-          className="align-items-center d-flex gap-2 h-100 justify-content-start px-3 py-1 w-100"
+        <div
+          className="d-grid gap-2"
+          style={{ cssText: "color: var(--midgray); font-weight: 600" }}
         >
-          <img src="/assets/settings/address.png" alt="icon" />
-
-          <div
-            className="d-grid gap-2"
-            style={{ cssText: "color: var(--midgray); font-weight: 600" }}
+          <span
+            style={{
+              cssText: "color: var(--primary); font-weight: bold",
+            }}
+            class="h5 m-0"
           >
-            <span
-              style={{
-                cssText: "color: var(--primary); font-weight: bold",
-              }}
-              class="h5 m-0"
-            >
-              {e.tag}
-            </span>
-          </div>
-        </label>
-      </li>
-    );
-  });
+            {e.tag}
+          </span>
+        </div>
+      </label>
+    </li>
+  ));
 
   return (
     <section id="checkout">
@@ -142,8 +142,8 @@ export default function () {
         </fieldset>
 
         <OrderInfo
-          cart={products.cart}
-          products={products}
+          cart={Products.cart}
+          products={Products}
           delivery={delivery_charges}
           totalPrice={totalPrice}
           placeOrder={placeOrder}
@@ -153,23 +153,31 @@ export default function () {
   );
 
   function placeOrder() {
-    opts.delivery_type = emptyStr + +delivery;
-
-    const fetchOpts = {
-      method: "POST",
-      body: JSON.stringify(opts),
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: window.localStorage.getItem("token"),
+    const reqBody = {
+        ...basicBodyReq,
+        order,
+        user: { data: { default_address: userAddresses[activeAddress] } },
+        delivery_type: emptyStr + (+delivery + 1),
+        coupon: { code: "" },
+        method: "COD",
+        order_comment: "comment",
       },
-    };
+      fetchOpts = {
+        method: "POST",
+        body: JSON.stringify(reqBody),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: window.localStorage.getItem("token"),
+        },
+      };
 
     fetch(placeOrderApi, fetchOpts)
       .then((r) => r.json())
       .then((r) => {
         dispatch({ type: "products/clearCart" });
         redirect("/invoice", { state: r });
-      });
+      })
+      .catch(() => alert("حدث خطأ"));
   }
 }
 
@@ -266,21 +274,15 @@ function extractData(i) {
   };
 }
 
-Object.assign(opts, {
-  coupon: {
-    code: "",
-  },
+Object.assign(basicBodyReq, {
   tipAmount: "",
   cash_change_amount: "",
   pending_payment: "",
-  method: "COD",
   partial_wallet: "",
-  order_comment: "comment",
   is_scheduled: "",
   schedule_date: "",
   schedule_slot: "",
   auto_acceptable: false,
-  // delivery_type: "",
   location: {
     lat: "",
     lng: "",
@@ -318,20 +320,15 @@ Object.assign(opts, {
         }
 
     },
-    "coupon":{
-        "code":""
-    },
+
     "tipAmount":"",
     "cash_change_amount":"",
     "pending_payment":"",
-    "method":"COD",
     "partial_wallet":"",
-    "order_comment":"comment",
     "is_scheduled":"",
     "schedule_date":"",
     "schedule_slot":"",
     "auto_acceptable":false,
-    "delivery_type":"",
     "location":""
 }
  */

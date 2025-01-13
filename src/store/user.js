@@ -27,7 +27,7 @@ reducers.logout = function (state) {
   state.alerts = [];
   state.addresses = [];
   window.localStorage.removeItem("token");
-  window.location.href = "/public/mobile";
+  window.location.href = "/";
 };
 
 reducers.setLoc = function (state, action) {
