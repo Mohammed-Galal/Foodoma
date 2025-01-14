@@ -17,7 +17,7 @@ export default () => (
       </a>
     </div>
 
-    <ul>
+    <ul style={{ gridTemplateRows: "1fr 1fr", maxHeight: "570px" }}>
       <li>
         <img src="/assets/home/banner/(1).png" alt="figure" />
       </li>
