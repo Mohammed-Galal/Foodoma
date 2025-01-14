@@ -1,9 +1,12 @@
 /* eslint-disable import/no-anonymous-default-export */
 
 import { useRef, useState } from "react";
+import { useStore } from "react-redux";
 
 export default function () {
-  const reqBody = useRef({
+  const store = useStore(),
+    { User } = store.getState(),
+    reqBody = useRef({
       name: "",
       phone: "",
       email: "",
@@ -106,5 +109,13 @@ export default function () {
   function confirmPassword() {
     const pass = window.prompt("من فضلك اكتب كلمة المرور");
     reqBody.current.old_password = pass;
+
+    fetch("https://mon10.amir-adel.com/public/api/update-user-data", {
+      method: "POST",
+      body: JSON.stringify(reqBody),
+      headers: { Authorization: User.data.auth_token },
+    })
+      .then((r) => r.json())
+      .then((r) => {});
   }
 }

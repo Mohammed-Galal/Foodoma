@@ -12,7 +12,7 @@ export default function () {
   const { name, email, phone } = useSelector((e) => e.User).data;
 
   return (
-    <section id="settings-mobile" className="position-relative">
+    <section id="settings-mobile" className="position-relative container">
       <div id="personal" className="align-items-center d-flex gap-3 p-3  mb-3">
         <img src="/assets/settings/avatar.png" alt="avatar" />
 

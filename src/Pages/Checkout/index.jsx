@@ -33,7 +33,8 @@ export default function () {
     userAddresses.length || redirect("/settings/addresses");
   });
 
-  let totalPrice = +delivery_charges;
+  let comment = emptyStr,
+    totalPrice = +delivery_charges;
   const order = Products.cart.map((CI) => {
     totalPrice += +CI.totalPrice;
     return extractData(CI);
@@ -97,10 +98,14 @@ export default function () {
               width: "auto",
             }}
           >
-            طريقة الاستلام
+            بيانات الاستلام
           </legend>
 
-          <div className="d-flex gap-2">
+          <div
+            className="align-items-center d-flex gap-2"
+            style={{ color: "var(--primary)" }}
+          >
+            <span>طريقة الاستلام</span>
             <button
               className="btn d-flex align-items-center gap-2"
               data-active={!delivery}
@@ -139,6 +144,20 @@ export default function () {
           >
             {delivery && items}
           </ul>
+
+          <textarea
+            placeholder="ملاحظات"
+            className="input-group-text mt-auto"
+            onChange={({ target }) => (comment = target.value)}
+            style={{
+              resize: "none",
+              width: "100%",
+              textAlign: "right",
+              borderColor: "#e9f3fa !important",
+              backgroundColor: "#fbfbfb",
+              outline: "none",
+            }}
+          ></textarea>
         </fieldset>
 
         <OrderInfo
@@ -157,10 +176,10 @@ export default function () {
         ...basicBodyReq,
         order,
         user: { data: { default_address: userAddresses[activeAddress] } },
-        delivery_type: emptyStr + (+delivery + 1),
+        delivery_type: delivery ? "1" : "2",
         coupon: { code: "" },
         method: "COD",
-        order_comment: "comment",
+        order_comment: comment,
       },
       fetchOpts = {
         method: "POST",

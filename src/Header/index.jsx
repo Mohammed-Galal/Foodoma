@@ -46,7 +46,7 @@ function CurrLoc() {
       >
         <li className="align-items-center d-flex gap-2">
           {Loc}
-          <span>{currStore.name}</span>
+          <span className="d-none d-sm-block">{currStore.name}</span>
         </li>
 
         <li className="DD align-items-center d-flex gap-2">

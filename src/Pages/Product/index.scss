@@ -10,7 +10,7 @@
     }
 
     & > div {
-      max-height: 100px;
+      max-height: 40px;
       gap: inherit;
     }
   }
@@ -95,15 +95,6 @@
           }
         }
       }
-    }
-
-    & > textarea {
-      resize: none;
-      width: 100%;
-      text-align: right;
-      border-color: #e9f3fa !important;
-      background-color: #fbfbfb;
-      outline: none;
     }
 
     & > .checkout {

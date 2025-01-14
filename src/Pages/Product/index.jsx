@@ -73,7 +73,7 @@ function ProductInfo(state) {
     >
       <div className="d-flex flex-column">
         <img src={imageSrc} alt="product" />
-        <div className="d-flex justify-content-center">
+        <div className="d-flex justify-content-around">
           <img src={imageSrc} alt="product" />
           <img src={imageSrc} alt="product" />
           <img src={imageSrc} alt="product" />
@@ -82,7 +82,7 @@ function ProductInfo(state) {
       </div>
 
       <div
-        className="alert"
+        className="alert m-0"
         style={{
           ...alertState,
           width: "100%",
@@ -156,8 +156,8 @@ function ProductInfo(state) {
 
           <ul className="d-grid m-0 p-0">{addons}</ul>
         </div>
-        <textarea placeholder="ملاحظات" className="input-group-text"></textarea>
-        <div className="align-items-center checkout d-flex">
+
+        <div className="align-items-center checkout d-flex text-nowrap">
           <button
             type="button"
             className="align-items-center btn d-flex justify-content-center"

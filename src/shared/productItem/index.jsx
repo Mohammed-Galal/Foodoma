@@ -76,25 +76,6 @@ export default function (item, I) {
         {is_new ? <span>جديد</span> : ""}
 
         {loaded && vid}
-
-        {/* <div
-          className="fav-icon"
-          style={{
-            width: "30px",
-            height: "30px",
-            background:
-              'url("https://mon10.amir-adel.com/assets/img/various/heart.png") -35px -35px no-repeat',
-            cursor: "pointer",
-            transition: "background-position 1s steps(28)",
-            transform: "scale(0.8)",
-          }}
-        ></div> */}
-
-        {/* <img
-          onClick={toggleFav}
-          src="https://mon10.amir-adel.com/assets/img/various/heart.png"
-          alt="fav"
-        /> */}
       </div>
 
       <Link to={"/products/" + item.id} className="text-decoration-none">

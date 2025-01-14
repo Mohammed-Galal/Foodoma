@@ -14,9 +14,19 @@ export default function MobileHeader() {
         <img src="/assets/home/logo.svg" alt="logo" />
       </Link>
 
-      <Link to="/alerts" className="btn text-decoration-none">
+      <Link to="/alerts" className="btn text-decoration-none position-relative">
         <img src="/assets/home/icons/Bell Bing.svg" alt="notifications" />
-        <span className="badge">{alerts.length}</span>
+        <span
+          className="badge position-absolute"
+          style={{
+            background: "#ffcd00",
+            clipPath: "circle()",
+            right: "0",
+            top: "0",
+          }}
+        >
+          {alerts.length}
+        </span>
       </Link>
     </div>
   );
