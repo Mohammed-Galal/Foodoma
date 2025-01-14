@@ -1,6 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "../store";
 
 export default function () {
   let itemsQuantity = 0;
@@ -40,13 +41,21 @@ export default function () {
           </Link>
         </li>
 
-        <li>
-          <Link to="/settings/addresses">
-            <img
-              src="/assets/home/icons/fluent_person-16-regular.svg"
-              alt="account"
-            />
-          </Link>
+        <li className="DD">
+          <img
+            src="/assets/home/icons/fluent_person-16-regular.svg"
+            alt="account"
+          />
+
+          <ul className="d-flex flex-column list-unstyled m-0 p-0">
+            <li className="p-2">
+              <Link to="/settings/addresses">حسابي</Link>
+            </li>
+
+            <li className="p-2 text-danger" onClick={logout}>
+              تسجيل الخروج
+            </li>
+          </ul>
         </li>
         <li>
           <Link to="/settings/fav">

@@ -66,8 +66,6 @@ function AddressItem({ created_at, tag, house, address, landmark }) {
           </span>
           {`${house}, ${address}, ${landmark}`}
         </div>
-
-        <input type="radio" style={{ marginRight: "auto" }} />
       </label>
     </li>
   );

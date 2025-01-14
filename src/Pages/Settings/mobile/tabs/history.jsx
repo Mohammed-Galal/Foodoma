@@ -4,13 +4,13 @@ export default function () {
     <div className="container history">
       <span className="d-block h3 mb-4">طلباتي</span>
       <ul className="d-flex gap-3 list-unstyled m-0 p-0">
-        {orderItem({
+        {/* {orderItem({
           date: "الاربعاء 1.نوفمر",
           price: 22.0,
           quantity: 12,
           isDelevered: true,
           rate: 4,
-        })}
+        })} */}
       </ul>
     </div>
   );
