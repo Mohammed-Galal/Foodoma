@@ -26,7 +26,7 @@ export default function () {
     redirect = useNavigate();
 
   const userAddresses = User.addresses,
-    delivery_charges = Restaurant.data.delivery_charges;
+    delivery_charges = delivery ? +Restaurant.data.delivery_charges : 0;
 
   useLayoutEffect(() => {
     User.loaded || redirect("/user/login");
@@ -34,7 +34,7 @@ export default function () {
   });
 
   let comment = emptyStr,
-    totalPrice = +delivery_charges;
+    totalPrice = delivery_charges;
   const order = Products.cart.map((CI) => {
     totalPrice += +CI.totalPrice;
     return extractData(CI);
@@ -192,11 +192,32 @@ export default function () {
 
     fetch(placeOrderApi, fetchOpts)
       .then((r) => r.json())
-      .then((r) => {
-        dispatch({ type: "products/clearCart" });
-        redirect("/invoice", { state: r });
-      })
+      .then(handleInvoice)
       .catch(() => alert("حدث خطأ"));
+  }
+
+  function handleInvoice({ data }) {
+    const invoiceState = {
+      order,
+      date: data.created_at.split(" ")[0],
+      comment: data.order_comment,
+      code: data.unique_order_id,
+      PIN: data.delivery_pin,
+      deliveryType: "من الفرع",
+      deliveryAddress: Restaurant.data.name,
+      paymentMode: "عند الاستلام",
+      price: totalPrice - delivery_charges,
+      deliveryCharges: delivery_charges,
+      total: totalPrice,
+    };
+
+    if (delivery) {
+      invoiceState.deliveryType = "توصيل";
+      invoiceState.deliveryAddress = userAddresses[activeAddress];
+    }
+
+    dispatch({ type: "products/clearCart" });
+    redirect("/invoice", { state: invoiceState });
   }
 }
 

@@ -18,6 +18,7 @@ import Restaurant from "./Restaurant";
 
 import Header from "../Header";
 import Nav from "../Nav";
+import Invoice from "./Invoice.jsx";
 
 const body = document.body;
 
@@ -53,6 +54,7 @@ function App() {
     <>
       {createPortal(Header(isMobileView), header)}
       <Routes>
+        <Route path="/invoice" Component={Invoice} caseSensitive={true} />
         <Route path="/alerts" Component={Alerts} caseSensitive={true} />
         <Route path="/user/:action?" Component={User} />
         <Route path="/settings/:tab?" Component={Settings} />
