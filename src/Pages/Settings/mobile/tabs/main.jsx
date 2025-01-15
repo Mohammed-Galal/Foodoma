@@ -8,7 +8,10 @@ export default function main() {
 
   return (
     <>
-      <ul className="list-unstyled mx-auto my-5 p-0 row container">
+      <ul
+        className="list-unstyled mx-auto my-5 p-0 row container"
+        style={{ fontSize: "smaller", textWrap: "nowrap" }}
+      >
         <li className="col-4">
           <Link
             className="align-items-center d-flex flex-column gap-3 p-3 justify-content-center"
