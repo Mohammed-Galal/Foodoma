@@ -1,4 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
+import { Toast } from "bootstrap";
 import { useLayoutEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -79,7 +80,7 @@ export default () => {
           <tfoot>
             <tr>
               <td>الملاحظات والتوصيات</td>
-              <td>{state.comment}</td>
+              <td>{state.comment || "لا يوجد"}</td>
             </tr>
           </tfoot>
         </table>
@@ -95,47 +96,35 @@ export default () => {
             <tr>
               <th
                 style={{ borderBottom: "1px solid var(--lightgray)" }}
-                colSpan="4"
+                colSpan="5"
                 className="text-center"
               >
                 بيانات الطلب
               </th>
             </tr>
 
-            <tr>
+            <tr className="text-center">
               <th>اسم المنتج</th>
+              <th>السعر</th>
               <th>الاضافات</th>
               <th>العدد</th>
-              <th>السعر</th>
+              <th>الاجمالي</th>
             </tr>
           </thead>
 
-          <tbody>
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-            </tr>
-          </tbody>
+          <tbody>{state.order.map(ProductItem)}</tbody>
 
-          <tfoot>
+          <tfoot className="fw-bold text-center">
             <tr>
-              <td colSpan="3" className="fw-bold">
-                ثمن الطلب
-              </td>
+              <td colSpan="4">ثمن الطلب</td>
               <td>{state.price}</td>
             </tr>
             <tr>
-              <td colSpan="3" className="fw-bold">
-                رسوم التوصيل
-              </td>
+              <td colSpan="4">رسوم التوصيل</td>
               <td>{state.deliveryCharges}</td>
             </tr>
             <tr>
-              <td colSpan="3" className="fw-bold">
-                الاجمالي
-              </td>
+              <td colSpan="4">الاجمالي</td>
               <td>{state.total}</td>
             </tr>
           </tfoot>
@@ -151,3 +140,45 @@ export default () => {
     </section>
   );
 };
+
+function ProductItem({ id, name, price, selectedaddons, quantity }) {
+  let total = 0;
+
+  const Addons =
+    selectedaddons.length === 0 ? (
+      "بدون اضافات"
+    ) : (
+      <ul className="list-unstyled m-0 p-0">
+        {selectedaddons.map((a) => {
+          total += +a.price;
+          return (
+            <li key={a.addon_id} className="d-flex justify-content-center">
+              {a.addon_category_name} - <span>{a.price} ر.س</span>
+            </li>
+          );
+        })}
+      </ul>
+    );
+
+  total = (total + +price) * +quantity;
+
+  return (
+    <tr
+      key={id}
+      className="text-center"
+      style={{
+        fontSize: "smaller",
+        fontWeight: "600",
+        color: "var(--midgray)",
+      }}
+    >
+      <td className="fs-6 fw-bolder" style={{ color: "var(--black)" }}>
+        {name}
+      </td>
+      <td>{price} ر.س</td>
+      <td>{Addons}</td>
+      <td>{quantity}</td>
+      <td>{total} ر.س</td>
+    </tr>
+  );
+}

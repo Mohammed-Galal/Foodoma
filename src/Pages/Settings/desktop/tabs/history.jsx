@@ -46,7 +46,7 @@ function orderItem(item) {
     { updated_at, total, delivery_charge, orderstatus_id } = item,
     isDelevered = orderstatus_id > 1 ? "تم التوصيل" : "لم يتم التوصيل",
     date = updated_at.split(" ")[0].replace(/-/g, "."),
-    price = total + delivery_charge,
+    price = +total + +delivery_charge,
     quantity = item.orderitems.length;
 
   const images = item.orderitems.map((p) => {
@@ -55,6 +55,7 @@ function orderItem(item) {
     const src = targetProduct.image ? base + targetProduct.image : "";
     return (
       <img
+        key={src}
         src={src}
         style={{ cssText: "max-height: 72px; align-self: flex-start" }}
         alt="img"
@@ -79,20 +80,9 @@ function orderItem(item) {
           <span className="h6 m-0 mb-1">{date}</span>
           {price} ر.س/ {quantity} منتج
         </p>
-
-        {/* <button
-            type="button"
-            className="btn px-4"
-            style={{
-              cssText:
-                "background-color: var(--primary); border-radius: 24px; color: #fff; scale: 0.9;",
-            }}
-          >
-            اعادة طلب
-          </button> */}
       </div>
 
-      {images}
+      <div>{images}</div>
 
       <div
         className="px-3 py-2"

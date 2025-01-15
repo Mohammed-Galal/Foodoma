@@ -53,6 +53,10 @@ body {
     flex: 1 0 460px;
   }
 
+  th + th {
+    border-right: 1px solid var(--lightgray);
+  }
+
   td {
     border: 1px solid var(--lightgray);
   }
