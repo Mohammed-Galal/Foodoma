@@ -47,6 +47,21 @@ body {
   --gradient-4: linear-gradient(0deg, #1faf38 -9900%, #60d669 100%);
 }
 
+#invoice {
+  table {
+    empty-cells: hide;
+    flex: 1 0 460px;
+  }
+
+  td {
+    border: 1px solid var(--lightgray);
+  }
+
+  tr > td:first-child {
+    font-weight: bold;
+  }
+}
+
 .animate-reveal {
   animation: reveal 1000ms ease-in-out forwards;
 }

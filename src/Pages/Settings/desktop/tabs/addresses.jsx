@@ -48,6 +48,7 @@ function AddressItem(
   dispatch,
   token
 ) {
+
   address ||= emptyStr;
   house ||= emptyStr;
   landmark ||= emptyStr;

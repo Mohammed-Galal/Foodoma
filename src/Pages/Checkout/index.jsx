@@ -199,7 +199,7 @@ export default function () {
   function handleInvoice({ data }) {
     const invoiceState = {
       order,
-      date: data.created_at.split(" ")[0],
+      date: data.created_at.split(" "),
       comment: data.order_comment,
       code: data.unique_order_id,
       PIN: data.delivery_pin,
@@ -213,7 +213,7 @@ export default function () {
 
     if (delivery) {
       invoiceState.deliveryType = "توصيل";
-      invoiceState.deliveryAddress = userAddresses[activeAddress];
+      invoiceState.deliveryAddress = userAddresses[activeAddress].tag;
     }
 
     dispatch({ type: "products/clearCart" });
