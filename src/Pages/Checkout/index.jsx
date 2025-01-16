@@ -112,6 +112,7 @@ export default function () {
               onClick={() => setDelivery(false)}
             >
               <img
+                className="d-none d-sm-block"
                 style={{
                   maxHeight: "30px",
                   filter: "grayscale(" + +delivery + ")",
@@ -127,6 +128,7 @@ export default function () {
               onClick={() => setDelivery(true)}
             >
               <img
+                className="d-none d-sm-block"
                 style={{
                   maxHeight: "30px",
                   filter: "grayscale(" + +!delivery + ")",
@@ -226,7 +228,7 @@ function OrderInfo({ cart, delivery, products, placeOrder, totalPrice }) {
   const items = cart.map(productItem, products);
 
   return (
-    <div className="p-3 flex-shrink-0">
+    <div className="p-3">
       <span className="h5 title">الطلب</span>
 
       <hr />

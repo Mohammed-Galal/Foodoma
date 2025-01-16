@@ -8,7 +8,7 @@
   }
 
   & > .container > fieldset:first-child {
-    flex-grow: 1;
+    flex: 1 0 70%;
 
     & .btn,
     & li {
@@ -31,12 +31,14 @@
   }
 
   & > .container > div:last-child {
-    width: 450px;
-    max-width: 100%;
-    position: sticky;
-    top: 160px;
+    flex: 1 0 340px;
     border: 1px solid #f1f1f1;
     border-radius: 24px;
+
+    @media screen and (min-width: 992px) {
+      position: sticky;
+      top: 160px;
+    }
 
     hr {
       border-color: #f1f1f1;

@@ -157,7 +157,7 @@ function ProductInfo(state) {
           <ul className="d-grid m-0 p-0">{addons}</ul>
         </div>
 
-        <div className="align-items-center checkout d-flex text-nowrap">
+        <div className="align-items-center checkout d-flex gap-1 gap-md-3 justify-content-between justify-content-md-start text-nowrap w-100">
           <button
             type="button"
             className="align-items-center btn d-flex justify-content-center"

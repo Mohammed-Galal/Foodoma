@@ -57,20 +57,20 @@ export default function () {
           id="cart"
           className="align-items-baseline container d-flex flex-wrap gap-3"
         >
-          <ul className="text-center d-grid g-3 gap-3 list-unstyled m-0 overflow-hidden p-3">
+          <ul className="text-center d-grid gap-1 list-unstyled m-0 overflow-hidden p-3">
             <li>المنتج</li>
             <li>الاضافات</li>
             <li>السعر</li>
             <li>العدد</li>
             <li>الاجمالي</li>
 
-            <li className="seperator">
+            <li className="seperator mb-3">
               <hr className="m-0" />
             </li>
 
             {items}
 
-            <li>
+            <li className="mt-3">
               <input
                 type="text"
                 className="input-group-text"
