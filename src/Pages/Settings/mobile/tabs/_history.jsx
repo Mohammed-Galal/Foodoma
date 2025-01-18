@@ -1,5 +1,20 @@
+import { useLayoutEffect, useState } from "react";
+import { useStore } from "react-redux";
+
 /* eslint-disable import/no-anonymous-default-export */
+const base = "https://mon10.amir-adel.com";
+
+let restaurantId,
+  items = [];
+
 export default function () {
+  const store = useStore().getState(),
+    [loaded, setLoaded] = useState(false);
+
+  restaurantId = store.Restaurant.data.id;
+
+  useLayoutEffect(getOrders, [loaded]);
+
   return (
     <div className="container history">
       <span className="d-block h3 mb-4">طلباتي</span>
@@ -14,9 +29,25 @@ export default function () {
       </ul>
     </div>
   );
+
+  function getOrders() {
+    fetch(base + "/public/api/get-orders", {
+      method: "POST",
+      body: JSON.stringify({}),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + store.User.data.auth_token,
+      },
+    })
+      .then((r) => r.json())
+      .then((r) => {
+        items = r.data;
+        setLoaded(true);
+      });
+  }
 }
 
-function orderItem({ date, price, quantity, isDelevered, rate }) {
+function orderItem({ id, date, price, quantity, isDelevered, rate }) {
   const stars = Array(5).fill((U, I) => (
     <img
       src={"/assets/home/icons/" + (I < rate ? "star" : "blank-star") + ".svg"}
@@ -26,6 +57,7 @@ function orderItem({ date, price, quantity, isDelevered, rate }) {
 
   return (
     <li
+      key={id}
       className="d-grid w-100"
       style={{
         cssText:

@@ -1,7 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable import/no-anonymous-default-export */
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "react-redux";
+
+const orderState = [
+  "",
+  "بانتظار الموافقة",
+  "جاري اعداد الطلب",
+  "",
+  "",
+  "",
+  "تم الغاء الطلب",
+];
 
 const base = "https://mon10.amir-adel.com";
 
@@ -14,7 +24,7 @@ export default () => {
 
   restaurantId = store.Restaurant.data.id;
 
-  useLayoutEffect(getOrders, [loaded]);
+  useEffect(getOrders, [loaded]);
 
   return (
     <ul className="d-flex flex-column gap-3 history list-unstyled m-0 p-0">
@@ -28,12 +38,13 @@ export default () => {
       body: JSON.stringify({}),
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + store.User.data.auth_token,
+        Authorization: window.localStorage.getItem("token"),
       },
     })
       .then((r) => r.json())
       .then((r) => {
         items = r.data;
+        console.log(r);
         setLoaded(true);
       });
   }
@@ -44,7 +55,7 @@ function orderItem(item) {
 
   const Products = this,
     { updated_at, total, delivery_charge, orderstatus_id } = item,
-    isDelevered = orderstatus_id > 1 ? "تم التوصيل" : "لم يتم التوصيل",
+    isDelevered = orderState[orderstatus_id || 0],
     date = updated_at.split(" ")[0].replace(/-/g, "."),
     price = +total + +delivery_charge,
     quantity = item.orderitems.length;
@@ -82,7 +93,7 @@ function orderItem(item) {
         </p>
       </div>
 
-      <div>{images}</div>
+      <div className="overflow-hidden px-2">{images}</div>
 
       <div
         className="px-3 py-2"

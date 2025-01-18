@@ -8,6 +8,7 @@
   opacity: 0;
   visibility: hidden;
   transition: 0.15s ease-out;
+  z-index: 3;
 
   &[data-show="true"] {
     opacity: 1;
