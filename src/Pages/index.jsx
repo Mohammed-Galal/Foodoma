@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
-import { Provider, useSelector } from "react-redux";
+import { Provider } from "react-redux";
 import { createPortal } from "react-dom";
 import isMobileView from "../shared/isMobile.js";
 import store from "../store";
@@ -39,8 +39,7 @@ export default (
 );
 
 function App() {
-  const storeDefined = useSelector((e) => e.Restaurant).loaded;
-
+  const storeDefined = window.localStorage.getItem("slug");
   const location = useLocation();
 
   useEffect(() => {

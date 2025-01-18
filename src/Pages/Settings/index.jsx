@@ -1,7 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { useLayoutEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import Desktop from "./desktop/index.jsx";
 import Mobile from "./mobile/index.jsx";
@@ -10,7 +9,7 @@ import "./index.scss";
 
 export default function () {
   const navigate = useNavigate(),
-    isAuthed = useSelector((e) => e.User).loaded;
+    isAuthed = window.localStorage.getItem("token");
 
   useLayoutEffect(() => {
     isAuthed || navigate("/user/login");

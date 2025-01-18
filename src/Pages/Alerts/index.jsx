@@ -16,9 +16,8 @@ const base = "https://mon10.amir-adel.com",
 
 export default function Alerts() {
   const redirect = useNavigate(),
-    User = useSelector((state) => state.User),
-    loaded = User.loaded,
-    alerts = User.alerts.map(alertItem);
+    loaded = window.localStorage.getItem("token"),
+    alerts = useSelector((state) => state.User).alerts.map(alertItem);
 
   useLayoutEffect(() => {
     loaded || redirect("/user");
