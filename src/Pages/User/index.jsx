@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import store, { getUserAlerts } from "../../store/index.js";
 
@@ -8,7 +8,51 @@ const dispatch = store.dispatch,
   Base = "https://mon10.amir-adel.com/public/api",
   Components = { login: Login, register: Register };
 
+const loader = (
+  <div
+    id="ftco-loader"
+    style={{
+      position: "absolute",
+      top: "0",
+      left: "0",
+      right: "0",
+      bottom: "0",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "rgb(180 210 237 / 23%)",
+      color: "var(--primary)",
+      zIndex: "1",
+      pointerEvents: "all",
+    }}
+  >
+    <svg className="circular" width="48px" height="48px">
+      <circle
+        className="path-bg"
+        cx="24"
+        cy="24"
+        r="22"
+        fill="none"
+        stroke-width="4"
+        stroke="currentColor"
+        style={{ opacity: 0.2 }}
+      ></circle>
+      <circle
+        className="path"
+        cx="24"
+        cy="24"
+        r="22"
+        fill="none"
+        stroke-width="4"
+        stroke-miterlimit="10"
+        stroke="currentColor"
+      ></circle>
+    </svg>
+  </div>
+);
+
 export default function () {
+  const [loading, setLoading] = useState(true);
   const TargetPage = Components[useParams().action || "login"];
   const navigate = useNavigate();
   const authed = useSelector((e) => e.User).loaded;
@@ -17,14 +61,22 @@ export default function () {
     authed && navigate("/");
   });
 
+  useEffect(
+    function () {
+      setLoading(false);
+    },
+    [authed]
+  );
+
   return (
-    <section id="user-credits" className="container">
-      <TargetPage />
+    <section id="user-credits" className="container position-relative">
+      <TargetPage setLoading={setLoading} />
+      {loading && loader}
     </section>
   );
 }
 
-function Login() {
+function Login({ setLoading }) {
   const navigate = useNavigate();
   const reqBody = {
     // email: "mkjj@gmail.com",
@@ -105,6 +157,8 @@ function Login() {
     if (!("email" in reqBody && "password" in reqBody))
       return alert("يرجى ملئ جميع البيانات");
 
+    setLoading(true);
+
     fetch(Base + "/login", {
       method: "POST",
       headers: {
@@ -114,12 +168,15 @@ function Login() {
     })
       .then((r) => r.json())
       .then(handleUserData)
-      .then((redirect) => redirect && navigate("/"))
+      .then((redirect) => {
+        redirect && navigate("/");
+        setLoading(false);
+      })
       .catch(console.error);
   }
 }
 
-function Register() {
+function Register({ setLoading }) {
   const navigate = useNavigate();
 
   const reqBody = {
@@ -218,6 +275,8 @@ function Register() {
   );
 
   function registerUser() {
+    setLoading(true);
+
     fetch(Base + "/register", {
       method: "POST",
       headers: {
@@ -227,7 +286,10 @@ function Register() {
     })
       .then((r) => r.json())
       .then(handleUserData)
-      .then((redirect) => redirect && navigate("/"))
+      .then((redirect) => {
+        redirect && navigate("/");
+        setLoading(false);
+      })
       .catch(console.error);
   }
 }
@@ -242,7 +304,7 @@ function handleUserData(r) {
     return true;
   }
 
-  alert("يرجى تحري دقة البيانات المطلوبة");
+  alert("يرجى التحقق من البيانات المطلوبة");
 
   return succeded;
 }
