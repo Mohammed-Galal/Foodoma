@@ -55,7 +55,7 @@ export default function () {
       {cart.length ? (
         <section
           id="cart"
-          className="align-items-baseline container d-flex flex-wrap gap-3"
+          className="align-items-center align-items-stretch container d-flex flex-column flex-xl-row gap-3"
         >
           <ul className="text-center d-grid gap-1 list-unstyled m-0 overflow-hidden p-3">
             <li>المنتج</li>

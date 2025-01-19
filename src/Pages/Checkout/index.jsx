@@ -80,7 +80,7 @@ export default function () {
         <li>تأكيد الطلب</li>
       </ul>
 
-      <div className="container d-flex flex-wrap flex-lg-nowrap gap-3 justify-content-center">
+      <div className="align-items-stretch container d-flex flex-column flex-xl-row gap-3 justify-content-center">
         <fieldset
           className="d-flex flex-column gap-3 p-3 w-100"
           style={{

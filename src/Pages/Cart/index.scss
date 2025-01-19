@@ -9,7 +9,6 @@ main {
 
   & > #cart {
     & > ul {
-      align-self: stretch;
       flex: 1 0 65%;
       color: var(--primary);
       border: 1px solid #f8f8f8;
