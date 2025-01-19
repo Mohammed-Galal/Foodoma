@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const cartStorage = JSON.parse(window.localStorage.getItem("cartItems")) || {};
+
 const Products = {
     name: "products",
     initialState: { loaded: false, data: [], cart: [], fav: [] },
@@ -8,15 +10,24 @@ const Products = {
 
 reducers.init = function (state, action) {
   state.loaded = true;
+
   const itemsObj = action.payload,
     items = [];
+
+  const slug = window.localStorage.getItem("slug"),
+    cartItems = (cartStorage[slug] ||= []);
+
   Object.keys(itemsObj).forEach((k) => items.push.apply(items, itemsObj[k]));
   state.data = items;
+  state.cart = cartItems;
 };
 
 reducers.addToCart = function (state, { payload }) {
   const cart = [...state.cart, payload];
   state.cart = cart;
+  const slug = window.localStorage.getItem("slug");
+  cartStorage[slug] = cart;
+  window.localStorage.setItem("cartItems", JSON.stringify(cartStorage));
 };
 
 reducers.updateCartItem = function (state, { payload }) {
@@ -30,6 +41,10 @@ reducers.updateCartItem = function (state, { payload }) {
     });
     state.cart = [...state.cart];
   } else state.cart = state.cart.filter(($, i) => i !== index);
+
+  const slug = window.localStorage.getItem("slug");
+  cartStorage[slug] = state.cart;
+  window.localStorage.setItem("cartItems", JSON.stringify(cartStorage));
 };
 
 reducers.initFavourites = function (state, { payload }) {
@@ -38,6 +53,9 @@ reducers.initFavourites = function (state, { payload }) {
 
 reducers.clearCart = function (s) {
   s.cart = [];
+  const slug = window.localStorage.getItem("slug");
+  cartStorage[slug] = s.cart;
+  window.localStorage.setItem("cartItems", JSON.stringify(cartStorage));
 };
 
 const Store = createSlice(Products);

@@ -28,6 +28,8 @@ fetch(baseUrl + "/get-all-restaurant", fetchOpts)
     })
   );
 
+const savedSlug = window.localStorage.getItem("slug");
+
 export const logout = function () {
     APP_STATE.dispatch({ type: "products/clearCart" });
     APP_STATE.dispatch({ type: "user/logout" });
@@ -75,7 +77,6 @@ if (window.localStorage.getItem("token")) {
     });
 }
 
-const savedSlug = window.localStorage.getItem("slug");
 if (savedSlug) {
   fetch(baseUrl + "/get-restaurant-info/" + savedSlug, fetchOpts)
     .then(toJson)
@@ -85,7 +86,10 @@ if (savedSlug) {
       fetch(baseUrl + "/get-restaurant-items/" + savedSlug, fetchOpts)
         .then(toJson)
         .then((data) =>
-          APP_STATE.dispatch({ type: "products/init", payload: data })
+          APP_STATE.dispatch({
+            type: "products/init",
+            payload: data,
+          })
         );
     });
 }
