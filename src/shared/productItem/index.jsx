@@ -79,9 +79,9 @@ export default function (item, I) {
       </div>
 
       <Link to={"/products/" + item.id} className="text-decoration-none">
-        <img src={Base + image} className="mb-2" alt={name} />
+        <img src={Base + image} className="mb-2 mx-auto" alt={name} />
 
-        <div className="desc d-flex flex-column gap-3">
+        <div className="desc d-flex flex-column gap-2">
           <span className="h5 m-0">{name}</span>
 
           <div className="rate align-items-center d-flex">

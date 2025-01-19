@@ -86,8 +86,6 @@ export default function () {
           style={{
             border: "1px solid rgb(241, 241, 241)",
             borderRadius: "16px",
-            gridTemplateColumns: "auto 1fr",
-            alignContent: "start",
           }}
         >
           <legend
@@ -102,19 +100,18 @@ export default function () {
           </legend>
 
           <div
-            className="align-items-center d-flex gap-2"
+            className="d-flex flex-wrap gap-2"
             style={{ color: "var(--primary)" }}
           >
-            <span>طريقة الاستلام</span>
+            <span className="w-100">طريقة الاستلام</span>
             <button
               className="btn d-flex align-items-center gap-2"
               data-active={!delivery}
               onClick={() => setDelivery(false)}
             >
               <img
-                className="d-none d-sm-block"
                 style={{
-                  maxHeight: "30px",
+                  maxHeight: "25px",
                   filter: "grayscale(" + +delivery + ")",
                 }}
                 src="https://mon10.doobagency.com/assets/img/various/self-pickup.png"
@@ -128,9 +125,8 @@ export default function () {
               onClick={() => setDelivery(true)}
             >
               <img
-                className="d-none d-sm-block"
                 style={{
-                  maxHeight: "30px",
+                  maxHeight: "25px",
                   filter: "grayscale(" + +!delivery + ")",
                 }}
                 src="https://mon10.doobagency.com/assets/img/various/home-delivery.png"
@@ -229,7 +225,7 @@ function OrderInfo({ cart, delivery, products, placeOrder, totalPrice }) {
 
   return (
     <div className="p-3">
-      <span className="h5 title">الطلب</span>
+      <span className="h5 title text-center">الطلب</span>
 
       <hr />
       <ul className="list-unstyled m-0 p-0">{items}</ul>
@@ -276,7 +272,7 @@ function OrderInfo({ cart, delivery, products, placeOrder, totalPrice }) {
       <button
         type="button"
         onClick={placeOrder}
-        className="btn d-flex justify-content-center mt-4 mx-auto w-100"
+        className="btn mt-4 mx-auto w-100"
       >
         أكمل الدفع
       </button>

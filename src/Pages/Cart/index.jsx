@@ -81,7 +81,7 @@ export default function () {
           </ul>
 
           <div className="d-grid gap-3 p-3">
-            <p className="h4 m-0 pb-2">إجمالي العربة</p>
+            <p className="h4 m-0 pb-2 text-center">إجمالي العربة</p>
 
             <span>
               <samp>إجمالي المنتجات</samp>
@@ -149,7 +149,7 @@ function ProductItem({ id, quantity, name, addons, price }, I, editCart) {
 
   return (
     <React.Fragment key={id * price}>
-      <li className="item-name align-items-center d-flex gap-3 text-nowrap">
+      <li className="item-name align-items-center d-flex gap-1">
         <button className="btn p-0" onClick={() => editCart(I, 0)}>
           x
         </button>

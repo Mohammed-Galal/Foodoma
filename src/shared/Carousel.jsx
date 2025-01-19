@@ -13,7 +13,7 @@ defaultConfig.modules = [Autoplay, A11y, Scrollbar, Pagination, Navigation];
 defaultConfig.navigation = true;
 defaultConfig.spaceBetween = 28;
 defaultConfig.slidesPerView = "auto";
-defaultConfig.autoplay = {
+defaultConfig.autoplay = false && {
   delay: 1500,
   pauseOnMouseEnter: true,
 };

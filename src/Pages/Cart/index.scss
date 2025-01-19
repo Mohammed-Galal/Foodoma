@@ -10,12 +10,11 @@ main {
   & > #cart {
     & > ul {
       align-self: stretch;
-      width: 100%;
-      max-width: 782px;
+      flex: 1 0 65%;
       color: var(--primary);
       border: 1px solid #f8f8f8;
       border-radius: 24px;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: max(30px, 23%) repeat(4, 1fr);
       grid-template-rows: max-content;
 
       hr {
@@ -24,7 +23,7 @@ main {
       }
 
       & > li {
-        align-self: self-start;
+        align-self: center;
       }
 
       & > li.seperator,
@@ -86,8 +85,7 @@ main {
     & > div {
       border: 1px solid #f8f8f8;
       border-radius: 24px;
-
-      flex-grow: 1;
+      flex: 1 0 30%;
       border: 1px solid #f8f8f8;
       border-radius: 24px;
 

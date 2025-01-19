@@ -6,6 +6,7 @@ body#mobile > nav {
   background-color: #fff;
   z-index: 9;
   --transition-options: 150ms ease-out;
+  filter: brightness(0.98);
 
   ul {
     grid-template-columns: repeat(5, 1fr);
