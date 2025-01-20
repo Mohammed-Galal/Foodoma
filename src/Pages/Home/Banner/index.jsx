@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import "./index.scss";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => (
@@ -12,9 +13,9 @@ export default () => (
         الشوكولاتة.
       </p>
 
-      <a href="/public/mobile/" className="text-decoration-none">
+      <Link to="/all-products" className="text-decoration-none">
         جميع المنتجات
-      </a>
+      </Link>
     </div>
 
     <ul style={{ gridTemplateRows: "1fr 1fr", maxHeight: "570px" }}>

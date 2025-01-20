@@ -1,9 +1,9 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ProductItem from "../shared/productItem";
-
-const categories = new Set();
+import { useParams } from "react-router-dom";
+import { use } from "react";
 
 const emptyStr = "",
   liStyle = {
@@ -23,16 +23,19 @@ const emptyStr = "",
   };
 
 export default function () {
-  categories.clear();
-
-  const { data } = useSelector((e) => e.Products),
+  const urlCat = useParams().category,
+    { data, categories } = useSelector((e) => e.Products),
     [productName, setProductName] = useState(emptyStr),
     [category, setCategory] = useState(emptyStr);
+
+  useEffect(() => {
+    categories.indexOf(urlCat) > -1 && setCategory(urlCat);
+  }, [categories]);
 
   const items = data.map((item, index) => {
     const categoryMatched = item.category_name.includes(category),
       nameMatched = item.name.includes(productName);
-    categories.add(item.category_name);
+
     if (categoryMatched && nameMatched) return ProductItem(item, index);
     return false;
   });

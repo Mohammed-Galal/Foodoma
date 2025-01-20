@@ -4,7 +4,13 @@ const cartStorage = JSON.parse(window.localStorage.getItem("cartItems")) || {};
 
 const Products = {
     name: "products",
-    initialState: { loaded: false, data: [], cart: [], fav: [] },
+    initialState: {
+      loaded: false,
+      categories: [],
+      data: [],
+      cart: [],
+      fav: [],
+    },
   },
   reducers = (Products.reducers = {});
 
@@ -12,13 +18,15 @@ reducers.init = function (state, action) {
   state.loaded = true;
 
   const itemsObj = action.payload.items,
+    categories = Object.keys(itemsObj),
     items = [];
 
   const slug = window.localStorage.getItem("slug"),
     cartItems = (cartStorage[slug] ||= []);
-    
-  Object.keys(itemsObj).forEach((k) => items.push.apply(items, itemsObj[k]));
+
+  categories.forEach((k) => items.push.apply(items, itemsObj[k]));
   state.data = items;
+  state.categories = categories;
   state.cart = cartItems;
 };
 
