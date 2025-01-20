@@ -6,19 +6,20 @@ import isMobileView from "../shared/isMobile.js";
 import store from "../store";
 
 import Alerts from "./Alerts";
-import User from "./User";
+import All_Products from "./All_Products.jsx";
 import Bookings from "./Bookings";
-import HomePage from "./Home";
-import Product from "./Product";
 import Cart from "./Cart";
-import Design from "./Design";
-import Settings from "./Settings";
 import Checkout from "./Checkout";
+import Design from "./Design";
+import HomePage from "./Home";
+import Invoice from "./Invoice.jsx";
+import Product from "./Product";
 import Restaurant from "./Restaurant";
+import Settings from "./Settings";
+import User from "./User";
 
 import Header from "../Header";
 import Nav from "../Nav";
-import Invoice from "./Invoice.jsx";
 
 const body = document.body;
 
@@ -53,6 +54,11 @@ function App() {
     <>
       {createPortal(Header(isMobileView), header)}
       <Routes>
+        <Route
+          path="/all-products/:category?"
+          Component={All_Products}
+          caseSensitive={true}
+        />
         <Route path="/invoice" Component={Invoice} caseSensitive={true} />
         <Route path="/alerts" Component={Alerts} caseSensitive={true} />
         <Route path="/user/:action?" Component={User} />

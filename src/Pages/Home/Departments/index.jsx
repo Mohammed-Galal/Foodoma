@@ -1,5 +1,6 @@
 import "./index.scss";
 import data from "./data.json";
+import { Link } from "react-router-dom";
 
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable import/no-anonymous-default-export */
@@ -14,10 +15,13 @@ export default ({ sectionName }) => (
       <p className="d-flex align-items-center">
         <span className="h3">{sectionName}</span>
 
-        <a href="/public/mobile/" className="d-flex align-items-center text-decoration-none">
+        <Link
+          to="/all-products/"
+          className="d-flex align-items-center text-decoration-none"
+        >
           جميع المنتجات{" "}
           <object data="/assets/home/icons/left-arrow.svg"></object>
-        </a>
+        </Link>
       </p>
     )}
 

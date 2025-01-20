@@ -1,12 +1,13 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable import/no-anonymous-default-export */
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import productItem from "../../../shared/productItem";
 import Carousel from "../../../shared/Carousel";
 import "./index.scss";
 
 export default function ({ id, title, categoryKey }) {
-  const { data: items, fav } = useSelector((e) => e.Products),
+  const { data: items } = useSelector((e) => e.Products),
     targetItems = categoryKey
       ? items.filter((item) => !!item[categoryKey])
       : items,
@@ -21,13 +22,13 @@ export default function ({ id, title, categoryKey }) {
       <p className="d-flex align-items-center">
         <span className="h3">{title}</span>
 
-        <a
-          href="/public/mobile/"
+        <Link
+          to="/all-products"
           className="d-flex align-items-center text-decoration-none"
         >
           جميع المنتجات
           <object data="/assets/home/icons/left-arrow.svg"></object>
-        </a>
+        </Link>
       </p>
 
       <Carousel innerItems={products} />

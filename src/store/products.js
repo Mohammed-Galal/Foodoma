@@ -11,12 +11,12 @@ const Products = {
 reducers.init = function (state, action) {
   state.loaded = true;
 
-  const itemsObj = action.payload,
+  const itemsObj = action.payload.items,
     items = [];
 
   const slug = window.localStorage.getItem("slug"),
     cartItems = (cartStorage[slug] ||= []);
-
+    
   Object.keys(itemsObj).forEach((k) => items.push.apply(items, itemsObj[k]));
   state.data = items;
   state.cart = cartItems;
