@@ -68,7 +68,7 @@ export default function () {
       </div>
 
       <div
-        className="d-flex flex-column d-lg-grid gap-4"
+        className="d-flex flex-wrap align-items-center d-lg-grid gap-4"
         style={{
           flex: "1 0 70%",
           justifyContent: "space-evenly",
