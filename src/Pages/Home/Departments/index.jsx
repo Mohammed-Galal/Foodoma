@@ -31,15 +31,15 @@ export default ({ sectionName }) => (
   </section>
 );
 
-function sectionItem({ img, title, href }, I) {
+function sectionItem({ img, title }, I) {
   return (
-    <a
+    <Link
       className="align-items-center d-flex flex-column gap-2 p-4"
-      href={href}
+      to={"/all-products/" + title}
       key={I}
     >
       <img className="my-auto" src={img} alt={title} />
       {title}
-    </a>
+    </Link>
   );
 }

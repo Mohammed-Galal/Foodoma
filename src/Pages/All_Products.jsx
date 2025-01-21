@@ -1,8 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { useLayoutEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import ProductItem from "../shared/productItem";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 const emptyStr = "",
   liStyle = {
@@ -23,14 +23,9 @@ const emptyStr = "",
 
 export default function () {
   const urlCat = useParams().category,
-    redirect = useNavigate(),
     { data, categories } = useSelector((e) => e.Products),
     [productName, setProductName] = useState(emptyStr),
-    [category, setCategory] = useState(emptyStr);
-
-  useLayoutEffect(() => {
-    categories.indexOf(urlCat) > -1 && redirect("/all-products");
-  }, [categories]);
+    [category, setCategory] = useState(urlCat);
 
   const items = data.map((item, index) => {
     const categoryMatched = item.category_name.includes(category),
