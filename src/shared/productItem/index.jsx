@@ -65,7 +65,7 @@ export default function (item, I) {
   return (
     <div
       key={key}
-      className="d-flex flex-column justify-content-between product-item px-4 py-2 position-relative"
+      className="d-flex flex-column justify-content-between position-relative product-item px-4 py-3"
     >
       <div className="align-items-center d-flex justify-content-between">
         {is_new ? <span>جديد</span> : ""}
@@ -74,9 +74,9 @@ export default function (item, I) {
       </div>
 
       <Link to={"/products/" + item.id} className="text-decoration-none">
-        <img src={Base + image} className="mb-2 mx-auto" alt={name} />
+        <img src={Base + image} className="mb-3 mx-auto" alt={name} />
 
-        <div className="desc d-flex flex-column gap-2">
+        <div className="desc d-flex flex-column gap-3 py-1">
           <span className="h5 m-0">{name}</span>
 
           <div className="rate align-items-center d-flex">

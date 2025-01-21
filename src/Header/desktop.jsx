@@ -17,13 +17,13 @@ export default function () {
     <div className="align-items-center container d-grid py-3">
       <ul className="align-items-center d-flex list-unstyled m-0 p-0">
         <li>
-          <Link to="/products">منتجاتنا</Link>
+          <Link to="/all-products">منتجاتنا</Link>
         </li>
         <li>
-          <Link to="/branches">الفروع</Link>
+          <Link to="/restaurant">الفروع</Link>
         </li>
         <li>
-          <Link to="/settings/about-us">من نحن؟</Link>
+          <Link to="/about-us">من نحن؟</Link>
         </li>
       </ul>
 

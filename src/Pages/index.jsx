@@ -1,5 +1,11 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 import { Provider } from "react-redux";
 import { createPortal } from "react-dom";
 import isMobileView from "../shared/isMobile.js";
@@ -20,6 +26,7 @@ import User from "./User";
 
 import Header from "../Header";
 import Nav from "../Nav";
+import About from "./About.jsx";
 
 const body = document.body;
 
@@ -41,19 +48,23 @@ export default (
 
 function App() {
   const storeDefined = window.localStorage.getItem("slug");
-  const location = useLocation();
+  const redirect = useNavigate(),
+    location = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
     // Add your custom event logic here
+
+    if (!storeDefined && location.pathname !== "/restaurant")
+      redirect("/restaurant");
   }, [location]);
 
-  return !storeDefined ? (
-    <Restaurant />
-  ) : (
+  return (
     <>
       {createPortal(Header(isMobileView), header)}
       <Routes>
+        <Route path="/restaurant" Component={Restaurant} caseSensitive={true} />
+        <Route path="/about-us" Component={About} caseSensitive={true} />
         <Route
           path="/all-products/:category?"
           Component={All_Products}

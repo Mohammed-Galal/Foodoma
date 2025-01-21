@@ -1,9 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import ProductItem from "../shared/productItem";
-import { useParams } from "react-router-dom";
-import { use } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 const emptyStr = "",
   liStyle = {
@@ -24,18 +23,18 @@ const emptyStr = "",
 
 export default function () {
   const urlCat = useParams().category,
+    redirect = useNavigate(),
     { data, categories } = useSelector((e) => e.Products),
     [productName, setProductName] = useState(emptyStr),
     [category, setCategory] = useState(emptyStr);
 
-  useEffect(() => {
-    categories.indexOf(urlCat) > -1 && setCategory(urlCat);
+  useLayoutEffect(() => {
+    categories.indexOf(urlCat) > -1 && redirect("/all-products");
   }, [categories]);
 
   const items = data.map((item, index) => {
     const categoryMatched = item.category_name.includes(category),
       nameMatched = item.name.includes(productName);
-
     if (categoryMatched && nameMatched) return ProductItem(item, index);
     return false;
   });
@@ -50,15 +49,23 @@ export default function () {
           type="search"
           placeholder="ابحث باسم المنتج..."
           onChange={({ target }) => setProductName(target.value)}
-          className="input-group-text mb-3 w-100"
+          className="input-group-text m-0 w-100"
           style={{ outline: "none", borderColor: "#ecf5ff" }}
         />
-        <ul className="d-flex flex-wrap gap-3 justify-content-center list-unstyled m-0 p-0">
+
+        <h4 className="mt-3 mb-2" style={{ color: "var(--primary)" }}>
+          أقسام Moon 10
+        </h4>
+
+        <ul
+          className="d-grid gap-3 text-center justify-content-center list-unstyled m-0 p-0"
+          style={{ gridTemplateColumns: "1fr 1fr" }}
+        >
           {Array.from(categories).map((c) => (
             <li
               key={c}
               className="px-3 py-1"
-              onClick={() => setCategory(categories === c ? emptyStr : c)}
+              onClick={() => setCategory(category === c ? emptyStr : c)}
               style={c === category ? activeCatStyle : liStyle}
             >
               {c}
