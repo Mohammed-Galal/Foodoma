@@ -3,30 +3,53 @@
 import { Link } from "react-router-dom";
 import S, { getFavourites } from "../../store";
 import "./index.scss";
+import { useRef } from "react";
 
 const Base = "https://mon10.amir-adel.com/",
   baseUrl = Base + "public/api";
 
 export default function (item, I) {
+  if (item.is_active === 0) return false;
+
+  let product;
+
   const store = S.getState(),
     { fav: favs } = store.Products,
     { loaded } = store.User,
     isHearted = favs.some((e) => e.id === item.id),
-    { name, image, price, is_new } = item,
+    { name, image, is_new } = item,
+    price = +item.price,
+    old_price = +item.old_price,
+    discount = old_price > price && (
+      <span>
+        {100 - (price / old_price) * 100}% <sub>خصم</sub>
+      </span>
+    ),
     key = item.item_category_id * item.restaurant_id + I;
 
   const vid = (
-    <video
-      src="https://mon10.amir-adel.com/assets/heart.mp4"
-      style={{ maxHeight: "84px", marginLeft: "-22px" }}
+    <div
       onClick={toggleFav}
-      ref={handleFav}
-    ></video>
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        overflow: "hidden",
+        maxWidth: "48px",
+        height: "38px",
+      }}
+    >
+      <video
+        src="https://mon10.amir-adel.com/assets/heart.mp4"
+        style={{ maxHeight: "84px", marginLeft: "-17px" }}
+        ref={handleFav}
+      ></video>
+    </div>
   );
 
-  function toggleFav({ target }) {
+  function toggleFav() {
     if (!loaded) return alert("يجب تسجيل الدخول اولاً");
-    target.parentElement.parentElement.classList.add("loading");
+    product && product.classList.add("loading");
 
     fetch(baseUrl + "/toggle-favorite-item", {
       method: "POST",
@@ -43,8 +66,6 @@ export default function (item, I) {
   function handleFav(self) {
     if (self === null) return;
     let timeout;
-
-    self.parentElement.parentElement.classList.remove("loading");
 
     (isHearted ? play : reverse)();
 
@@ -65,12 +86,19 @@ export default function (item, I) {
   return (
     <div
       key={key}
+      ref={(e) => {
+        product = e;
+        e && e.classList.remove("loading");
+      }}
       className="d-flex flex-column justify-content-between position-relative product-item px-4 py-3"
     >
       <div className="align-items-center d-flex justify-content-between">
-        {is_new ? <span>جديد</span> : ""}
+        <div className="d-grid gap-1" style={{ justifyItems: "flex-start" }}>
+          {is_new ? <span>جديد</span> : ""}
+          {discount}
+        </div>
 
-        {loaded && vid}
+        <div>{loaded && vid}</div>
       </div>
 
       <Link to={"/products/" + item.id} className="text-decoration-none">
@@ -84,15 +112,17 @@ export default function (item, I) {
               data="/assets/home/icons/star.svg"
               type="image/svg+xml"
             ></object>
-            {Math.ceil(Math.random() * 5)}
+            {Math.max(3, Math.ceil(Math.random() * 5))}
 
-            <span className="align-items-center d-flex">
-              {item.category_name}
-            </span>
+            {item.category_name && (
+              <span className="align-items-center d-flex">
+                {item.category_name}
+              </span>
+            )}
           </div>
 
           <div className="align-items-center d-flex price">
-            <span>{price + "ر.س"}</span>/للقطعة
+            <span>{price + " ر.س"}</span> /للقطعة
           </div>
 
           <button

@@ -33,20 +33,21 @@ div.product-item {
   --hover-length: -60px;
 
   & > div:first-child {
-    height: 28px;
-    & > span {
+    span {
       background-color: #ffcd00;
       color: #fff;
       padding: 6px 12px;
       border-radius: 26px;
       line-height: 1;
       font-weight: 500;
+
+      &:has(sub) {
+        background-color: #ecf5ff;
+        color: var(--primary);
+      }
     }
 
-    & > img {
-      cursor: pointer;
-      margin-right: auto;
-    }
+    
   }
 
   & > span {

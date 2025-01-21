@@ -22,7 +22,7 @@ const emptyStr = "",
   };
 
 export default function () {
-  const urlCat = useParams().category,
+  const urlCat = useParams().category || emptyStr,
     { data, categories } = useSelector((e) => e.Products),
     [productName, setProductName] = useState(emptyStr),
     [category, setCategory] = useState(urlCat);

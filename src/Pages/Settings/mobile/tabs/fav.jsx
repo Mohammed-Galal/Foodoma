@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import productItem from "../../../../shared/productItem";
 
 export default function () {
-  const favs = useSelector((state) => state.Products.fav).map(productItem);
+  const favs = useSelector((state) => state.Products.fav);
 
   return (
     <div className="fav">
@@ -15,7 +15,7 @@ export default function () {
         المفضلة
       </span>
 
-      {favs && <Carousel innerItems={favs} />}
+      {favs.length && <Carousel innerItems={favs.map(productItem)} />}
     </div>
   );
 }
