@@ -3,7 +3,6 @@
 import { Link } from "react-router-dom";
 import S, { getFavourites } from "../../store";
 import "./index.scss";
-import { useRef } from "react";
 
 const Base = "https://mon10.amir-adel.com/",
   baseUrl = Base + "public/api";
@@ -35,8 +34,8 @@ export default function (item, I) {
         alignItems: "center",
         justifyContent: "center",
         overflow: "hidden",
-        maxWidth: "48px",
-        height: "38px",
+        maxWidth: "45px",
+        height: "34px",
       }}
     >
       <video
@@ -48,7 +47,6 @@ export default function (item, I) {
   );
 
   function toggleFav() {
-    if (!loaded) return alert("يجب تسجيل الدخول اولاً");
     product && product.classList.add("loading");
 
     fetch(baseUrl + "/toggle-favorite-item", {
@@ -98,7 +96,7 @@ export default function (item, I) {
           {discount}
         </div>
 
-        <div>{loaded && vid}</div>
+        {loaded && vid}
       </div>
 
       <Link to={"/products/" + item.id} className="text-decoration-none">

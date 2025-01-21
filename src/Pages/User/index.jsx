@@ -107,8 +107,12 @@ function Login({ setLoading }) {
         </div>
       </div>
 
-      <div className="my-5 row" style={{ rowGap: "1rem" }}>
+      <div
+        className="my-5 row"
+        style={{ rowGap: "1rem", color: "var(--primary)" }}
+      >
         <div className="col-12 col-md-6">
+          <h6>رقم الهاتف أو البريد الالكتروني</h6>
           <input
             type="email"
             className="input-group-text w-100"
@@ -119,6 +123,7 @@ function Login({ setLoading }) {
         </div>
 
         <div className="col-12 col-md-6">
+          <h6>كلمة المرور</h6>
           <input
             type="password"
             style={{ outline: "none" }}
@@ -213,8 +218,12 @@ function Register({ setLoading }) {
         </div>
       </div>
 
-      <div className="my-5 row" style={{ rowGap: "1rem" }}>
+      <div
+        className="my-5 row"
+        style={{ rowGap: "1rem", color: "var(--primary)" }}
+      >
         <div className="col-12 col-md-6">
+          <h6>الاسم</h6>
           <input
             type="text"
             style={{ outline: "none" }}
@@ -224,6 +233,7 @@ function Register({ setLoading }) {
           />
         </div>
         <div className="col-12 col-md-6">
+          <h6>البريد الالكتروني</h6>
           <input
             type="email"
             style={{ outline: "none" }}
@@ -233,6 +243,7 @@ function Register({ setLoading }) {
           />
         </div>
         <div className="col-12 col-md-6">
+          <h6>رقم الهاتف</h6>
           <input
             type="tel"
             style={{ outline: "none" }}
@@ -242,6 +253,7 @@ function Register({ setLoading }) {
           />
         </div>
         <div className="col-12 col-md-6">
+          <h6>كلمة المرور</h6>
           <input
             type="password"
             onChange={(e) => (reqBody.password = e.target.value)}

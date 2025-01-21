@@ -46,6 +46,16 @@ body {
   --gradient-4: linear-gradient(0deg, #1faf38 -9900%, #60d669 100%);
 }
 
+#about {
+  & > *:not(p) {
+    color: var(--primary);
+  }
+
+  & > p {
+    color: var(--midgray);
+  }
+}
+
 #invoice {
   table {
     empty-cells: hide;
