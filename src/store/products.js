@@ -33,6 +33,7 @@ reducers.init = function (state, action) {
 reducers.addToCart = function (state, { payload }) {
   const cart = [...state.cart, payload];
   state.cart = cart;
+
   const slug = window.localStorage.getItem("slug");
   cartStorage[slug] = cart;
   window.localStorage.setItem("cartItems", JSON.stringify(cartStorage));

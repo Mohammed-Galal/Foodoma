@@ -188,10 +188,10 @@ export default function () {
         },
       };
 
-    fetch(placeOrderApi, fetchOpts)
-      .then((r) => r.json())
-      .then(handleInvoice)
-      .catch(() => alert("حدث خطأ"));
+      fetch(placeOrderApi, fetchOpts)
+        .then((r) => r.json())
+        .then(handleInvoice)
+        .catch((e) => alert("حدث خطأ"));
   }
 
   function handleInvoice({ data }) {

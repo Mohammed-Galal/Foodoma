@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector, useStore } from "react-redux";
+import { Link, useParams } from "react-router-dom";
 import productItem from "../../shared/productItem";
 import Carousel from "../../shared/Carousel";
 import NXT from "../../icons/NXT";
@@ -31,6 +31,7 @@ export default function () {
 
 function ProductInfo(state) {
   const dispatch = useDispatch(),
+    resId = useStore().getState().Restaurant.data.id,
     selectedAddons = useRef(new Set());
 
   const [Alert, setAlert] = useState(false),
@@ -239,7 +240,7 @@ function ProductInfo(state) {
         id: state.id,
         name: state.name,
         price: +state.price,
-        restaurant_id: +state.restaurant_id,
+        restaurant_id: +resId,
         quantity,
         addons: addonsFilter,
         totalPrice,
