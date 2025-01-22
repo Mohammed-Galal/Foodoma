@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./index.scss";
@@ -15,12 +15,18 @@ const EMPTY_STR = "",
   };
 
 export default function Restaurant() {
-  const restaurants = useSelector((state) => state.Restaurant).branches,
+  const { branches: restaurants, loaded } = useSelector(
+      (state) => state.Restaurant
+    ),
     [filterValue, setFilter] = useState(""),
     redirect = useNavigate(),
     dispatch = useDispatch();
 
   let currLoc = null;
+
+  useLayoutEffect(() => {
+    loaded || getUserLocation();
+  }, [loaded]);
 
   return (
     <section
@@ -142,8 +148,8 @@ export default function Restaurant() {
     resInfo
       .then((res) => res.json())
       .then((data) => {
-        dispatch({ type: "products/clearCart" });
         dispatch({ type: "restaurant/init", payload: data });
+        dispatch({ type: "products/clearCart" });
         // get the restaurant menu
         fetchMenu(currLoc);
       });
@@ -153,24 +159,25 @@ export default function Restaurant() {
     if (!("geolocation" in navigator))
       return alert("Geolocation is not supported by your browser.");
 
-    const coords = {};
     navigator.geolocation.getCurrentPosition(
       (POS) => {
-        coords.latitude = "" + POS.coords.latitude;
-        coords.longitude = "" + POS.coords.longitude;
+        const coords = {
+          latitude: "" + POS.coords.latitude,
+          longitude: "" + POS.coords.longitude,
+        };
+
+        fetch(baseUrl + "get-delivery-restaurants", {
+          method: "POST",
+          body: JSON.stringify(coords),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((r) => r.json())
+          .then((data) => confirmLocation(data[0].slug));
       },
       (error) => alert(`لم يتمكن المتصفح من تحديد موقعك`)
     );
-
-    fetch(baseUrl + "get-delivery-restaurants", {
-      method: "POST",
-      body: JSON.stringify(coords),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((r) => r.json())
-      .then((data) => confirmLocation(data[0].slug));
   }
 
   function fetchMenu() {
