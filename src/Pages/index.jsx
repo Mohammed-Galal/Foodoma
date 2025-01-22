@@ -16,7 +16,7 @@ import All_Products from "./All_Products.jsx";
 import Bookings from "./Bookings";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
-import Design from "./Design";
+import Design from "./Design/index.jsx";
 import HomePage from "./Home";
 import Invoice from "./Invoice.jsx";
 import Product from "./Product";
@@ -76,7 +76,11 @@ function App() {
         <Route path="/settings/:tab?" Component={Settings} />
         <Route path="/products/:id" caseSensitive={true} Component={Product} />
         <Route path="/early-booking" caseSensitive={true} element={Bookings} />
-        <Route path={"/design/:style"} caseSensitive={true} element={Design} />
+        <Route
+          path={"/design/:style?"}
+          caseSensitive={true}
+          Component={Design}
+        />
         <Route path="/cart" Component={Cart} caseSensitive={true} />
         <Route path="/checkout" Component={Checkout} caseSensitive={true} />
         <Route path="*" element={HomePage} />

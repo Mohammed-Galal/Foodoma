@@ -31,7 +31,7 @@ export default ({ sectionName }) => (
           <span className="d-block h4">الطلبات الخاصة</span>
           صمم المنتجات الخاصة بك بنفسك.. <br />
           عن طريق التحكم فى كافة الاضافات
-          <Link to="/design/cream" className="text-decoration-none">
+          <Link to="/design" className="text-decoration-none">
             اطلب الآن
           </Link>
         </p>
@@ -43,7 +43,7 @@ export default ({ sectionName }) => (
           <span className="d-block h4">الحجز المبكر</span>
           خصم -15% على الحجز المبكر <br />
           لكيكات اليوم الوطني السعودي
-          <Link to="/design/cream" className="text-decoration-none">
+          <Link to="/design" className="text-decoration-none">
             احجز الآن
           </Link>
         </p>

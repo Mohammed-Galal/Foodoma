@@ -1,14 +1,7 @@
 import "./index.scss";
 import data from "./data.json";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
-import {
-  Card,
-  CardHeader,
-  CardText,
-  CardBody,
-  CardTitle,
-  CardFooter,
-} from "reactstrap";
+import { Card, CardHeader, CardText, CardBody, CardFooter } from "reactstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import insta from "./insta";

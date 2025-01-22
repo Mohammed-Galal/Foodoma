@@ -19,6 +19,7 @@ export default function Restaurant() {
       (state) => state.Restaurant
     ),
     [filterValue, setFilter] = useState(""),
+    [showBranches, setShowBranches] = useState(false),
     redirect = useNavigate(),
     dispatch = useDispatch();
 
@@ -75,45 +76,55 @@ export default function Restaurant() {
         </label>
       </div>
 
-      <div
-        class="d-grid gap-4 p-3"
-        style={{
-          backgroundColor: "#fbfbfb",
-          borderRadius: "16px",
-          border: "1px solid #dceaf6",
-        }}
-      >
-        <input
-          type="search"
-          placeholder="ابحث عن الفروع"
-          className="py-1 px-3"
-          onChange={(e) => setFilter(e.target.value)}
-          value={filterValue}
+      {!showBranches ? (
+        <button
+          onClick={() => setShowBranches(true)}
+          className="btn"
+          style={{ color: "var(--primary)" }}
+        >
+          اختار من فروعنا
+        </button>
+      ) : (
+        <div
+          class="d-grid gap-4 p-3"
           style={{
-            outline: "none",
-            border: "inherit",
-            backgroundColor: "#fff",
-            textAlign: "start",
-            borderRadius: "24px",
+            backgroundColor: "#fbfbfb",
+            borderRadius: "16px",
+            border: "1px solid #dceaf6",
           }}
-        />
+        >
+          <input
+            type="search"
+            placeholder="ابحث عن الفروع"
+            className="py-1 px-3"
+            onChange={(e) => setFilter(e.target.value)}
+            value={filterValue}
+            style={{
+              outline: "none",
+              border: "inherit",
+              backgroundColor: "#fff",
+              textAlign: "start",
+              borderRadius: "24px",
+            }}
+          />
 
-        <ul className="city-container d-flex flex-wrap gap-2 justify-content-around list-unstyled m-0 p-0">
-          {cities.map((city) => (
-            <li
-              key={city}
-              onClick={() => setFilter(city)}
-              className={filterValue === city && "active"}
-            >
-              {city}
-            </li>
-          ))}
-        </ul>
+          <ul className="city-container d-flex flex-wrap gap-2 justify-content-around list-unstyled m-0 p-0">
+            {cities.map((city) => (
+              <li
+                key={city}
+                onClick={() => setFilter(city)}
+                className={filterValue === city && "active"}
+              >
+                {city}
+              </li>
+            ))}
+          </ul>
 
-        <ul className="branches d-grid gap-2 list-unstyled m-0 p-0">
-          {restaurants.map(restItem)}
-        </ul>
-      </div>
+          <ul className="branches d-grid gap-2 list-unstyled m-0 p-0">
+            {restaurants.map(restItem)}
+          </ul>
+        </div>
+      )}
     </section>
   );
 

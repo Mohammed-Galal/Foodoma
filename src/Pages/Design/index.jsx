@@ -1,51 +1,92 @@
-import { Link, useParams } from "react-router-dom";
+/* eslint-disable import/no-anonymous-default-export */
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import "./index.scss";
 import NXT from "../../icons/NXT";
 import Plus from "../../icons/Plus";
 import Minus from "../../icons/Minus";
 import Cart from "../../icons/Cart";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
+import { useStore } from "react-redux";
 
 /* eslint-disable jsx-a11y/alt-text */
 
 let extraFees = 5;
 
-export default (
-  <>
-    <aside>
-      <ul className="container d-flex gap-2 list-unstyled my-0">
-        <li className="py-3">
-          <Link to="/design/3d">صمم كيك 3D</Link>
-        </li>
-        <li className="py-3">
-          <Link to="/design/img">صمم بصورة</Link>
-        </li>
-        <li className="py-3">
-          <Link to="/design/cream">صمم بالكريمة</Link>
-        </li>
-      </ul>
-    </aside>
+export default function () {
+  const redirect = useNavigate(),
+    products = useStore().getState().Products,
+    customProducts = products.custom,
+    params = useParams();
 
-    <section id="design" className="container">
-      <ul className="d-flex gap-2 justify-content-center list-unstyled mx-0 mb-5 p-0">
-        <li>mon 10</li>
-        <li>{NXT}</li>
-        <li>صمم كيكتك بنفسك</li>
-        <li>{NXT}</li>
-        <li>...............</li>
-      </ul>
+  const activeTab = params.style || customProducts[0]?.name,
+    availOptions = customProducts.find(
+      (i) => i.is_active && i.name === activeTab
+    );
 
-      <Form />
-    </section>
-  </>
-);
+  useLayoutEffect(() => {
+    if (availOptions === undefined) {
+      customProducts.length
+        ? redirect(`/design/${customProducts[0].name}`)
+        : redirect("/");
+    }
+  }, [availOptions, customProducts]);
 
-function Form() {
-  const params = useParams(),
+  if (customProducts.length === 0) return null;
+
+  return (
+    <>
+      <aside>
+        <ul className="container d-flex gap-2 list-unstyled my-0">
+          {customProducts.map((item) => (
+            <li key={item.id} className="py-3">
+              <NavLink to={`/design/${item.name}`}>{item.name}</NavLink>
+            </li>
+          ))}
+        </ul>
+      </aside>
+
+      <section id="design" className="container">
+        <ul className="d-flex gap-2 justify-content-center list-unstyled mx-0 mb-5 p-0">
+          <li>mon 10</li>
+          <li>{NXT}</li>
+          <li>صمم كيكتك بنفسك</li>
+          <li>{NXT}</li>
+          <li>{availOptions.name}</li>
+        </ul>
+
+        <Form options={availOptions} />
+      </section>
+    </>
+  );
+}
+
+function Form({ options }) {
+  const [activeOpts, setActiveOpts] = useState({}),
     [quantity, setQuantity] = useState(1);
 
-  const [size, setSize] = useState(1),
-    [shape, setShape] = useState("circle");
+  const optGroup = options.addon_categories.map(({ id, name, addons }) => {
+    const innerOptions = addons.map((addon, index) => {
+      index === 0 && (activeOpts[name] = addon.name);
+
+      return (
+        <button
+          key={addon.id}
+          className="btn"
+          data-active={activeOpts[name] === addon.name}
+          onClick={() => handleChange(name, addon.name)}
+        >
+          {addon.name}
+        </button>
+      );
+    });
+
+    return (
+      <li key={id}>
+        <span className="title">{name}</span>
+        {innerOptions}
+      </li>
+    );
+  });
 
   return (
     <form className="d-flex flex-wrap gap-3" encType="multipart/form-data">
@@ -63,100 +104,7 @@ function Form() {
       </div>
 
       <ul className="d-grid gap-3 list-unstyled">
-        {params.style === "cream" && (
-          <li>
-            <label className="title" htmlFor="cream-color">
-              لون الكريمة
-            </label>
-            <select
-              id="cream-color"
-              name="cream-color"
-              defaultValue={"وردي"}
-              className="input-group-text"
-            >
-              <option value="وردي">وردي</option>
-            </select>
-          </li>
-        )}
-
-        <li className="sizes">
-          <span className="title">عدد الأشخاص ومقاس الكيك</span>
-
-          <label>
-            <input
-              type="radio"
-              name="size"
-              value="1"
-              onChange={() => setSize(1)}
-              checked={size === 1}
-            />
-            2ل 4ش/ مصغير/25 ر.س
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="size"
-              value="2"
-              onChange={() => setSize(2)}
-              checked={size === 2}
-            />
-            5ل 9ش/ م وسط/ 60 ر.س
-          </label>
-
-          <label>
-            <input
-              type="radio"
-              name="size"
-              value="3"
-              onChange={() => setSize(3)}
-              checked={size === 3}
-            />
-            10ل 15ش/ م كبير/ 80 ر.س
-          </label>
-        </li>
-
-        <li className="shapes">
-          <span className="title">عدد الأشخاص ومقاس الكيك</span>
-
-          <label className="px-3 py-2">
-            <span className="ml-2"></span>
-            <input
-              type="radio"
-              name="shape"
-              value="circle"
-              onChange={() => (extraFees = 5) && setShape("circle")}
-              checked={shape === "circle"}
-            />
-            /5 ر.س
-          </label>
-
-          <label>
-            <span className="ml-2"></span>
-            <input
-              type="radio"
-              name="shape"
-              value="square"
-              onChange={() => (extraFees = 10) && setShape("square")}
-              checked={shape === "square"}
-            />
-            /10 ر.س
-          </label>
-
-          <label>
-            <span className="ml-2"></span>
-            <input
-              type="radio"
-              name="shape"
-              value="rect"
-              onChange={() => (extraFees = 15) && setShape("rect")}
-              checked={shape === "rect"}
-            />
-            /15 ر.س
-          </label>
-
-          <label htmlFor="notes">شكل آخر اكتبه في الملاحظات</label>
-        </li>
+        {optGroup}
 
         <li>
           <label htmlFor="phrase" className="title">
@@ -170,6 +118,7 @@ function Form() {
           />
         </li>
 
+        <label htmlFor="notes">شكل آخر اكتبه في الملاحظات</label>
         <li>
           <input
             className="input-group-text"
@@ -201,10 +150,8 @@ function Form() {
       </ul>
     </form>
   );
-}
 
-function handleChange({ target }) {
-  const imgPrev = document.getElementById("img-preview"),
-    files = target.files;
-  if (files.length) imgPrev.src = URL.createObjectURL(files[0]);
+  function handleChange(optName, value) {
+    setActiveOpts({ ...activeOpts, [optName]: value });
+  }
 }
