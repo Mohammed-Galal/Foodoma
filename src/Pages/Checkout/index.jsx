@@ -220,7 +220,7 @@ export default function () {
 }
 
 function OrderInfo({ cart, delivery, products, placeOrder, totalPrice }) {
-  const [useCreditCard, setCredit] = useState(false);
+  // const [useCreditCard, setCredit] = useState(false);
   const items = cart.map(productItem, products);
 
   return (

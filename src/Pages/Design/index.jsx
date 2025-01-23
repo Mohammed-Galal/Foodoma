@@ -1,20 +1,18 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import "./index.scss";
+/* eslint-disable jsx-a11y/alt-text */
+import { useState } from "react";
+import { NavLink, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 import NXT from "../../icons/NXT";
 import Plus from "../../icons/Plus";
 import Minus from "../../icons/Minus";
 import Cart from "../../icons/Cart";
-import { useLayoutEffect, useState } from "react";
-import { useStore } from "react-redux";
+import "./index.scss";
 
-/* eslint-disable jsx-a11y/alt-text */
-
-let extraFees = 5;
+let totalPrice = 5;
 
 export default function () {
-  const redirect = useNavigate(),
-    products = useStore().getState().Products,
+  const products = useSelector((e) => e.Products),
     customProducts = products.custom,
     params = useParams();
 
@@ -22,14 +20,6 @@ export default function () {
     availOptions = customProducts.find(
       (i) => i.is_active && i.name === activeTab
     );
-
-  useLayoutEffect(() => {
-    if (availOptions === undefined) {
-      customProducts.length
-        ? redirect(`/design/${customProducts[0].name}`)
-        : redirect("/");
-    }
-  }, [availOptions, customProducts]);
 
   if (customProducts.length === 0) return null;
 
@@ -118,8 +108,11 @@ function Form({ options }) {
           />
         </li>
 
-        <label htmlFor="notes">شكل آخر اكتبه في الملاحظات</label>
         <li>
+          <label htmlFor="notes" className="title">
+            شكل آخر اكتبه في الملاحظات
+          </label>
+          
           <input
             className="input-group-text"
             name="notes"
@@ -145,7 +138,7 @@ function Form({ options }) {
             {Cart}
           </button>
 
-          <span className="h5 m-0">{extraFees} ر.س</span>
+          <span className="h5 m-0">{totalPrice} ر.س</span>
         </li>
       </ul>
     </form>
