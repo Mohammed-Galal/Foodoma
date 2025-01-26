@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { useSelector, useDispatch, useStore } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import NXT from "../../icons/NXT";
 import Recommended from "./Recommended";
 import "./index.scss";
@@ -9,9 +9,14 @@ import "./index.scss";
 const baseUrl = "https://mon10.amir-adel.com";
 
 export default function () {
-  const store = useStore().getState(),
+  const redirect = useNavigate(),
+    store = useStore().getState(),
     dispatch = useDispatch(),
     restaurant = store.Restaurant;
+
+  useLayoutEffect(() => {
+    store.Products.cart[0]?.customProps && redirect("/checkout");
+  });
 
   const delivery = +restaurant.data.delivery_charges;
 

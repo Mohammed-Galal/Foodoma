@@ -25,18 +25,24 @@ export default function () {
   const dispatch = useDispatch(),
     redirect = useNavigate();
 
-  const userAddresses = User.addresses,
+  const customProps = {
+      is_special: false,
+      comment: "",
+    },
+    userAddresses = User.addresses,
     delivery_charges = delivery ? +Restaurant.data.delivery_charges : 0;
 
   useLayoutEffect(() => {
     User.loaded || redirect("/user/login");
+    Products.cart.length || redirect("/cart");
     userAddresses.length || redirect("/settings/addresses");
   });
 
-  let comment = emptyStr,
-    totalPrice = delivery_charges;
+  let totalPrice = delivery_charges;
+
   const order = Products.cart.map((CI) => {
     totalPrice += +CI.totalPrice;
+    CI.customProps && Object.assign(customProps, CI.customProps);
     return extractData(CI);
   });
 
@@ -146,7 +152,8 @@ export default function () {
           <textarea
             placeholder="ملاحظات"
             className="input-group-text mt-auto"
-            onChange={({ target }) => (comment = target.value)}
+            defaultValue={customProps.comment}
+            onChange={({ target }) => (customProps.comment = target.value)}
             style={{
               resize: "none",
               width: "100%",
@@ -170,28 +177,32 @@ export default function () {
   );
 
   function placeOrder() {
-    const reqBody = {
+    const formData = new FormData(),
+      reqBody = {
         ...basicBodyReq,
+        ...customProps,
         order,
         user: { data: { default_address: userAddresses[activeAddress] } },
         delivery_type: delivery ? "1" : "2",
         coupon: { code: "" },
         method: "COD",
-        order_comment: comment,
-      },
-      fetchOpts = {
-        method: "POST",
-        body: JSON.stringify(reqBody),
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: window.localStorage.getItem("token"),
-        },
+        order_comment: customProps.comment,
       };
 
-      fetch(placeOrderApi, fetchOpts)
-        .then((r) => r.json())
-        .then(handleInvoice)
-        .catch((e) => alert("حدث خطأ"));
+    appendFormData(formData, reqBody);
+
+    const fetchOpts = {
+      method: "POST",
+      body: formData,
+      headers: {
+        Authorization: window.localStorage.getItem("token"),
+      },
+    };
+
+    fetch(placeOrderApi, fetchOpts)
+      .then((r) => r.json())
+      .then(handleInvoice)
+      .catch((e) => alert("حدث خطأ"));
   }
 
   function handleInvoice({ data }) {
@@ -221,7 +232,7 @@ export default function () {
 
 function OrderInfo({ cart, delivery, products, placeOrder, totalPrice }) {
   // const [useCreditCard, setCredit] = useState(false);
-  const items = cart.map(productItem, products);
+  const items = cart.map(productItem);
 
   return (
     <div className="p-3">
@@ -280,17 +291,15 @@ function OrderInfo({ cart, delivery, products, placeOrder, totalPrice }) {
   );
 }
 
-function productItem({ id, quantity }) {
-  const itemData = this.data.find((p) => p.id === id);
-  const price = +itemData.price;
-
+function productItem({ id, quantity, price, name }) {
   return (
     <li
+      key={id}
       className="align-items-center d-flex gap-3 justify-content-between"
       style={{ "font-size": "small", "font-weight": 600 }}
     >
       <span className="flex-grow-1" style={{ color: "var(--primary)" }}>
-        {itemData.name}
+        {name}
       </span>
       <span>x {quantity}</span>
       <span>{price} ر.س</span>
@@ -327,46 +336,16 @@ Object.assign(basicBodyReq, {
   },
 });
 
-/*
-{
-    "order":[
-        {
-            "restaurant_id":2,
-            "id":"1",
-            "name":"test item",
-            "price":"100",
-            "quantity":"1",
-            "selectedaddons":[
-                {
-                    "addon_id":1,
-                    "addon_category_name":"addon category name",
-                    "addon_name":"addon Name",
-                    "price":"20"
-                }
-            ]
-        }
-        
-    ],
-    "user":{
-        "data":{
-            "default_address":{
-                "house":"9 street",
-                "address":"cairo nasrcity",
-                "latitude":"",
-                "longitude":""
-            }
-        }
-
-    },
-
-    "tipAmount":"",
-    "cash_change_amount":"",
-    "pending_payment":"",
-    "partial_wallet":"",
-    "is_scheduled":"",
-    "schedule_date":"",
-    "schedule_slot":"",
-    "auto_acceptable":false,
-    "location":""
+function appendFormData(fd, data, parentKey = "") {
+  if (data && typeof data === "object" && !Array.isArray(data)) {
+    Object.keys(data).forEach((key) => {
+      appendFormData(fd, data[key], parentKey ? `${parentKey}[${key}]` : key);
+    });
+  } else if (Array.isArray(data)) {
+    data.forEach((item, index) => {
+      appendFormData(fd, item, `${parentKey}[${index}]`);
+    });
+  } else {
+    fd.append(parentKey, data === null ? "" : data);
+  }
 }
- */

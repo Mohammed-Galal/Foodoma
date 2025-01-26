@@ -4,12 +4,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../store";
 
 export default function () {
-  let itemsQuantity = 0;
-
   const redirect = useNavigate(),
     { alerts: Alerts, loaded } = useSelector((e) => e.User),
     alerts = Alerts.filter((e) => !e.is_read),
     Products = useSelector((e) => e.Products);
+
+  let itemsQuantity = 0;
 
   Products.cart.forEach((p) => (itemsQuantity += p.quantity));
 

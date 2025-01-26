@@ -2,14 +2,12 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import NXT from "../../icons/NXT";
 import Plus from "../../icons/Plus";
 import Minus from "../../icons/Minus";
 import Cart from "../../icons/Cart";
 import "./index.scss";
-
-let totalPrice = 5;
 
 export default function () {
   const products = useSelector((e) => e.Products),
@@ -44,47 +42,69 @@ export default function () {
           <li>{availOptions.name}</li>
         </ul>
 
-        <Form options={availOptions} />
+        <Form productItem={availOptions} />
       </section>
     </>
   );
 }
 
-function Form({ options }) {
-  const [activeOpts, setActiveOpts] = useState({}),
+function Form({ productItem }) {
+  const dispatch = useDispatch(),
+    [activeOpts, setActiveOpts] = useState({}),
     [quantity, setQuantity] = useState(1);
 
-  const optGroup = options.addon_categories.map(({ id, name, addons }) => {
-    const innerOptions = addons.map((addon, index) => {
-      index === 0 && (activeOpts[name] = addon.name);
+  let totalPrice = +productItem.price;
+
+  const selected_addons = [],
+    optGroup = productItem.addon_categories.map(({ id, name, addons }) => {
+      const innerOptions = addons.map((addon, index) => {
+        index === 0 && (activeOpts[name] = addon.name);
+
+        return (
+          <button
+            key={addon.id}
+            className="btn"
+            data-active={activeOpts[name] === addon.name}
+            onClick={() => handleChange(name, addon.name)}
+          >
+            {addon.name}
+          </button>
+        );
+      });
 
       return (
-        <button
-          key={addon.id}
-          className="btn"
-          data-active={activeOpts[name] === addon.name}
-          onClick={() => handleChange(name, addon.name)}
-        >
-          {addon.name}
-        </button>
+        <li key={id}>
+          <span className="title">{name}</span>
+          {innerOptions}
+        </li>
       );
     });
 
-    return (
-      <li key={id}>
-        <span className="title">{name}</span>
-        {innerOptions}
-      </li>
-    );
-  });
+  const formBody = {
+    customProps: {
+      is_special: true,
+      phrase: "",
+      comment: "",
+      images: [],
+    },
+
+    name: productItem.name,
+    restaurant_id: +productItem.restaurant_id,
+    id: productItem.id,
+    price: productItem.price,
+    totalPrice: totalPrice * quantity,
+    quantity: quantity,
+    addons: selected_addons,
+  };
 
   return (
     <form className="d-flex flex-wrap gap-3" encType="multipart/form-data">
       <div className="align-items-center d-flex flex-column gap-4 justify-content-around">
         <img id="img-preview" src="/assets/home/img-placeholder.png" alt="PH" />
         <input
-          onChange={handleChange}
-          id="img-file"
+          onChange={({ target }) =>
+            (formBody.customProps.images = target.files)
+          }
           type="file"
           accept="image/*"
         />
@@ -103,6 +123,9 @@ function Form({ options }) {
           <input
             type="text"
             name="phrase"
+            onChange={({ target }) =>
+              (formBody.customProps.phrase = target.value)
+            }
             className="input-group-text"
             placeholder="Happy Birthday Alaa!"
           />
@@ -112,12 +135,14 @@ function Form({ options }) {
           <label htmlFor="notes" className="title">
             شكل آخر اكتبه في الملاحظات
           </label>
-          
+
           <input
-            className="input-group-text"
-            name="notes"
             type="text"
-            id="notes"
+            name="comment"
+            onChange={({ target }) =>
+              (formBody.customProps.comment = target.value)
+            }
+            className="input-group-text"
             placeholder="ملاحظات"
           />
         </li>
@@ -133,7 +158,11 @@ function Form({ options }) {
           >
             {Minus}
           </button>
-          <button type="button" className="d-flex gap-1 align-items-center">
+          <button
+            type="button"
+            className="d-flex gap-1 align-items-center"
+            onClick={storeFormData}
+          >
             اضف الى العربة
             {Cart}
           </button>
@@ -146,5 +175,9 @@ function Form({ options }) {
 
   function handleChange(optName, value) {
     setActiveOpts({ ...activeOpts, [optName]: value });
+  }
+
+  function storeFormData() {
+    dispatch({ type: "products/addToCart", payload: formBody });
   }
 }

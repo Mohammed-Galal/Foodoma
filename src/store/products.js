@@ -36,6 +36,19 @@ reducers.init = function (state, action) {
 };
 
 reducers.addToCart = function (state, { payload }) {
+  if (state.cart.length) {
+    const isCustomItem = state.cart
+        .concat(payload)
+        .some((e) => !!e.customProps),
+      proceedToClear =
+        isCustomItem &&
+        window.confirm(
+          "لا يمكن اضافة الطلب المخصص الى العربة بجانب الطلبات الأخرى، هل تريد إخلاء العربة؟"
+        );
+
+    proceedToClear && (state.cart = []);
+  }
+
   const cart = [...state.cart, payload];
   state.cart = cart;
 
