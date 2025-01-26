@@ -194,9 +194,7 @@ export default function () {
     const fetchOpts = {
       method: "POST",
       body: formData,
-      headers: {
-        Authorization: window.localStorage.getItem("token"),
-      },
+      headers: { Authorization: window.localStorage.getItem("token") },
     };
 
     fetch(placeOrderApi, fetchOpts)

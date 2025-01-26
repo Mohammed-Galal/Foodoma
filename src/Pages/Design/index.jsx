@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 import { useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch, useStore } from "react-redux";
 import NXT from "../../icons/NXT";
 import Plus from "../../icons/Plus";
 import Minus from "../../icons/Minus";
@@ -49,7 +49,8 @@ export default function () {
 }
 
 function Form({ productItem }) {
-  const dispatch = useDispatch(),
+  const resId = useStore().getState().Restaurant.data.id,
+    dispatch = useDispatch(),
     [activeOpts, setActiveOpts] = useState({}),
     [quantity, setQuantity] = useState(1);
 
@@ -89,7 +90,7 @@ function Form({ productItem }) {
     },
 
     name: productItem.name,
-    restaurant_id: +productItem.restaurant_id,
+    restaurant_id: resId,
     id: productItem.id,
     price: productItem.price,
     totalPrice: totalPrice * quantity,
@@ -103,7 +104,7 @@ function Form({ productItem }) {
         <img id="img-preview" src="/assets/home/img-placeholder.png" alt="PH" />
         <input
           onChange={({ target }) =>
-            (formBody.customProps.images = target.files)
+            (formBody.customProps.images = target.value)
           }
           type="file"
           accept="image/*"

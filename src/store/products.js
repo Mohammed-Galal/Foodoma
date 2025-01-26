@@ -19,19 +19,20 @@ reducers.init = function (state, action) {
   state.loaded = true;
 
   const itemsObj = action.payload.items,
+    customProducts = itemsObj.Custom || [],
     categories = Object.keys(itemsObj),
     items = [];
+
+  delete itemsObj.Custom;
 
   const slug = window.localStorage.getItem("slug"),
     cartItems = (cartStorage[slug] ||= []);
 
-  categories.forEach(
-    (k) => k !== "Custom" && items.push.apply(items, itemsObj[k])
-  );
+  categories.forEach((k) => items.push.apply(items, itemsObj[k]));
 
   state.data = items;
   state.categories = categories;
-  state.custom = (itemsObj.Custom || []).filter((i) => i.is_active);
+  state.custom = customProducts.filter((i) => i.is_active);
   state.cart = cartItems;
 };
 
