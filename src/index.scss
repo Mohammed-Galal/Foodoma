@@ -261,7 +261,7 @@ footer {
   }
 
   & > div {
-    color: var(--primary);
+    color: inherit;
     & > div {
       &:first-child {
         row-gap: 2rem;
