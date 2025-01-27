@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 /* eslint-disable jsx-a11y/alt-text */
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { useSelector, useDispatch, useStore } from "react-redux";
 import NXT from "../../icons/NXT";
@@ -49,24 +49,41 @@ export default function () {
 }
 
 function Form({ productItem }) {
-  const resId = useStore().getState().Restaurant.data.id,
+  const activeOpts = useRef({}),
+    resId = useStore().getState().Restaurant.data.id,
     dispatch = useDispatch(),
-    [activeOpts, setActiveOpts] = useState({}),
     [quantity, setQuantity] = useState(1);
 
-  let totalPrice = +productItem.price;
+  let totalPrice = +productItem.price * quantity;
 
   const selected_addons = [],
-    optGroup = productItem.addon_categories.map(({ id, name, addons }) => {
+    opts = activeOpts.current,
+    optGroup = productItem.addon_categories.map((addonCategory) => {
+      const { id, name, type, addons } = addonCategory,
+        isSingular = type === "SINGLE",
+        container = (opts[name] ||= isSingular ? 0 : new Set([0]));
+
       const innerOptions = addons.map((addon, index) => {
-        index === 0 && (activeOpts[name] = addon.name);
+        const isActive = isSingular
+          ? container === index
+          : container.has(index);
+
+        if (isActive) {
+          totalPrice += +addon.price;
+          selected_addons.push({
+            addon_id: addon.id,
+            addon_category_name: addonCategory.name,
+            addon_name: addon.name,
+            price: +addon.price,
+          });
+        }
 
         return (
           <button
             key={addon.id}
             className="btn"
-            data-active={activeOpts[name] === addon.name}
-            onClick={() => handleChange(name, addon.name)}
+            data-active={isActive}
+            onClick={() => addOption(index)}
           >
             {addon.name}
           </button>
@@ -79,6 +96,12 @@ function Form({ productItem }) {
           {innerOptions}
         </li>
       );
+
+      function addOption(indx) {
+        if (type === "SINGLE") opts[name] = indx;
+        else
+          opts[name].has(name) ? opts[name].delete(indx) : opts[name].add(indx);
+      }
     });
 
   const formBody = {
@@ -173,10 +196,6 @@ function Form({ productItem }) {
       </ul>
     </form>
   );
-
-  function handleChange(optName, value) {
-    setActiveOpts({ ...activeOpts, [optName]: value });
-  }
 
   function storeFormData() {
     dispatch({ type: "products/addToCart", payload: formBody });
