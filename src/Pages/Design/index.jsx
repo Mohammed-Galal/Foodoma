@@ -48,13 +48,16 @@ export default function () {
   );
 }
 
+
+
 function Form({ productItem }) {
   const activeOpts = useRef({}),
     resId = useStore().getState().Restaurant.data.id,
     dispatch = useDispatch(),
+    [load, setLoad] = useState(false),
     [quantity, setQuantity] = useState(1);
 
-  let totalPrice = +productItem.price * quantity;
+  let totalPrice = +productItem.price;
 
   const selected_addons = [],
     opts = activeOpts.current,
@@ -86,6 +89,12 @@ function Form({ productItem }) {
             onClick={() => addOption(index)}
           >
             {addon.name}
+
+            <span style={{ fontSize: "smaller", marginLeft: "20px" }}>
+              /{addon.price} ر.س
+            </span>
+
+            {isActive ? Minus : Plus}
           </button>
         );
       });
@@ -99,10 +108,14 @@ function Form({ productItem }) {
 
       function addOption(indx) {
         if (type === "SINGLE") opts[name] = indx;
-        else
+        else if (opts[name].size > 1)
           opts[name].has(name) ? opts[name].delete(indx) : opts[name].add(indx);
+
+        setLoad(!load);
       }
     });
+
+  totalPrice = totalPrice * quantity;
 
   const formBody = {
     customProps: {
@@ -116,13 +129,17 @@ function Form({ productItem }) {
     restaurant_id: resId,
     id: productItem.id,
     price: productItem.price,
-    totalPrice: totalPrice * quantity,
+    totalPrice: totalPrice,
     quantity: quantity,
     addons: selected_addons,
   };
 
   return (
-    <form className="d-flex flex-wrap gap-3" encType="multipart/form-data">
+    <form
+      className="d-flex flex-wrap gap-3"
+      encType="multipart/form-data"
+      onSubmit={(e) => e.preventDefault()}
+    >
       <div className="align-items-center d-flex flex-column gap-4 justify-content-around">
         <img id="img-preview" src="/assets/home/img-placeholder.png" alt="PH" />
         <input

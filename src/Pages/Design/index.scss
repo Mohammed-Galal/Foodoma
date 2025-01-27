@@ -66,29 +66,7 @@ aside {
         gap: 0.75rem;
         color: var(--midgray);
 
-        &.shapes > label {
-          display: flex;
-          align-items: center;
-          gap: 4px;
-
-          & > span {
-            display: inline-block;
-            border: 1px solid;
-            width: 16px;
-            height: 16px;
-          }
-
-          &:first-of-type > span {
-            border-radius: 24px;
-          }
-
-          &:nth-child(4) > span {
-            width: 26px;
-          }
-        }
-
-        & > .title,
-        & > label:has(> input[type="radio"]:checked) {
+        & > .title {
           color: var(--primary);
         }
 
@@ -98,34 +76,18 @@ aside {
           width: 100%;
         }
 
-        & > select {
-          width: 100%;
-          text-align: right;
+        & > .btn {
+          border: 1px solid currentColor;
+          background-color: transparent;
           color: var(--midgray);
-        }
-
-        & > label {
-          cursor: pointer;
+          font-weight: 600;
           border-radius: 24px;
 
-          &[for="notes"] {
+          &:hover,
+          &[data-active="true"] {
+            background-color: #a3d0eb;
+            border-color: transparent;
             color: var(--primary);
-            margin-right: auto;
-          }
-
-          & > input {
-            display: none;
-          }
-
-          &:has(> input[type="radio"]) {
-            padding: 8px 16px;
-            background-color: #fbfbfb;
-            border: 1px solid #bdbdbd;
-          }
-
-          &:has(> input[type="radio"]:checked) {
-            background-color: #a8d0ec;
-            border-color: #a8d0ec;
           }
         }
 

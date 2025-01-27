@@ -251,11 +251,12 @@ embed {
 }
 
 footer {
+  background-color: var(--primary);
+  color: #fff;
   border-top: 1px solid #184369;
   font-weight: 500;
 
   & > p {
-    color: var(--midgray);
     text-align: center;
   }
 
@@ -295,7 +296,7 @@ footer {
   gap: 1rem;
 
   & > a {
-    color: var(--primary);
+    color: inherit;
   }
 
   & > img {
