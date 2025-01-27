@@ -4,7 +4,7 @@ export default (
     <div className="container-fluid container-lg">
       <div className="align-items-stretch row">
         <div className="col-12 col-lg-3 col-md-6 d-flex flex-column">
-          <img className="mb-3" src="/assets/home/logo-white.svg" alt="logo" />
+          <img className="mb-3" src="/assets/home/logo.svg" alt="logo" />
           حلويات مونتانا سابقا
           <br />
           تأسست عام 1950 من
