@@ -9,6 +9,8 @@ import Minus from "../../icons/Minus";
 import Cart from "../../icons/Cart";
 import "./index.scss";
 
+const fallbackSrc = "/assets/home/img-placeholder.png";
+
 export default function () {
   const products = useSelector((e) => e.Products),
     customProducts = products.custom,
@@ -48,10 +50,9 @@ export default function () {
   );
 }
 
-
-
 function Form({ productItem }) {
-  const activeOpts = useRef({}),
+  const form = useRef(),
+    activeOpts = useRef({}),
     resId = useStore().getState().Restaurant.data.id,
     dispatch = useDispatch(),
     [load, setLoad] = useState(false),
@@ -75,7 +76,7 @@ function Form({ productItem }) {
           totalPrice += +addon.price;
           selected_addons.push({
             addon_id: addon.id,
-            addon_category_name: addonCategory.name,
+            addon_category_name: name,
             addon_name: addon.name,
             price: +addon.price,
           });
@@ -117,22 +118,21 @@ function Form({ productItem }) {
 
   totalPrice = totalPrice * quantity;
 
-  const formBody = {
-    customProps: {
+  const customProps = {
       is_special: true,
       phrase: "",
-      comment: "",
       images: [],
     },
-
-    name: productItem.name,
-    restaurant_id: resId,
-    id: productItem.id,
-    price: productItem.price,
-    totalPrice: totalPrice,
-    quantity: quantity,
-    addons: selected_addons,
-  };
+    formBody = {
+      customProps,
+      name: productItem.name,
+      restaurant_id: resId,
+      id: productItem.id,
+      price: productItem.price,
+      totalPrice: totalPrice,
+      quantity: quantity,
+      addons: selected_addons,
+    };
 
   return (
     <form
@@ -140,19 +140,30 @@ function Form({ productItem }) {
       encType="multipart/form-data"
       onSubmit={(e) => e.preventDefault()}
     >
-      <div className="align-items-center d-flex flex-column gap-4 justify-content-around">
-        <img id="img-preview" src="/assets/home/img-placeholder.png" alt="PH" />
+      <label
+        className="align-items-center d-flex flex-column gap-4 justify-content-around"
+        style={{
+          flex: "1 0 30%",
+          textDecoration: "underline",
+          color: "var(--primary)",
+        }}
+      >
+        <img
+          id="img-preview"
+          style={{ maxHeight: "300px" }}
+          src={fallbackSrc}
+          alt="PH"
+        />
         <input
-          onChange={({ target }) =>
-            (formBody.customProps.images = target.value)
-          }
+          className="d-none"
+          name="images"
+          onChange={changePlaceholder}
+          multiple="multiple"
           type="file"
           accept="image/*"
         />
-        <label className="pb-1" htmlFor="img-file">
-          أضف صورة
-        </label>
-      </div>
+        أضف صورة
+      </label>
 
       <ul className="d-grid gap-3 list-unstyled">
         {optGroup}
@@ -164,9 +175,7 @@ function Form({ productItem }) {
           <input
             type="text"
             name="phrase"
-            onChange={({ target }) =>
-              (formBody.customProps.phrase = target.value)
-            }
+            onChange={(e) => (customProps.phrase = e.target.value)}
             className="input-group-text"
             placeholder="Happy Birthday Alaa!"
           />
@@ -180,9 +189,7 @@ function Form({ productItem }) {
           <input
             type="text"
             name="comment"
-            onChange={({ target }) =>
-              (formBody.customProps.comment = target.value)
-            }
+            onChange={(e) => (customProps.comment = e.target.value)}
             className="input-group-text"
             placeholder="ملاحظات"
           />
@@ -214,7 +221,22 @@ function Form({ productItem }) {
     </form>
   );
 
+  function changePlaceholder(ev) {
+    const { target } = ev,
+      img = document.getElementById("img-preview");
+
+    customProps.images = Array.from(target.files);
+
+    if (target.files && target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => (img.src = e.target.result);
+      reader.readAsDataURL(target.files[0]);
+      // URL.createObjectURL(files[0]);
+    }
+  }
+
   function storeFormData() {
+    formBody.formData = new FormData(form.current);
     dispatch({ type: "products/addToCart", payload: formBody });
   }
 }

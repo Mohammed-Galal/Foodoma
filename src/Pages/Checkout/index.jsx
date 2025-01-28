@@ -20,9 +20,8 @@ const placeOrderApi = "https://mon10.amir-adel.com/public/api/place-order",
 export default function () {
   const { User, Restaurant, Products } = useStore().getState(),
     [delivery, setDelivery] = useState(false),
-    [activeAddress, setActiveAddress] = useState(0);
-
-  const dispatch = useDispatch(),
+    [activeAddress, setActiveAddress] = useState(0),
+    dispatch = useDispatch(),
     redirect = useNavigate();
 
   const customProps = {
@@ -177,19 +176,28 @@ export default function () {
   );
 
   function placeOrder() {
-    const formData = new FormData(),
-      reqBody = {
-        ...basicBodyReq,
-        ...customProps,
-        order,
-        user: { data: { default_address: userAddresses[activeAddress] } },
-        delivery_type: delivery ? "1" : "2",
-        coupon: { code: "" },
-        method: "COD",
-        order_comment: customProps.comment,
-      };
+    const images = customProps.images,
+      formData = new FormData();
+
+    const reqBody = {
+      ...basicBodyReq,
+      ...customProps,
+      order,
+      user: { data: { default_address: userAddresses[activeAddress] } },
+      delivery_type: delivery ? "1" : "2",
+      coupon: { code: "" },
+      method: "COD",
+      order_comment: customProps.comment,
+    };
 
     appendFormData(formData, reqBody);
+
+    if (images.length > 0) {
+      for (let i = 0; i < images.length; i++) {
+        // Append each file to the FormData object
+        formData.append("images[]", images[i], images[i].name);
+      }
+    }
 
     const fetchOpts = {
       method: "POST",

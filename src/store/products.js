@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const cartStorage = JSON.parse(window.localStorage.getItem("cartItems")) || {};
+const cartMsg =
+  "لا يمكن اضافة الطلب المخصص الى العربة بجانب الطلبات الأخرى، هل تريد إخلاء العربة؟";
 
 const Products = {
     name: "products",
@@ -20,12 +22,12 @@ reducers.init = function (state, action) {
 
   const itemsObj = action.payload.items,
     customProducts = itemsObj.Custom || [],
-    categories = Object.keys(itemsObj),
     items = [];
 
   delete itemsObj.Custom;
 
-  const slug = window.localStorage.getItem("slug"),
+  const categories = Object.keys(itemsObj),
+    slug = window.localStorage.getItem("slug"),
     cartItems = (cartStorage[slug] ||= []);
 
   categories.forEach((k) => items.push.apply(items, itemsObj[k]));
@@ -37,25 +39,22 @@ reducers.init = function (state, action) {
 };
 
 reducers.addToCart = function (state, { payload }) {
-  if (state.cart.length) {
-    const isCustomItem = state.cart
-        .concat(payload)
-        .some((e) => !!e.customProps),
-      proceedToClear =
-        isCustomItem &&
-        window.confirm(
-          "لا يمكن اضافة الطلب المخصص الى العربة بجانب الطلبات الأخرى، هل تريد إخلاء العربة؟"
-        );
+  const isCustomItem = state.cart.concat(payload).some((e) => !!e.customProps);
 
-    proceedToClear && (state.cart = []);
+  if (state.cart.length && isCustomItem) {
+    const proceedToClear = window.confirm(cartMsg);
+    if (proceedToClear) state.cart = [];
+    else return;
   }
 
   const cart = [...state.cart, payload];
   state.cart = cart;
 
-  const slug = window.localStorage.getItem("slug");
-  cartStorage[slug] = cart;
-  window.localStorage.setItem("cartItems", JSON.stringify(cartStorage));
+  if (!isCustomItem) {
+    const slug = window.localStorage.getItem("slug");
+    cartStorage[slug] = cart;
+    window.localStorage.setItem("cartItems", JSON.stringify(cartStorage));
+  }
 };
 
 reducers.updateCartItem = function (state, { payload }) {

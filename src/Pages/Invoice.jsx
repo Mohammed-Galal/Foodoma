@@ -153,7 +153,7 @@ function ProductItem({ id, name, price, selectedaddons, quantity }) {
           total += +a.price;
           return (
             <li key={a.addon_id} className="d-flex justify-content-center">
-              {a.addon_category_name} - <span>{a.price} ر.س</span>
+              {a.addon_name} - <span>{a.price} ر.س</span>
             </li>
           );
         })}
