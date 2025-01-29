@@ -52,6 +52,12 @@ export default function () {
 
 function Form({ productItem }) {
   const form = useRef(),
+    customProps = useRef({
+      is_special: true,
+      phrase: "",
+      comment: "",
+      images: [],
+    }),
     activeOpts = useRef({}),
     resId = useStore().getState().Restaurant.data.id,
     dispatch = useDispatch(),
@@ -118,26 +124,20 @@ function Form({ productItem }) {
 
   totalPrice = totalPrice * quantity;
 
-  const customProps = {
-      is_special: true,
-      phrase: "",
-      images: [],
-    },
-    formBody = {
-      customProps,
-      name: productItem.name,
-      restaurant_id: resId,
-      id: productItem.id,
-      price: productItem.price,
-      totalPrice: totalPrice,
-      quantity: quantity,
-      addons: selected_addons,
-    };
+  const formBody = {
+    customProps: customProps.current,
+    name: productItem.name,
+    restaurant_id: resId,
+    id: productItem.id,
+    price: productItem.price,
+    totalPrice: totalPrice,
+    quantity: quantity,
+    addons: selected_addons,
+  };
 
   return (
     <form
       className="d-flex flex-wrap gap-3"
-      encType="multipart/form-data"
       onSubmit={(e) => e.preventDefault()}
     >
       <label
@@ -175,7 +175,8 @@ function Form({ productItem }) {
           <input
             type="text"
             name="phrase"
-            onChange={(e) => (customProps.phrase = e.target.value)}
+            value={customProps.current.phrase}
+            onChange={(e) => (customProps.current.phrase = e.target.value)}
             className="input-group-text"
             placeholder="Happy Birthday Alaa!"
           />
@@ -189,7 +190,8 @@ function Form({ productItem }) {
           <input
             type="text"
             name="comment"
-            onChange={(e) => (customProps.comment = e.target.value)}
+            value={customProps.current.comment}
+            onChange={(e) => (customProps.current.comment = e.target.value)}
             className="input-group-text"
             placeholder="ملاحظات"
           />
@@ -225,7 +227,7 @@ function Form({ productItem }) {
     const { target } = ev,
       img = document.getElementById("img-preview");
 
-    customProps.images = Array.from(target.files);
+    customProps.current.images = Array.from(target.files);
 
     if (target.files && target.files[0]) {
       const reader = new FileReader();
