@@ -71,7 +71,7 @@ function Form({ productItem }) {
     optGroup = productItem.addon_categories.map((addonCategory) => {
       const { id, name, type, addons } = addonCategory,
         isSingular = type === "SINGLE",
-        container = (opts[name] ||= isSingular ? 0 : new Set([0]));
+        container = (opts[name] ||= isSingular ? 0 : new Set());
 
       const innerOptions = addons.map((addon, index) => {
         const isActive = isSingular
@@ -114,9 +114,9 @@ function Form({ productItem }) {
       );
 
       function addOption(indx) {
-        if (type === "SINGLE") opts[name] = indx;
-        else if (opts[name].size > 1)
-          opts[name].has(name) ? opts[name].delete(indx) : opts[name].add(indx);
+        if (isSingular) opts[name] = indx;
+        else
+          opts[name].has(indx) ? opts[name].delete(indx) : opts[name].add(indx);
 
         setLoad(!load);
       }
@@ -129,7 +129,7 @@ function Form({ productItem }) {
     name: productItem.name,
     restaurant_id: resId,
     id: productItem.id,
-    price: productItem.price,
+    price: +productItem.price,
     totalPrice: totalPrice,
     quantity: quantity,
     addons: selected_addons,
@@ -175,7 +175,6 @@ function Form({ productItem }) {
           <input
             type="text"
             name="phrase"
-            value={customProps.current.phrase}
             onChange={(e) => (customProps.current.phrase = e.target.value)}
             className="input-group-text"
             placeholder="Happy Birthday Alaa!"
@@ -190,7 +189,6 @@ function Form({ productItem }) {
           <input
             type="text"
             name="comment"
-            value={customProps.current.comment}
             onChange={(e) => (customProps.current.comment = e.target.value)}
             className="input-group-text"
             placeholder="ملاحظات"

@@ -15,7 +15,7 @@ export default function () {
         المفضلة
       </span>
 
-      {favs.length && <Carousel innerItems={favs.map(productItem)} />}
+      {!!favs.length && <Carousel innerItems={favs.map(productItem)} />}
     </div>
   );
 }

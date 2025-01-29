@@ -9,14 +9,9 @@ import "./index.scss";
 const baseUrl = "https://mon10.amir-adel.com";
 
 export default function () {
-  const redirect = useNavigate(),
-    store = useStore().getState(),
+  const store = useStore().getState(),
     dispatch = useDispatch(),
     restaurant = store.Restaurant;
-
-  useLayoutEffect(() => {
-    store.Products.cart[0]?.customProps && redirect("/checkout");
-  });
 
   const delivery = +restaurant.data.delivery_charges;
 

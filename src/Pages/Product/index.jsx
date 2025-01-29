@@ -55,7 +55,12 @@ function ProductInfo(state) {
     ? { opacity: 1, transform: "translateY(0)" }
     : { opacity: 0, transform: "translateY(100%)" };
 
-  const categories = state.addon_categories,
+  const discountFlag = +state.old_price > 0 && (
+      <p>
+        {100 - (+state.price / +state.old_price) * 100}% <sub>خصم</sub>
+      </p>
+    ),
+    categories = state.addon_categories,
     selectedCat = categories.find(($) => $.name === addonCat),
     rawAddons = selectedCat ? selectedCat.addons : [],
     addons = rawAddons.map((addon) =>
@@ -106,7 +111,7 @@ function ProductInfo(state) {
         />
       </div>
 
-      <div className="align-items-start d-flex flex-column flex-grow-1 justify-content-between position-relative">
+      <div className="align-items-start d-flex flex-column flex-grow-1 position-relative">
         <ul className="d-flex gap-1 list-unstyled m-0 p-0">
           <li>mon10</li>
           <li>{NXT}</li>
@@ -127,6 +132,11 @@ function ProductInfo(state) {
           ></p>
         )}
 
+        {discountFlag}
+        <p>
+          <del>{state.old_price} ر.س</del>
+        </p>
+
         <p className="price">
           <span>{state.price} ر.س</span>
           /للقطعة
@@ -135,30 +145,32 @@ function ProductInfo(state) {
           <img src="/assets/home/icons/star.svg" alt="star" /> 5
           <Link to="/rate">اكتب رأيك</Link>
         </p>
-        <div className="addons d-flex flex-wrap w-100">
-          <span className="h5 m-0">الإضافات</span>
+        {!!categories.length && (
+          <div className="addons d-flex flex-wrap w-100">
+            <span className="h5 m-0">الإضافات</span>
 
-          <select
-            className="input-group-text my-2 text-end w-100"
-            style={{ borderColor: "#e9f3fa", outline: "none" }}
-            value={addonCat}
-            onChange={({ target }) => setAddonCat(target.value)}
-          >
-            <option value="" onClick={() => setAddonCat("")}>
-              اختر من الاصناف
-            </option>
-
-            {categories.map((C, I) => (
-              <option key={addonCat + I} value={C.name}>
-                {C.name}
+            <select
+              className="input-group-text my-2 text-end w-100"
+              style={{ borderColor: "#e9f3fa", outline: "none" }}
+              value={addonCat}
+              onChange={({ target }) => setAddonCat(target.value)}
+            >
+              <option value="" onClick={() => setAddonCat("")}>
+                اختر من الاصناف
               </option>
-            ))}
-          </select>
 
-          <ul className="d-grid m-0 p-0">{addons}</ul>
-        </div>
+              {categories.map((C, I) => (
+                <option key={addonCat + I} value={C.name}>
+                  {C.name}
+                </option>
+              ))}
+            </select>
 
-        <div className="align-items-center checkout d-flex gap-1 gap-md-3 justify-content-between justify-content-md-start text-nowrap w-100">
+            <ul className="d-grid m-0 p-0">{addons}</ul>
+          </div>
+        )}
+
+        <div className="mt-auto align-items-center checkout d-flex gap-1 gap-md-3 justify-content-between justify-content-md-start text-nowrap w-100">
           <button
             type="button"
             className="align-items-center btn d-flex justify-content-center"

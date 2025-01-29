@@ -192,7 +192,7 @@ export default function () {
 
     appendFormData(formData, reqBody);
 
-    if (images.length > 0) {
+    if (images && images.length > 0) {
       for (let i = 0; i < images.length; i++) {
         // Append each file to the FormData object
         formData.append("images[]", images[i], images[i].name);

@@ -91,7 +91,7 @@ export default function (item, I) {
       className="d-flex flex-column justify-content-between position-relative product-item px-4 py-3"
     >
       <div className="align-items-center d-flex justify-content-between">
-        <div className="d-grid gap-1" style={{ justifyItems: "flex-start" }}>
+        <div className="d-flex gap-1">
           {is_new ? <span>جديد</span> : ""}
           {discount}
         </div>
