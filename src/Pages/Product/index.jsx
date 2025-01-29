@@ -56,9 +56,12 @@ function ProductInfo(state) {
     : { opacity: 0, transform: "translateY(100%)" };
 
   const discountFlag = +state.old_price > 0 && (
-      <p>
+      <span
+        className="flag"
+        style={{ "--bg": "#e4f4ff", "--color": "var(--primary)" }}
+      >
         {100 - (+state.price / +state.old_price) * 100}% <sub>خصم</sub>
-      </p>
+      </span>
     ),
     categories = state.addon_categories,
     selectedCat = categories.find(($) => $.name === addonCat),
@@ -77,7 +80,10 @@ function ProductInfo(state) {
       id="product"
       className="container-fluid container-lg d-flex flex-wrap"
     >
-      <div className="d-flex flex-column">
+      <div
+        className="d-flex flex-column justify-content-between py-2"
+        style={{ flex: "1 0 39%" }}
+      >
         <img src={imageSrc} alt="product" />
         <div className="d-flex justify-content-around">
           <img src={imageSrc} alt="product" />
@@ -111,7 +117,10 @@ function ProductInfo(state) {
         />
       </div>
 
-      <div className="align-items-start d-flex flex-column flex-grow-1 position-relative">
+      <div
+        className="align-items-start d-flex flex-column flex-grow-1 position-relative"
+        style={{ flex: "1 0 59%" }}
+      >
         <ul className="d-flex gap-1 list-unstyled m-0 p-0">
           <li>mon10</li>
           <li>{NXT}</li>
@@ -121,18 +130,21 @@ function ProductInfo(state) {
         </ul>
 
         <p className="title h2">{state.name}</p>
-        <p className="state text-center">
-          {!!state.is_active ? "متوفر" : "غير متوفر"}
+
+        <p className="state text-center d-flex align-items-center gap-2">
+          <span className="flag">
+            {!!state.is_active ? "متوفر" : "غير متوفر"}
+          </span>
+          {discountFlag}
         </p>
 
         {state.desc && (
           <p
-            className="desc"
+            className="desc w-100"
             dangerouslySetInnerHTML={{ __html: docFrag.textContent }}
           ></p>
         )}
 
-        {discountFlag}
         <p>
           <del>{state.old_price} ر.س</del>
         </p>

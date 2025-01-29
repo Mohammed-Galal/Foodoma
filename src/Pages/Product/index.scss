@@ -2,7 +2,6 @@
   gap: 12px;
 
   & > div:first-child {
-    max-width: 544px;
     gap: inherit;
 
     & > img {
@@ -38,9 +37,9 @@
       font-weight: 700;
     }
 
-    & > p.state {
-      background-color: #5b9c64;
-      color: #fff;
+    & > p.state > span.flag {
+      background-color: var(--bg, #5b9c64) ;
+      color: var(--color, #fff);
       border-radius: 16px;
       padding: 4px 14px;
       font-size: smaller;
