@@ -68,17 +68,16 @@ function ProductInfo(state) {
   let lastAddon,
     totalPrice = +state.price;
 
+
   const categories = state.addon_categories,
     currCategory = categories.find((c) => c.name === currCategoryName),
     isSingular = currCategory?.type === "SINGLE",
     addonItems = currCategory?.addons.map((addon) => {
-      if (selectedAddons.has(addon)) {
-        totalPrice += +addon.price;
-        lastAddon = addon;
-      }
+      if (selectedAddons.has(addon)) lastAddon = addon;
       return AddonItem(addon, toggleAddon, selectedAddons.has(addon));
     });
 
+  selectedAddons.forEach((a) => (totalPrice += +a.price));
   totalPrice = totalPrice * quantity;
 
   function toggleAddon(targetMethod, addon) {
