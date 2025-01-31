@@ -1,3 +1,4 @@
+// eslint-disable-next-line react-hooks/exhaustive-deps
 /* eslint-disable import/no-anonymous-default-export */
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
@@ -10,7 +11,9 @@ import Minus from "../../icons/Minus";
 import Plus from "../../icons/Plus";
 import "./index.scss";
 
-const fallbackStr = `كعكة الفانيليا ذات الطراز القديم هي قلب وروح ماجنوليا بيكري. هنا، نأخذ نفس الخليط الذي نستخدمه لصنع الكعك الشهير الخاص بنا لصنع كعكة غنية بالزبدة مع فتات خفيفة، ونضعها في طبقة من كريمة زبدة الفانيليا أو الشوكولاتة.
+const hiddenAlert = { opacity: 0, transform: "translateY(100%)" },
+  activeAlert = { opacity: 1, transform: "translateY(0)" },
+  fallbackStr = `كعكة الفانيليا ذات الطراز القديم هي قلب وروح ماجنوليا بيكري. هنا، نأخذ نفس الخليط الذي نستخدمه لصنع الكعك الشهير الخاص بنا لصنع كعكة غنية بالزبدة مع فتات خفيفة، ونضعها في طبقة من كريمة زبدة الفانيليا أو الشوكولاتة.
 المكونات: دقيق - زبدة -`,
   baseUrl = "https://mon10.amir-adel.com",
   docFrag = document.createElement("div");
@@ -32,17 +35,16 @@ export default function () {
 function ProductInfo(state) {
   const dispatch = useDispatch(),
     resId = useStore().getState().Restaurant.data.id,
-    selectedAddons = useRef(new Set());
-
-  const [Alert, setAlert] = useState(false),
-    [addonCat, setAddonCat] = useState(""),
+    [Alert, setAlert] = useState(false),
+    [currCategoryName, setAddonCat] = useState(""),
     [load, update] = useState(false),
-    [quantity, setQuntity] = useState(1);
+    [quantity, setQuntity] = useState(1),
+    selectedAddons = useRef(new Set()).current;
 
   useEffect(() => {
     Alert &&
       setTimeout(() => {
-        selectedAddons.current.clear();
+        selectedAddons.clear();
         setQuntity(1);
         setAddonCat("");
         setAlert(false);
@@ -51,30 +53,43 @@ function ProductInfo(state) {
 
   if (state === undefined) return false;
 
-  const alertState = Alert
-    ? { opacity: 1, transform: "translateY(0)" }
-    : { opacity: 0, transform: "translateY(100%)" };
-
-  const discountFlag = +state.old_price > 0 && (
+  const alertState = Alert ? activeAlert : hiddenAlert,
+    old_price = +state.old_price,
+    discountFlag = old_price > 0 && (
       <span
         className="flag"
         style={{ "--bg": "#e4f4ff", "--color": "var(--primary)" }}
       >
-        {100 - (+state.price / +state.old_price) * 100}% <sub>خصم</sub>
+        {100 - (+state.price / old_price) * 100}% <sub>خصم</sub>
       </span>
-    ),
-    categories = state.addon_categories,
-    selectedCat = categories.find(($) => $.name === addonCat),
-    rawAddons = selectedCat ? selectedCat.addons : [],
-    addons = rawAddons.map((addon) =>
-      AddonItem(addon, toggleAddon, selectedAddons.current.has(addon))
     );
+
+  // ============================
+  let lastAddon,
+    totalPrice = +state.price;
+
+  const categories = state.addon_categories,
+    currCategory = categories.find((c) => c.name === currCategoryName),
+    isSingular = currCategory?.type === "SINGLE",
+    addonItems = currCategory?.addons.map((addon) => {
+      if (selectedAddons.has(addon)) {
+        totalPrice += +addon.price;
+        lastAddon = addon;
+      }
+      return AddonItem(addon, toggleAddon, selectedAddons.has(addon));
+    });
+
+  totalPrice = totalPrice * quantity;
+
+  function toggleAddon(targetMethod, addon) {
+    isSingular && lastAddon && selectedAddons.delete(lastAddon);
+    selectedAddons[targetMethod](addon);
+    update(!load);
+  }
 
   const imageSrc = baseUrl + (state.image || "");
   docFrag.innerHTML = state.desc || fallbackStr;
 
-  let totalPrice = +state.price * quantity;
-  selectedAddons.current.forEach((A) => (totalPrice += +A.price * quantity));
   return (
     <section
       id="product"
@@ -145,9 +160,11 @@ function ProductInfo(state) {
           ></p>
         )}
 
-        <p>
-          <del>{state.old_price} ر.س</del>
-        </p>
+        {old_price > 0 && (
+          <p>
+            <del>{state.old_price} ر.س</del>
+          </p>
+        )}
 
         <p className="price">
           <span>{state.price} ر.س</span>
@@ -164,7 +181,7 @@ function ProductInfo(state) {
             <select
               className="input-group-text my-2 text-end w-100"
               style={{ borderColor: "#e9f3fa", outline: "none" }}
-              value={addonCat}
+              value={currCategoryName}
               onChange={({ target }) => setAddonCat(target.value)}
             >
               <option value="" onClick={() => setAddonCat("")}>
@@ -172,13 +189,15 @@ function ProductInfo(state) {
               </option>
 
               {categories.map((C, I) => (
-                <option key={addonCat + I} value={C.name}>
+                <option key={currCategoryName + I} value={C.name}>
                   {C.name}
                 </option>
               ))}
             </select>
 
-            <ul className="d-grid m-0 p-0">{addons}</ul>
+            <ul className="d-flex flex-wrap gap-2 m-0 p-0 w-100">
+              {addonItems}
+            </ul>
           </div>
         )}
 
@@ -234,15 +253,10 @@ function ProductInfo(state) {
     </section>
   );
 
-  function toggleAddon(targetMethod, addon) {
-    selectedAddons.current[targetMethod](addon);
-    update(!load);
-  }
-
   function addItemToCart() {
     if (Alert) return;
     // register addons category_name
-    const addonsFilter = [...selectedAddons.current].map(
+    const addonsFilter = [...selectedAddons].map(
       ({ id, price, name, addon_category_id }) => {
         const addon_category_name = categories.find(
           (c) => c.id === addon_category_id

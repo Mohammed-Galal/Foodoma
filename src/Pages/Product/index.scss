@@ -69,11 +69,8 @@
 
       & > ul {
         list-style: none;
-        grid-template-columns: repeat(auto-fit, 180px);
-        gap: 12px;
 
         & > li {
-          width: 100%;
           cursor: pointer;
           color: #a0a0a0;
           background-color: #fbfbfb;

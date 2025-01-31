@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import Data from "./data.json";
 import Carousel from "../../../shared/Carousel";
 import "./index.scss";
 
@@ -7,8 +7,9 @@ import "./index.scss";
 /* eslint-disable import/no-anonymous-default-export */
 
 export default () => {
-  const categories = useSelector((e) => e.Products).categories;
-  const items = categories.map(oItem);
+  // const categories = useSelector((e) => e.Products).categories;
+  // const categories = Data.map((o) => o.title);
+  const items = Data.map(oItem);
 
   return (
     <section
@@ -36,11 +37,11 @@ export default () => {
   );
 };
 
-function oItem(title, indx) {
+function oItem({ title, img }, indx) {
   indx++;
 
-  const max = 5,
-    src = indx <= max ? indx : Math.floor(indx / max);
+  // const max = 5,
+  //   src = indx <= max ? indx : Math.floor(indx / max);
 
   return (
     <Link
@@ -57,7 +58,7 @@ function oItem(title, indx) {
         }}
       >
         <img
-          src={`/assets/home/occasions/(${src}).png`}
+          src={img}
           alt={title}
           style={{ width: "100%", height: "150px", objectFit: "fill" }}
         />
