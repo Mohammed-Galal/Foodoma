@@ -6,27 +6,36 @@ import { Link } from "react-router-dom";
 /* eslint-disable import/no-anonymous-default-export */
 
 export default ({ sectionName }) => (
-  <section
-    key="moon-sections"
-    id="moon-sections"
-    className="container-fluid container-lg d-flex flex-column align-items-center"
-  >
-    {sectionName && (
-      <p className="d-flex align-items-center">
-        <span className="h3">{sectionName}</span>
-
-        <Link
-          to="/all-products/"
-          className="d-flex align-items-center text-decoration-none"
+  <section id="moon-sections">
+    <div className="container-fluid container-lg d-flex flex-column align-items-center">
+      {sectionName && (
+        <p
+          className="d-flex align-items-center justify-content-between"
+          style={{
+            width: "100%",
+            color: "var(--primary)",
+            marginBottom: "var(--internal-gap)",
+          }}
         >
-          جميع المنتجات{" "}
-          <object data="/assets/home/icons/left-arrow.svg"></object>
-        </Link>
-      </p>
-    )}
+          <span className="h3">{sectionName}</span>
 
-    <div className="d-flex flex-wrap gap-3 justify-content-around">
-      {data.map(sectionItem)}
+          <Link
+            to="/all-products/"
+            className="d-flex align-items-center text-decoration-none"
+            style={{ color: "inherit" }}
+          >
+            جميع المنتجات{" "}
+            <object
+              style={{ marginRight: "0.4rem" }}
+              data="/assets/home/icons/left-arrow.svg"
+            ></object>
+          </Link>
+        </p>
+      )}
+
+      <div className="d-flex flex-wrap gap-3 justify-content-around">
+        {data.map(sectionItem)}
+      </div>
     </div>
   </section>
 );

@@ -43,7 +43,7 @@ export default ({ sectionName }) => (
           <span className="d-block h4">الحجز المبكر</span>
           خصم -15% على الحجز المبكر <br />
           لكيكات اليوم الوطني السعودي
-          <Link to="/design" className="text-decoration-none">
+          <Link to="/early-booking" className="text-decoration-none">
             احجز الآن
           </Link>
         </p>
