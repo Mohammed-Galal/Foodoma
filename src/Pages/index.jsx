@@ -18,6 +18,7 @@ import Bookings from "./Bookings";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
 import Design from "./Design/index.jsx";
+import FAQs from "./FAQs/index.jsx";
 import HomePage from "./Home";
 import Invoice from "./Invoice.jsx";
 import Product from "./Product";
@@ -66,6 +67,7 @@ function App() {
     <>
       {createPortal(Header(isMobileView), header)}
       <Routes>
+        <Route path="/faq" Component={FAQs} />
         <Route path="/restaurant" Component={Restaurant} caseSensitive={true} />
         <Route path="/about-us" Component={About} caseSensitive={true} />
         <Route

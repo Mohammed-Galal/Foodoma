@@ -1,0 +1,11 @@
+#faq{
+  p{
+    height: 0px;
+    transition: 150ms ease-in-out;
+    overflow: hidden;
+
+    &.active{
+      height: var(--H);
+    }
+  }
+}
