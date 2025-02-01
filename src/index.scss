@@ -262,6 +262,7 @@ footer {
 
   & > div {
     color: inherit;
+
     & > div {
       &:first-child {
         row-gap: 2rem;
@@ -276,7 +277,7 @@ footer {
           }
 
           &:nth-child(3) > a {
-            color: var(--midgray);
+            color: #fff;
           }
 
           &:nth-child(4) > ul {

@@ -1,3 +1,7 @@
+import { Link } from "react-router-dom";
+import call from "./icons/call.jsx";
+import whatsapp from "./icons/whatsapp.jsx";
+
 /* eslint-disable import/no-anonymous-default-export */
 export default (
   <>
@@ -14,14 +18,20 @@ export default (
 
         <div className="col-12 col-lg-3 col-md-6 d-flex flex-column">
           <span className="h4 mb-3">اتصل بنا</span>
-          <a className="text-decoration-none mb-3" href="tel:+966502052280">
-            +966502052280
+          <a
+            className="text-decoration-none mb-3 d-flex align-items-center gap-2"
+            href="tel:+966920035416"
+          >
+            {call}
+            +920035416
           </a>
           <a
-            className="text-decoration-none mb-3"
-            href="https://api.whatsapp.com/send?phone=966502052280&text=Send20%a20%quote"
+            className="text-decoration-none mb-3 d-flex align-items-center gap-2"
+            // href="https://api.whatsapp.com/send?phone=966502052280&text=Send20%a20%quote"
+            href="https://wa.me/+966920035416"
           >
-            +966502052280
+            {whatsapp}
+            +920035416
           </a>
           <img
             src="/assets/footer.png"
@@ -29,18 +39,20 @@ export default (
             style={{ maxWidth: "141px" }}
           />
         </div>
+
         <div className="col-12 col-lg-3 col-md-6 d-flex flex-column">
           <span className="h4 mb-3">روابط مساعدة</span>
-          <a className="mb-2 text-decoration-none" href="/public/mobile/">
+          <Link className="mb-2 text-decoration-none" to="/">
             نبذة عن مون 10
-          </a>
-          <a className="mb-2 text-decoration-none" href="/public/mobile/">
-            تواصل معنا
-          </a>
-          <a className="mb-2 text-decoration-none" href="/public/mobile/">
+          </Link>
+          <Link className="mb-2 text-decoration-none" to="/about-us">
+            من نحن
+          </Link>
+          <Link className="mb-2 text-decoration-none" to="/faq">
             الأسئلة الشائعة
-          </a>
+          </Link>
         </div>
+
         <div className="col-12 col-lg-3 col-md-6 d-flex flex-wrap">
           <span className="h4 mb-3 w-100">مواقع الفروع</span>
           <ul className="m-0 p-0">
@@ -71,13 +83,13 @@ export default (
           <img src="/assets/home/footer/1.png" alt="footer img" />
         </div>
 
-        <form action="/" method="POST" className="col-12 col-lg-4">
+        {/* <form action="/" method="POST" className="col-12 col-lg-4">
           <input type="email" placeholder="ادخل بريدك الالكتروني" />
           <button type="submit">اشترك الآن</button>
-        </form>
+        </form> */}
       </div>
 
-      <div id="policy" className="row mt-3">
+      <div id="policy" className="row mt-3 d-none">
         <a className="text-decoration-none" href="/public/mobile/">
           سياسة الخصوصية
         </a>
@@ -91,6 +103,7 @@ export default (
         <img src="/assets/home/footer/2.png" alt="" />
       </div>
     </div>
+
     <p className="mt-4 mb-0 text-center">
       <span>جميع الحقوق محفوظة | </span>© 2003-2024 Mon10
     </p>

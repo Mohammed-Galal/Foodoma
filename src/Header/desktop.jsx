@@ -23,17 +23,15 @@ export default function () {
           <Link to="/restaurant">الفروع</Link>
         </li>
         <li>
-          <Link to="/about-us">من نحن؟</Link>
+          <button type="button" className="btn px-3 py-2">
+            اطلب الآن
+          </button>
         </li>
       </ul>
 
       <Link to="/" className="mx-auto">
         <img src="/assets/home/logo.svg" alt="logo" />
       </Link>
-
-      <button type="button" className="btn px-3 py-2">
-        اطلب الآن
-      </button>
 
       <ul className="align-items-center d-flex list-unstyled m-0 p-0">
         <li>

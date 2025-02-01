@@ -1,6 +1,7 @@
 body:not(#mobile) > header {
   position: sticky;
   top: -40px;
+  top: 0px;
   z-index: 9;
   background-color: #fff;
   box-shadow: 0px 4px 9px -5px rgb(0 0 0 / 20%);
@@ -9,7 +10,7 @@ body:not(#mobile) > header {
     grid-template-columns: auto 1fr auto auto;
     gap: 16px;
 
-    & > .btn {
+    button.btn {
       color: var(--primary);
       background-color: #ffcd00;
       font-weight: 700;

@@ -11,6 +11,7 @@ import { createPortal } from "react-dom";
 import isMobileView from "../shared/isMobile.js";
 import store from "../store";
 
+import About from "./About.jsx";
 import Alerts from "./Alerts";
 import All_Products from "./All_Products.jsx";
 import Bookings from "./Bookings";
@@ -26,12 +27,13 @@ import User from "./User";
 
 import Header from "../Header";
 import Nav from "../Nav";
-import About from "./About.jsx";
+import Footer from "../Footer.jsx";
 
 const body = document.body;
 
 const header = document.createElement("header"),
-  nav = document.querySelector("nav");
+  nav = document.querySelector("nav"),
+  footer = document.querySelector("body > footer");
 
 isMobileView && (body.id = "mobile");
 body.prepend(header);
@@ -42,6 +44,7 @@ export default (
       <Provider store={store}>
         <App />
       </Provider>
+      {createPortal(Footer, footer)}
     </BrowserRouter>
   </React.StrictMode>
 );
