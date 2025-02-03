@@ -1,4 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
+import getText from "../../translation.js";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -101,9 +102,9 @@ function Login({ setLoading }) {
 
         <div className="d-flex flex-column gap-2">
           <b className="h3 m-0" style={{ fontWeight: 700 }}>
-            تسجيل الدخول
+            {getText("user", 0)}
           </b>
-          <span>أدخل بريدك الإلكتروني وكلمة المرور</span>
+          <span>{getText("user", 1)}</span>
         </div>
       </div>
 
@@ -112,24 +113,24 @@ function Login({ setLoading }) {
         style={{ rowGap: "1rem", color: "var(--primary)" }}
       >
         <div className="col-12 col-md-6">
-          <h6>رقم الهاتف أو البريد الالكتروني</h6>
+          <h6>{getText("user", 2)}</h6>
           <input
             type="email"
             className="input-group-text w-100"
             style={{ outline: "none" }}
             onChange={(e) => (reqBody.email = e.target.value)}
-            placeholder="البريد الإلكتروني"
+            placeholder={getText("user", 2)}
           />
         </div>
 
         <div className="col-12 col-md-6">
-          <h6>كلمة المرور</h6>
+          <h6>{getText("user", 3)}</h6>
           <input
             type="password"
             style={{ outline: "none" }}
             className="input-group-text w-100"
             onChange={(e) => (reqBody.password = e.target.value)}
-            placeholder="كلمة المرور"
+            placeholder={getText("user", 3)}
           />
         </div>
 
@@ -140,19 +141,19 @@ function Login({ setLoading }) {
             style={{ backgroundColor: "var(--primary)", color: "#fff" }}
             onClick={registerUser}
           >
-            سجل دخول
+            {getText("user", 4)}
           </button>
         </div>
       </div>
 
       <p className="m-0 text-center" style={{ color: "var(--midgray)" }}>
-        ليس لديك حساب بعد؟
+        {getText("user", 5)}
         <Link
           to="/user/register"
           className="m-2 text-decoration-none"
           style={{ color: "var(--primary)" }}
         >
-          أنشئ حسابك الآن
+          {getText("user", 6)}
         </Link>
       </p>
     </div>
@@ -160,7 +161,7 @@ function Login({ setLoading }) {
 
   function registerUser() {
     if (!("email" in reqBody && "password" in reqBody))
-      return alert("يرجى ملئ جميع البيانات");
+      return alert(getText("user", 7));
 
     setLoading(true);
 
@@ -212,9 +213,9 @@ function Register({ setLoading }) {
 
         <div className="d-flex flex-column gap-2">
           <b className="h3 m-0" style={{ fontWeight: 700 }}>
-            إنشاء حساب جديد
+            {getText("user", 8)}
           </b>
-          <span>أنشئ حسابك الآن مجاناً</span>
+          <span>{getText("user", 9)}</span>
         </div>
       </div>
 
@@ -223,42 +224,42 @@ function Register({ setLoading }) {
         style={{ rowGap: "1rem", color: "var(--primary)" }}
       >
         <div className="col-12 col-md-6">
-          <h6>الاسم</h6>
+          <h6>{getText("user", 10)}</h6>
           <input
             type="text"
             style={{ outline: "none" }}
             onChange={(e) => (reqBody.name = e.target.value)}
             className="input-group-text w-100"
-            placeholder="الاسم"
+            placeholder={getText("user", 10)}
           />
         </div>
         <div className="col-12 col-md-6">
-          <h6>البريد الالكتروني</h6>
+          <h6>{getText("user", 11)}</h6>
           <input
             type="email"
             style={{ outline: "none" }}
             onChange={(e) => (reqBody.email = e.target.value)}
             className="input-group-text w-100"
-            placeholder="البريد الإلكتروني"
+            placeholder={getText("user", 11)}
           />
         </div>
         <div className="col-12 col-md-6">
-          <h6>رقم الهاتف</h6>
+          <h6>{getText("user", 12)}</h6>
           <input
             type="tel"
             style={{ outline: "none" }}
             onChange={(e) => (reqBody.phone = e.target.value)}
             className="input-group-text w-100"
-            placeholder="الهاتف"
+            placeholder={getText("user", 12)}
           />
         </div>
         <div className="col-12 col-md-6">
-          <h6>كلمة المرور</h6>
+          <h6>{getText("user", 13)}</h6>
           <input
             type="password"
             onChange={(e) => (reqBody.password = e.target.value)}
             className="input-group-text w-100"
-            placeholder="كلمة المرور"
+            placeholder={getText("user", 13)}
           />
         </div>
         <div className="col-12 col-md-6 mx-auto">
@@ -268,19 +269,19 @@ function Register({ setLoading }) {
             style={{ backgroundColor: "var(--primary)", color: "#fff" }}
             onClick={registerUser}
           >
-            أنشئ حسابك
+            {getText("user", 14)}
           </button>
         </div>
       </div>
 
       <p className="m-0 text-center" style={{ color: "var(--midgray)" }}>
-        لديك حساب بالفعل؟
+        {getText("user", 15)}
         <Link
           to="/user/login"
           className="m-2 text-decoration-none"
           style={{ color: "var(--primary)" }}
         >
-          سجل دخولك
+          {getText("user", 16)}
         </Link>
       </p>
     </div>
@@ -316,7 +317,7 @@ function handleUserData(r) {
     return true;
   }
 
-  alert("يرجى التحقق من البيانات المطلوبة");
+  alert(getText("user", 17));
 
   return succeded;
 }

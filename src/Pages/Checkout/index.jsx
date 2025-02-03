@@ -1,4 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
+import getText from "../../translation";
 import { useDispatch, useStore } from "react-redux";
 import { useLayoutEffect, useState } from "react";
 import NXT from "../../icons/NXT";
@@ -78,11 +79,11 @@ export default function () {
   return (
     <section id="checkout">
       <ul className="d-flex gap-2 justify-content-center list-unstyled mb-5 mx-auto p-0">
-        <li>السلة</li>
+        <li>{getText("checkout", 0)}</li>
         <li>{NXT}</li>
-        <li className="h5 m-0">الدفع</li>
+        <li className="h5 m-0">{getText("checkout", 1)}</li>
         <li>{NXT}</li>
-        <li>تأكيد الطلب</li>
+        <li>{getText("checkout", 2)}</li>
       </ul>
 
       <div className="align-items-stretch container d-flex flex-column flex-xl-row gap-3 justify-content-center">
@@ -101,14 +102,14 @@ export default function () {
               width: "auto",
             }}
           >
-            بيانات الاستلام
+            {getText("checkout", 3)}
           </legend>
 
           <div
             className="d-flex flex-wrap gap-2"
             style={{ color: "var(--primary)" }}
           >
-            <span className="w-100">طريقة الاستلام</span>
+            <span className="w-100">{getText("checkout", 4)}</span>
             <button
               className="btn d-flex align-items-center gap-2"
               data-active={!delivery}
@@ -122,7 +123,7 @@ export default function () {
                 src="https://mon10.doobagency.com/assets/img/various/self-pickup.png"
                 alt="branch"
               />
-              الاستلام من الفرع
+              {getText("checkout", 5)}
             </button>
             <button
               className="btn d-flex align-items-center gap-2"
@@ -137,7 +138,7 @@ export default function () {
                 src="https://mon10.doobagency.com/assets/img/various/home-delivery.png"
                 alt="delivery"
               />
-              توصيل
+              {getText("checkout", 6)}
             </button>
           </div>
 
@@ -149,7 +150,7 @@ export default function () {
           </ul>
 
           <textarea
-            placeholder="ملاحظات"
+            placeholder={getText("checkout", 7)}
             className="input-group-text mt-auto"
             defaultValue={customProps.comment}
             onChange={({ target }) => (customProps.comment = target.value)}
@@ -208,7 +209,7 @@ export default function () {
     fetch(placeOrderApi, fetchOpts)
       .then((r) => r.json())
       .then(handleInvoice)
-      .catch((e) => alert("حدث خطأ"));
+      .catch((e) => alert(getText("checkout", 8)));
   }
 
   function handleInvoice({ data }) {
@@ -218,16 +219,16 @@ export default function () {
       comment: data.order_comment,
       code: data.unique_order_id,
       PIN: data.delivery_pin,
-      deliveryType: "من الفرع",
+      deliveryType: getText("checkout", 9),
       deliveryAddress: Restaurant.data.name,
-      paymentMode: "عند الاستلام",
+      paymentMode: getText("checkout", 10),
       price: totalPrice - delivery_charges,
       deliveryCharges: delivery_charges,
       total: totalPrice,
     };
 
     if (delivery) {
-      invoiceState.deliveryType = "توصيل";
+      invoiceState.deliveryType = getText("checkout", 6);
       invoiceState.deliveryAddress = userAddresses[activeAddress].tag;
     }
 
@@ -242,7 +243,7 @@ function OrderInfo({ cart, delivery, products, placeOrder, totalPrice }) {
 
   return (
     <div className="p-3">
-      <span className="h5 title text-center">الطلب</span>
+      <span className="h5 title text-center">{getText("checkout", 11)}</span>
 
       <hr />
       <ul className="list-unstyled m-0 p-0">{items}</ul>
@@ -250,19 +251,25 @@ function OrderInfo({ cart, delivery, products, placeOrder, totalPrice }) {
       <hr />
       <div>
         <p>
-          التوصيل
-          <span>{delivery} ر.س</span>
+          {getText("checkout", 12)}
+          <span>
+            {delivery} {getText("checkout", 16)}
+          </span>
         </p>
         <p>
-          الخصم
-          <span>{Math.abs(discount)} ر.س</span>
+          {getText("checkout", 13)}
+          <span>
+            {Math.abs(discount)} {getText("checkout", 16)}
+          </span>
         </p>
       </div>
       <hr />
 
       <p className="total">
-        الإجمالي
-        <span>{totalPrice} ر.س</span>
+        {getText("checkout", 14)}
+        <span>
+          {totalPrice} {getText("checkout", 16)}
+        </span>
       </p>
       {/* 
       <div>
@@ -291,7 +298,7 @@ function OrderInfo({ cart, delivery, products, placeOrder, totalPrice }) {
         onClick={placeOrder}
         className="btn mt-4 mx-auto w-100"
       >
-        أكمل الدفع
+        {getText("checkout", 15)}
       </button>
     </div>
   );
@@ -308,7 +315,9 @@ function productItem({ id, quantity, price, name }) {
         {name}
       </span>
       <span>x {quantity}</span>
-      <span>{price} ر.س</span>
+      <span>
+        {price} {getText("checkout", 16)}
+      </span>
     </li>
   );
 }

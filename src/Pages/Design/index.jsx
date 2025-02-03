@@ -1,5 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 /* eslint-disable jsx-a11y/alt-text */
+import getText from "../../translation";
 import { useRef, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { useSelector, useDispatch, useStore } from "react-redux";
@@ -39,7 +40,7 @@ export default function () {
         <ul className="d-flex gap-2 justify-content-center list-unstyled mx-0 mb-5 p-0">
           <li>mon 10</li>
           <li>{NXT}</li>
-          <li>صمم كيكتك بنفسك</li>
+          <li>{getText("design", 0)}</li>
           <li>{NXT}</li>
           <li>{availOptions.name}</li>
         </ul>
@@ -162,7 +163,7 @@ function Form({ productItem }) {
           type="file"
           accept="image/*"
         />
-        أضف صورة
+        {getText("design", 1)}
       </label>
 
       <ul className="d-grid gap-3 list-unstyled">
@@ -170,7 +171,7 @@ function Form({ productItem }) {
 
         <li>
           <label htmlFor="phrase" className="title">
-            العبارة على الكيك
+            {getText("design", 2)}
           </label>
           <input
             type="text"
@@ -183,7 +184,7 @@ function Form({ productItem }) {
 
         <li>
           <label htmlFor="notes" className="title">
-            شكل آخر اكتبه في الملاحظات
+            {getText("design", 3)}
           </label>
 
           <input
@@ -191,7 +192,7 @@ function Form({ productItem }) {
             name="comment"
             onChange={(e) => (customProps.current.comment = e.target.value)}
             className="input-group-text"
-            placeholder="ملاحظات"
+            placeholder={getText("design", 4)}
           />
         </li>
 
@@ -211,7 +212,7 @@ function Form({ productItem }) {
             className="d-flex gap-1 align-items-center"
             onClick={storeFormData}
           >
-            اضف الى العربة
+            {getText("design", 5)}
             {Cart}
           </button>
 

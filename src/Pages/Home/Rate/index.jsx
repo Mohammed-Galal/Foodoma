@@ -1,8 +1,9 @@
-import "./index.scss";
-import data from "./data.json";
+import getText from "../../../translation";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Card, CardHeader, CardText, CardBody, CardFooter } from "reactstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
+import data from "./data.json";
+import "./index.scss";
 
 import insta from "./insta";
 import snapshot from "./snapshot";
@@ -14,7 +15,7 @@ const icons = { insta, snapshot, whatsapp };
 export default () => (
   <section key="rates" id="rates">
     <div className="container-fluid container-lg">
-      <span className="d-block h3 text-center">آراء عملائنا</span>
+      <span className="d-block h3 text-center">{getText("home", 10)}</span>
       <Swiper
         modules={[A11y, Scrollbar, Pagination, Navigation]}
         navigation

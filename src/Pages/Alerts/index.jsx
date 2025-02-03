@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { getUserAlerts } from "../../store";
 import { Link, useNavigate } from "react-router-dom";
 import { useLayoutEffect } from "react";
+import getText from "../../translation";
 
 const base = "https://mon10.amir-adel.com",
   baseUrl = base + "/public/api",
@@ -30,7 +31,7 @@ export default function Alerts() {
         style={{ border: "none", outline: "none" }}
         onClick={markAllAsRead}
       >
-        تمييز الكل كمقروء
+        {getText("alerts", 0)}
       </button>
 
       <ul className="list-unstyled m-0 p-0 w-100" style={{ maxWidth: "992px" }}>

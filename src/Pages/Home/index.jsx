@@ -1,3 +1,4 @@
+import getText from "../../translation";
 import Banner from "./Banner";
 import Products from "./Products";
 import Departments from "./Departments";
@@ -14,11 +15,11 @@ import "swiper/css/bundle";
 export default (
   <>
     <Banner />
-    <Products id="new-items" title="المنتجات الجديدة" categoryKey="is_new" />
-    <Products id="recommended" title="المنتجات الأكثر مبيعاً" />
-    <Departments sectionName="أقسام مون 10" />
-    <Occassions sectionName="تصاميم جاهزة المناسبات" />
-    <Services sectionName="خدمات مون 10 الإضافية" />
+    <Products id="new-items" title={getText("home", 19)} categoryKey="is_new" />
+    <Products id="recommended" title={getText("home", 20)} />
+    <Departments sectionName={getText("home", 21)} />
+    <Occassions sectionName={getText("home", 22)} />
+    <Services sectionName={getText("home", 23)} />
     <Rate />
     <About />
   </>

@@ -1,3 +1,4 @@
+import getText from "../../../translation";
 import { Link } from "react-router-dom";
 import Data from "./data.json";
 import Carousel from "../../../shared/Carousel";
@@ -18,13 +19,13 @@ export default () => {
       className="container-fluid container-lg d-flex flex-column"
     >
       <p className="d-flex align-items-center">
-        <span className="h3">تصاميم جاهزة لكل مناسبة</span>
+        <span className="h3">{getText("home", 9)}</span>
 
         <a
           href="/public/mobile/"
           className="d-flex align-items-center text-decoration-none"
         >
-          جميع المنتجات{" "}
+          {getText("home", 8)}
           <object data="/assets/home/icons/left-arrow.svg"></object>
         </a>
       </p>

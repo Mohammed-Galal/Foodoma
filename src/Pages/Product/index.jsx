@@ -1,3 +1,4 @@
+import getText from "../../translation";
 // eslint-disable-next-line react-hooks/exhaustive-deps
 /* eslint-disable import/no-anonymous-default-export */
 import React, { useEffect, useRef, useState } from "react";
@@ -60,14 +61,14 @@ function ProductInfo(state) {
         className="flag"
         style={{ "--bg": "#e4f4ff", "--color": "var(--primary)" }}
       >
-        {100 - (+state.price / old_price) * 100}% <sub>خصم</sub>
+        {100 - (+state.price / old_price) * 100}%{" "}
+        <sub>{getText("product", 0)}</sub>
       </span>
     );
 
   // ============================
   let lastAddon,
     totalPrice = +state.price;
-
 
   const categories = state.addon_categories,
     currCategory = categories.find((c) => c.name === currCategoryName),
@@ -123,7 +124,7 @@ function ProductInfo(state) {
           transition: "150ms ease-out",
         }}
       >
-        تمت اضافة المنتج الى العربة بنجاح
+        {getText("product", 1)}
         <img
           src={baseUrl + "/assets/animation.gif"}
           style={{ maxHeight: "40px" }}
@@ -147,7 +148,7 @@ function ProductInfo(state) {
 
         <p className="state text-center d-flex align-items-center gap-2">
           <span className="flag">
-            {!!state.is_active ? "متوفر" : "غير متوفر"}
+            {!!state.is_active ? getText("product", 2) : getText("product", 3)}
           </span>
           {discountFlag}
         </p>
@@ -161,21 +162,25 @@ function ProductInfo(state) {
 
         {old_price > 0 && (
           <p>
-            <del>{state.old_price} ر.س</del>
+            <del>
+              {state.old_price} {getText("product", 10)}
+            </del>
           </p>
         )}
 
         <p className="price">
-          <span>{state.price} ر.س</span>
-          /للقطعة
+          <span>
+            {state.price} {getText("product", 10)}
+          </span>
+          /{getText("product", 4)}
         </p>
         <p className="align-items-center d-flex rate">
           <img src="/assets/home/icons/star.svg" alt="star" /> 5
-          <Link to="/rate">اكتب رأيك</Link>
+          <Link to="/rate">{getText("product", 5)}</Link>
         </p>
         {!!categories.length && (
           <div className="addons d-flex flex-wrap w-100">
-            <span className="h5 m-0">الإضافات</span>
+            <span className="h5 m-0">{getText("product", 6)}</span>
 
             <select
               className="input-group-text my-2 text-end w-100"
@@ -184,7 +189,7 @@ function ProductInfo(state) {
               onChange={({ target }) => setAddonCat(target.value)}
             >
               <option value="" onClick={() => setAddonCat("")}>
-                اختر من الاصناف
+                {getText("product", 7)}
               </option>
 
               {categories.map((C, I) => (
@@ -218,7 +223,7 @@ function ProductInfo(state) {
           </button>
 
           <div className="btn" onClick={addItemToCart}>
-            اضف الى العربة
+            {getText("product", 8)}
             {Cart}
           </div>
 
@@ -226,7 +231,7 @@ function ProductInfo(state) {
             className="h5 m-0"
             style={{ fontWeight: "600", color: "var(--primary)" }}
           >
-            {totalPrice} ر.س
+            {totalPrice} {getText("product", 10)}
           </span>
         </div>
 
@@ -312,7 +317,7 @@ function Related({ items }) {
   return (
     <section id="related" className="container">
       <p className="h3">
-        <span>منتجات ذات صلة</span>
+        <span>{getText("product", 9)}</span>
       </p>
 
       <Carousel

@@ -1,7 +1,8 @@
 /* eslint-disable import/no-anonymous-default-export */
-import React, { useLayoutEffect } from "react";
+import getText from "../../translation";
+import React from "react";
 import { useSelector, useDispatch, useStore } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import NXT from "../../icons/NXT";
 import Recommended from "./Recommended";
 import "./index.scss";
@@ -33,18 +34,18 @@ export default function () {
         id="cart-breadcrumb"
         className="d-flex gap-2 justify-content-center list-unstyled m-0 px-0 py-5"
       >
-        <li>السلة</li>
+        <li>{getText("cart", 0)}</li>
         <li>{NXT}</li>
-        <li>الدفع</li>
+        <li>{getText("cart", 1)}</li>
         <li>{NXT}</li>
-        <li>تأكيد الطلب</li>
+        <li>{getText("cart", 2)}</li>
       </ul>
 
       <div
         className="align-items-center container d-flex flex-column gap-3 h5 my-0"
         style={{ cssText: "color: var(--primary); font-weight: 600;" }}
       >
-        أضف 100 ر.س للسلة وأحصل على 10 ر.س كاش باك!
+        {getText("cart", 3)}
         <progress
           value={totalPrice}
           max="100"
@@ -58,11 +59,11 @@ export default function () {
           className="align-items-center align-items-stretch container d-flex flex-column flex-xl-row gap-3"
         >
           <ul className="text-center d-grid gap-1 list-unstyled m-0 overflow-hidden p-3">
-            <li>المنتج</li>
-            <li>الاضافات</li>
-            <li>السعر</li>
-            <li>العدد</li>
-            <li>الاجمالي</li>
+            <li>{getText("cart", 4)}</li>
+            <li>{getText("cart", 5)}</li>
+            <li>{getText("cart", 6)}</li>
+            <li>{getText("cart", 7)}</li>
+            <li>{getText("cart", 8)}</li>
 
             <li className="seperator mb-3">
               <hr className="m-0" />
@@ -76,37 +77,37 @@ export default function () {
                 className="input-group-text"
                 placeholder="أضف كود الخصم"
               />
-              <button className="btn px-3 py-2">أضف</button>
+              <button className="btn px-3 py-2">{getText("cart", 9)}</button>
             </li>
           </ul>
 
           <div className="d-grid gap-3 p-3">
-            <p className="h4 m-0 pb-2 text-center">إجمالي العربة</p>
+            <p className="h4 m-0 pb-2 text-center">{getText("cart", 17)}</p>
 
             <span>
-              <samp>إجمالي المنتجات</samp>
-              {totalPrice} ر.س
+              <samp>{getText("cart", 10)}</samp>
+              {totalPrice} {getText("cart", 16)}
             </span>
 
             <p className="d-grid gap-3 m-0 py-2">
               <span>
-                <samp>التوصيل</samp>
-                {delivery} ر.س
+                <samp>{getText("cart", 11)}</samp>
+                {delivery} {getText("cart", 16)}
               </span>
 
               <span>
-                <samp>الخصم</samp>
-                {Math.abs(discount)} ر.س
+                <samp>{getText("cart", 12)}</samp>
+                {Math.abs(discount)} {getText("cart", 16)}
               </span>
             </p>
 
             <span className="total">
-              <samp>الإجمالي</samp>
-              {+delivery + totalPrice + discount} ر.س
+              <samp>{getText("cart", 13)}</samp>
+              {+delivery + totalPrice + discount} {getText("cart", 16)}
             </span>
 
             <Link className="btn" to="/checkout">
-              أكمل الدفع
+              {getText("cart", 15)}
             </Link>
           </div>
         </section>
@@ -135,13 +136,16 @@ export default function () {
 function ProductItem({ id, quantity, name, addons, price }, I, editCart) {
   const Addons =
     addons.length === 0 ? (
-      <li>بدون اضافات</li>
+      <li>{getText("cart", 14)}</li>
     ) : (
       addons.map((a) => {
         price += a.price;
         return (
           <li key={a.addon_id} className="d-flex justify-content-center">
-            {a.addon_name} -<span> {a.price} ر.س</span>
+            {a.addon_name} -
+            <span>
+              {a.price} {getText("cart", 16)}
+            </span>
           </li>
         );
       })
@@ -168,7 +172,7 @@ function ProductItem({ id, quantity, name, addons, price }, I, editCart) {
       </li>
 
       <li className="item-price">
-        <span>{price}</span> ر.س
+        <span>{price}</span> {getText("cart", 16)}
       </li>
 
       <li className="align-items-center d-flex gap-2 item-quantity justify-content-center">
@@ -182,7 +186,7 @@ function ProductItem({ id, quantity, name, addons, price }, I, editCart) {
       </li>
 
       <li className="item-total">
-        <span>{price * quantity}</span> ر.س
+        <span>{price * quantity}</span> {getText("cart", 16)}
       </li>
     </React.Fragment>
   );

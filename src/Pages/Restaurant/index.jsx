@@ -1,3 +1,4 @@
+import getText from "../../translation";
 import { useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -56,11 +57,11 @@ export default function Restaurant() {
             fontWeight: "600",
           }}
         >
-          يتطلب هذا الخيار تفعيل الـGPS
+          {getText("restaurant", 0)}
           <input
             className="btn px-3"
             type="button"
-            value="اختيار أقرب مطعم"
+            value={getText("restaurant", 1)}
             onClick={getUserLocation}
             style={{
               border: "none",
@@ -82,7 +83,7 @@ export default function Restaurant() {
           className="btn"
           style={{ color: "var(--primary)" }}
         >
-          اختار من فروعنا
+          {getText("restaurant", 2)}
         </button>
       ) : (
         <div
@@ -95,7 +96,7 @@ export default function Restaurant() {
         >
           <input
             type="search"
-            placeholder="ابحث عن الفروع"
+            placeholder={getText("restaurant", 3)}
             className="py-1 px-3"
             onChange={(e) => setFilter(e.target.value)}
             value={filterValue}
@@ -187,7 +188,7 @@ export default function Restaurant() {
           .then((r) => r.json())
           .then((data) => confirmLocation(data[0].slug));
       },
-      (error) => alert(`لم يتمكن المتصفح من تحديد موقعك`)
+      (error) => alert(getText("restaurant", 4))
     );
   }
 

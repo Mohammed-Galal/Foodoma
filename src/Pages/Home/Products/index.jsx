@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable import/no-anonymous-default-export */
+import getText from "../../../translation";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import productItem from "../../../shared/productItem";
@@ -26,7 +27,7 @@ export default function ({ id, title, categoryKey }) {
           to="/all-products"
           className="d-flex align-items-center text-decoration-none"
         >
-          جميع المنتجات
+          {getText("home", 8)}
           <object data="/assets/home/icons/left-arrow.svg"></object>
         </Link>
       </p>

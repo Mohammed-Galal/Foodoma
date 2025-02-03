@@ -1,3 +1,4 @@
+import getText from "../../translation";
 import { useState } from "react";
 import { useStore } from "react-redux";
 import productItem from "../../shared/productItem";
@@ -12,14 +13,16 @@ export default (
     <section id="book-banner">
       <div className="container align-items-stretch d-flex">
         <div className="align-items-center d-flex flex-column py-5">
-          <span className="h1 my-5">كيكات اليوم الوطني السعودي</span>
+          <span className="h1 my-5">{getText("bookings", 0)}</span>
           <div className="text-center">
-            ينتهي الحجز في
+            {getText("bookings", 1)}
             <p className="d-grid my-4">
               <Timer />
-              <span>دقيقة</span>:<span>ساعة</span>:<span>يوم</span>
+              <span>{getText("bookings", 4)}</span>:
+              <span>{getText("bookings", 3)}</span>:
+              <span>{getText("bookings", 2)}</span>
             </p>
-            خصم 15% على الحجز المبكر لكيكات اليوم الوطني
+            {getText("bookings", 5)}
           </div>
         </div>
 
@@ -65,7 +68,7 @@ function BookProducts() {
       id="book-products"
       className="align-items-stretch px-2 mx-auto d-flex flex-wrap "
     >
-      <p className="h2 mb-1">منتجات ذات صلة</p>
+      <p className="h2 mb-1">{getText("bookings", 6)}</p>
       {targetItems}
       {targetItems}
     </section>

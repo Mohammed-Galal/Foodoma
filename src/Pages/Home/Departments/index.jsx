@@ -1,6 +1,7 @@
-import "./index.scss";
+import getText from "../../../translation";
 import data from "./data.json";
 import { Link } from "react-router-dom";
+import "./index.scss";
 
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable import/no-anonymous-default-export */
@@ -24,7 +25,7 @@ export default ({ sectionName }) => (
             className="d-flex align-items-center text-decoration-none"
             style={{ color: "inherit" }}
           >
-            جميع المنتجات{" "}
+            {getText("home", 8)}
             <object
               style={{ marginRight: "0.4rem" }}
               data="/assets/home/icons/left-arrow.svg"

@@ -1,5 +1,6 @@
-import "./index.scss";
+import getText from "../../../translation";
 import { useEffect, useRef, useState } from "react";
+import "./index.scss";
 /* eslint-disable import/no-anonymous-default-export */
 
 const options = {
@@ -37,25 +38,27 @@ export default () => {
       id="about-us"
       className="container-fluid container-lg d-flex flex-column text-center"
     >
-      <span className="h3 m-0">أرقام نفتخر بها</span>
-      نحن نسهل عليك الحصول على أفضل خدمة أينما كنت. اطلب الآن للشحن على مستوى
-      البلاد، أو قدم طلبًا للاستلام من متجرك المحلي، <br />
-      أو تواصل مع فريقنا لترتيب خدمة تقديم الطعام المخصصة لمناسبتك القادمة.
+      <span className="h3 m-0">{getText("home", 0)}</span>
+      {getText("home", 1)}
+
+      <br />
+      {getText("home", 2)}
+
       <div ref={cardsContainer} className="d-flex flex-wrap text-center w-100">
         <div className="d-flex flex-column">
           <img src="/assets/home/icons/ph_stamp-light.svg" alt="LIGHT" />
           <Inc curr={count} until={73} />
-          سنة خبرة
+          {getText("home", 3)}
         </div>
         <div className="d-flex flex-column">
           <img src="/assets/home/icons/hugeicons_happy.svg" alt="HAPPY FACE" />
           <Inc curr={count} until={1000} />
-          عميل سعيد
+          {getText("home", 4)}
         </div>
         <div className="d-flex flex-column">
           <img src="/assets/home/icons/bi_cake.svg" alt="CAKE" />
           <Inc curr={count} until={3000} />
-          عمل طلب
+          {getText("home", 5)}
         </div>
       </div>
     </section>
