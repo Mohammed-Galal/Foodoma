@@ -3,6 +3,7 @@
 import { Link } from "react-router-dom";
 import S, { getFavourites } from "../../store";
 import "./index.scss";
+import getText from "../../translation";
 
 const Base = "https://mon10.amir-adel.com/",
   baseUrl = Base + "public/api";
@@ -21,7 +22,8 @@ export default function (item, I) {
     old_price = +item.old_price,
     discount = old_price > price && (
       <span>
-        {100 - (price / old_price) * 100}% <sub>خصم</sub>
+        {100 - (price / old_price) * 100}%{" "}
+        <sub>{getText("productItem", 0)}</sub>
       </span>
     ),
     key = item.item_category_id * item.restaurant_id + I;
@@ -92,7 +94,7 @@ export default function (item, I) {
     >
       <div className="align-items-center d-flex justify-content-between">
         <div className="d-flex gap-1">
-          {is_new ? <span>جديد</span> : ""}
+          {is_new ? <span>{getText("productItem", 1)}</span> : ""}
           {discount}
         </div>
 
@@ -120,7 +122,7 @@ export default function (item, I) {
           </div>
 
           <div className="align-items-center d-flex price">
-            <span>{price + " ر.س"}</span> /للقطعة
+            <span>{price + " ر.س"}</span> /{getText("productItem", 2)}
           </div>
 
           <button
@@ -128,7 +130,7 @@ export default function (item, I) {
             className="btn d-flex flex-column align-items-center p-0"
           >
             <span className="d-flex align-items-center justify-content-center text-capitalize">
-              اضافة للسلة
+              {getText("productItem", 3)}
             </span>
             <img src="/assets/home/icons/mdi-light_cart.svg" alt="Cart" />
           </button>

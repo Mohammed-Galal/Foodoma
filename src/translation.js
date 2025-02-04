@@ -1,9 +1,14 @@
-const defaultLang = "ar",
+const lang = window.localStorage.getItem("lang") || "ar",
   file = { ar: {} };
 
 export default function getText(pageName, phraseIndex) {
-  const lang = window.document.documentElement.lang;
-  return (file[lang] || file[defaultLang])[pageName][phraseIndex];
+  const fallback = file.ar[pageName][phraseIndex];
+
+  try {
+    return file[lang][pageName][phraseIndex] || fallback;
+  } catch {
+    return fallback;
+  }
 }
 
 file.ar.home = [
@@ -13,7 +18,7 @@ file.ar.home = [
   "سنة خبرة",
   "عميل سعيد",
   "عمل طلب",
-  "صمم كيكتك بنفسك",
+  "!صمم كيكتك بنفسك",
   `كعكة الفانيليا ذات الطراز القديم هي قلب وروح ماجنوليا بيكري. هنا، نأخذ
         نفس الخليط الذي نستخدمه لصنع الكعك الشهير الخاص بنا لصنع كعكة غنية
         بالزبدة مع فتات خفيفة، ونضعها في طبقة من كريمة زبدة الفانيليا أو
@@ -29,7 +34,6 @@ file.ar.home = [
   "خصم -15% على الحجز المبكر",
   "لكيكات اليوم الوطني السعودي",
   "احجز الآن",
-
   "المنتجات الجديدة",
   "المنتجات الأكثر مبيعاً",
   "أقسام مون 10",
@@ -82,6 +86,7 @@ file.ar.product = [
   "اضف الى العربة",
   "منتجات ذات صلة",
   "ر.س",
+  "السعرات الحرارية",
 ];
 
 file.ar.user = [
@@ -141,6 +146,8 @@ file.ar.design = [
   "ملاحظات",
   "اضف الى العربة",
 ];
+
+file.ar.productItem = ["خصم", "جديد", "للقطعة", "اضافة للسلة"];
 
 file.en = {
   home: [

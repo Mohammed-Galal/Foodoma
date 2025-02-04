@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter,
   Route,
@@ -44,19 +44,21 @@ export default (
     <BrowserRouter>
       <Provider store={store}>
         <App />
+        {createPortal(Footer, footer)}
       </Provider>
-      {createPortal(Footer, footer)}
     </BrowserRouter>
   </React.StrictMode>
 );
 
 function App() {
   const storeDefined = window.localStorage.getItem("slug");
-  const redirect = useNavigate(),
+  const lang = useState("ar"),
+    redirect = useNavigate(),
     location = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    window.lang = lang;
     // Add your custom event logic here
 
     if (!storeDefined && location.pathname !== "/restaurant")

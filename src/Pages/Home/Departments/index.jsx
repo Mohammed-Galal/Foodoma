@@ -18,7 +18,9 @@ export default ({ sectionName }) => (
             marginBottom: "var(--internal-gap)",
           }}
         >
-          <span className="h3">{sectionName}</span>
+          <span className="h3" style={{ fontWeight: "bold" }}>
+            {sectionName}
+          </span>
 
           <Link
             to="/all-products/"

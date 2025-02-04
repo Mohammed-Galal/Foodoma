@@ -53,6 +53,16 @@ function ProductInfo(state) {
   }, [Alert]);
 
   if (state === undefined) return false;
+  const calsTxt = getText("product", 11),
+    cals = state.calories && (
+      <p
+        className="align-items-center d-flex gap-2"
+        style={{ maxHeight: "40px" }}
+      >
+        <img src="/assets/cals.png" alt="cals" />
+        {calsTxt}: {state.calories}
+      </p>
+    );
 
   const alertState = Alert ? activeAlert : hiddenAlert,
     old_price = +state.old_price,
@@ -61,7 +71,7 @@ function ProductInfo(state) {
         className="flag"
         style={{ "--bg": "#e4f4ff", "--color": "var(--primary)" }}
       >
-        {100 - (+state.price / old_price) * 100}%{" "}
+        {100 - (+state.price / old_price) * 100}%
         <sub>{getText("product", 0)}</sub>
       </span>
     );
@@ -174,6 +184,9 @@ function ProductInfo(state) {
           </span>
           /{getText("product", 4)}
         </p>
+
+        {cals}
+
         <p className="align-items-center d-flex rate">
           <img src="/assets/home/icons/star.svg" alt="star" /> 5
           <Link to="/rate">{getText("product", 5)}</Link>

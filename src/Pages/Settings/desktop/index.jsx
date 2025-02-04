@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import tabs from "./tabs";
 
@@ -95,7 +95,8 @@ export default function () {
 }
 
 function AccountInfo() {
-  const DATA = useSelector((e) => e.User).data,
+  const redirect = useNavigate(),
+    DATA = useSelector((e) => e.User).data,
     { name, email, phone } = DATA;
 
   return (
@@ -116,12 +117,17 @@ function AccountInfo() {
       <div
         className="align-items-center d-flex gap-2 langs"
         style={{ color: "var(--primary)" }}
+        onClick={() => changeLang("en")}
       >
         {Globe}
-        العربية
+        {window.localStorage.getItem("lang") || "العربية"}
         {AltArrowDown}
       </div>
     </div>
   );
-}
 
+  function changeLang(lang) {
+    window.localStorage.setItem("lang", lang);
+    redirect(0);
+  }
+}

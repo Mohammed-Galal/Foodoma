@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import call from "./icons/call.jsx";
 import whatsapp from "./icons/whatsapp.jsx";
+import { useSelector } from "react-redux";
 
 /* eslint-disable import/no-anonymous-default-export */
 export default (
@@ -17,7 +18,7 @@ export default (
         </div>
 
         <div className="col-12 col-lg-3 col-md-6 d-flex flex-column">
-          <span className="h4 mb-3">اتصل بنا</span>
+          <span className="h5 mb-3">اتصل بنا</span>
           <a
             className="text-decoration-none mb-3 d-flex align-items-center gap-2"
             href="tel:+966920035416"
@@ -41,7 +42,7 @@ export default (
         </div>
 
         <div className="col-12 col-lg-3 col-md-6 d-flex flex-column">
-          <span className="h4 mb-3">روابط مساعدة</span>
+          <span className="h5 mb-3">روابط مساعدة</span>
           <Link className="mb-2 text-decoration-none" to="/">
             نبذة عن مون 10
           </Link>
@@ -54,22 +55,8 @@ export default (
         </div>
 
         <div className="col-12 col-lg-3 col-md-6 d-flex flex-wrap">
-          <span className="h4 mb-3 w-100">مواقع الفروع</span>
-          <ul className="m-0 p-0">
-            <li>حي السلامة - جدة</li>
-            <li>حي الصفا - جدة</li>
-            <li>حي النزهة - جدة</li>
-            <li>حي السليمانية - جدة</li>
-            <li>حي السامر - جدة</li>
-          </ul>
-
-          <ul className="m-0 mx-auto p-0">
-            <li>حي الحمدانية</li>
-            <li>حي الياقوت</li>
-            <li>حي السنابل</li>
-            <li>حي الرحاب</li>
-            <li>حي الواحة</li>
-          </ul>
+          <span className="h5 mb-3 w-100">مواقع الفروع</span>
+          <Branches />
         </div>
       </div>
 
@@ -109,3 +96,20 @@ export default (
     </p>
   </>
 );
+
+function Branches() {
+  const branches = useSelector((e) => e.Restaurant).branches;
+
+  return (
+    <ul
+      className="m-0 p-0 gap-1"
+      style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}
+    >
+      {branches.map(Branche)}
+    </ul>
+  );
+}
+
+function Branche({ name }) {
+  return <li key={name}>{name}</li>;
+}
