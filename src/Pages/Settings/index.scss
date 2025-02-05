@@ -59,13 +59,42 @@
   }
 }
 
+#settings,
+#settings-mobile {
+  .langs {
+    position: relative;
+
+    & > ul {
+      background-color: #fff;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      border: 1px solid #d4e8f6;
+      border-radius: 6px;
+      opacity: 0;
+      transform: translateY(50%);
+      transition: 150ms ease-out;
+    }
+
+    &:hover > ul {
+      opacity: 1;
+      transform: translateY(0);
+
+      & > li:hover {
+        background-color: #d4e8f6;
+      }
+    }
+  }
+}
 
 #settings {
   #menu {
     li {
       border-bottom: 1px solid #d4e8f6;
 
-      a,button {
+      a,
+      button {
         min-height: 45px;
         color: var(--primary);
         grid-template-columns: 72px 1fr;

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import ProductItem from "../shared/productItem";
 import { useParams } from "react-router-dom";
+import getText from "../translation";
 
 const emptyStr = "",
   liStyle = {
@@ -42,14 +43,14 @@ export default function () {
       <div style={{ flex: "1 0 30%" }}>
         <input
           type="search"
-          placeholder="ابحث باسم المنتج..."
+          placeholder={getText("allProducts", 1)}
           onChange={({ target }) => setProductName(target.value)}
           className="input-group-text m-0 w-100"
           style={{ outline: "none", borderColor: "#ecf5ff" }}
         />
 
         <h4 className="mt-3 mb-2" style={{ color: "var(--primary)" }}>
-          أقسام Moon 10
+          {getText("allProducts", 0)}
         </h4>
 
         <ul

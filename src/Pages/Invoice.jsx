@@ -1,5 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { Toast } from "bootstrap";
+
+import getText from "../translation";
 import { useLayoutEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -26,16 +27,16 @@ export default () => {
           className="mx-auto px-3"
           style={{ float: "none", width: "auto", color: "var(--primary)" }}
         >
-          شكراً لاختياركم Moon10
+          {getText("invoice", 0)}
         </legend>
 
         <p
           className="m-0 text-center"
           style={{ color: "var(--midgray)", lineHeight: "1.6" }}
         >
-          يسرنا أن نُبلغكم أنه تم تقديم طلبكم بنجاح بتاريخ
+          {getText("invoice", 1)}
           {" " + state.date[0] + " "}
-          في تمام الساعة
+          {getText("invoice", 2)}
           {" " + state.date[1] + " "}
         </p>
 
@@ -49,14 +50,14 @@ export default () => {
           <thead>
             <tr>
               <th colSpan="2" className="text-center">
-                بيانات الاستلام
+                {getText("invoice", 3)}
               </th>
             </tr>
           </thead>
 
           <tbody>
             <tr>
-              <td>كود الطلب</td>
+              <td>{getText("invoice", 4)}</td>
               <td>{state.code}</td>
             </tr>
             <tr>
@@ -64,23 +65,23 @@ export default () => {
               <td>{state.PIN}</td>
             </tr>
             <tr>
-              <td>طريقة الاستلام</td>
+              <td>{getText("invoice", 5)}</td>
               <td>{state.deliveryType}</td>
             </tr>
             <tr>
-              <td>عنوان الاستلام</td>
+              <td>{getText("invoice", 6)}</td>
               <td>{state.deliveryAddress}</td>
             </tr>
             <tr>
-              <td>طريقة الدفع</td>
+              <td>{getText("invoice", 7)}</td>
               <td>{state.paymentMode}</td>
             </tr>
           </tbody>
 
           <tfoot>
             <tr>
-              <td>الملاحظات والتوصيات</td>
-              <td>{state.comment || "لا يوجد"}</td>
+              <td>{getText("invoice", 8)}</td>
+              <td>{state.comment || getText("invoice", 9)}</td>
             </tr>
           </tfoot>
         </table>
@@ -99,16 +100,16 @@ export default () => {
                 colSpan="5"
                 className="text-center"
               >
-                بيانات الطلب
+                {getText("invoice", 10)}
               </th>
             </tr>
 
             <tr className="text-center">
-              <th>اسم المنتج</th>
-              <th>السعر</th>
-              <th>الاضافات</th>
-              <th>العدد</th>
-              <th>الاجمالي</th>
+              <th>{getText("invoice", 11)}</th>
+              <th>{getText("invoice", 12)}</th>
+              <th>{getText("invoice", 13)}</th>
+              <th>{getText("invoice", 14)}</th>
+              <th>{getText("invoice", 15)}</th>
             </tr>
           </thead>
 
@@ -116,15 +117,15 @@ export default () => {
 
           <tfoot className="fw-bold text-center">
             <tr>
-              <td colSpan="4">ثمن الطلب</td>
+              <td colSpan="4">{getText("invoice", 16)}</td>
               <td>{state.price}</td>
             </tr>
             <tr>
-              <td colSpan="4">رسوم التوصيل</td>
+              <td colSpan="4">{getText("invoice", 17)}</td>
               <td>{state.deliveryCharges}</td>
             </tr>
             <tr>
-              <td colSpan="4">الاجمالي</td>
+              <td colSpan="4">{getText("invoice", 18)}</td>
               <td>{state.total}</td>
             </tr>
           </tfoot>
@@ -134,7 +135,7 @@ export default () => {
           className="m-0 text-center"
           style={{ color: "var(--midgray)", lineHeight: "1.6" }}
         >
-          Moon10 تتمنى لكم يوماً سعيداً!
+          {getText("invoice", 19)}
         </p>
       </fieldset>
     </section>
@@ -146,7 +147,7 @@ function ProductItem({ id, name, price, selectedaddons, quantity }) {
 
   const Addons =
     selectedaddons.length === 0 ? (
-      "بدون اضافات"
+      getText("invoice", 20)
     ) : (
       <ul className="list-unstyled m-0 p-0">
         {selectedaddons.map((a) => {
@@ -175,10 +176,14 @@ function ProductItem({ id, name, price, selectedaddons, quantity }) {
       <td className="fs-6 fw-bolder" style={{ color: "var(--black)" }}>
         {name}
       </td>
-      <td>{price} ر.س</td>
+      <td>
+        {price} {getText("invoice", 21)}
+      </td>
       <td>{Addons}</td>
       <td>{quantity}</td>
-      <td>{total} ر.س</td>
+      <td>
+        {total} {getText("invoice", 21)}
+      </td>
     </tr>
   );
 }

@@ -1,4 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
+import getText from "../translation";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../store";
@@ -17,14 +18,14 @@ export default function () {
     <div className="align-items-center container d-grid py-3">
       <ul className="align-items-center d-flex list-unstyled m-0 p-0">
         <li>
-          <Link to="/all-products">منتجاتنا</Link>
+          <Link to="/all-products">{getText("header", 0)}</Link>
         </li>
         <li>
-          <Link to="/restaurant">الفروع</Link>
+          <Link to="/restaurant">{getText("header", 1)}</Link>
         </li>
         <li>
           <button type="button" className="btn px-3 py-2">
-            اطلب الآن
+            {getText("header", 2)}
           </button>
         </li>
       </ul>
@@ -50,11 +51,11 @@ export default function () {
           {loaded && (
             <ul className="d-flex flex-column list-unstyled m-0 p-0">
               <li className="p-2">
-                <Link to="/settings/addresses">حسابي</Link>
+                <Link to="/settings/addresses">{getText("header", 3)}</Link>
               </li>
 
               <li className="p-2 text-danger" onClick={logout}>
-                تسجيل الخروج
+                {getText("header", 4)}
               </li>
             </ul>
           )}

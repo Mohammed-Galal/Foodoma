@@ -1,16 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable import/no-anonymous-default-export */
+import getText from "../../../../translation";
 import { useEffect, useState } from "react";
 import { useStore } from "react-redux";
 
 const orderState = [
   "",
-  "بانتظار الموافقة",
-  "جاري اعداد الطلب",
-  "الطلب في الطريق اليك",
-  "الطلب في الطريق اليك",
-  "تم التوصيل",
-  "تم الغاء الطلب",
+  getText("settings", 8),
+  getText("settings", 9),
+  getText("settings", 10),
+  getText("settings", 10),
+  getText("settings", 11),
+  getText("settings", 12),
 ];
 
 const base = "https://mon10.amir-adel.com";
@@ -89,7 +90,8 @@ function orderItem(item) {
           style={{ cssText: "color: var(--midgray); font-size: smaller" }}
         >
           <span className="h6 m-0 mb-1">{date}</span>
-          {price} ر.س/ {quantity} منتج
+          {price} {getText("settings", 14)}/ {quantity}{" "}
+          {getText("settings", 13)}
         </p>
       </div>
 

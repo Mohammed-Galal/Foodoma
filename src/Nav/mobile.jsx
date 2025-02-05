@@ -1,3 +1,4 @@
+import getText from "../translation";
 import { NavLink } from "react-router-dom";
 
 export default (
@@ -18,7 +19,7 @@ export default (
             />
           </svg>
         </div>
-        عناويني
+        {getText("nav", 0)}
       </NavLink>
     </li>
 
@@ -38,7 +39,7 @@ export default (
             />
           </svg>
         </div>
-        المفضلة
+        {getText("nav", 1)}
       </NavLink>
     </li>
 
@@ -58,7 +59,7 @@ export default (
             />
           </svg>
         </div>
-        السلة
+        {getText("nav", 2)}
       </NavLink>
     </li>
 
@@ -83,7 +84,7 @@ export default (
             </g>
           </svg>
         </div>
-        البحث
+        {getText("nav", 3)}
       </NavLink>
     </li>
 
@@ -114,7 +115,7 @@ export default (
             </g>
           </svg>
         </div>
-        الرئيسية
+        {getText("nav", 4)}
       </NavLink>
     </li>
   </ul>

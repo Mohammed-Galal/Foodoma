@@ -1,17 +1,102 @@
-const lang = window.localStorage.getItem("lang") || "ar",
-  file = { ar: {} };
+const file = {};
 
-export default function getText(pageName, phraseIndex) {
-  const fallback = file.ar[pageName][phraseIndex];
+export default file;
 
-  try {
-    return file[lang][pageName][phraseIndex] || fallback;
-  } catch {
-    return fallback;
-  }
-}
+file.nav = ["عناويني", "المفضلة", "السلة", "البحث", "الرئيسية"];
 
-file.ar.home = [
+file.header = ["منتجاتنا", "الفروع", "اطلب الآن", "حسابي", "تسجيل الخروج"];
+
+file.footer = [
+  "اتصل بنا",
+  "روابط مساعدة",
+  "نبذة عن مون 10",
+  "من نحن",
+  "الأسئلة الشائعة",
+  "مواقع الفروع",
+  "جميع الحقوق محفوظة", // 6
+  "حلويات مونتانا سابقا",
+  "تأسست عام 1950 من",
+  "خبرة تزيد عن 73 عام في صناعة الحلويات",
+];
+
+file.settings = [
+  "عناويني",
+  "طلباتي",
+  "المفضلة",
+  "محفظتي",
+  "الاعدادات",
+  "تسجيل الخروج", // 5
+  "العناوين المسجلة",
+  "أضف عنوان جديد", // 7
+
+  "بانتظار الموافقة",
+  "جاري اعداد الطلب",
+  "الطلب في الطريق اليك",
+  "تم التوصيل",
+  "تم الغاء الطلب",
+  "منتج",
+  "ر.س", // 14
+
+  "الاسم بالكامل",
+  "البريد الالكتروني",
+  "رقم الهاتف",
+  "تغيير كلمة المرور",
+  "كلمة المرور الجديدة",
+  "حفظ التحديثات",
+  "من فضلك أكتب كلمة المرور",
+  "تأكيد",
+  "حدث خطأ، يرجى اعدة المحاولة", // 23
+
+  "اختر عنوان التوصيل",
+  "اضف عنوان جديد", // 25
+  "المفضلة",
+  "حول التطبيق", // 27
+  "ابدأ إرسال الترشيحات",
+  "يمكنك ترشيح مون 10 لأصدقاءك والحصول على مكافأة في محفظتك عندما:",
+  "أكمل 5 طلبات",
+  "متبقي 5 طلبات",
+  "أصرف 1000 ر.س أو أكثر",
+  "متبقي", // 33
+  "احفظ العنوان باسم",
+  "عنوان المنزل على سبيل المثال",
+  "العنوان",
+  "المنزل",
+  "حدد الموقع على الخريطة",
+  "أضف العنوان",
+  "يجب ملئ جميع البيانات",
+];
+
+file.faq = ["الأسئلة الشائعة"];
+file.allProducts = ["أقسام Moon 10", "ابحث باسم المنتج..."];
+
+file.invoice = [
+  "شكراً لاختياركم Moon10",
+  "يسرنا أن نُبلغكم أنه تم تقديم طلبكم بنجاح بتاريخ",
+  "في تمام الساعة",
+  "بيانات الاستلام",
+  "كود الطلب",
+  "طريقة الاستلام",
+  "عنوان الاستلام",
+  "طريقة الدفع",
+  "الملاحظات والتوصيات",
+  "لا يوجد", // 9
+
+  "بيانات الطلب",
+  "اسم المنتج",
+  "السعر",
+  "الاضافات",
+  "العدد",
+  "الاجمالي",
+  "ثمن الطلب", // 16
+
+  "رسوم التوصيل",
+  "الاجمالي",
+  "Moon10 تتمنى لكم يوماً سعيداً!",
+  "بدون اضافات",
+  "ر.س", // 21
+];
+
+file.home = [
   "أرقام نفتخر بها",
   "نحن نسهل عليك الحصول على أفضل خدمة أينما كنت. اطلب الآن للشحن نحن نسهل عليك الحصول على أفضل خدمة أينما كنت. اطلب الآن للشحن على مستوى البلاد، أو قدم طلبًا للاستلام من متجرك المحلي،",
   "أو تواصل مع فريقنا لترتيب خدمة تقديم الطعام المخصصة لمناسبتك القادمة.",
@@ -41,9 +126,9 @@ file.ar.home = [
   "خدمات مون 10 الإضافية",
 ];
 
-file.ar.alerts = ["تمييز الكل كمقروء"];
+file.alerts = ["تمييز الكل كمقروء"];
 
-file.ar.bookings = [
+file.bookings = [
   "كيكات اليوم الوطني السعودي",
   "ينتهي الحجز في",
   "يوم",
@@ -53,7 +138,7 @@ file.ar.bookings = [
   "منتجات ذات صلة",
 ];
 
-file.ar.cart = [
+file.cart = [
   "السلة",
   "الدفع",
   "تأكيد الطلب",
@@ -74,7 +159,7 @@ file.ar.cart = [
   "الطلب",
 ];
 
-file.ar.product = [
+file.product = [
   "خصم",
   "تمت اضافة المنتج الى العربة بنجاح",
   "متوفر",
@@ -89,7 +174,7 @@ file.ar.product = [
   "السعرات الحرارية",
 ];
 
-file.ar.user = [
+file.user = [
   "تسجيل الدخول",
   "أدخل بريدك الإلكتروني وكلمة المرور",
   "رقم الهاتف أو البريد الالكتروني",
@@ -110,7 +195,7 @@ file.ar.user = [
   "يرجى التحقق من البيانات المطلوبة",
 ];
 
-file.ar.restaurant = [
+file.restaurant = [
   "يتطلب هذا الخيار تفعيل الـGPS",
   "اختيار أقرب مطعم",
   "اختار من فروعنا",
@@ -118,7 +203,7 @@ file.ar.restaurant = [
   "لم يتمكن المتصفح من تحديد موقعك",
 ];
 
-file.ar.checkout = [
+file.checkout = [
   "السلة",
   "الدفع",
   "تأكيد الطلب",
@@ -138,7 +223,7 @@ file.ar.checkout = [
   "ر.س",
 ];
 
-file.ar.design = [
+file.design = [
   "صمم كيكتك بنفسك",
   "أضف صورة",
   "العبارة على الكيك",
@@ -147,133 +232,6 @@ file.ar.design = [
   "اضف الى العربة",
 ];
 
-file.ar.productItem = ["خصم", "جديد", "للقطعة", "اضافة للسلة"];
+file.productItem = ["خصم", "جديد", "للقطعة", "اضافة للسلة"];
 
-file.en = {
-  home: [
-    "Numbers We Take Pride In",
-    "We make it easy for you to get the best service wherever you are. Order now for nationwide shipping, or place an order for pickup from your local store,",
-    "or contact our team to arrange a custom catering service for your next event.",
-    "Years of Experience",
-    "Happy Clients",
-    "Orders Placed",
-    "Design Your Own Cake",
-    "The old-fashioned vanilla cake is the heart and soul of Magnolia Bakery. Here, we take\n" +
-      "        the same batter we use to make our famous cupcakes to create a rich,\n" +
-      "        buttery cake with a light crumb, layered with vanilla or\n" +
-      "        chocolate buttercream.",
-    "All Products",
-    "Ready-Made Designs for Every Occasion",
-    "Customer Reviews",
-    "Custom Orders",
-    "Design Your Own Products..",
-    "By Controlling All Additions",
-    "Order Now",
-    "Early Booking",
-    "15% Discount on Early Booking",
-    "For Saudi National Day Cakes",
-    "Book Now",
-    "New Products",
-    "Best-Selling Products",
-    "Moon 10 Categories",
-    "Ready-Made Occasion Designs",
-    "Additional Moon 10 Services",
-  ],
-  alerts: ["Mark All as Read"],
-  bookings: [
-    "Saudi National Day Cakes",
-    "Booking Ends In",
-    "Days",
-    "Hours",
-    "Minutes",
-    "15% Discount on Early Booking for National Day Cakes",
-    "Related Products",
-  ],
-  cart: [
-    "Cart",
-    "Checkout",
-    "Order Confirmation",
-    "Add 100 SAR to Your Cart and Get 10 SAR Cashback",
-    "Product",
-    "Add-ons",
-    "Price",
-    "Quantity",
-    "Total",
-    "Add",
-    "Cart Total",
-    "Total Products",
-    "Discount",
-    "Grand Total",
-    "No Add-ons",
-    "Complete Payment",
-    "SAR",
-    "Order",
-  ],
-  product: [
-    "Discount",
-    "Product Added to Cart Successfully",
-    "Available",
-    "Unavailable",
-    "Per Piece",
-    "Write Your Review",
-    "Add-ons",
-    "Choose from Categories",
-    "Add to Cart",
-    "Related Products",
-    "SAR",
-  ],
-  user: [
-    "Login",
-    "Enter Your Email and Password",
-    "Phone Number or Email",
-    "Password",
-    "Sign In",
-    "Don’t Have an Account Yet?",
-    "Create Your Account Now",
-    "Please Fill in All Fields",
-    "Create a New Account",
-    "Create Your Account for Free",
-    "Name",
-    "Email",
-    "Phone Number",
-    "Password",
-    "Create Account",
-    "Already Have an Account?",
-    "Sign In",
-    "Please Check the Required Fields",
-  ],
-  restaurant: [
-    "This Option Requires GPS Activation",
-    "Select the Nearest Restaurant",
-    "Choose from Our Branches",
-    "Search for Branches",
-    "Browser Could Not Determine Your Location",
-  ],
-  checkout: [
-    "Cart",
-    "Checkout",
-    "Order Confirmation",
-    "Pickup Information",
-    "Pickup Method",
-    "Pickup from Branch",
-    "Delivery",
-    "Notes",
-    "An Error Occurred",
-    "From Branch",
-    "On Pickup",
-    "Order",
-    "Delivery",
-    "Discount",
-    "Grand Total",
-    "Complete Payment",
-    "SAR",
-  ],
-  design: [
-    "Design Your Own Cake",
-    "Add Image",
-    "Text on Cake",
-    "Other Shape (Write in Notes)",
-    "Notes",
-    "Add to Cart",
-  ],
-};
+console.log(file);

@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-
+import getText from "../../../../translation";
 import { useRef, useState } from "react";
 import { useStore } from "react-redux";
 
@@ -24,39 +24,39 @@ export default function () {
       >
         <li>
           <label className="d-flex flex-column gap-2">
-            الاسم بالكامل
+            {getText("settings", 15)}
             <input
               type="text"
               style={{ outline: "none", borderColor: "#d4e8f6" }}
               onChange={({ target }) => (reqBody.current.name = target.value)}
               className="input-group-text text-end"
-              placeholder="الاسم"
+              placeholder={getText("settings", 15)}
             />
           </label>
         </li>
 
         <li>
           <label className="d-flex flex-column gap-2">
-            البريد الالكتروني
+            {getText("settings", 16)}
             <input
               type="text"
               style={{ outline: "none", borderColor: "#d4e8f6" }}
               onChange={({ target }) => (reqBody.current.email = target.value)}
               className="input-group-text text-end"
-              placeholder="البريد الالكتروني"
+              placeholder={getText("settings", 16)}
             />
           </label>
         </li>
 
         <li>
           <label className="d-flex flex-column gap-2">
-            رقم الهاتف
+            {getText("settings", 17)}
             <input
               type="text"
               style={{ outline: "none", borderColor: "#d4e8f6" }}
               onChange={({ target }) => (reqBody.current.phone = target.value)}
               className="input-group-text text-end"
-              placeholder="رقم الهاتف"
+              placeholder={getText("settings", 17)}
             />
           </label>
         </li>
@@ -68,14 +68,14 @@ export default function () {
               checked={changePass}
               onChange={(e) => setChangePass(e.target.checked)}
             />
-            تغيير كلمة المرور
+            {getText("settings", 18)}
           </label>
         </li>
 
         {changePass && (
           <li>
             <label className="d-flex flex-column gap-2">
-              كلمة المرور الجديدة
+              {getText("settings", 19)}
               <input
                 type="text"
                 style={{ outline: "none", borderColor: "#d4e8f6" }}
@@ -83,7 +83,7 @@ export default function () {
                   (reqBody.current.new_password = target.value)
                 }
                 className="input-group-text text-end"
-                placeholder="كلمة المرور الجديدة"
+                placeholder={getText("settings", 19)}
               />
             </label>
           </li>
@@ -102,7 +102,7 @@ export default function () {
               borderRadius: "24px",
             }}
           >
-            حفظ التحديثات
+            {getText("settings", 20)}
           </button>
         </li>
       </ul>
@@ -123,13 +123,13 @@ export default function () {
           style={{ backgroundColor: "#fff" }}
         >
           <span className="text-center" style={{ color: "var(--primary)" }}>
-            من فضلك أكتب كلمة المرور
+            {getText("settings", 21)}
           </span>
 
           <input
             type="password"
             className="input-group-text"
-            placeholder="كلمة المرور"
+            placeholder={getText("settings", 21)}
             onChange={({ target }) =>
               (reqBody.current.old_password = target.value)
             }
@@ -141,7 +141,7 @@ export default function () {
             style={{ backgroundColor: "var(--primary)", color: "#fff" }}
             onClick={confirmPassword}
           >
-            تأكيد
+            {getText("settings", 22)}
           </button>
         </div>
       </div>
@@ -158,6 +158,6 @@ export default function () {
     })
       .then((r) => r.json())
       .then((r) => {})
-      .catch(() => alert("حدث خطأ، يرجى اعدة المحاولة"));
+      .catch(() => alert(getText("settings", 23)));
   }
 }

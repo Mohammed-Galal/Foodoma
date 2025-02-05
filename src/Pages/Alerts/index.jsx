@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { getUserAlerts } from "../../store";
 import { Link, useNavigate } from "react-router-dom";
 import { useLayoutEffect } from "react";
-import getText from "../../translation";
+import getText from "../../translation/index.js";
 
 const base = "https://mon10.amir-adel.com",
   baseUrl = base + "/public/api",

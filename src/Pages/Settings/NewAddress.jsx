@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/aria-role */
 
 import { useStore } from "react-redux";
+import getText from "../../translation";
 
 const saveAddressApi = "https://mon10.amir-adel.com/public/api/save-address";
 
@@ -27,40 +28,40 @@ export default function NewAddress({ isActive, deActivate }) {
 
       <div className="container d-grid gap-3 h5 my-0 p-3">
         <label>
-          احفظ العنوان باسم
+          {getText("settings", 34)}
           <input
             type="text"
             className="input-group-text"
-            placeholder="عنوان المنزل على سبيل المثال"
+            placeholder={getText("settings", 35)}
             role="input"
             onChange={(e) => (opts.tag = e.target.value)}
           />
         </label>
 
         <label>
-          العنوان
+          {getText("settings", 36)}
           <input
             type="text"
             className="input-group-text"
-            placeholder="العنوان"
+            placeholder={getText("settings", 36)}
             role="input"
             onChange={(e) => (opts.address = e.target.value)}
           />
         </label>
 
         <label>
-          المنزل
+          {getText("settings", 37)}
           <input
             type="text"
             className="input-group-text"
-            placeholder="المنزل"
+            placeholder={getText("settings", 37)}
             role="input"
             onChange={(e) => (opts.house = e.target.value)}
           />
         </label>
 
         <label>
-          حدد الموقع على الخريطة
+          {getText("settings", 38)}
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7457112.192150741!2d39.78308183785676!3d24.13073533599272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15e7b33fe7952a41%3A0x5960504bc21ab69b!2sSaudi%20Arabia!5e0!3m2!1sen!2seg!4v1733088758422!5m2!1sen!2seg"
             title="Google Maps Location"
@@ -77,14 +78,14 @@ export default function NewAddress({ isActive, deActivate }) {
         </label>
 
         <button className="btn mx-auto" onClick={addAddress}>
-          أضف العنوان
+          {getText("settings", 39)}
         </button>
       </div>
     </div>
   );
 
   function addAddress() {
-    if (!checkValidity()) return alert("يجب ملئ جميع البيانات");
+    if (!checkValidity()) return alert(getText("settings", 40));
 
     fetch(saveAddressApi, {
       method: "POST",

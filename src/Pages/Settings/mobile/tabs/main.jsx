@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import getText from "../../../../translation";
 import { Link } from "react-router-dom";
 import { useStore } from "react-redux";
 import Power from "../../../../icons/Power";
@@ -18,7 +19,7 @@ export default function main() {
             to="/settings/addresses"
           >
             <img src="/assets/settings/address.png" alt="Icon" />
-            عناويني
+            {getText("settings", 0)}
           </Link>
         </li>
 
@@ -28,7 +29,7 @@ export default function main() {
             to="/settings/history"
           >
             <img src="/assets/settings/delivery.png" alt="Icon" />
-            طلباتي
+            {getText("settings", 1)}
           </Link>
         </li>
 
@@ -38,7 +39,7 @@ export default function main() {
             to="/settings/fav"
           >
             <img src="/assets/settings/shop.png" alt="Icon" />
-            المفضلة
+            {getText("settings", 2)}
           </Link>
         </li>
 
@@ -48,7 +49,7 @@ export default function main() {
             to="/settings/wallet"
           >
             <img src="/assets/settings/wallet.png" alt="Icon" />
-            محفظتي
+            {getText("settings", 3)}
           </Link>
         </li>
 
@@ -58,23 +59,23 @@ export default function main() {
             to="/settings/account"
           >
             <img src="/assets/settings/gears.png" alt="Icon" />
-            الاعدادات
+            {getText("settings", 4)}
           </Link>
         </li>
 
         <li className="col-4">
           <Link
             className="align-items-center d-flex flex-column gap-3 p-3 justify-content-center"
-            to="/settings/about"
+            to="/about-us"
           >
             <img src="/assets/settings/address.png" alt="Icon" />
-            حول التطبيق
+            {getText("settings", 27)}
           </Link>
         </li>
       </ul>
 
       <button type="button" className="btn container" onClick={logout}>
-        تسجيل الخروج {Power}
+        {getText("settings", 5)} {Power}
       </button>
     </>
   );

@@ -1,6 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 
 import { useLayoutEffect, useState } from "react";
+import getText from "../../../../translation";
 
 const api = "https://mon10.amir-adel.com/public/api/get-wallet-transactions";
 
@@ -50,13 +51,13 @@ export default function () {
             className="d-block h5"
             style={{ cssText: "color: var(--primary); font-weight: 700" }}
           >
-            ابدأ إرسال الترشيحات
+            {getText("settings", 28)}
           </span>
           <span
             className="d-block"
             style={{ cssText: "color: var(--midgray)" }}
           >
-            يمكنك ترشيح مون 10 لأصدقاءك والحصول على مكافأة في محفظتك عندما:
+            {getText("settings", 29)}
           </span>
 
           <div className="gap-3 justify-content-around mt-5 row m-0">
@@ -73,10 +74,10 @@ export default function () {
                 className="h5 m-0"
                 style={{ cssText: "color: var(--primary);" }}
               >
-                أكمل 5 طلبات
+                {getText("settings", 30)}
               </span>
               <progress value={3} max={5}></progress>
-              متبقي 5 طلبات
+              {getText("settings", 31)}
             </a>
 
             <a
@@ -92,10 +93,10 @@ export default function () {
                 className="h5 m-0"
                 style={{ cssText: "color: var(--primary);" }}
               >
-                أصرف 1000 ر.س أو أكثر
+                {getText("settings", 32)}
               </span>
               <progress value={460} max={1000}></progress>
-              متبقي {1000 - 460} ر.س
+              {getText("settings", 33)} {1000 - 460} {getText("settings", 14)}
             </a>
           </div>
         </div>

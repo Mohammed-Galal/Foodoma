@@ -12,10 +12,9 @@ import Minus from "../../icons/Minus";
 import Plus from "../../icons/Plus";
 import "./index.scss";
 
-const hiddenAlert = { opacity: 0, transform: "translateY(100%)" },
+const isArabic = window.localStorage.getItem("lang") === "ar",
+  hiddenAlert = { opacity: 0, transform: "translateY(100%)" },
   activeAlert = { opacity: 1, transform: "translateY(0)" },
-  fallbackStr = `كعكة الفانيليا ذات الطراز القديم هي قلب وروح ماجنوليا بيكري. هنا، نأخذ نفس الخليط الذي نستخدمه لصنع الكعك الشهير الخاص بنا لصنع كعكة غنية بالزبدة مع فتات خفيفة، ونضعها في طبقة من كريمة زبدة الفانيليا أو الشوكولاتة.
-المكونات: دقيق - زبدة -`,
   baseUrl = "https://mon10.amir-adel.com",
   docFrag = document.createElement("div");
 
@@ -98,7 +97,7 @@ function ProductInfo(state) {
   }
 
   const imageSrc = baseUrl + (state.image || "");
-  docFrag.innerHTML = state.desc || fallbackStr;
+  docFrag.innerHTML = (isArabic && state.desc_ar) || state.desc;
 
   return (
     <section
@@ -154,7 +153,7 @@ function ProductInfo(state) {
           <li>{state.name}</li>
         </ul>
 
-        <p className="title h2">{state.name}</p>
+        <p className="title h2">{(isArabic && state.name_ar) || state.name}</p>
 
         <p className="state text-center d-flex align-items-center gap-2">
           <span className="flag">

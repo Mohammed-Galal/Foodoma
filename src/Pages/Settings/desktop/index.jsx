@@ -1,4 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
+import getText, { keys } from "../../../translation";
 import { useNavigate, useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import tabs from "./tabs";
@@ -32,7 +33,7 @@ export default function () {
                 to="/settings/addresses"
               >
                 <img src="/assets/settings/address.png" alt="Icon" />
-                عناويني
+                {getText("settings", 0)}
               </NavLink>
             </li>
 
@@ -42,7 +43,7 @@ export default function () {
                 to="/settings/history"
               >
                 <img src="/assets/settings/delivery.png" alt="Icon" />
-                طلباتي
+                {getText("settings", 1)}
               </NavLink>
             </li>
 
@@ -52,7 +53,7 @@ export default function () {
                 to="/settings/fav"
               >
                 <img src="/assets/settings/shop.png" alt="Icon" />
-                المفضلة
+                {getText("settings", 2)}
               </NavLink>
             </li>
 
@@ -62,7 +63,7 @@ export default function () {
                 to="/settings/wallet"
               >
                 <img src="/assets/settings/wallet.png" alt="Icon" />
-                محفظتي
+                {getText("settings", 3)}
               </NavLink>
             </li>
 
@@ -72,7 +73,7 @@ export default function () {
                 to="/settings/account"
               >
                 <img src="/assets/settings/gears.png" alt="Icon" />
-                الاعدادات
+                {getText("settings", 4)}
               </NavLink>
             </li>
 
@@ -82,7 +83,7 @@ export default function () {
                 onClick={logout}
               >
                 {Power}
-                تسجيل الخروج
+                {getText("settings", 5)}
               </button>
             </li>
           </ul>
@@ -115,13 +116,20 @@ function AccountInfo() {
       </p>
 
       <div
-        className="align-items-center d-flex gap-2 langs"
+        className="align-items-center d-flex gap-2 langs position-relative"
         style={{ color: "var(--primary)" }}
-        onClick={() => changeLang("en")}
       >
         {Globe}
-        {window.localStorage.getItem("lang") || "العربية"}
+        {window.localStorage.getItem("lang") || "ar"}
         {AltArrowDown}
+
+        <ul className="d-grid list-unstyled m-0 p-0 py-2 text-center">
+          {keys.map((k) => (
+            <li key={k} className="px-3 py-2" onClick={() => changeLang(k)}>
+              {k}
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );

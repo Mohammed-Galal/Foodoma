@@ -1,4 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
+import getText from "../../../../translation";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NewAddress from "../../NewAddress";
@@ -22,7 +23,7 @@ export default function () {
   return (
     <div className="addresses d-flex flex-column gap-3">
       <span className="h5 m-0 title" style={{ color: "var(--primary)" }}>
-        العناوين المسجلة
+        {getText("settings", 6)}
       </span>
 
       <ul className="list-unstyled d-grid gap-3 m-0 p-0">{Addresses}</ul>
@@ -37,7 +38,7 @@ export default function () {
             "background-color: var(--primary); color: #fff; border-radius: 24px; scale: 0.9; position: sticky; bottom: 72px;",
         }}
       >
-        أضف عنوان جديد
+        {getText("settings", 7)}
       </button>
     </div>
   );

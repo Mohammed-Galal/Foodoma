@@ -1,7 +1,8 @@
+import getText from "./translation";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import call from "./icons/call.jsx";
 import whatsapp from "./icons/whatsapp.jsx";
-import { useSelector } from "react-redux";
 
 /* eslint-disable import/no-anonymous-default-export */
 export default (
@@ -10,15 +11,15 @@ export default (
       <div className="align-items-stretch row">
         <div className="col-12 col-lg-3 col-md-6 d-flex flex-column">
           <img className="mb-3" src="/assets/home/logo-white.svg" alt="logo" />
-          حلويات مونتانا سابقا
+          {getText("footer", 7)}
           <br />
-          تأسست عام 1950 من
+          {getText("footer", 8)}
           <br />
-          خبرة تزيد عن 73 عام في صناعة الحلويات
+          {getText("footer", 9)}
         </div>
 
         <div className="col-12 col-lg-3 col-md-6 d-flex flex-column">
-          <span className="h5 mb-3">اتصل بنا</span>
+          <span className="h5 mb-3">{getText("footer", 0)}</span>
           <a
             className="text-decoration-none mb-3 d-flex align-items-center gap-2"
             href="tel:+966920035416"
@@ -42,20 +43,20 @@ export default (
         </div>
 
         <div className="col-12 col-lg-3 col-md-6 d-flex flex-column">
-          <span className="h5 mb-3">روابط مساعدة</span>
+          <span className="h5 mb-3">{getText("footer", 1)}</span>
           <Link className="mb-2 text-decoration-none" to="/">
-            نبذة عن مون 10
+            {getText("footer", 2)}
           </Link>
           <Link className="mb-2 text-decoration-none" to="/about-us">
-            من نحن
+            {getText("footer", 3)}
           </Link>
           <Link className="mb-2 text-decoration-none" to="/faq">
-            الأسئلة الشائعة
+            {getText("footer", 4)}
           </Link>
         </div>
 
         <div className="col-12 col-lg-3 col-md-6 d-flex flex-wrap">
-          <span className="h5 mb-3 w-100">مواقع الفروع</span>
+          <span className="h5 mb-3 w-100">{getText("footer", 5)}</span>
           <Branches />
         </div>
       </div>
@@ -92,7 +93,7 @@ export default (
     </div>
 
     <p className="mt-4 mb-0 text-center">
-      <span>جميع الحقوق محفوظة | </span>© 2003-2024 Mon10
+      <span>{getText("footer", 6)} | </span>© 2003-2024 Mon10
     </p>
   </>
 );

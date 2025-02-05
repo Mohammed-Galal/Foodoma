@@ -5,6 +5,7 @@ import S, { getFavourites } from "../../store";
 import "./index.scss";
 import getText from "../../translation";
 
+const isArabic = window.localStorage.getItem("lang") === "ar";
 const Base = "https://mon10.amir-adel.com/",
   baseUrl = Base + "public/api";
 
@@ -17,7 +18,7 @@ export default function (item, I) {
     { fav: favs } = store.Products,
     { loaded } = store.User,
     isHearted = favs.some((e) => e.id === item.id),
-    { name, image, is_new } = item,
+    { name, name_ar, image, is_new } = item,
     price = +item.price,
     old_price = +item.old_price,
     discount = old_price > price && (
@@ -105,7 +106,7 @@ export default function (item, I) {
         <img src={Base + image} className="mb-3 mx-auto" alt={name} />
 
         <div className="desc d-flex flex-column gap-3 py-1">
-          <span className="h5 m-0">{name}</span>
+          <span className="h5 m-0">{(isArabic && name_ar) || name}</span>
 
           <div className="rate align-items-center d-flex">
             <object

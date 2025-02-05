@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import getText from "../../translation.js";
+import getText from "../../translation";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useSelector } from "react-redux";
