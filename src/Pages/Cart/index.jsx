@@ -75,7 +75,7 @@ export default function () {
               <input
                 type="text"
                 className="input-group-text"
-                placeholder="أضف كود الخصم"
+                placeholder={getText("cart", 18)}
               />
               <button className="btn px-3 py-2">{getText("cart", 9)}</button>
             </li>

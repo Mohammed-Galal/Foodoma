@@ -1,4 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
+import getText from "../../translation";
 import productItem from "../../shared/productItem";
 import Carousel from "../../shared/Carousel";
 
@@ -9,7 +10,7 @@ export default function ({ items }) {
         className="d-block h3 mb-4 text-center"
         style={{ color: "var(--primary)" }}
       >
-        قد يعجبك ايضاً
+        {getText("cart", 19)}
       </span>
 
       <Carousel

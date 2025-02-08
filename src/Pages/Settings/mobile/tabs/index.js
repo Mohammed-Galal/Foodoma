@@ -1,5 +1,5 @@
 import account from "./account.jsx";
-import addresses from "./addresses.jsx";
+import addresses from "../../desktop/tabs/addresses.jsx";
 import fav from "./fav.jsx";
 import history from "../../desktop/tabs/history.jsx";
 import main from "./main.jsx";

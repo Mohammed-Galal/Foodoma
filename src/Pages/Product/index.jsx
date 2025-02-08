@@ -234,7 +234,10 @@ function ProductInfo(state) {
             {Minus}
           </button>
 
-          <div className="btn" onClick={addItemToCart}>
+          <div
+            className="btn d-flex gap-2 align-items-center"
+            onClick={addItemToCart}
+          >
             {getText("product", 8)}
             {Cart}
           </div>

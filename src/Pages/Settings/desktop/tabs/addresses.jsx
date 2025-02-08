@@ -49,7 +49,6 @@ function AddressItem(
   dispatch,
   token
 ) {
-
   address ||= emptyStr;
   house ||= emptyStr;
   landmark ||= emptyStr;
@@ -81,7 +80,7 @@ function AddressItem(
         onClick={removeAdrress}
         style={{ fontSize: "smaller" }}
         className="border-0 btn btn-outline-danger"
-        value="حذف"
+        value={getText("settings", 41)}
       />
     </li>
   );

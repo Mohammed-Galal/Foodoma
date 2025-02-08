@@ -65,6 +65,7 @@
     position: relative;
 
     & > ul {
+      visibility: hidden;
       background-color: #fff;
       position: absolute;
       top: 100%;
@@ -76,8 +77,9 @@
       transform: translateY(50%);
       transition: 150ms ease-out;
     }
-
+    
     &:hover > ul {
+      visibility: visible;
       opacity: 1;
       transform: translateY(0);
 
