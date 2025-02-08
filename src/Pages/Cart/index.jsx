@@ -25,9 +25,6 @@ export default function () {
       return ProductItem(item, I, editCartItem);
     });
 
-  const discountValue = Math.floor(totalPrice / 100);
-  discountValue && (discount = -(discountValue * 10));
-
   return (
     <>
       <ul
