@@ -51,7 +51,7 @@ export default function Restaurant() {
             border: "inherit",
             borderRadius: "24px",
             overflow: "hidden",
-            paddingRight: "0.75rem",
+            "padding-inline-start": "0.75rem",
             color: "var(--primary)",
             fontSize: "smaller",
             fontWeight: "600",

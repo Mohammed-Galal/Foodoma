@@ -25,13 +25,13 @@ export default ({ sectionName }) => (
           <Link
             to="/all-products/"
             className="d-flex align-items-center text-decoration-none"
-            style={{ color: "inherit" }}
+            style={{ color: "inherit", borderBottom: "1px solid currentColor" }}
           >
             {getText("home", 8)}
-            <object
+            {/* <object
               style={{ marginRight: "0.4rem" }}
               data="/assets/home/icons/left-arrow.svg"
-            ></object>
+            ></object> */}
           </Link>
         </p>
       )}

@@ -19,7 +19,7 @@ export default ({ sectionName }) => (
           className="d-flex align-items-center text-decoration-none"
         >
           {getText("home", 8)}
-          <object data="/assets/home/icons/left-arrow.svg"></object>
+          {/* <object data="/assets/home/icons/left-arrow.svg"></object> */}
         </a>
       </p>
     )}

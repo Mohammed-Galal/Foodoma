@@ -79,7 +79,7 @@ export default function () {
 
             <li className="py-2">
               <button
-                className="btn align-items-center d-grid gap-2 w-100 p-0 text-end"
+                className="btn align-items-center d-grid gap-2 w-100 p-0"
                 onClick={logout}
               >
                 {Power}

@@ -95,6 +95,7 @@
 
       a,
       button {
+        text-align: unset;
         min-height: 45px;
         color: var(--primary);
         grid-template-columns: 72px 1fr;

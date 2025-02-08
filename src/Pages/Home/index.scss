@@ -6,6 +6,7 @@ main {
     padding-bottom: var(--section-gap);
 
     & > p:first-child {
+      justify-content: space-between;
       width: 100%;
       color: var(--primary);
       margin-bottom: var(--internal-gap);
@@ -15,8 +16,8 @@ main {
       }
 
       & > a {
-        margin-right: auto;
         color: inherit;
+        border-bottom: 1px solid currentColor;
 
         & > object {
           margin-right: 0.4rem;

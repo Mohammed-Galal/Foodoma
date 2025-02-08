@@ -108,7 +108,7 @@ export default function (item, I) {
         <div className="desc d-flex flex-column gap-3 py-1">
           <span className="h5 m-0">{(isArabic && name_ar) || name}</span>
 
-          <div className="rate align-items-center d-flex">
+          <div className="align-items-center d-grid gap-1 rate">
             <object
               data="/assets/home/icons/star.svg"
               type="image/svg+xml"
@@ -123,7 +123,8 @@ export default function (item, I) {
           </div>
 
           <div className="align-items-center d-flex price">
-            <span>{price + " ر.س"}</span> /{getText("productItem", 2)}
+            <span>{price + " " + getText("settings", 14)}</span> /
+            {getText("productItem", 2)}
           </div>
 
           <button

@@ -16,3 +16,9 @@ export default function getText(pageName, phraseIndex) {
     return fallback;
   }
 }
+
+if (window)
+  window.addEventListener(
+    "DOMContentLoaded",
+    () => (document.body.dir = lang === "ar" ? "rtl" : "ltr")
+  );

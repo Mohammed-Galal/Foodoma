@@ -47,8 +47,6 @@ div.product-item {
         color: var(--primary);
       }
     }
-
-    
   }
 
   & > span {
@@ -80,14 +78,10 @@ div.product-item {
       }
 
       & > .rate {
+        grid-template-columns: auto 1fr auto;
         color: var(--midgray);
 
-        & > object {
-          margin-left: 4px;
-        }
-
         & > span {
-          margin-right: auto;
           background-color: #e4f4ff;
           font-size: small;
           padding: 0.5rem 0.75rem;
