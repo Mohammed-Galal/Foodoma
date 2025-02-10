@@ -1,13 +1,12 @@
 /* eslint-disable import/no-anonymous-default-export */
 import getText from "../../translation";
+import { _useCoupon } from "../Cart";
 import { useDispatch, useStore } from "react-redux";
 import { useLayoutEffect, useState } from "react";
 import NXT from "../../icons/NXT";
 import React from "react";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
-
-const discount = 0;
 
 const placeOrderApi = "https://mon10.amir-adel.com/public/api/place-order",
   basicBodyReq = {},
@@ -67,7 +66,7 @@ export default function () {
             style={{
               cssText: "color: var(--primary); font-weight: bold",
             }}
-            class="h5 m-0"
+            className="h5 m-0"
           >
             {e.tag}
           </span>
@@ -169,6 +168,7 @@ export default function () {
           cart={Products.cart}
           products={Products}
           delivery={delivery_charges}
+          restaurant_id={Restaurant.data.id}
           totalPrice={totalPrice}
           placeOrder={placeOrder}
         />
@@ -186,7 +186,7 @@ export default function () {
       order,
       user: { data: { default_address: userAddresses[activeAddress] } },
       delivery_type: delivery ? "1" : "2",
-      coupon: { code: "" },
+      coupon: { code: window.localStorage.getItem("coupon") || emptyStr },
       method: "COD",
       order_comment: customProps.comment,
     };
@@ -213,6 +213,8 @@ export default function () {
   }
 
   function handleInvoice({ data }) {
+    window.localStorage.removeItem("coupon");
+
     const invoiceState = {
       order,
       date: data.created_at.split(" "),
@@ -222,9 +224,10 @@ export default function () {
       deliveryType: getText("checkout", 9),
       deliveryAddress: Restaurant.data.name,
       paymentMode: getText("checkout", 10),
-      price: totalPrice - delivery_charges,
+      price: data.total,
       deliveryCharges: delivery_charges,
-      total: totalPrice,
+      total: data.total + delivery_charges,
+      subTotal: data.sub_total,
     };
 
     if (delivery) {
@@ -237,9 +240,27 @@ export default function () {
   }
 }
 
-function OrderInfo({ cart, delivery, products, placeOrder, totalPrice }) {
+function OrderInfo({ cart, delivery, restaurant_id, placeOrder, totalPrice }) {
   // const [useCreditCard, setCredit] = useState(false);
+  const [discount, setDiscount] = useState(0);
   const items = cart.map(productItem);
+
+  useLayoutEffect(() => {
+    const coupon = window.localStorage.getItem("coupon");
+
+    if (coupon) {
+      setDiscount(false);
+
+      const token = window.localStorage.getItem("token"),
+        couponParams = {
+          coupon,
+          restaurant_id: "" + restaurant_id,
+          subtotal: "" + totalPrice,
+        };
+
+      _useCoupon(couponParams, token, applyCoupon, rejectCoupon);
+    }
+  }, []);
 
   return (
     <div className="p-3">
@@ -259,7 +280,9 @@ function OrderInfo({ cart, delivery, products, placeOrder, totalPrice }) {
         <p>
           {getText("checkout", 13)}
           <span>
-            {Math.abs(discount)} {getText("checkout", 16)}
+            {discount === false
+              ? "جاري التحقق"
+              : Math.abs(discount) + " " + getText("checkout", 16)}
           </span>
         </p>
       </div>
@@ -268,7 +291,7 @@ function OrderInfo({ cart, delivery, products, placeOrder, totalPrice }) {
       <p className="total">
         {getText("checkout", 14)}
         <span>
-          {totalPrice} {getText("checkout", 16)}
+          {totalPrice + +discount} {getText("checkout", 16)}
         </span>
       </p>
       {/* 
@@ -302,6 +325,21 @@ function OrderInfo({ cart, delivery, products, placeOrder, totalPrice }) {
       </button>
     </div>
   );
+
+  function applyCoupon(res) {
+    const { discount_type, discount } = res,
+      value =
+        discount_type === "PERCENTAGE"
+          ? (totalPrice / 100) * +discount
+          : +discount;
+
+    setDiscount(-Math.floor(value));
+  }
+
+  function rejectCoupon() {
+    setDiscount(0);
+    window.localStorage.removeItem("coupon");
+  }
 }
 
 function productItem({ id, quantity, price, name }) {

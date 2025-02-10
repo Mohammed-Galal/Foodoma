@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import getText from "../../translation";
-import React from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { useSelector, useDispatch, useStore } from "react-redux";
 import { Link } from "react-router-dom";
 import NXT from "../../icons/NXT";
@@ -10,13 +10,15 @@ import "./index.scss";
 const baseUrl = "https://mon10.amir-adel.com";
 
 export default function () {
-  const store = useStore().getState(),
+  const [discount, setDiscount] = useState(0),
+    store = useStore().getState(),
     dispatch = useDispatch(),
     restaurant = store.Restaurant;
 
   const delivery = +restaurant.data.delivery_charges;
 
-  let discount = 0,
+  let coupon = window.localStorage.getItem("coupon") || "",
+    couponData = null,
     totalPrice = 0;
 
   const { cart, data } = useSelector((S) => S.Products),
@@ -24,6 +26,18 @@ export default function () {
       totalPrice += item.totalPrice;
       return ProductItem(item, I, editCartItem);
     });
+
+  useLayoutEffect(() => {
+    const token = window.localStorage.getItem("token");
+    if (coupon === "" || !restaurant.loaded || !items.length) return;
+    else if (token === undefined) return alert("يجب تسجيل الدخول أولا");
+    const couponParams = {
+      coupon,
+      restaurant_id: "" + restaurant.data.id,
+      subtotal: "" + totalPrice,
+    };
+    _useCoupon(couponParams, token, applyCoupon, rejectCoupon);
+  }, [coupon, totalPrice, discount]);
 
   return (
     <>
@@ -71,36 +85,46 @@ export default function () {
             <li className="mt-3">
               <input
                 type="text"
+                ref={(e) => e && (e.value = coupon)}
                 className="input-group-text"
+                onChange={({ target }) => (coupon = target.value)}
                 placeholder={getText("cart", 18)}
               />
-              <button className="btn px-3 py-2">{getText("cart", 9)}</button>
+              <button
+                type="button"
+                className="btn px-3 py-2"
+                onClick={addCoupon}
+              >
+                {getText("cart", 9)}
+              </button>
             </li>
           </ul>
 
           <div className="d-grid gap-3 p-3">
-            <p className="h4 m-0 pb-2 text-center">{getText("cart", 17)}</p>
+            <p className="h4 m-0 pb-2 text-center">{getText("cart", 10)}</p>
 
             <span>
-              <samp>{getText("cart", 10)}</samp>
+              <samp>{getText("cart", 11)}</samp>
               {totalPrice} {getText("cart", 16)}
             </span>
 
             <p className="d-grid gap-3 m-0 py-2">
               <span>
-                <samp>{getText("cart", 11)}</samp>
+                <samp>{getText("cart", 17)}</samp>
                 {delivery} {getText("cart", 16)}
               </span>
 
               <span>
                 <samp>{getText("cart", 12)}</samp>
-                {Math.abs(discount)} {getText("cart", 16)}
+                {discount === false
+                  ? "جاري التحقق"
+                  : Math.abs(discount) + " " + getText("cart", 16)}
               </span>
             </p>
 
             <span className="total">
               <samp>{getText("cart", 13)}</samp>
-              {+delivery + totalPrice + discount} {getText("cart", 16)}
+              {+delivery + totalPrice + +discount} {getText("cart", 16)}
             </span>
 
             <Link className="btn" to="/checkout">
@@ -128,6 +152,46 @@ export default function () {
       payload: { index, quantity },
     });
   }
+
+  function addCoupon() {
+    if (coupon === "") return false;
+    window.localStorage.setItem("coupon", coupon);
+    setDiscount(false);
+  }
+
+  function rejectCoupon() {
+    window.localStorage.removeItem("coupon");
+    setDiscount(0);
+  }
+
+  function applyCoupon(res) {
+    const { discount_type, discount } = res,
+      value =
+        discount_type === "PERCENTAGE"
+          ? (totalPrice / 100) * +discount
+          : +discount;
+
+    couponData = res;
+    setDiscount(-Math.floor(value));
+  }
+}
+
+export function _useCoupon(params, auth, callback, rejectCallback) {
+  fetch(baseUrl + "/public/api/apply-coupon", {
+    method: "POST",
+    body: JSON.stringify(params),
+    headers: { "Content-Type": "application/json", Authorization: auth },
+  })
+    .then((r) => r.json())
+    .then((r) => {
+      if (r.success) return callback(r);
+      const minReached =
+        r.type === "MINSUBTOTAL"
+          ? "لم تتخطى قيمة العربة الحد الأدنى"
+          : "كوبون غير صالح";
+      rejectCallback();
+      alert(minReached);
+    });
 }
 
 function ProductItem({ id, quantity, name, addons, price }, I, editCart) {
