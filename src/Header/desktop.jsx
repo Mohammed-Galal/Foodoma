@@ -1,5 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import getText from "../translation";
+import Globe from "../icons/Globe";
+import { keys } from "../translation";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../store";
@@ -61,17 +63,37 @@ export default function () {
           )}
         </li>
         <li>
-          <Link to="/settings/fav">
-            <img src="/assets/home/icons/header heart.svg" alt="favorites" />
-          </Link>
-        </li>
-        <li>
           <Link to="/cart" className="position-relative">
             <img src="/assets/home/icons/header cart.svg" alt="cart" />
             <span className="badge">{itemsQuantity}</span>
           </Link>
         </li>
+        <li className="DD" style={{ color: "var(--primary)" }}>
+          <img
+            src="/assets/global.png"
+            alt="translate"
+            style={{ maxWidth: "24px", filter: "contrast(0.7)" }}
+          />
+
+          <ul
+            className="d-flex flex-column list-unstyled m-0 p-0"
+            style={{ textAlign: "center", minWidth: "70px" }}
+          >
+            {keys.map((k) => {
+              return (
+                <li className="p-2" key={k} onClick={() => changeLang(k)}>
+                  {k}
+                </li>
+              );
+            })}
+          </ul>
+        </li>
       </ul>
     </div>
   );
+}
+
+function changeLang(targetLang) {
+  window.localStorage.setItem("lang", targetLang);
+  window.location.reload();
 }

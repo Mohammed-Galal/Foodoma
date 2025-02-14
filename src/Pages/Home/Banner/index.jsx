@@ -1,5 +1,4 @@
 import getText from "../../../translation";
-import { Link } from "react-router-dom";
 import "./index.scss";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => (
@@ -8,9 +7,9 @@ export default () => (
       <span className="h1 m-0">{getText("home", 6)}!</span>
       <p className="my-2">{getText("home", 7)}</p>
 
-      <Link to="/all-products" className="text-decoration-none">
+      {/* <Link to="/all-products" className="text-decoration-none">
         {getText("home", 8)}
-      </Link>
+      </Link> */}
     </div>
 
     <ul style={{ gridTemplateRows: "1fr 1fr", maxHeight: "570px" }}>

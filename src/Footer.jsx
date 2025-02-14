@@ -25,7 +25,7 @@ export default (
             href="tel:+966920035416"
           >
             {call}
-            +920035416
+            920035416
           </a>
           <a
             className="text-decoration-none mb-3 d-flex align-items-center gap-2"
@@ -33,7 +33,7 @@ export default (
             href="https://wa.me/+966920035416"
           >
             {whatsapp}
-            +920035416
+            920035416
           </a>
           <img
             src="/assets/footer.png"
@@ -44,9 +44,9 @@ export default (
 
         <div className="col-12 col-lg-3 col-md-6 d-flex flex-column">
           <span className="h5 mb-3">{getText("footer", 1)}</span>
-          <Link className="mb-2 text-decoration-none" to="/">
+          {/* <Link className="mb-2 text-decoration-none" to="/">
             {getText("footer", 2)}
-          </Link>
+          </Link> */}
           <Link className="mb-2 text-decoration-none" to="/about-us">
             {getText("footer", 3)}
           </Link>

@@ -9,7 +9,7 @@ body:not(#mobile) > header {
   & > div:last-child {
     grid-template-columns: auto 1fr auto auto;
     gap: 16px;
-
+    
     button.btn {
       color: var(--primary);
       background-color: #ffcd00;
@@ -51,21 +51,24 @@ body#mobile > header {
   }
 }
 
-header li.DD {
+header .DD {
   position: relative;
   cursor: pointer;
 
   --translateY: 10px;
   --opacity: 0;
   --visibility: hidden;
-
+  --scale:0;
+  
   &:hover {
     --visibility: visible;
     --opacity: 1;
+    --scale:1;
     --translateY: 0px;
   }
 
   & > ul {
+    scale: var(--scale);
     opacity: var(--opacity);
     visibility: var(--visibility);
     position: absolute;
@@ -79,6 +82,7 @@ header li.DD {
     overflow: hidden;
     transform: translateX(-50%) translateY(var(--translateY));
     transition: all 0.15s ease-out;
+    transform-origin: top left;
 
     & > li {
       cursor: pointer;

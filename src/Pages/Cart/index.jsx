@@ -9,6 +9,8 @@ import "./index.scss";
 
 const baseUrl = "https://mon10.amir-adel.com";
 
+let couponData = null;
+
 export default function () {
   const [discount, setDiscount] = useState(0),
     store = useStore().getState(),
@@ -18,8 +20,9 @@ export default function () {
   const delivery = +restaurant.data.delivery_charges;
 
   let coupon = window.localStorage.getItem("coupon") || "",
-    couponData = null,
     totalPrice = 0;
+
+  coupon === "" && (couponData = null);
 
   const { cart, data } = useSelector((S) => S.Products),
     items = cart.map((item, I) => {
@@ -29,14 +32,15 @@ export default function () {
 
   useLayoutEffect(() => {
     const token = window.localStorage.getItem("token");
-    if (coupon === "" || !restaurant.loaded || !items.length) return;
-    else if (token === undefined) return alert("يجب تسجيل الدخول أولا");
-    const couponParams = {
-      coupon,
-      restaurant_id: "" + restaurant.data.id,
-      subtotal: "" + totalPrice,
-    };
-    _useCoupon(couponParams, token, applyCoupon, rejectCoupon);
+    if (coupon !== "" && restaurant.loaded && items.length) {
+      const couponParams = {
+        coupon,
+        restaurant_id: "" + restaurant.data.id,
+        subtotal: "" + totalPrice,
+      };
+      _useCoupon(couponParams, token, applyCoupon, rejectCoupon);
+    } else if (token === undefined) alert("يجب تسجيل الدخول أولا");
+    else couponData = null;
   }, [coupon, totalPrice, discount]);
 
   return (
@@ -82,22 +86,70 @@ export default function () {
 
             {items}
 
-            <li className="mt-3">
-              <input
-                type="text"
-                ref={(e) => e && (e.value = coupon)}
-                className="input-group-text"
-                onChange={({ target }) => (coupon = target.value)}
-                placeholder={getText("cart", 18)}
-              />
-              <button
-                type="button"
-                className="btn px-3 py-2"
-                onClick={addCoupon}
+            {couponData ? (
+              <li
+                className="d-flex justify-content-between mt-3 py-2"
+                style={{
+                  backgroundColor: "aliceblue",
+                  borderRadius: "16px",
+                  fontWeight: "300",
+                  paddingInlineStart: "12px",
+                }}
               >
-                {getText("cart", 9)}
-              </button>
-            </li>
+                <p
+                  className="d-flex flex-column gap-1 m-0"
+                  style={{ textAlign: "start" }}
+                >
+                  <h5 className="align-items-center d-flex gap-1 m-0">
+                    {couponData.name}
+                    <hr
+                      className="m-0"
+                      style={{
+                        border: "none",
+                        backgroundColor: "var(--primary)",
+                        width: "6px",
+                        height: "6px",
+                        borderRadius: "100%",
+                      }}
+                    />
+                    <sub style={{ color: "var(--primary)" }}>
+                      {couponData.count} مرات
+                    </sub>
+                  </h5>
+                  {couponData.description}
+                </p>
+
+                <button
+                  className="btn"
+                  onClick={rejectCoupon}
+                  style={{
+                    backgroundColor: "transparent",
+                    color: "var(--primary)",
+                    fontWeight: "bold",
+                    borderRadius: "0",
+                  }}
+                >
+                  X
+                </button>
+              </li>
+            ) : (
+              <li className="mt-3">
+                <input
+                  type="text"
+                  ref={(e) => e && (e.value = coupon)}
+                  className="input-group-text"
+                  onChange={({ target }) => (coupon = target.value)}
+                  placeholder={getText("cart", 18)}
+                />
+                <button
+                  type="button"
+                  className="btn px-3 py-2"
+                  onClick={addCoupon}
+                >
+                  {getText("cart", 9)}
+                </button>
+              </li>
+            )}
           </ul>
 
           <div className="d-grid gap-3 p-3">
@@ -161,6 +213,7 @@ export default function () {
 
   function rejectCoupon() {
     window.localStorage.removeItem("coupon");
+    couponData = null;
     setDiscount(0);
   }
 
@@ -171,8 +224,10 @@ export default function () {
           ? (totalPrice / 100) * +discount
           : +discount;
 
-    couponData = res;
+    // count / max_count
+
     setDiscount(-Math.floor(value));
+    couponData = res;
   }
 }
 
@@ -184,7 +239,7 @@ export function _useCoupon(params, auth, callback, rejectCallback) {
   })
     .then((r) => r.json())
     .then((r) => {
-      if (r.success) return callback(r);
+      if (r.success && r.max_count >= r.count) return callback(r);
       const minReached =
         r.type === "MINSUBTOTAL"
           ? "لم تتخطى قيمة العربة الحد الأدنى"
