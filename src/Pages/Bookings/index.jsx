@@ -1,6 +1,6 @@
 import getText from "../../translation";
 import { useState } from "react";
-import { useStore } from "react-redux";
+import { useSelector, useStore } from "react-redux";
 import productItem from "../../shared/productItem";
 import "./index.scss";
 
@@ -58,18 +58,16 @@ function Timer() {
 }
 
 function BookProducts() {
-  const targetItems = useStore()
-    .getState()
-    .Products.data.filter((e) => !!e.is_new)
-    .map(productItem);
+  const targetItems = useSelector((e) => e.Products).early_booking.map(
+    productItem
+  );
 
   return (
     <section
       id="book-products"
-      className="align-items-stretch px-2 mx-auto d-flex flex-wrap "
+      className="container align-items-stretch px-2 mx-auto d-flex flex-wrap "
     >
-      <p className="h2 mb-1">{getText("bookings", 6)}</p>
-      {targetItems}
+      <p className="h4 mb-3">{getText("bookings", 6)}</p>
       {targetItems}
     </section>
   );

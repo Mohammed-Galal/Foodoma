@@ -17,7 +17,7 @@ export default function () {
     dispatch = useDispatch(),
     restaurant = store.Restaurant;
 
-  const delivery = +restaurant.data.delivery_charges;
+  const deliveryCharges = +restaurant.data.delivery_charges;
 
   let coupon = window.localStorage.getItem("coupon") || "",
     totalPrice = 0;
@@ -29,6 +29,9 @@ export default function () {
       totalPrice += item.totalPrice;
       return ProductItem(item, I, editCartItem);
     });
+
+  const delivery =
+    totalPrice >= restaurant.data.free_delivery_subtotal ? 0 : deliveryCharges;
 
   useLayoutEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -42,6 +45,8 @@ export default function () {
     } else if (token === undefined) alert("يجب تسجيل الدخول أولا");
     else couponData = null;
   }, [coupon, totalPrice, discount]);
+
+  if (restaurant.loaded) debugger;
 
   return (
     <>

@@ -28,16 +28,16 @@ export default function () {
       is_special: false,
       comment: "",
     },
-    userAddresses = User.addresses,
-    delivery_charges = delivery ? +Restaurant.data.delivery_charges : 0;
+    userAddresses = User.addresses;
 
+  const deliveryCharges = +Restaurant.data.delivery_charges;
   useLayoutEffect(() => {
     User.loaded || redirect("/user/login");
     Products.cart.length || redirect("/cart");
     userAddresses.length || redirect("/settings/addresses");
   });
 
-  let totalPrice = delivery_charges;
+  let totalPrice = 0;
 
   const order = Products.cart.map((CI) => {
     totalPrice += +CI.totalPrice;
@@ -74,6 +74,14 @@ export default function () {
       </label>
     </li>
   ));
+
+  const calcSubtotalDelivery =
+      totalPrice >= Restaurant.data.free_delivery_subtotal
+        ? 0
+        : deliveryCharges,
+    delivery_charges = delivery ? calcSubtotalDelivery : 0;
+
+  totalPrice += delivery_charges;
 
   return (
     <section id="checkout">

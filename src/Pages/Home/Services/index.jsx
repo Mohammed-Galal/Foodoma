@@ -13,14 +13,6 @@ export default ({ sectionName }) => (
     {sectionName && (
       <p className="d-flex align-items-center">
         <span className="h3">{sectionName}</span>
-
-        <a
-          href="/public/mobile/"
-          className="d-flex align-items-center text-decoration-none"
-        >
-          {getText("home", 8)}
-          {/* <object data="/assets/home/icons/left-arrow.svg"></object> */}
-        </a>
       </p>
     )}
     {/* نحن نسهل عليك الحصول على أفضل خدمة أينما كنت. اطلب الآن للشحن على مستوى

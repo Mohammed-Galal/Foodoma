@@ -21,18 +21,6 @@ export default ({ sectionName }) => (
           <span className="h3" style={{ fontWeight: "bold" }}>
             {sectionName}
           </span>
-
-          <Link
-            to="/all-products/"
-            className="d-flex align-items-center text-decoration-none"
-            style={{ color: "inherit", borderBottom: "1px solid currentColor" }}
-          >
-            {getText("home", 8)}
-            {/* <object
-              style={{ marginRight: "0.4rem" }}
-              data="/assets/home/icons/left-arrow.svg"
-            ></object> */}
-          </Link>
         </p>
       )}
 

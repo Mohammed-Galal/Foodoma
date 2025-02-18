@@ -22,14 +22,6 @@ export default function ({ id, title, categoryKey }) {
     >
       <p className="d-flex align-items-center">
         <span className="h3">{title}</span>
-
-        <Link
-          to="/all-products"
-          className="d-flex align-items-center text-decoration-none"
-        >
-          {getText("home", 8)}
-          {/* <object data="/assets/home/icons/left-arrow.svg"></object> */}
-        </Link>
       </p>
 
       <Carousel innerItems={products} />

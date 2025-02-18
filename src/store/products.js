@@ -8,6 +8,7 @@ const Products = {
     name: "products",
     initialState: {
       loaded: false,
+      early_booking: [],
       custom: [],
       categories: [],
       data: [],
@@ -18,12 +19,12 @@ const Products = {
   reducers = (Products.reducers = {});
 
 reducers.init = function (state, action) {
-  state.loaded = true;
-
   const itemsObj = action.payload.items,
     customProducts = itemsObj.Custom || [],
+    earlyBooking = itemsObj.early_booking,
     items = [];
 
+  delete itemsObj.early_booking;
   delete itemsObj.Custom;
 
   const categories = Object.keys(itemsObj),
@@ -32,8 +33,10 @@ reducers.init = function (state, action) {
 
   categories.forEach((k) => items.push.apply(items, itemsObj[k]));
 
+  state.loaded = true;
   state.data = items;
   state.categories = categories;
+  state.early_booking = earlyBooking;
   state.custom = customProducts.filter((i) => i.is_active);
   state.cart = cartItems;
 };

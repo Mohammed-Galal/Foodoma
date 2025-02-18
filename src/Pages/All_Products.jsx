@@ -49,9 +49,15 @@ export default function () {
           style={{ outline: "none", borderColor: "#ecf5ff" }}
         />
 
-        <h4 className="mt-3 mb-2" style={{ color: "var(--primary)" }}>
+        <h5
+          className="my-2 py-1"
+          style={{
+            color: "var(--primary)",
+            borderBottom: "1px solid currentColor",
+          }}
+        >
           {getText("allProducts", 0)}
-        </h4>
+        </h5>
 
         <ul
           className="d-grid gap-3 text-center justify-content-center list-unstyled m-0 p-0"
@@ -68,6 +74,16 @@ export default function () {
             </li>
           ))}
         </ul>
+
+        <h5
+          className="my-2 py-1"
+          style={{
+            color: "var(--primary)",
+            borderBottom: "1px solid currentColor",
+          }}
+        >
+          {"تصاميم جاهزة لكل مناسبة"}
+        </h5>
       </div>
 
       <div
