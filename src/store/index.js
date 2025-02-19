@@ -8,7 +8,7 @@ import Restaurant from "./restaurant.js";
 const APP_STATE = configureStore({ reducer: { Products, User, Restaurant } });
 export default APP_STATE;
 
-const baseUrl = "https://mon10.amir-adel.com/public/api",
+const baseUrl = "https://admin.montana.sa/public/api",
   fetchOpts = {
     method: "POST",
     get headers() {

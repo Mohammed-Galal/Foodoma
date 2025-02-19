@@ -6,7 +6,7 @@ import "./index.scss";
 import getText from "../../translation";
 
 const isArabic = window.localStorage.getItem("lang") === "ar";
-const Base = "https://mon10.amir-adel.com/",
+const Base = "https://admin.montana.sa/",
   baseUrl = Base + "public/api";
 
 export default function (item, I) {
@@ -42,7 +42,7 @@ export default function (item, I) {
       }}
     >
       <video
-        src="https://mon10.amir-adel.com/assets/heart.mp4"
+        src="https://admin.montana.sa/assets/heart.mp4"
         style={{ maxHeight: "84px", marginLeft: "-17px" }}
         ref={handleFav}
       ></video>

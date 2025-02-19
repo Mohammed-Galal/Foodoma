@@ -8,7 +8,7 @@ import desktop from "./desktop";
 import mobile from "./mobile";
 import "./index.scss";
 
-const baseUrl = "https://mon10.amir-adel.com/public/api/",
+const baseUrl = "https://admin.montana.sa/public/api/",
   fetchOpts = {
     method: "POST",
     headers: {

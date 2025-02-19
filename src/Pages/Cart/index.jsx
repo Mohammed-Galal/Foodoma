@@ -7,7 +7,7 @@ import NXT from "../../icons/NXT";
 import Recommended from "./Recommended";
 import "./index.scss";
 
-const baseUrl = "https://mon10.amir-adel.com";
+const baseUrl = "https://admin.montana.sa";
 
 let couponData = null;
 

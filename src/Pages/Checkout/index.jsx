@@ -8,7 +8,7 @@ import React from "react";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
 
-const placeOrderApi = "https://mon10.amir-adel.com/public/api/place-order",
+const placeOrderApi = "https://admin.montana.sa/public/api/place-order",
   basicBodyReq = {},
   addresItemStyle = {
     width: "100%",

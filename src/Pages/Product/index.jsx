@@ -15,7 +15,7 @@ import "./index.scss";
 const isArabic = window.localStorage.getItem("lang") === "ar",
   hiddenAlert = { opacity: 0, transform: "translateY(100%)" },
   activeAlert = { opacity: 1, transform: "translateY(0)" },
-  baseUrl = "https://mon10.amir-adel.com",
+  baseUrl = "https://admin.montana.sa",
   docFrag = document.createElement("div");
 
 export default function () {

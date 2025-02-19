@@ -86,7 +86,7 @@ function AddressItem(
   );
 
   function removeAdrress() {
-    fetch("https://mon10.amir-adel.com/public/api/delete-address", {
+    fetch("https://admin.montana.sa/public/api/delete-address", {
       method: "POST",
       body: JSON.stringify({ address_id: id }),
       headers: {

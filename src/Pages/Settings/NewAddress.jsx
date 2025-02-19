@@ -3,7 +3,7 @@
 import { useStore } from "react-redux";
 import getText from "../../translation";
 
-const saveAddressApi = "https://mon10.amir-adel.com/public/api/save-address";
+const saveAddressApi = "https://admin.montana.sa/public/api/save-address";
 
 // new Address Modal
 export default function NewAddress({ isActive, deActivate }) {

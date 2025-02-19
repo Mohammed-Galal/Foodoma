@@ -151,7 +151,7 @@ export default function () {
   function confirmPassword() {
     popover.current.hidePopover && popover.current.hidePopover();
 
-    fetch("https://mon10.amir-adel.com/public/api/update-user-data", {
+    fetch("https://admin.montana.sa/public/api/update-user-data", {
       method: "POST",
       body: JSON.stringify(reqBody),
       headers: { Authorization: User.data.auth_token },

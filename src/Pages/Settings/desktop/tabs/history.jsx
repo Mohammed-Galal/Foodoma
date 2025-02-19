@@ -14,7 +14,7 @@ const orderState = [
   getText("settings", 12),
 ];
 
-const base = "https://mon10.amir-adel.com";
+const base = "https://admin.montana.sa";
 
 let restaurantId,
   items = [];

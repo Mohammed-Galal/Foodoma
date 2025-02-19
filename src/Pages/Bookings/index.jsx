@@ -65,9 +65,9 @@ function BookProducts() {
   return (
     <section
       id="book-products"
-      className="container align-items-stretch px-2 mx-auto d-flex flex-wrap "
+      className="container align-items-stretch px-2 mx-auto d-flex flex-wrap gap-3"
     >
-      <p className="h4 mb-3">{getText("bookings", 6)}</p>
+      <p className="h4">{getText("bookings", 6)}</p>
       {targetItems}
     </section>
   );
