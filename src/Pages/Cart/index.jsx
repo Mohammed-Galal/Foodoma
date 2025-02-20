@@ -46,8 +46,6 @@ export default function () {
     else couponData = null;
   }, [coupon, totalPrice, discount]);
 
-  if (restaurant.loaded) debugger;
-
   return (
     <>
       <ul
@@ -167,8 +165,26 @@ export default function () {
 
             <p className="d-grid gap-3 m-0 py-2">
               <span>
-                <samp>{getText("cart", 17)}</samp>
-                {delivery} {getText("cart", 16)}
+                <samp className="flex-grow-1">
+                  {getText("cart", 17)}{" "}
+                  {delivery === 0 && (
+                    <sub
+                      className="px-2"
+                      style={{
+                        backgroundColor: "#ffcd00",
+                        color: "#fff",
+                        borderRadius: "12px",
+                      }}
+                    >
+                      توصيل مجاني
+                    </sub>
+                  )}
+                </samp>
+                {delivery === 0 ? (
+                  <del>{delivery + " " + getText("cart", 16)}</del>
+                ) : (
+                  delivery + " " + getText("cart", 16)
+                )}
               </span>
 
               <span>
