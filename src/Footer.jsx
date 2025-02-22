@@ -101,28 +101,35 @@ export default (
 
           <hr />
 
-          <ul className="d-flex gap-2 list-unstyled m-0 p-0 justify-content-evenly">
-            <li
-              className="align-items-center d-flex gap-2"
-              style={{ fontSize: "smaller" }}
-            >
-              <div
-                style={{
-                  border: "1px solid var(--lightgray)",
-                  borderRadius: "4px",
-                }}
-              >
-                <img
-                  src="https://www.msegat.com/_astro/VAT.JVrP6Ajw_1FjzEl.webp"
-                  alt="VAT"
-                  style={{ maxWidth: "64px" }}
-                />
-              </div>
-              الرقم الضريبي
-              <br />
-              311354802600003
+          <ul
+            className="d-flex gap-3 justify-content-evenly list-unstyled m-0 p-0 w-100"
+            style={{ maxHeight: "80px" }}
+          >
+            <li style={{ borderRadius: "4px", overflow: "hidden" }}>
+              <img
+                src="https://media.assettype.com/ajel%2F2024-01%2F3c7ded6a-71fe-4fd0-9200-7aac840a8a6b%2F11.jpg"
+                alt="SBC"
+              />
             </li>
+            <li style={{ borderRadius: "4px", overflow: "hidden" }}>
+              <img
+                src="https://tuvaustria.sa/wp-content/uploads/2021/06/TUV-Austria.png"
+                alt="TUV"
+              />
+            </li>
+            <li style={{ borderRadius: "4px", overflow: "hidden" }}>
+              <img
+                src="https://invest.midanalmal.com/wp-content/uploads/2023/10/%D8%B7%D8%B1%D9%8A%D9%82%D8%A9-%D8%AA%D8%B3%D8%AC%D9%8A%D9%84-%D9%85%D9%86%D8%AA%D8%AC%D8%A7%D8%AA-%D9%81%D9%8A-%D9%87%D9%8A%D8%A6%D8%A9-%D8%A7%D9%84%D8%BA%D8%B0%D8%A7%D8%A1-%D9%88%D8%A7%D9%84%D8%AF%D9%88%D8%A7%D8%A1-2-630x300.png"
+                alt="GAFM"
+              />
+            </li>
+          </ul>
+        </div>
 
+        <div className="col-3">
+          <span className="h5 mb-3 d-block">شهادات</span>
+
+          <ul className="d-flex gap-2 list-unstyled m-0 p-0 justify-content-evenly flex-column">
             <li
               className="align-items-center d-flex gap-2"
               style={{ fontSize: "smaller" }}
@@ -144,10 +151,29 @@ export default (
               <br />
               4030479174
             </li>
+
+            <li
+              className="align-items-center d-flex gap-2"
+              style={{ fontSize: "smaller" }}
+            >
+              <div
+                style={{
+                  border: "1px solid var(--lightgray)",
+                  borderRadius: "4px",
+                }}
+              >
+                <img
+                  src="https://www.msegat.com/_astro/VAT.JVrP6Ajw_1FjzEl.webp"
+                  alt="VAT"
+                  style={{ maxWidth: "70px" }}
+                />
+              </div>
+              الرقم الضريبي
+              <br />
+              311354802600003
+            </li>
           </ul>
         </div>
-
-        <div className="col-3"></div>
       </div>
     </div>
     <p className="mt-4 mb-0 text-center">
