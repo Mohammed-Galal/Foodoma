@@ -20,8 +20,8 @@ const Products = {
 
 reducers.init = function (state, action) {
   const itemsObj = action.payload.items,
-    customProducts = itemsObj.Custom || [],
-    earlyBooking = itemsObj.early_booking,
+    customProducts = itemsObj["الطلبات الخاصة"] || [],
+    earlyBooking = itemsObj["الحجز المبكر"] || [],
     items = [];
 
   delete itemsObj.early_booking;
