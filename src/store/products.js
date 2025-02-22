@@ -24,8 +24,8 @@ reducers.init = function (state, action) {
     earlyBooking = itemsObj["الحجز المبكر"] || [],
     items = [];
 
-  delete itemsObj.early_booking;
-  delete itemsObj.Custom;
+  delete itemsObj["الحجز المبكر"];
+  delete itemsObj["الطلبات الخاصة"];
 
   const categories = Object.keys(itemsObj),
     slug = window.localStorage.getItem("slug"),
