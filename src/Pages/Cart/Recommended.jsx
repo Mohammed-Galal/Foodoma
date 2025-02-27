@@ -4,6 +4,7 @@ import productItem from "../../shared/productItem";
 import Carousel from "../../shared/Carousel";
 
 export default function ({ items }) {
+  items && (items = items.filter((i) => i.is_popular));
   return (
     <section className="container">
       <span

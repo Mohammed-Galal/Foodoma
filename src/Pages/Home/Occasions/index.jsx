@@ -1,16 +1,13 @@
 import getText from "../../../translation";
 import { Link } from "react-router-dom";
-import Data from "./data.json";
 import Carousel from "../../../shared/Carousel";
 import "./index.scss";
 
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable import/no-anonymous-default-export */
 
-export default () => {
-  // const categories = useSelector((e) => e.Products).categories;
-  // const categories = Data.map((o) => o.title);
-  const items = Data.map(oItem);
+export default ({ data }) => {
+  const items = data.map(oItem);
 
   return (
     <section
@@ -23,23 +20,18 @@ export default () => {
       </p>
 
       <Carousel
-        customConfig={{ loop: true, scrollbar: false }}
         innerItems={items}
+        customConfig={{ loop: true, scrollbar: false }}
       />
     </section>
   );
 };
 
-function oItem({ title, img }, indx) {
-  indx++;
-
-  // const max = 5,
-  //   src = indx <= max ? indx : Math.floor(indx / max);
-
+function oItem({ id, name, image_url }) {
   return (
     <Link
-      key={title}
-      to={"/all-products/" + title}
+      key={id}
+      to={"/all-products/" + name}
       className="d-flex flex-column gap-2 text-center text-decoration-none"
       style={{ color: "var(--primary)" }}
     >
@@ -51,13 +43,13 @@ function oItem({ title, img }, indx) {
         }}
       >
         <img
-          src={img}
-          alt={title}
+          src={image_url}
+          alt={name}
           style={{ width: "100%", height: "150px", objectFit: "fill" }}
         />
       </div>
 
-      {title}
+      {name}
     </Link>
   );
 }

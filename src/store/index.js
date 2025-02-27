@@ -93,3 +93,12 @@ if (savedSlug) {
         );
     });
 }
+
+
+fetch("https://mon10.amir-adel.com/public/api/cash-back", fetchOpts)
+  .then(toJson)
+  .then((res) => {
+    const cashback = res.data.find((c) => c.title === "cart");
+    cashback.is_active &&
+      APP_STATE.dispatch({ type: "products/setCashback", payload: cashback });
+  });

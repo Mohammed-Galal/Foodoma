@@ -8,11 +8,11 @@ import Recommended from "./Recommended";
 import "./index.scss";
 
 const baseUrl = "https://admin.montana.sa";
-
 let couponData = null;
 
 export default function () {
-  const [discount, setDiscount] = useState(0),
+  const { cashback } = useSelector((S) => S.Products),
+    [discount, setDiscount] = useState(0),
     store = useStore().getState(),
     dispatch = useDispatch(),
     restaurant = store.Restaurant;
@@ -59,17 +59,19 @@ export default function () {
         <li>{getText("cart", 2)}</li>
       </ul>
 
-      <div
-        className="align-items-center container d-flex flex-column gap-3 h5 my-0"
-        style={{ cssText: "color: var(--primary); font-weight: 600;" }}
-      >
-        {getText("cart", 3)}
-        <progress
-          value={totalPrice}
-          max="100"
-          style={{ cssText: "max-width: 500px;" }}
-        ></progress>
-      </div>
+      {cashback && (
+        <div
+          className="align-items-center container d-flex flex-column gap-3 h5 my-0"
+          style={{ cssText: "color: var(--primary); font-weight: 600;" }}
+        >
+          أضف {cashback.max} واحصل على {cashback.min} ر.س
+          <progress
+            value={totalPrice}
+            max={+cashback.max}
+            style={{ cssText: "max-width: 500px;" }}
+          ></progress>
+        </div>
+      )}
 
       {cart.length ? (
         <section
@@ -191,13 +193,20 @@ export default function () {
                 <samp>{getText("cart", 12)}</samp>
                 {discount === false
                   ? "جاري التحقق"
-                  : Math.abs(discount) + " " + getText("cart", 16)}
+                  : calcCashback(totalPrice, cashback) +
+                    Math.abs(discount) +
+                    " " +
+                    getText("cart", 16)}
               </span>
             </p>
 
             <span className="total">
               <samp>{getText("cart", 13)}</samp>
-              {+delivery + totalPrice + +discount} {getText("cart", 16)}
+              {+delivery +
+                -calcCashback(totalPrice, cashback) +
+                totalPrice +
+                +discount}
+              {getText("cart", 16)}
             </span>
 
             <Link className="btn" to="/checkout">
@@ -327,4 +336,8 @@ function ProductItem({ id, quantity, name, addons, price }, I, editCart) {
       </li>
     </React.Fragment>
   );
+}
+
+export function calcCashback(totalPrice, cashback) {
+  return cashback && totalPrice > +cashback.max ? +cashback.min : 0;
 }

@@ -90,7 +90,7 @@ function App() {
         />
         <Route path="/cart" Component={Cart} caseSensitive={true} />
         <Route path="/checkout" Component={Checkout} caseSensitive={true} />
-        <Route path="*" element={HomePage} />
+        <Route path="*" Component={HomePage} />
       </Routes>
       {createPortal(Nav(isMobileView), nav)}
     </>

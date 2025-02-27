@@ -75,7 +75,7 @@ export default function () {
           ))}
         </ul>
 
-        <h5
+        {/* <h5
           className="my-2 py-1"
           style={{
             color: "var(--primary)",
@@ -83,7 +83,7 @@ export default function () {
           }}
         >
           {"تصاميم جاهزة لكل مناسبة"}
-        </h5>
+        </h5> */}
       </div>
 
       <div

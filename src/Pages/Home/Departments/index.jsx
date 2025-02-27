@@ -1,12 +1,10 @@
-import getText from "../../../translation";
-import data from "./data.json";
 import { Link } from "react-router-dom";
 import "./index.scss";
 
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable import/no-anonymous-default-export */
 
-export default ({ sectionName }) => (
+export default ({ sectionName, data }) => (
   <section id="moon-sections">
     <div className="container-fluid container-lg d-flex flex-column align-items-center">
       {sectionName && (
@@ -31,15 +29,15 @@ export default ({ sectionName }) => (
   </section>
 );
 
-function sectionItem({ img, title }, I) {
+function sectionItem({ id: I, image_url, name }) {
   return (
     <Link
       className="align-items-center d-flex flex-column gap-2 p-4"
-      to={"/all-products/" + title}
+      to={"/all-products/" + name}
       key={I}
     >
-      <img className="my-auto" src={img} alt={title} />
-      {title}
+      <img className="my-auto" src={image_url} alt={name} />
+      {name}
     </Link>
   );
 }

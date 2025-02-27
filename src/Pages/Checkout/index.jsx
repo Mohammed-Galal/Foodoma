@@ -34,7 +34,10 @@ export default function () {
   useLayoutEffect(() => {
     User.loaded || redirect("/user/login");
     Products.cart.length || redirect("/cart");
-    userAddresses.length || redirect("/settings/addresses");
+    if (userAddresses.length === 0) {
+      window.alert("Please add an address first");
+      redirect("/settings/addresses");
+    } 
   });
 
   let totalPrice = 0;

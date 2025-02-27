@@ -66,11 +66,6 @@ export default (
           </Link>
         </div>
 
-        <div className="col-3 d-flex flex-wrap">
-          <span className="h5 mb-3 w-100">{getText("footer", 5)}</span>
-          <Branches />
-        </div>
-
         <div className="col-3 d-flex flex-column gap-1">
           <span className="h5 mb-3">حمل التطبيق الآن</span>
           <Link to="">
@@ -90,7 +85,7 @@ export default (
           </Link>
         </div>
 
-        <div className="col d-flex flex-column">
+        <div className="col-8 mx-auto d-flex flex-column">
           <ul className="align-items-center d-flex flex-wrap gap-2 justify-content-between list-unstyled m-0 p-0">
             {banks.map((b) => (
               <li key={b} style={{ width: "56px" }}>
@@ -103,7 +98,7 @@ export default (
 
           <ul
             className="d-flex gap-3 justify-content-evenly list-unstyled m-0 p-0 w-100"
-            style={{ maxHeight: "80px" }}
+            style={{ maxHeight: "56px" }}
           >
             <li style={{ borderRadius: "4px", overflow: "hidden" }}>
               <img
@@ -124,12 +119,10 @@ export default (
               />
             </li>
           </ul>
-        </div>
 
-        <div className="col-3">
-          <span className="h5 mb-3 d-block">شهادات</span>
+          <hr />
 
-          <ul className="d-flex gap-2 list-unstyled m-0 p-0 justify-content-evenly flex-column">
+          <ul className="d-flex gap-2 list-unstyled m-0 p-0 justify-content-evenly">
             <li
               className="align-items-center d-flex gap-2"
               style={{ fontSize: "smaller" }}

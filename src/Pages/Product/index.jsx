@@ -329,6 +329,8 @@ function AddonItem(ADD, toggleAddon, isAdded) {
 }
 
 function Related({ items }) {
+  items && (items = items.filter((i) => i.is_popular));
+
   return (
     <section id="related" className="container">
       <p className="h3">

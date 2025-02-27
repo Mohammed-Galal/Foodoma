@@ -13,6 +13,7 @@ const Products = {
       categories: [],
       data: [],
       cart: [],
+      cashback: null,
       fav: [],
     },
   },
@@ -58,6 +59,10 @@ reducers.addToCart = function (state, { payload }) {
     cartStorage[slug] = cart;
     window.localStorage.setItem("cartItems", JSON.stringify(cartStorage));
   }
+};
+
+reducers.setCashback = function (state, { payload }) {
+  state.cashback = payload;
 };
 
 reducers.updateCartItem = function (state, { payload }) {
