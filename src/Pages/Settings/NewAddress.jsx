@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/aria-role */
-
 import { useStore } from "react-redux";
 import getText from "../../translation";
 
@@ -12,9 +11,6 @@ export default function NewAddress({ isActive, deActivate }) {
   const opts = {
     latitude: "",
     longitude: "",
-    // address: "pjpaijf",
-    // house: "9",
-    // tag: "AAA",
     get_only_default_address: "",
   };
 
@@ -62,19 +58,17 @@ export default function NewAddress({ isActive, deActivate }) {
 
         <label>
           {getText("settings", 38)}
-          <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7457112.192150741!2d39.78308183785676!3d24.13073533599272!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x15e7b33fe7952a41%3A0x5960504bc21ab69b!2sSaudi%20Arabia!5e0!3m2!1sen!2seg!4v1733088758422!5m2!1sen!2seg"
-            title="Google Maps Location"
-            role="input"
-            style={{
-              minHeight: "250px",
-              width: "100%",
-              borderRadius: "8px",
-            }}
-            allowfullscreen="true"
-            loading="lazy"
-            referrerpolicy="no-referrer-when-downgrade"
-          ></iframe>
+          {/* <GoogleMapReact
+            bootstrapURLKeys={{ key: "" }}
+            defaultCenter={defaultProps.center}
+            defaultZoom={defaultProps.zoom}
+          >
+            <AnyReactComponent
+              lat={59.955413}
+              lng={30.337844}
+              text="My Marker"
+            />
+          </GoogleMapReact> */}
         </label>
 
         <button className="btn mx-auto" onClick={addAddress}>
