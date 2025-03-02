@@ -64,7 +64,12 @@ function App() {
   return (
     <>
       {createPortal(Header(isMobileView), header)}
-      {showPopup && <Restaurant isPopup={true} />}
+      {showPopup && (
+        <>
+          <Restaurant isPopup={true} />
+          <div className="dismisser"></div>
+        </>
+      )}
       <Routes>
         <Route path="/faq" Component={FAQs} />
         <Route path="/restaurant" Component={Restaurant} caseSensitive={true} />

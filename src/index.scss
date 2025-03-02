@@ -46,6 +46,17 @@ body {
   --gradient-4: linear-gradient(0deg, #1faf38 -9900%, #60d669 100%);
 }
 
+.dismisser {
+  z-index: 9;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: #0002;
+}
+
 #about {
   & > *:not(p) {
     color: var(--primary);
