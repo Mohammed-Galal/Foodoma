@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createPortal } from "react-dom";
 import isMobileView from "../shared/isMobile.js";
@@ -30,14 +24,18 @@ import Header from "../Header";
 import Nav from "../Nav";
 import Footer from "../Footer.jsx";
 
-const body = document.body;
-
-const header = document.createElement("header"),
+const body = document.body,
+  header = document.createElement("header"),
   nav = document.querySelector("nav"),
   footer = document.querySelector("body > footer");
 
 isMobileView && (body.id = "mobile");
 body.prepend(header);
+
+// const containerStyle = {
+//   width: "100%",
+//   height: "400px",
+// };
 
 export default (
   <React.StrictMode>
@@ -53,21 +51,20 @@ export default (
 function App() {
   const storeDefined = window.localStorage.getItem("slug");
   const lang = useState("ar"),
-    redirect = useNavigate(),
-    location = useLocation();
+    location = useLocation(),
+    showPopup = !storeDefined && location.pathname !== "/restaurant";
 
   useEffect(() => {
     window.scrollTo(0, 0);
     window.lang = lang;
     // Add your custom event logic here
-
-    if (!storeDefined && location.pathname !== "/restaurant")
-      redirect("/restaurant");
+    body.style.overflow = showPopup ? "hidden" : "auto";
   }, [location]);
 
   return (
     <>
       {createPortal(Header(isMobileView), header)}
+      {showPopup && <Restaurant isPopup={true} />}
       <Routes>
         <Route path="/faq" Component={FAQs} />
         <Route path="/restaurant" Component={Restaurant} caseSensitive={true} />

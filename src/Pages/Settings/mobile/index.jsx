@@ -11,7 +11,7 @@ export default function () {
     tabName = useParams().tab || "main",
     TargetTab = tabs[tabName];
 
-  const { name, email, phone } = useSelector((e) => e.User).data;
+  const { name, phone } = useSelector((e) => e.User).data;
 
   return (
     <section id="settings-mobile" className="position-relative container">
@@ -20,8 +20,8 @@ export default function () {
 
         <div class="d-flex flex-column flex-grow-1 info overflow-hidden">
           <span>{name}</span>
-          <span>{email}</span>
-          <span>+{phone}</span>
+          {/* <span>{email}</span> */}
+          <span>{phone}</span>
         </div>
 
         <div class="align-items-center d-flex gap-2 langs">

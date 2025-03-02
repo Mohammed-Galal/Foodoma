@@ -43,8 +43,8 @@ export default function () {
         categoryKey="is_new"
       />
       <Products
-        id="new-items"
-        title={getText("home", 19)}
+        id="popular-items"
+        title={getText("home", 20)}
         categoryKey="is_popular"
       />
       <Departments

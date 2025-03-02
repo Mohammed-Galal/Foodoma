@@ -25,8 +25,6 @@ export default (
           {getText("footer", 7)}
           <br />
           {getText("footer", 8)}
-          <br />
-          {getText("footer", 9)}
         </div>
 
         <div className="col-3 d-flex flex-column">
@@ -94,10 +92,10 @@ export default (
             ))}
           </ul>
 
-          <hr />
+          <hr className="d-none" />
 
           <ul
-            className="d-flex gap-3 justify-content-evenly list-unstyled m-0 p-0 w-100"
+            className="d-none gap-3 justify-content-evenly list-unstyled m-0 p-0 w-100"
             style={{ maxHeight: "56px" }}
           >
             <li style={{ borderRadius: "4px", overflow: "hidden" }}>
@@ -122,7 +120,7 @@ export default (
 
           <hr />
 
-          <ul className="d-flex gap-2 list-unstyled m-0 p-0 justify-content-evenly">
+          <ul className="d-none gap-2 list-unstyled m-0 p-0 justify-content-evenly">
             <li
               className="align-items-center d-flex gap-2"
               style={{ fontSize: "smaller" }}

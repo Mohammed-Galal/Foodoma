@@ -115,10 +115,10 @@ function Login({ setLoading }) {
         <div className="col-12 col-md-6">
           <h6>{getText("user", 2)}</h6>
           <input
-            type="email"
+            type="tel"
             className="input-group-text w-100"
             style={{ outline: "none" }}
-            onChange={(e) => (reqBody.email = e.target.value)}
+            onChange={(e) => (reqBody.phone = e.target.value)}
             placeholder={getText("user", 2)}
           />
         </div>
@@ -160,7 +160,7 @@ function Login({ setLoading }) {
   );
 
   function registerUser() {
-    if (!("email" in reqBody && "password" in reqBody))
+    if (!("phone" in reqBody && "password" in reqBody))
       return alert(getText("user", 7));
 
     setLoading(true);
@@ -186,13 +186,7 @@ function Register({ setLoading }) {
   const navigate = useNavigate();
 
   const reqBody = {
-    address: {
-      lat: null,
-      lng: null,
-      address: null,
-      house: null,
-      tag: "tag",
-    },
+    email: "",
   };
 
   return (
@@ -228,12 +222,13 @@ function Register({ setLoading }) {
           <input
             type="text"
             style={{ outline: "none" }}
+            ref={(el) => el && (reqBody.name = el.value)}
             onChange={(e) => (reqBody.name = e.target.value)}
             className="input-group-text w-100"
             placeholder={getText("user", 10)}
           />
         </div>
-        <div className="col-12 col-md-6">
+        {/* <div className="col-12 col-md-6">
           <h6>{getText("user", 11)}</h6>
           <input
             type="email"
@@ -242,35 +237,39 @@ function Register({ setLoading }) {
             className="input-group-text w-100"
             placeholder={getText("user", 11)}
           />
-        </div>
+        </div> */}
         <div className="col-12 col-md-6">
           <h6>{getText("user", 12)}</h6>
           <input
             type="tel"
             style={{ outline: "none" }}
+            ref={(el) => el && (reqBody.phone = el.value)}
             onChange={(e) => (reqBody.phone = e.target.value)}
             className="input-group-text w-100"
             placeholder={getText("user", 12)}
           />
         </div>
-        <div className="col-12 col-md-6">
+        <div className="col-12 col-md-6 mx-auto">
           <h6>{getText("user", 13)}</h6>
           <input
             type="password"
+            ref={(el) => el && (reqBody.password = el.value)}
             onChange={(e) => (reqBody.password = e.target.value)}
             className="input-group-text w-100"
             placeholder={getText("user", 13)}
           />
         </div>
-        <div className="col-12 col-md-6 mx-auto">
-          <button
-            type="button"
-            className="btn w-100"
-            style={{ backgroundColor: "var(--primary)", color: "#fff" }}
-            onClick={registerUser}
-          >
-            {getText("user", 14)}
-          </button>
+        <div className="col-12">
+          <div className="col-md-6 mx-auto">
+            <button
+              type="button"
+              className="btn w-100"
+              style={{ backgroundColor: "var(--primary)", color: "#fff" }}
+              onClick={registerUser}
+            >
+              {getText("user", 14)}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -292,9 +291,7 @@ function Register({ setLoading }) {
 
     fetch(Base + "/register", {
       method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
+      headers: { "content-type": "application/json" },
       body: JSON.stringify(reqBody),
     })
       .then((r) => r.json())

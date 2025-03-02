@@ -98,7 +98,7 @@ export default function () {
 function AccountInfo() {
   const redirect = useNavigate(),
     DATA = useSelector((e) => e.User).data,
-    { name, email, phone } = DATA;
+    { name, phone } = DATA;
 
   return (
     <div id="account" className="align-items-center d-flex gap-3">
@@ -111,7 +111,7 @@ function AccountInfo() {
         <span className="h4" style={{ color: "var(--primary)" }}>
           {name}
         </span>
-        <span>{email}</span>
+        {/* <span>{email}</span> */}
         <span>{phone}</span>
       </p>
 

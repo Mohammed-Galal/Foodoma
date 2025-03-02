@@ -29,12 +29,12 @@ export default ({ sectionName, data }) => (
   </section>
 );
 
-function sectionItem({ id: I, image_url, name }) {
+function sectionItem({ image_url, name }) {
   return (
     <Link
       className="align-items-center d-flex flex-column gap-2 p-4"
       to={"/all-products/" + name}
-      key={I}
+      key={name}
     >
       <img className="my-auto" src={image_url} alt={name} />
       {name}

@@ -95,10 +95,11 @@ if (savedSlug) {
 }
 
 
-fetch("https://mon10.amir-adel.com/public/api/cash-back", fetchOpts)
+fetch("https://admin.montana.sa/public/api/cash-back", fetchOpts)
   .then(toJson)
   .then((res) => {
     const cashback = res.data.find((c) => c.title === "cart");
+    if (!cashback) return;
     cashback.is_active &&
       APP_STATE.dispatch({ type: "products/setCashback", payload: cashback });
   });

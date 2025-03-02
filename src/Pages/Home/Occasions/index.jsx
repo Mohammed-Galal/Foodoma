@@ -27,10 +27,10 @@ export default ({ data }) => {
   );
 };
 
-function oItem({ id, name, image_url }) {
+function oItem({ name, image_url }) {
   return (
     <Link
-      key={id}
+      key={name}
       to={"/all-products/" + name}
       className="d-flex flex-column gap-2 text-center text-decoration-none"
       style={{ color: "var(--primary)" }}

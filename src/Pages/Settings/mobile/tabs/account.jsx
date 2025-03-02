@@ -35,7 +35,7 @@ export default function () {
           </label>
         </li>
 
-        <li>
+        {/* <li>
           <label className="d-flex flex-column gap-2">
             {getText("settings", 16)}
             <input
@@ -46,7 +46,7 @@ export default function () {
               placeholder={getText("settings", 16)}
             />
           </label>
-        </li>
+        </li> */}
 
         <li>
           <label className="d-flex flex-column gap-2">

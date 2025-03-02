@@ -1,18 +1,31 @@
 /* eslint-disable jsx-a11y/aria-role */
+import { useRef, useState } from "react";
 import { useStore } from "react-redux";
+import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import getText from "../../translation";
 
 const saveAddressApi = "https://admin.montana.sa/public/api/save-address";
 
+const center = {
+  lat: 23.885942,
+  lng: 45.079162,
+};
+
 // new Address Modal
 export default function NewAddress({ isActive, deActivate }) {
-  const store = useStore();
+  const store = useStore(),
+    [position, setPosition] = useState(null);
 
-  const opts = {
+  const opts = useRef({
     latitude: "",
     longitude: "",
     get_only_default_address: "",
-  };
+  }).current;
+
+  if (position) {
+    opts.latitude = "" + position.lat;
+    opts.longitude = "" + position.lng;
+  }
 
   return (
     <div
@@ -56,20 +69,20 @@ export default function NewAddress({ isActive, deActivate }) {
           />
         </label>
 
-        <label>
-          {getText("settings", 38)}
-          {/* <GoogleMapReact
-            bootstrapURLKeys={{ key: "" }}
-            defaultCenter={defaultProps.center}
-            defaultZoom={defaultProps.zoom}
+        <label>{getText("settings", 38)}</label>
+
+        <APIProvider apiKey="AIzaSyAzuTxVwWxJIk39BIRSwsT-BKv4sC6BqnQ">
+          <Map
+            style={{ width: "100%", height: "300px" }}
+            defaultCenter={center}
+            defaultZoom={8}
+            gestureHandling={"greedy"}
+            disableDefaultUI={true}
+            onClick={updatePosition}
           >
-            <AnyReactComponent
-              lat={59.955413}
-              lng={30.337844}
-              text="My Marker"
-            />
-          </GoogleMapReact> */}
-        </label>
+            {position && <Marker position={position} />}
+          </Map>
+        </APIProvider>
 
         <button className="btn mx-auto" onClick={addAddress}>
           {getText("settings", 39)}
@@ -77,6 +90,10 @@ export default function NewAddress({ isActive, deActivate }) {
       </div>
     </div>
   );
+
+  function updatePosition({ detail }) {
+    setPosition(detail.latLng);
+  }
 
   function addAddress() {
     if (!checkValidity()) return alert(getText("settings", 40));
