@@ -10,6 +10,10 @@ import { useNavigate } from "react-router-dom";
 
 const placeOrderApi = "https://admin.montana.sa/public/api/place-order",
   basicBodyReq = {},
+  defaultLoc = {
+    lat: "",
+    lng: "",
+  },
   addresItemStyle = {
     width: "100%",
     border: "2px solid #a8d0ec",
@@ -29,6 +33,11 @@ export default function () {
       comment: "",
     },
     userAddresses = User.addresses;
+
+  if (delivery) {
+    basicBodyReq.location.lat = userAddresses[activeAddress].latitude;
+    basicBodyReq.location.lng = userAddresses[activeAddress].longitude;
+  } else basicBodyReq.location = defaultLoc;
 
   const deliveryCharges = +Restaurant.data.delivery_charges;
   useLayoutEffect(() => {
@@ -188,7 +197,7 @@ export default function () {
     </section>
   );
 
-  function placeOrder() {
+  function placeOrder(cashbackVal) {
     const images = customProps.images,
       formData = new FormData();
 
@@ -196,6 +205,7 @@ export default function () {
       ...basicBodyReq,
       ...customProps,
       order,
+      cashback: cashbackVal,
       user: { data: { default_address: userAddresses[activeAddress] } },
       delivery_type: delivery ? "1" : "2",
       coupon: { code: window.localStorage.getItem("coupon") || emptyStr },
@@ -341,7 +351,7 @@ function OrderInfo({
 
       <button
         type="button"
-        onClick={placeOrder}
+        onClick={() => placeOrder(cashbackVal)}
         className="btn mt-4 mx-auto w-100"
       >
         {getText("checkout", 15)}
@@ -406,10 +416,10 @@ Object.assign(basicBodyReq, {
   schedule_date: "",
   schedule_slot: "",
   auto_acceptable: false,
-  location: {
-    lat: "",
-    lng: "",
-  },
+  // location: {
+  //   lat: "",
+  //   lng: "",
+  // },
 });
 
 function appendFormData(fd, data, parentKey = "") {

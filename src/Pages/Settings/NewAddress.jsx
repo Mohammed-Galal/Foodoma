@@ -97,6 +97,7 @@ export default function NewAddress({ isActive, deActivate }) {
 
   function addAddress() {
     if (!checkValidity()) return alert(getText("settings", 40));
+    if (position === null) return alert("يجب تحديد الموقع على الخريطة");
 
     fetch(saveAddressApi, {
       method: "POST",
