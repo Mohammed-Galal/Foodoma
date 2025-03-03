@@ -61,6 +61,19 @@ export const logout = function () {
         APP_STATE.dispatch({ type: "user/setAddresses", payload: r });
       })
       .catch(console.error);
+
+    fetch(baseUrl + "/cash-back", fetchOpts)
+      .then((r) => r.json())
+      .then((res) => {
+        const cashback = res.data.find((c) => c.title === "cart");
+        if (!cashback) return;
+        cashback.is_active &&
+          APP_STATE.dispatch({
+            type: "products/setCashback",
+            payload: cashback,
+          });
+      })
+      .catch(console.error);
   };
 
 function toJson(res) {
@@ -93,13 +106,3 @@ if (savedSlug) {
         );
     });
 }
-
-
-fetch("https://admin.montana.sa/public/api/cash-back", fetchOpts)
-  .then(toJson)
-  .then((res) => {
-    const cashback = res.data.find((c) => c.title === "cart");
-    if (!cashback) return;
-    cashback.is_active &&
-      APP_STATE.dispatch({ type: "products/setCashback", payload: cashback });
-  });

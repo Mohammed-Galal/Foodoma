@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createPortal } from "react-dom";
@@ -50,13 +50,11 @@ export default (
 
 function App() {
   const storeDefined = window.localStorage.getItem("slug");
-  const lang = useState("ar"),
-    location = useLocation(),
+  const location = useLocation(),
     showPopup = !storeDefined && location.pathname !== "/restaurant";
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    window.lang = lang;
     // Add your custom event logic here
     body.style.overflow = showPopup ? "hidden" : "auto";
   }, [location]);

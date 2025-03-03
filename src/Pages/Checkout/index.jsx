@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import getText from "../../translation";
-import { _useCoupon } from "../Cart";
+import { _useCoupon, calcCashback } from "../Cart";
 import { useDispatch, useStore } from "react-redux";
 import { useLayoutEffect, useState } from "react";
 import NXT from "../../icons/NXT";
@@ -37,7 +37,7 @@ export default function () {
     if (userAddresses.length === 0) {
       window.alert("Please add an address first");
       redirect("/settings/addresses");
-    } 
+    }
   });
 
   let totalPrice = 0;
@@ -178,6 +178,7 @@ export default function () {
         <OrderInfo
           cart={Products.cart}
           products={Products}
+          cashback={Products.cashback}
           delivery={delivery_charges}
           restaurant_id={Restaurant.data.id}
           totalPrice={totalPrice}
@@ -251,27 +252,35 @@ export default function () {
   }
 }
 
-function OrderInfo({ cart, delivery, restaurant_id, placeOrder, totalPrice }) {
+function OrderInfo({
+  cart,
+  cashback,
+  delivery,
+  restaurant_id,
+  placeOrder,
+  totalPrice,
+}) {
   // const [useCreditCard, setCredit] = useState(false);
-  const [discount, setDiscount] = useState(0);
+
   const items = cart.map(productItem);
+  const cashbackVal = +calcCashback(totalPrice, cashback),
+    [discount, setDiscount] = useState(0);
 
   useLayoutEffect(() => {
     const coupon = window.localStorage.getItem("coupon");
-
     if (coupon) {
       setDiscount(false);
-
       const token = window.localStorage.getItem("token"),
         couponParams = {
           coupon,
           restaurant_id: "" + restaurant_id,
           subtotal: "" + totalPrice,
         };
-
       _useCoupon(couponParams, token, applyCoupon, rejectCoupon);
     }
   }, []);
+
+  if (cashback) totalPrice -= cashbackVal;
 
   return (
     <div className="p-3">
@@ -293,7 +302,10 @@ function OrderInfo({ cart, delivery, restaurant_id, placeOrder, totalPrice }) {
           <span>
             {discount === false
               ? "جاري التحقق"
-              : Math.abs(discount) + " " + getText("checkout", 16)}
+              : Math.abs(discount) +
+                cashbackVal +
+                " " +
+                getText("checkout", 16)}
           </span>
         </p>
       </div>

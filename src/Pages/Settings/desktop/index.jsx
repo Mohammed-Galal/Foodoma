@@ -120,7 +120,7 @@ function AccountInfo() {
         style={{ color: "var(--primary)" }}
       >
         {Globe}
-        {window.localStorage.getItem("lang") || "ar"}
+        {window.localStorage.getItem("lang") || "العربية"}
         {AltArrowDown}
 
         <ul className="d-grid list-unstyled m-0 p-0 py-2 text-center">

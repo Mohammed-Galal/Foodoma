@@ -118,7 +118,7 @@ function Login({ setLoading }) {
             type="tel"
             className="input-group-text w-100"
             style={{ outline: "none" }}
-            onChange={(e) => (reqBody.phone = e.target.value)}
+            onChange={(e) => (reqBody.email = e.target.value)}
             placeholder={getText("user", 2)}
           />
         </div>
@@ -160,7 +160,7 @@ function Login({ setLoading }) {
   );
 
   function registerUser() {
-    if (!("phone" in reqBody && "password" in reqBody))
+    if (!("email" in reqBody && "password" in reqBody))
       return alert(getText("user", 7));
 
     setLoading(true);
