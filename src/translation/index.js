@@ -2,7 +2,7 @@ import en from "./en.js";
 import ar from "./ar.js";
 
 const file = { العربية: ar, English: en };
-const lang = window.localStorage.getItem("lang") || "ar";
+const lang = window.localStorage.getItem("lang") || "العربية";
 export const keys = Object.keys(file);
 
 export default function getText(pageName, phraseIndex) {
