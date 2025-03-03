@@ -126,7 +126,7 @@ export default () => {
             </tr>
             <tr>
               <td colSpan="4">{getText("invoice", 18)}</td>
-              <td>{state.total}</td>
+              <td>{+state.price + +state.deliveryCharges}</td>
             </tr>
           </tfoot>
         </table>

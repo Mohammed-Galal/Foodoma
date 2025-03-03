@@ -290,7 +290,7 @@ function OrderInfo({
     }
   }, []);
 
-  if (cashback) totalPrice -= cashbackVal;
+  totalPrice -= cashbackVal;
 
   return (
     <div className="p-3">
