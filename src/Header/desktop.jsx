@@ -76,12 +76,12 @@ export default function () {
           />
 
           <ul
-            className="d-flex flex-column list-unstyled m-0 p-0"
+            className="d-flex flex-column list-unstyled m-0 px-0 py-2"
             style={{ textAlign: "center", minWidth: "70px" }}
           >
             {keys.map((k) => {
               return (
-                <li className="p-2" key={k} onClick={() => changeLang(k)}>
+                <li className="py-2 px-3" key={k} onClick={() => changeLang(k)}>
                   {k}
                 </li>
               );
