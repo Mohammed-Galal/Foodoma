@@ -39,6 +39,36 @@ body.prepend(header);
 
 export default (
   <React.StrictMode>
+    <div
+      id="wrong-credentials"
+      popover="auto"
+      className="px-5 py-4 text-danger"
+      style={{
+        borderRadius: "8px",
+        borderColor: "#f0f8ff",
+        background: "#fff",
+        animation: "reveal 1s ease",
+        boxShadow: "rgb(0, 0, 0, 0.2) 2px 2px 8px 0px",
+      }}
+    >
+      يرجى التحقق من البيانات الطلوبة
+    </div>
+
+    <div
+      id="used-account"
+      popover="auto"
+      className="px-5 py-4 text-danger"
+      style={{
+        borderRadius: "8px",
+        borderColor: "#f0f8ff",
+        background: "#fff",
+        animation: "reveal 1s ease",
+        boxShadow: "rgb(0, 0, 0, 0.2) 2px 2px 8px 0px",
+      }}
+    >
+      هذا الحساب مسجل بالفعل
+    </div>
+
     <BrowserRouter>
       <Provider store={store}>
         <App />
@@ -68,6 +98,7 @@ function App() {
           <div className="dismisser"></div>
         </>
       )}
+
       <Routes>
         <Route path="/faq" Component={FAQs} />
         <Route path="/restaurant" Component={Restaurant} caseSensitive={true} />

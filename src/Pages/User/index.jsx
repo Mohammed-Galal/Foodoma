@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import getText from "../../translation";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import store, { getUserAlerts } from "../../store/index.js";
 
@@ -79,10 +79,10 @@ export default function () {
 
 function Login({ setLoading }) {
   const navigate = useNavigate();
-  const reqBody = {
+  const reqBody = useRef({
     // email: "mkjj@gmail.com",
     // password: "01065487118",
-  };
+  }).current;
 
   return (
     <div className="container">
@@ -314,7 +314,10 @@ function handleUserData(r) {
     return true;
   }
 
-  alert(getText("user", 17));
+  const infoEl = r.email_phone_already_used
+    ? "used-account"
+    : "wrong-credentials";
+  document.getElementById(infoEl).showPopover();
 
   return succeded;
 }
