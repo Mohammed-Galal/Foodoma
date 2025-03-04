@@ -7,139 +7,144 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default () => {
   const redirect = useNavigate(),
     { state } = useLocation();
+    debugger;
 
-  useLayoutEffect(
-    function () {
-      state || redirect("/public/mobile");
-    },
-    [state]
-  );
+    useLayoutEffect(
+      function () {
+        state || redirect("/public/mobile");
+      },
+      [state]
+    );
 
-  return (
-    <section id="invoice" className="container">
-      <img className="d-block mx-auto" src="/assets/check.gif" alt="success" />
+    return (
+      <section id="invoice" className="container">
+        <img
+          className="d-block mx-auto"
+          src="/assets/check.gif"
+          alt="success"
+        />
 
-      <fieldset
-        className="gap-3 m-0 row"
-        style={{ borderTop: "1px solid var(--primary)" }}
-      >
-        <legend
-          className="mx-auto px-3"
-          style={{ float: "none", width: "auto", color: "var(--primary)" }}
+        <fieldset
+          className="gap-3 m-0 row"
+          style={{ borderTop: "1px solid var(--primary)" }}
         >
-          {getText("invoice", 0)}
-        </legend>
+          <legend
+            className="mx-auto px-3"
+            style={{ float: "none", width: "auto", color: "var(--primary)" }}
+          >
+            {getText("invoice", 0)}
+          </legend>
 
-        <p
-          className="m-0 text-center"
-          style={{ color: "var(--midgray)", lineHeight: "1.6" }}
-        >
-          {getText("invoice", 1)}
-          {" " + state.date[0] + " "}
-          {getText("invoice", 2)}
-          {" " + state.date[1] + " "}
-        </p>
+          <p
+            className="m-0 text-center"
+            style={{ color: "var(--midgray)", lineHeight: "1.6" }}
+          >
+            {getText("invoice", 1)}
+            {" " + state.date[0] + " "}
+            {getText("invoice", 2)}
+            {" " + state.date[1] + " "}
+          </p>
 
-        <table
-          className="px-3 py-1"
-          style={{
-            tableLayout: "auto",
-            border: "1px solid var(--lightgray)",
-          }}
-        >
-          <thead>
-            <tr>
-              <th colSpan="2" className="text-center">
-                {getText("invoice", 3)}
-              </th>
-            </tr>
-          </thead>
+          <table
+            className="px-3 py-1"
+            style={{
+              tableLayout: "auto",
+              border: "1px solid var(--lightgray)",
+            }}
+          >
+            <thead>
+              <tr>
+                <th colSpan="2" className="text-center">
+                  {getText("invoice", 3)}
+                </th>
+              </tr>
+            </thead>
 
-          <tbody>
-            <tr>
-              <td>{getText("invoice", 4)}</td>
-              <td>{state.code}</td>
-            </tr>
-            <tr>
-              <td>PIN</td>
-              <td>{state.PIN}</td>
-            </tr>
-            <tr>
-              <td>{getText("invoice", 5)}</td>
-              <td>{state.deliveryType}</td>
-            </tr>
-            <tr>
-              <td>{getText("invoice", 6)}</td>
-              <td>{state.deliveryAddress}</td>
-            </tr>
-            <tr>
-              <td>{getText("invoice", 7)}</td>
-              <td>{state.paymentMode}</td>
-            </tr>
-          </tbody>
+            <tbody>
+              <tr>
+                <td>{getText("invoice", 4)}</td>
+                <td>{state.code}</td>
+              </tr>
+              <tr>
+                <td>PIN</td>
+                <td>{state.PIN}</td>
+              </tr>
+              <tr>
+                <td>{getText("invoice", 5)}</td>
+                <td>{state.deliveryType}</td>
+              </tr>
+              <tr>
+                <td>{getText("invoice", 6)}</td>
+                <td>{state.deliveryAddress}</td>
+              </tr>
+              <tr>
+                <td>{getText("invoice", 7)}</td>
+                <td>{state.paymentMode}</td>
+              </tr>
+            </tbody>
 
-          <tfoot>
-            <tr>
-              <td>{getText("invoice", 8)}</td>
-              <td>{state.comment || getText("invoice", 9)}</td>
-            </tr>
-          </tfoot>
-        </table>
+            <tfoot>
+              <tr>
+                <td>{getText("invoice", 8)}</td>
+                <td>{state.comment || getText("invoice", 9)}</td>
+              </tr>
+            </tfoot>
+          </table>
 
-        <table
-          className="px-3 py-1"
-          style={{
-            tableLayout: "auto",
-            border: "1px solid var(--lightgray)",
-          }}
-        >
-          <thead>
-            <tr>
-              <th
-                style={{ borderBottom: "1px solid var(--lightgray)" }}
-                colSpan="5"
-                className="text-center"
-              >
-                {getText("invoice", 10)}
-              </th>
-            </tr>
+          <table
+            className="px-3 py-1"
+            style={{
+              tableLayout: "auto",
+              border: "1px solid var(--lightgray)",
+            }}
+          >
+            <thead>
+              <tr>
+                <th
+                  style={{ borderBottom: "1px solid var(--lightgray)" }}
+                  colSpan="5"
+                  className="text-center"
+                >
+                  {getText("invoice", 10)}
+                </th>
+              </tr>
 
-            <tr className="text-center">
-              <th>{getText("invoice", 11)}</th>
-              <th>{getText("invoice", 12)}</th>
-              <th>{getText("invoice", 13)}</th>
-              <th>{getText("invoice", 14)}</th>
-              <th>{getText("invoice", 15)}</th>
-            </tr>
-          </thead>
+              <tr className="text-center">
+                <th>{getText("invoice", 11)}</th>
+                <th>{getText("invoice", 12)}</th>
+                <th>{getText("invoice", 13)}</th>
+                <th>{getText("invoice", 14)}</th>
+                <th>{getText("invoice", 15)}</th>
+              </tr>
+            </thead>
 
-          <tbody>{state.order.map(ProductItem)}</tbody>
+            <tbody>{state.order.map(ProductItem)}</tbody>
 
-          <tfoot className="fw-bold text-center">
-            <tr>
-              <td colSpan="4">{getText("invoice", 16)}</td>
-              <td>{state.price}</td>
-            </tr>
-            <tr>
-              <td colSpan="4">{getText("invoice", 17)}</td>
-              <td>{state.deliveryCharges}</td>
-            </tr>
-            <tr>
-              <td colSpan="4">{getText("invoice", 18)}</td>
-              <td>{+state.price + +state.deliveryCharges}</td>
-            </tr>
-          </tfoot>
-        </table>
+            <tfoot className="fw-bold text-center">
+              <tr>
+                <td colSpan="4">{getText("invoice", 16)}</td>
+                <td>{state.subTotal}</td>
+              </tr>
+              <tr>
+                <td colSpan="4">{getText("invoice", 17)}</td>
+                <td>{state.deliveryCharges}</td>
+              </tr>
+              <tr>
+                <td colSpan="4">{getText("invoice", 18)}</td>
+                <td>{state.price}</td>
+              </tr>
+            </tfoot>
+          </table>
 
-        <p
-          className="m-0 text-center"
-          style={{ color: "var(--midgray)", lineHeight: "1.6" }}
-        >
-          {getText("invoice", 19)}
-        </p>
-      </fieldset>
-    </section>
-  );
+          <p
+            className="m-0 text-center"
+            style={{ color: "var(--midgray)", lineHeight: "1.6" }}
+          >
+            {getText("invoice", 19)}
+          </p>
+        </fieldset>
+      </section>
+    );
 };
 
 function ProductItem({ id, name, price, selectedaddons, quantity }) {
