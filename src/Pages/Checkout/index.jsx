@@ -123,7 +123,7 @@ export default function () {
         </b>
 
         <p className="my-3">
-          تبين أن العنوان الذي قمت باختياره خارج نطاق تغطية المطعم الحالي
+          تبين أن العنوان الذي قمت باختياره خارج نطاق تغطية الفرع الحالي
         </p>
 
         <div className="d-flex gap-2 justify-content-evenly">
@@ -153,8 +153,19 @@ export default function () {
             }}
             onClick={() => {
               if (closestRes) {
-                // setRes(closestRes);
-                redirect("/");
+                debugger;
+                fetch(
+                  "https://admin.montana.sa/get-restaurant-items/" +
+                    closestRes.slug,
+                  { headers: { "Content-type": "application/json" } }
+                )
+                  .then((res) => res.json())
+                  .then((data) => {
+                    dispatch({ type: "restaurant/init", payload: closestRes });
+                    dispatch({ type: "products/init", payload: data });
+                    // Redirect to the restaurant page
+                    redirect("/");
+                  });
               } else alert("لا يوجد فرع قريب");
             }}
           >
