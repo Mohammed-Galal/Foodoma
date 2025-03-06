@@ -1,7 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import getText from "../../translation";
 import { _useCoupon, calcCashback } from "../Cart";
-import { useDispatch, useStore } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLayoutEffect, useState } from "react";
 import NXT from "../../icons/NXT";
 import React from "react";
@@ -21,12 +21,16 @@ const placeOrderApi = "https://admin.montana.sa/public/api/place-order",
   },
   emptyStr = "";
 
+let closestRes = null;
+
 export default function () {
-  const { User, Restaurant, Products } = useStore().getState(),
+  const { User, Restaurant, Products } = useSelector((e) => e),
     [delivery, setDelivery] = useState(false),
     [activeAddress, setActiveAddress] = useState(0),
     dispatch = useDispatch(),
     redirect = useNavigate();
+
+  closestRes = null;
 
   const customProps = {
       is_special: false,
@@ -35,19 +39,26 @@ export default function () {
     userAddresses = User.addresses;
 
   if (delivery) {
-    basicBodyReq.location.lat = userAddresses[activeAddress].latitude;
-    basicBodyReq.location.lng = userAddresses[activeAddress].longitude;
+    basicBodyReq.location.lat = userAddresses[activeAddress]?.latitude;
+    basicBodyReq.location.lng = userAddresses[activeAddress]?.longitude;
   } else basicBodyReq.location = defaultLoc;
 
   const deliveryCharges = +Restaurant.data.delivery_charges;
   useLayoutEffect(() => {
     User.loaded || redirect("/user/login");
     Products.cart.length || redirect("/cart");
-    if (userAddresses.length === 0) {
-      window.alert("Please add an address first");
-      redirect("/settings/addresses");
+    if (delivery && userAddresses.length) {
+      fetch("https://admin.montana.sa/public/api/get-delivery-restaurants", {
+        method: "POST",
+        body: JSON.stringify(userAddresses[activeAddress]),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((r) => r.json())
+        .then((r) => (closestRes = r[0] || false));
     }
-  });
+  }, [delivery, activeAddress]);
 
   let totalPrice = 0;
 
@@ -97,6 +108,61 @@ export default function () {
 
   return (
     <section id="checkout">
+      <div
+        id="closest-res"
+        popover="manual"
+        className="px-5 py-3 text-center"
+        style={{
+          color: "var(--midgray)",
+          borderColor: "#c9e2f4",
+          borderRadius: "8px",
+        }}
+      >
+        <b className="text-danger" style={{ fontSize: "larger" }}>
+          تنبيه
+        </b>
+
+        <p className="my-3">
+          تبين أن العنوان الذي قمت باختياره خارج نطاق تغطية المطعم الحالي
+        </p>
+
+        <div className="d-flex gap-2 justify-content-evenly">
+          <button
+            type="button"
+            className="btn flex-grow-1"
+            style={{
+              backgroundColor: "var(--primary)",
+              color: "#fff",
+              maxWidth: "50%",
+            }}
+            onClick={() => {
+              document.getElementById("closest-res").hidePopover();
+              setDelivery(false);
+            }}
+          >
+            الاستلام من الفرع
+          </button>
+
+          <button
+            type="button"
+            className="btn flex-grow-1"
+            style={{
+              backgroundColor: "var(--primary)",
+              color: "#fff",
+              maxWidth: "50%",
+            }}
+            onClick={() => {
+              if (closestRes) {
+                // setRes(closestRes);
+                redirect("/");
+              } else alert("لا يوجد فرع قريب");
+            }}
+          >
+            اختيار اقرب فرع
+          </button>
+        </div>
+      </div>
+
       <ul className="d-flex gap-2 justify-content-center list-unstyled mb-5 mx-auto p-0">
         <li>{getText("checkout", 0)}</li>
         <li>{NXT}</li>
@@ -161,12 +227,28 @@ export default function () {
             </button>
           </div>
 
-          <ul
-            className="align-items-stretch d-flex gap-2 list-unstyled m-0 p-0 w-100"
-            style={{ gridColumnStart: "span 2" }}
-          >
-            {delivery && items}
-          </ul>
+          {delivery &&
+            (userAddresses.length ? (
+              <ul
+                className="align-items-stretch d-flex gap-2 list-unstyled m-0 p-0 w-100"
+                style={{ gridColumnStart: "span 2" }}
+              >
+                {items}
+              </ul>
+            ) : (
+              <p className="my-2" style={{ color: "var(--midgray)" }}>
+                <b className="d-block text-danger">تنبيه</b>
+                يرجى اضافة عنوان اولاً حتى تتمكن من اكمال الدفع
+                <button
+                  type="button"
+                  className="btn d-block mt-2 mx-auto px-5"
+                  style={{ background: "var(--primary)", color: "#fff" }}
+                  onClick={() => redirect("/settings/addresses")}
+                >
+                  اضافة عنوان
+                </button>
+              </p>
+            ))}
 
           <textarea
             placeholder={getText("checkout", 7)}
@@ -185,6 +267,7 @@ export default function () {
         </fieldset>
 
         <OrderInfo
+          renderBtn={!delivery || !!userAddresses.length}
           cart={Products.cart}
           products={Products}
           cashback={Products.cashback}
@@ -198,6 +281,8 @@ export default function () {
   );
 
   function placeOrder(cashbackVal) {
+    if (delivery && !checkResCoverage(Restaurant.data)) return;
+
     const images = customProps.images,
       formData = new FormData();
 
@@ -263,6 +348,7 @@ export default function () {
 }
 
 function OrderInfo({
+  renderBtn,
   cart,
   cashback,
   delivery,
@@ -349,13 +435,15 @@ function OrderInfo({
         </label>
       </div> */}
 
-      <button
-        type="button"
-        onClick={() => placeOrder(cashbackVal)}
-        className="btn mt-4 mx-auto w-100"
-      >
-        {getText("checkout", 15)}
-      </button>
+      {renderBtn && (
+        <button
+          type="button"
+          onClick={() => placeOrder(cashbackVal)}
+          className="btn mt-4 mx-auto w-100"
+        >
+          {getText("checkout", 15)}
+        </button>
+      )}
     </div>
   );
 
@@ -416,10 +504,6 @@ Object.assign(basicBodyReq, {
   schedule_date: "",
   schedule_slot: "",
   auto_acceptable: false,
-  // location: {
-  //   lat: "",
-  //   lng: "",
-  // },
 });
 
 function appendFormData(fd, data, parentKey = "") {
@@ -433,5 +517,16 @@ function appendFormData(fd, data, parentKey = "") {
     });
   } else {
     fd.append(parentKey, data === null ? "" : data);
+  }
+}
+
+function checkResCoverage(currRes) {
+  // if the closest restaurant is not loaded yet
+  if (closestRes === null) return false;
+  // if there's no closest restaurant
+  // or if the closest restaurant  is not the same as the current Restaurant
+  else if (closestRes === false || closestRes.id !== currRes.id) {
+    document.getElementById("closest-res").showPopover();
+    return false;
   }
 }

@@ -35,7 +35,7 @@ function CurrLoc() {
     dispatch = useDispatch();
 
   return (
-    <div style={{ backgroundColor: "#ecf5ff" }} className="d-none">
+    <div style={{ backgroundColor: "#ecf5ff" }}>
       <ul
         id="branches"
         className="container d-grid gap-3 list-unstyled my-0 py-2 px-3"

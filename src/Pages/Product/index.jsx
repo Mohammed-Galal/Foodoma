@@ -12,7 +12,7 @@ import Minus from "../../icons/Minus";
 import Plus from "../../icons/Plus";
 import "./index.scss";
 
-const isArabic = window.localStorage.getItem("lang") === "ar",
+const isArabic = window.localStorage.getItem("lang") === "العربية",
   hiddenAlert = { opacity: 0, transform: "translateY(100%)" },
   activeAlert = { opacity: 1, transform: "translateY(0)" },
   baseUrl = "https://admin.montana.sa",

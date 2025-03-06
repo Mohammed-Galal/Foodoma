@@ -7,7 +7,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 export default () => {
   const redirect = useNavigate(),
     { state } = useLocation();
-    debugger;
 
     useLayoutEffect(
       function () {
