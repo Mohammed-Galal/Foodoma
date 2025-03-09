@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const User = {
     name: "user",
     initialState: {
-      activeAddressIndex: null,
+      activeAddressIndex: 0,
       loaded: false,
       data: {},
       loc: {},
@@ -44,7 +44,7 @@ reducers.setAddresses = function (state, action) {
 };
 
 reducers.setActiveAddress = function (state, action) {
-  let activeAddressIndex = 0;
+  let activeAddressIndex;
 
   if (state.addresses.length) {
     activeAddressIndex =
@@ -53,6 +53,7 @@ reducers.setActiveAddress = function (state, action) {
         : action.payload;
   }
 
+  activeAddressIndex ||= 0;
   state.activeAddressIndex = activeAddressIndex;
   window.localStorage.setItem("activeAddressIndex", activeAddressIndex);
 };

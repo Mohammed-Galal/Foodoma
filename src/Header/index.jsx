@@ -46,7 +46,7 @@ function CurrLoc() {
           color: "var(--primary)",
         }}
       >
-        {!!User.addresses.length && (
+        {!!currentActiveAddress && (
           <li className="align-items-center d-flex gap-2 DD">
             {Loc}
 
