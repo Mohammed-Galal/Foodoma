@@ -8,7 +8,7 @@ import Restaurant from "./restaurant.js";
 const APP_STATE = configureStore({ reducer: { Products, User, Restaurant } });
 export default APP_STATE;
 
-const baseUrl = "https://admin.montana.sa/public/api",
+const baseUrl = process.env.REACT_APP_API_URL + "/public/api",
   fetchOpts = {
     method: "POST",
     get headers() {
@@ -59,6 +59,7 @@ export const logout = function () {
       .then(toJson)
       .then((r) => {
         APP_STATE.dispatch({ type: "user/setAddresses", payload: r });
+        APP_STATE.dispatch({ type: "user/setActiveAddress" });
       })
       .catch(console.error);
 

@@ -3,7 +3,8 @@
 import { useLayoutEffect, useState } from "react";
 import getText from "../../../../translation";
 
-const api = "https://admin.montana.sa/public/api/get-wallet-transactions";
+const api =
+  process.env.REACT_APP_API_URL + "/public/api/get-wallet-transactions";
 
 export default function () {
   const [balance, setBalance] = useState("جاري التحقق");

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const User = {
     name: "user",
     initialState: {
+      activeAddressIndex: null,
       loaded: false,
       data: {},
       loc: {},
@@ -40,6 +41,20 @@ reducers.setAlerts = function (state, action) {
 
 reducers.setAddresses = function (state, action) {
   state.addresses = action.payload;
+};
+
+reducers.setActiveAddress = function (state, action) {
+  let activeAddressIndex = 0;
+
+  if (state.addresses.length) {
+    activeAddressIndex =
+      action.payload === undefined
+        ? window.localStorage.getItem("activeAddressIndex")
+        : action.payload;
+  }
+
+  state.activeAddressIndex = activeAddressIndex;
+  window.localStorage.setItem("activeAddressIndex", activeAddressIndex);
 };
 
 // Action creators are generated for each case reducer function

@@ -2,7 +2,7 @@ import { useLayoutEffect, useState } from "react";
 import { useStore } from "react-redux";
 
 /* eslint-disable import/no-anonymous-default-export */
-const base = "https://admin.montana.sa";
+const base = process.env.REACT_APP_API_URL;
 
 let restaurantId,
   items = [];

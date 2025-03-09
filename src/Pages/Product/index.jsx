@@ -15,7 +15,7 @@ import "./index.scss";
 const isArabic = window.localStorage.getItem("lang") === "العربية",
   hiddenAlert = { opacity: 0, transform: "translateY(100%)" },
   activeAlert = { opacity: 1, transform: "translateY(0)" },
-  baseUrl = "https://admin.montana.sa",
+  baseUrl = process.env.REACT_APP_API_URL,
   docFrag = document.createElement("div");
 
 export default function () {
@@ -296,6 +296,7 @@ function ProductInfo(state) {
       payload: {
         id: state.id,
         name: state.name,
+        name_ar: state.name_ar,
         price: +state.price,
         restaurant_id: +resId,
         quantity,

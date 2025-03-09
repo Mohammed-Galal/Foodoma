@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import store, { getUserAlerts } from "../../store/index.js";
 
 const dispatch = store.dispatch,
-  Base = "https://admin.montana.sa/public/api",
+  Base = process.env.REACT_APP_API_URL + "/public/api",
   Components = { login: Login, register: Register };
 
 const loader = (
@@ -96,7 +96,10 @@ function Login({ setLoading }) {
       >
         <img
           className="animate-reveal"
-          src="https://admin.montana.sa/assets/img/various/login-illustration.png"
+          src={
+            process.env.REACT_APP_API_URL +
+            "/assets/img/various/login-illustration.png"
+          }
           alt="avatar"
         />
 
@@ -201,7 +204,10 @@ function Register({ setLoading }) {
       >
         <img
           className="animate-reveal"
-          src="https://admin.montana.sa/assets/img/various/login-illustration.png"
+          src={
+            process.env.REACT_APP_API_URL +
+            "/assets/img/various/login-illustration.png"
+          }
           alt="avatar"
         />
 

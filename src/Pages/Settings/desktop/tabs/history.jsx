@@ -14,7 +14,7 @@ const orderState = [
   getText("settings", 12),
 ];
 
-const base = "https://admin.montana.sa";
+const base = process.env.REACT_APP_API_URL;
 
 let restaurantId,
   items = [];

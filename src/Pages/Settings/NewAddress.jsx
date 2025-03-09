@@ -4,7 +4,8 @@ import { useStore } from "react-redux";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
 import getText from "../../translation";
 
-const saveAddressApi = "https://admin.montana.sa/public/api/save-address";
+const saveAddressApi =
+  process.env.REACT_APP_API_URL + "/public/api/save-address";
 
 const center = {
   lat: 23.885942,

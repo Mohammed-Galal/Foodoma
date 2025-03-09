@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Loc from "../icons/Loc";
 import Arrow_Down from "../icons/Arrow_Down";
@@ -8,7 +8,7 @@ import desktop from "./desktop";
 import mobile from "./mobile";
 import "./index.scss";
 
-const baseUrl = "https://admin.montana.sa/public/api/",
+const baseUrl = process.env.REACT_APP_API_URL + "/public/api/",
   fetchOpts = {
     method: "POST",
     headers: {
@@ -29,42 +29,57 @@ export default function (isMobileDevice) {
 }
 
 function CurrLoc() {
-  const { data: currStore, branches } = useSelector((e) => e.Restaurant);
+  const { Restaurant, User } = useSelector((e) => e),
+    { data: currStore, branches } = Restaurant;
 
   const redirect = useNavigate(),
     dispatch = useDispatch();
+
+  const currentActiveAddress = User.addresses[User.activeAddressIndex];
 
   return (
     <div style={{ backgroundColor: "#ecf5ff" }}>
       <ul
         id="branches"
-        className="container d-grid gap-3 list-unstyled my-0 py-2 px-3"
+        className="align-items-center container d-flex gap-3 list-unstyled my-0 px-3 py-2"
         style={{
-          gridTemplateColumns: "1fr auto auto",
           color: "var(--primary)",
         }}
       >
-        <li className="align-items-center d-flex gap-2">
-          {Loc}
-          <span className="d-none d-sm-block">{currStore.name}</span>
-        </li>
+        {!!User.addresses.length && (
+          <li className="align-items-center d-flex gap-2 DD">
+            {Loc}
 
-        <li className="DD align-items-center d-flex gap-2">
+            <span className="d-block">
+              {currentActiveAddress.tag} - {currentActiveAddress.address}
+            </span>
+
+            <ul className="d-flex flex-column list-unstyled m-0 p-0">
+              {User.addresses.map((address, i) => (
+                <li
+                  key={i}
+                  onClick={() =>
+                    dispatch({ type: "user/setActiveAddress", payload: i })
+                  }
+                  className="px-3 py-2"
+                >
+                  {address.tag} - {address.address}
+                </li>
+              ))}
+            </ul>
+          </li>
+        )}
+
+        <li
+          className="DD align-items-center d-flex gap-2"
+          style={{ marginInlineStart: "auto" }}
+        >
           {currStore.name}
           {Arrow_Down}
 
           <ul className="d-flex flex-column list-unstyled m-0 p-0">
             {branches.map(branchItem)}
           </ul>
-        </li>
-
-        <li className="align-items-center d-flex gap-2">
-          <Link
-            to="/public/mobile"
-            style={{ color: "inherit", textDecoration: "none" }}
-          >
-            اتصل بنا
-          </Link>
         </li>
       </ul>
     </div>

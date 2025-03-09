@@ -7,7 +7,10 @@ import NXT from "../../icons/NXT";
 import Recommended from "./Recommended";
 import "./index.scss";
 
-const baseUrl = "https://admin.montana.sa";
+const isArabic = window.localStorage.getItem("lang") === "العربية",
+  nameTarget = isArabic ? "name_ar" : "name";
+
+const baseUrl = process.env.REACT_APP_API_URL;
 let couponData = null;
 
 export default function () {
@@ -279,23 +282,24 @@ export function _useCoupon(params, auth, callback, rejectCallback) {
     });
 }
 
-function ProductItem({ id, quantity, name, addons, price }, I, editCart) {
-  const Addons =
-    addons.length === 0 ? (
-      <li>{getText("cart", 14)}</li>
-    ) : (
-      addons.map((a) => {
-        price += a.price;
-        return (
-          <li key={a.addon_id} className="d-flex justify-content-center">
-            {a.addon_name} -
-            <span>
-              {a.price} {getText("cart", 16)}
-            </span>
-          </li>
-        );
-      })
-    );
+function ProductItem(item, I, editCart) {
+  const { id, quantity, name, addons, price } = item,
+    Addons =
+      addons.length === 0 ? (
+        <li>{getText("cart", 14)}</li>
+      ) : (
+        addons.map((a) => {
+          price += a.price;
+          return (
+            <li key={a.addon_id} className="d-flex justify-content-center">
+              {a.addon_name} -
+              <span>
+                {a.price} {getText("cart", 16)}
+              </span>
+            </li>
+          );
+        })
+      );
 
   return (
     <React.Fragment key={id * price}>
@@ -304,7 +308,7 @@ function ProductItem({ id, quantity, name, addons, price }, I, editCart) {
           x
         </button>
         <Link className="text-decoration-none" to={"/products/" + id}>
-          {name}
+          {item[nameTarget] || name}
         </Link>
       </li>
 

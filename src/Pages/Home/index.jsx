@@ -20,7 +20,7 @@ export default function () {
 
   useEffect(() => {
     loaded ||
-      fetch("https://admin.montana.sa/public/api/getItemcategories")
+      fetch(process.env.REACT_APP_API_URL + "/public/api/getItemcategories")
         .then((r) => r.json())
         .then((r) => {
           r.filter((c) => c.id !== 13 && c.id !== 8).forEach((c) => {

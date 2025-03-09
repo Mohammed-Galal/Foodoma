@@ -108,7 +108,7 @@ function App() {
           Component={All_Products}
           caseSensitive={true}
         />
-        <Route path="/invoice" Component={Invoice} caseSensitive={true} />
+        <Route path="/invoice/:id?" Component={Invoice} caseSensitive={true} />
         <Route path="/alerts" Component={Alerts} caseSensitive={true} />
         <Route path="/user/:action?" Component={User} />
         <Route path="/settings/:tab?" Component={Settings} />

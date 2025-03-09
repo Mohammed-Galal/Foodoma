@@ -6,7 +6,7 @@ import "./index.scss";
 
 const EMPTY_STR = "",
   cities = ["حي السلامة", "حي الصفا", "حي النزهة", "حي السامر"],
-  baseUrl = "https://admin.montana.sa/public/api/",
+  baseUrl = process.env.REACT_APP_API_URL + "/public/api/",
   fetchOpts = {
     method: "POST",
     headers: {

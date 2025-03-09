@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useLayoutEffect } from "react";
 import getText from "../../translation/index.js";
 
-const base = "https://admin.montana.sa",
+const base = process.env.REACT_APP_API_URL,
   baseUrl = base + "/public/api",
   fetchOptions = {
     method: "POST",

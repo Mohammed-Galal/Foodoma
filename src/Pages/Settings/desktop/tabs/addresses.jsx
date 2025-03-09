@@ -86,7 +86,7 @@ function AddressItem(
   );
 
   function removeAdrress() {
-    fetch("https://admin.montana.sa/public/api/delete-address", {
+    fetch(process.env.REACT_APP_API_URL + "/public/api/delete-address", {
       method: "POST",
       body: JSON.stringify({ address_id: id }),
       headers: {

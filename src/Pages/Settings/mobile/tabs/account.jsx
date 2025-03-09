@@ -151,7 +151,7 @@ export default function () {
   function confirmPassword() {
     popover.current.hidePopover && popover.current.hidePopover();
 
-    fetch("https://admin.montana.sa/public/api/update-user-data", {
+    fetch(process.env.REACT_APP_API_URL + "/public/api/update-user-data", {
       method: "POST",
       body: JSON.stringify(reqBody),
       headers: { Authorization: User.data.auth_token },

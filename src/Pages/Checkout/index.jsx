@@ -8,7 +8,10 @@ import React from "react";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
 
-const placeOrderApi = "https://admin.montana.sa/public/api/place-order",
+const isArabic = window.localStorage.getItem("lang") === "العربية",
+  nameTarget = isArabic ? "name_ar" : "name";
+
+const placeOrderApi = "https://mon10.amir-adel.com/public/api/place-order",
   basicBodyReq = {},
   defaultLoc = {
     lat: "",
@@ -21,7 +24,8 @@ const placeOrderApi = "https://admin.montana.sa/public/api/place-order",
   },
   emptyStr = "";
 
-let closestRes = null;
+let paymentMethod = "COD",
+  closestRes = null;
 
 export default function () {
   const { User, Restaurant, Products } = useSelector((e) => e),
@@ -29,8 +33,6 @@ export default function () {
     [activeAddress, setActiveAddress] = useState(0),
     dispatch = useDispatch(),
     redirect = useNavigate();
-
-  closestRes = null;
 
   const customProps = {
       is_special: false,
@@ -48,13 +50,16 @@ export default function () {
     User.loaded || redirect("/user/login");
     Products.cart.length || redirect("/cart");
     if (delivery && userAddresses.length) {
-      fetch("https://admin.montana.sa/public/api/get-delivery-restaurants", {
-        method: "POST",
-        body: JSON.stringify(userAddresses[activeAddress]),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
+      fetch(
+        process.env.REACT_APP_API_URL + "/public/api/get-delivery-restaurants",
+        {
+          method: "POST",
+          body: JSON.stringify(userAddresses[activeAddress]),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
         .then((r) => r.json())
         .then((r) => (closestRes = r[0] || false));
     }
@@ -68,7 +73,7 @@ export default function () {
     return extractData(CI);
   });
 
-  const items = userAddresses.map((e, i) => (
+  const addresses = userAddresses.map((e, i) => (
     <li
       key={i}
       style={addresItemStyle}
@@ -76,7 +81,10 @@ export default function () {
       data-active={activeAddress === i}
     >
       <label
-        onClick={() => setActiveAddress(i)}
+        onClick={() => {
+          closestRes = null;
+          setActiveAddress(i);
+        }}
         className="align-items-center d-flex gap-2 h-100 justify-content-start px-3 py-1 w-100"
       >
         <img src="/assets/settings/address.png" alt="icon" />
@@ -153,9 +161,9 @@ export default function () {
             }}
             onClick={() => {
               if (closestRes) {
-                debugger;
                 fetch(
-                  "https://admin.montana.sa/get-restaurant-items/" +
+                  process.env.REACT_APP_API_URL +
+                    "/get-restaurant-items/" +
                     closestRes.slug,
                   { headers: { "Content-type": "application/json" } }
                 )
@@ -244,7 +252,7 @@ export default function () {
                 className="align-items-stretch d-flex gap-2 list-unstyled m-0 p-0 w-100"
                 style={{ gridColumnStart: "span 2" }}
               >
-                {items}
+                {addresses}
               </ul>
             ) : (
               <p className="my-2" style={{ color: "var(--midgray)" }}>
@@ -305,7 +313,8 @@ export default function () {
       user: { data: { default_address: userAddresses[activeAddress] } },
       delivery_type: delivery ? "1" : "2",
       coupon: { code: window.localStorage.getItem("coupon") || emptyStr },
-      method: "COD",
+      method: paymentMethod,
+      CallBackUrl: window.location.origin + "/invoice/",
       order_comment: customProps.comment,
     };
 
@@ -327,33 +336,52 @@ export default function () {
     fetch(placeOrderApi, fetchOpts)
       .then((r) => r.json())
       .then(handleInvoice)
-      .catch((e) => alert(getText("checkout", 8)));
+      .catch(console.log);
   }
 
-  function handleInvoice({ data }) {
-    window.localStorage.removeItem("coupon");
+  function handleInvoice(res) {
+    if (res.success === false) return alert(getText("checkout", 8));
 
-    const invoiceState = {
+    window.localStorage.removeItem("coupon");
+    dispatch({ type: "products/clearCart" });
+
+    const basicOrderData = {
       order,
-      date: data.created_at.split(" "),
-      comment: data.order_comment,
-      code: data.unique_order_id,
-      PIN: data.delivery_pin,
       deliveryType: getText("checkout", 9),
       deliveryAddress: Restaurant.data.name,
-      paymentMode: getText("checkout", 10),
-      price: data.total,
       deliveryCharges: delivery_charges,
-      total: data.total + delivery_charges,
-      subTotal: data.sub_total,
     };
 
     if (delivery) {
-      invoiceState.deliveryType = getText("checkout", 6);
-      invoiceState.deliveryAddress = userAddresses[activeAddress].tag;
+      basicOrderData.deliveryType = getText("checkout", 6);
+      basicOrderData.deliveryAddress = userAddresses[activeAddress].tag;
     }
 
-    dispatch({ type: "products/clearCart" });
+    if (paymentMethod !== "COD") {
+      paymentMethod = "COD";
+
+      window.localStorage.setItem(
+        "invoiceData",
+        JSON.stringify(basicOrderData)
+      );
+
+      return (window.location.href = res.data.link);
+    }
+
+    const { data } = res,
+      invoiceState = {
+        ...basicOrderData,
+        order,
+        date: data.created_at.split(" "),
+        comment: data.order_comment,
+        code: data.unique_order_id,
+        PIN: data.delivery_pin,
+        total: data.total + delivery_charges,
+        paymentMode: getText("checkout", 10),
+        price: data.total,
+        subTotal: data.sub_total,
+      };
+
     redirect("/invoice", { state: invoiceState });
   }
 }
@@ -367,8 +395,6 @@ function OrderInfo({
   placeOrder,
   totalPrice,
 }) {
-  // const [useCreditCard, setCredit] = useState(false);
-
   const items = cart.map(productItem);
   const cashbackVal = +calcCashback(totalPrice, cashback),
     [discount, setDiscount] = useState(0);
@@ -424,27 +450,30 @@ function OrderInfo({
           {totalPrice + +discount} {getText("checkout", 16)}
         </span>
       </p>
-      {/* 
-      <div>
+
+      <form>
         <span className="d-block h5">طرق الدفع</span>
-        <label className="d-flex gap-2 mb-2">
-          <input
-            type="radio"
-            onClick={() => setCredit(true)}
-            checked={useCreditCard}
-          />
-          بطاقات الائتمان
-        </label>
 
         <label className="d-flex gap-2">
           <input
             type="radio"
-            onClick={() => setCredit(false)}
-            checked={!useCreditCard}
+            name="payment"
+            onClick={() => (paymentMethod = "COD")}
+            defaultChecked={paymentMethod === "COD"}
           />
           الدفع عند الاستلام
         </label>
-      </div> */}
+
+        <label className="d-flex gap-2 mb-2">
+          <input
+            type="radio"
+            name="payment"
+            onClick={() => (paymentMethod = "myfatoorah")}
+            defaultChecked={paymentMethod === "myfatoorah"}
+          />
+          بطاقات الائتمان
+        </label>
+      </form>
 
       {renderBtn && (
         <button
@@ -474,7 +503,8 @@ function OrderInfo({
   }
 }
 
-function productItem({ id, quantity, price, name }) {
+function productItem(item) {
+  const { id, quantity, price, name } = item;
   return (
     <li
       key={id}
@@ -482,7 +512,7 @@ function productItem({ id, quantity, price, name }) {
       style={{ "font-size": "small", "font-weight": 600 }}
     >
       <span className="flex-grow-1" style={{ color: "var(--primary)" }}>
-        {name}
+        {item[nameTarget] || name}
       </span>
       <span>x {quantity}</span>
       <span>
@@ -497,7 +527,7 @@ function extractData(i) {
   const { restaurant_id, id, name, price } = i;
 
   return {
-    name,
+    name: i[nameTarget] || name,
     restaurant_id: +restaurant_id,
     id: emptyStr + id,
     price: emptyStr + price,
