@@ -26,7 +26,7 @@ export default function () {
 
         <div class="align-items-center d-flex gap-2 langs">
           {Globe}
-          <span> {window.localStorage.getItem("lang") || "ar"}</span>
+          <span>{window.localStorage.getItem("lang") || "العربية"}</span>
           {AltArrowDown}
           <ul className="d-grid list-unstyled m-0 p-0 py-2 text-center">
             {keys.map((k) => (

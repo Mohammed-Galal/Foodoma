@@ -73,14 +73,14 @@ header .DD {
     visibility: var(--visibility);
     position: absolute;
     top: calc(100% + 10px);
-    left: 50%;
+    left: 0;
     background: #fff;
     width: max-content;
     z-index: 10;
     border: 1px solid #edf5ff;
     border-radius: 12px;
     overflow: hidden;
-    transform: translateX(-50%) translateY(var(--translateY));
+    // transform: translateX(-50%) translateY(var(--translateY));
     transition: all 0.15s ease-out;
     transform-origin: top left;
 
