@@ -8,10 +8,11 @@ import React from "react";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
 
-const isArabic = window.localStorage.getItem("lang") === "العربية",
+const days = [/^sun/i, /^mon/i, /^tue/i, /^wed/i, /^thu/i, /^fri/i, /^sat/i],
+  isArabic = window.localStorage.getItem("lang") === "العربية",
   nameTarget = isArabic ? "name_ar" : "name";
 
-const placeOrderApi = "https://mon10.amir-adel.com/public/api/place-order",
+const placeOrderApi = process.env.REACT_APP_API_URL + "/public/api/place-order",
   basicBodyReq = {},
   defaultLoc = {
     lat: "",
@@ -65,7 +66,8 @@ export default function () {
     }
   }, [delivery, activeAddress]);
 
-  let totalPrice = 0;
+  let accept2Continue = false,
+    totalPrice = 0;
 
   const order = Products.cart.map((CI) => {
     totalPrice += +CI.totalPrice;
@@ -182,6 +184,57 @@ export default function () {
         </div>
       </div>
 
+      <div
+        id="time-warning"
+        popover="manual"
+        style={{
+          borderColor: "aliceblue",
+          borderRadius: "8px",
+        }}
+      >
+        <div
+          className="d-flex flex-wrap gap-3 px-5 py-3 text-center"
+          style={{
+            color: "var(--midgray)",
+          }}
+        >
+          <b className="text-danger w-100">اشعار بالمواعيد</b>
+          هذا الفرع مغلق الآن، يرجى العلم أن الفرع لن تمكن من قبول طلبكم قبل بدأ
+          ساعات العمل الرسمية
+          <br />
+          هل مازلت تريد متابعة تقديم الطلب؟
+          <button
+            type="button"
+            className="btn"
+            style={{
+              flex: "1 0 45%",
+              backgroundColor: "var(--primary)",
+              color: "#fff",
+            }}
+            onClick={() => {
+              accept2Continue = true;
+              document.getElementById("time-warning").hidePopover();
+            }}
+          >
+            المتابعة
+          </button>
+          <button
+            type="button"
+            className="btn"
+            style={{
+              flex: "1 0 45%",
+              backgroundColor: "var(--primary)",
+              color: "#fff",
+            }}
+            onClick={() =>
+              document.getElementById("time-warning").hidePopover()
+            }
+          >
+            الغاء
+          </button>
+        </div>
+      </div>
+
       <ul className="d-flex gap-2 justify-content-center list-unstyled mb-5 mx-auto p-0">
         <li>{getText("checkout", 0)}</li>
         <li>{NXT}</li>
@@ -224,7 +277,10 @@ export default function () {
                   maxHeight: "25px",
                   filter: "grayscale(" + +delivery + ")",
                 }}
-                src="https://mon10.doobagency.com/assets/img/various/self-pickup.png"
+                src={
+                  process.env.REACT_APP_API_URL +
+                  "/assets/img/various/self-pickup.png"
+                }
                 alt="branch"
               />
               {getText("checkout", 5)}
@@ -239,7 +295,10 @@ export default function () {
                   maxHeight: "25px",
                   filter: "grayscale(" + +!delivery + ")",
                 }}
-                src="https://mon10.doobagency.com/assets/img/various/home-delivery.png"
+                src={
+                  process.env.REACT_APP_API_URL +
+                  "/assets/img/various/home-delivery.png"
+                }
                 alt="delivery"
               />
               {getText("checkout", 6)}
@@ -301,6 +360,10 @@ export default function () {
 
   function placeOrder(cashbackVal) {
     if (delivery && !checkResCoverage(Restaurant.data)) return;
+    else if (!isWithinWorkingHours(Restaurant.data) && !accept2Continue) {
+      document.getElementById("time-warning").showPopover();
+      return;
+    }
 
     const images = customProps.images,
       formData = new FormData();
@@ -570,4 +633,22 @@ function checkResCoverage(currRes) {
     document.getElementById("closest-res").showPopover();
     return false;
   }
+}
+
+function isWithinWorkingHours({ workingHours }) {
+  if (workingHours) {
+    const currTime = new Date(),
+      day = days[currTime.getDay()],
+      hours = currTime.getHours();
+
+    const targetDay = Object.keys(workingHours).find((d) => day.test(d));
+    const resData = workingHours[targetDay];
+
+    return (
+      Math.max(hours, +resData.open) === hours &&
+      Math.min(hours, +resData.close) === hours
+    );
+  }
+
+  return true;
 }

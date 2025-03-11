@@ -40,7 +40,7 @@ export default function () {
       id="products"
       className="container d-flex flex-column flex-lg-row-reverse gap-5"
     >
-      <div style={{ flex: "1 0 30%" }}>
+      <div style={{ flex: "1 0 30%", height: "fit-content" }}>
         <input
           type="search"
           placeholder={getText("allProducts", 1)}
@@ -87,11 +87,11 @@ export default function () {
       </div>
 
       <div
-        className="d-flex flex-wrap align-items-center d-lg-grid gap-4"
+        className="d-sm-flex flex-wrap gap-3 justify-content-evenly"
         style={{
           flex: "1 0 70%",
-          justifyContent: "space-evenly",
-          gridTemplateColumns: "repeat(3, auto)",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, 48%)",
         }}
       >
         {items}

@@ -3,6 +3,8 @@ import ar from "./ar.js";
 
 const file = { العربية: ar, English: en };
 const lang = window.localStorage.getItem("lang") || "العربية";
+window.localStorage.setItem("lang", lang);
+
 export const keys = Object.keys(file);
 
 export default function getText(pageName, phraseIndex) {

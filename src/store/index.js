@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import { configureStore } from "@reduxjs/toolkit";
-import "./bootstrap.js";
 import Products from "./products.js";
 import User from "./user.js";
 import Restaurant from "./restaurant.js";
