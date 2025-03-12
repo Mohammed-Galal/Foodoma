@@ -31,9 +31,11 @@ let paymentMethod = "COD",
 export default function () {
   const { User, Restaurant, Products } = useSelector((e) => e),
     [delivery, setDelivery] = useState(false),
-    [activeAddress, setActiveAddress] = useState(0),
     dispatch = useDispatch(),
-    redirect = useNavigate();
+    activeAddress = User.activeAddressIndex,
+    redirect = useNavigate(),
+    setActiveAddress = (indx) =>
+      dispatch({ type: "user/setActiveAddress", payload: indx });
 
   const customProps = {
       is_special: false,
@@ -62,7 +64,14 @@ export default function () {
         }
       )
         .then((r) => r.json())
-        .then((r) => (closestRes = r[0] || false));
+        .then((r) => {
+          const minDistance = Math.min.apply(
+            Math,
+            r.map(({ distance }) => distance)
+          );
+          closestRes =
+            r.find(({ distance }) => distance === minDistance) || false;
+        });
     }
   }, [delivery, activeAddress]);
 
@@ -165,18 +174,23 @@ export default function () {
               if (closestRes) {
                 fetch(
                   process.env.REACT_APP_API_URL +
-                    "/get-restaurant-items/" +
+                    "/public/api/get-restaurant-items/" +
                     closestRes.slug,
-                  { headers: { "Content-type": "application/json" } }
+                  {
+                    method: "POST",
+                    headers: { "Content-type": "application/json" },
+                  }
                 )
                   .then((res) => res.json())
                   .then((data) => {
                     dispatch({ type: "restaurant/init", payload: closestRes });
                     dispatch({ type: "products/init", payload: data });
-                    // Redirect to the restaurant page
+                    // Redirect to the home page
                     redirect("/");
                   });
               } else alert("لا يوجد فرع قريب");
+
+              document.getElementById("closest-res").hidePopover();
             }}
           >
             اختيار اقرب فرع
@@ -193,7 +207,7 @@ export default function () {
         }}
       >
         <div
-          className="d-flex flex-wrap gap-3 px-5 py-3 text-center"
+          className="d-flex flex-wrap gap-3 px-5 py-3 text-center justify-content-center"
           style={{
             color: "var(--midgray)",
           }}
@@ -360,7 +374,7 @@ export default function () {
 
   function placeOrder(cashbackVal) {
     if (delivery && !checkResCoverage(Restaurant.data)) return;
-    else if (!isWithinWorkingHours(Restaurant.data) && !accept2Continue) {
+    if (!isWithinWorkingHours(Restaurant.data) && !accept2Continue) {
       document.getElementById("time-warning").showPopover();
       return;
     }
@@ -633,21 +647,26 @@ function checkResCoverage(currRes) {
     document.getElementById("closest-res").showPopover();
     return false;
   }
+
+  return true;
 }
 
 function isWithinWorkingHours({ workingHours }) {
   if (workingHours) {
     const currTime = new Date(),
-      day = days[currTime.getDay()],
-      hours = currTime.getHours();
+      day = days[currTime.getDay()];
 
     const targetDay = Object.keys(workingHours).find((d) => day.test(d));
-    const resData = workingHours[targetDay];
 
-    return (
-      Math.max(hours, +resData.open) === hours &&
-      Math.min(hours, +resData.close) === hours
-    );
+    if (targetDay) {
+      const resData = workingHours[targetDay],
+        hours = currTime.getHours();
+
+      return (
+        Math.max(hours, +resData.open.slice(0, 2)) === hours &&
+        Math.min(hours, +resData.close.slice(0, 2)) === hours
+      );
+    }
   }
 
   return true;

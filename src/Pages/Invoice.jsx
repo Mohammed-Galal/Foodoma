@@ -25,6 +25,7 @@ export default () => {
       })
         .then((r) => r.json())
         .then((res) => {
+          // debugger;
           const basicOrderData = JSON.parse(
               window.localStorage.getItem("invoiceData")
             ),

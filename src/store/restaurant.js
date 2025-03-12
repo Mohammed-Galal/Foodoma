@@ -12,14 +12,14 @@ reducers.init = function (state, action) {
   state.data = action.payload;
   window.localStorage.setItem("slug", action.payload.slug);
 
-  const schedule_data = JSON.parse(action.payload.schedule_data),
-    workingHours = {};
-  state.workingHours = workingHours;
+  const schedule_data = action.payload.schedule_data;
 
   if (schedule_data) {
-    Object.keys(schedule_data).forEach(
-      (day) => (workingHours[day.slice(0, 3)] = schedule_data[day][0])
+    const workingHours = {};
+    Object.keys(JSON.parse(schedule_data)).forEach(
+      (day) => (workingHours[day] = schedule_data[day][0])
     );
+    state.workingHours = workingHours;
   }
 };
 

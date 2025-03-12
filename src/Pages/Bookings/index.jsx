@@ -1,58 +1,85 @@
+/* eslint-disable import/no-anonymous-default-export */
 import getText from "../../translation";
 import { useState } from "react";
-import { useSelector, useStore } from "react-redux";
+import { useSelector } from "react-redux";
 import productItem from "../../shared/productItem";
 import "./index.scss";
 
-const expireDate = new Date();
+// const expireDate = new Date();
 // setting Fixed Time (currTime(ms) + expireTime(ms))
-expireDate.setTime(expireDate.getTime() + 172800000);
+// expireDate.setTime(expireDate.getTime() + 172800000);
 
-export default (
-  <>
-    <section id="book-banner">
-      <div className="container align-items-stretch d-flex">
-        <div className="align-items-center d-flex flex-column py-5">
-          <span className="h1 my-5">{getText("bookings", 0)}</span>
-          <div className="text-center">
-            {getText("bookings", 1)}
-            <p className="d-grid my-4">
-              <Timer />
-              <span>{getText("bookings", 4)}</span>:
-              <span>{getText("bookings", 3)}</span>:
-              <span>{getText("bookings", 2)}</span>
-            </p>
-            {getText("bookings", 5)}
+const currLang = window.localStorage.getItem("lang") === "العربية";
+
+const daysInMs = 1000 * 60 * 60 * 24,
+  hoursInMs = 1000 * 60 * 60,
+  minsInMs = 60 * 1000;
+
+export default function () {
+  const { loaded, other } = useSelector((e) => e.Sliders);
+
+  if (!loaded) return null;
+
+  const now = new Date(),
+    exDate = new Date(other.ex_data);
+
+  const nameArg = currLang ? "name_ar" : "name";
+  const descArg = currLang ? "description_ar" : "description";
+
+  return (
+    <>
+      <section id="book-banner">
+        <div className="container align-items-stretch d-flex">
+          <div className="align-items-center d-flex flex-column py-5">
+            <span className="h1 my-5">{other[nameArg]}</span>
+
+            <div className="text-center my-auto">
+              {now < exDate && (
+                <>
+                  {getText("bookings", 1)}
+                  <p className="d-grid my-4">
+                    <Timer expireDate={exDate} />
+                    <span>{getText("bookings", 4)}</span>:
+                    <span>{getText("bookings", 3)}</span>:
+                    <span>{getText("bookings", 2)}</span>
+                  </p>
+                </>
+              )}
+
+              {other[descArg]}
+            </div>
           </div>
+
+          <img className="mx-auto" src={other.image} alt="book-banner" />
         </div>
+      </section>
 
-        <img
-          className="mx-auto"
-          src="/assets/home/banner/(1).png"
-          alt="book-banner"
-        />
-      </div>
-    </section>
+      <BookProducts />
+    </>
+  );
+}
 
-    <BookProducts />
-  </>
-);
-
-function Timer() {
+function Timer({ expireDate }) {
   const [update, setUpdate] = useState(true);
 
-  const now = new Date().getTime(),
-    seconds = (expireDate - now) / 1000,
-    minutes = seconds / 60,
-    houres = minutes / 60;
+  const now = new Date().getTime();
+  let diff = expireDate - now;
 
-  setTimeout(() => setUpdate(!update), 1000);
+  const days = Math.floor(diff / daysInMs);
+  diff -= days * daysInMs;
+
+  const hours = diff / hoursInMs;
+  diff -= days * hoursInMs;
+
+  const minutes = diff / minsInMs;
+
+  setTimeout(() => setUpdate(!update), 30000);
 
   return (
     <span className="align-items-baseline display-4 timer">
-      <samp>{Math.floor(seconds % 60)}</samp>:
-      <samp>{Math.floor(minutes % 60)}</samp>:
-      <samp>{Math.floor(houres % 24)}</samp>
+      <samp>{Math.max(0, Math.floor(minutes % 60))}</samp>:
+      <samp>{Math.max(0, Math.floor(hours % 60))}</samp>:
+      <samp>{Math.max(0, Math.floor(days))}</samp>
     </span>
   );
 }

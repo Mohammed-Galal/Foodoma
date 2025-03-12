@@ -54,7 +54,7 @@ reducers.setActiveAddress = function (state, action) {
   }
 
   activeAddressIndex ||= 0;
-  state.activeAddressIndex = activeAddressIndex;
+  state.activeAddressIndex = +activeAddressIndex;
   window.localStorage.setItem("activeAddressIndex", activeAddressIndex);
 };
 

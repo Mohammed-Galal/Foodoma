@@ -3,8 +3,11 @@ import { configureStore } from "@reduxjs/toolkit";
 import Products from "./products.js";
 import User from "./user.js";
 import Restaurant from "./restaurant.js";
+import Sliders from "./sliders.js";
 
-const APP_STATE = configureStore({ reducer: { Products, User, Restaurant } });
+const APP_STATE = configureStore({
+  reducer: { Products, User, Restaurant, Sliders },
+});
 export default APP_STATE;
 
 const baseUrl = process.env.REACT_APP_API_URL + "/public/api",
@@ -26,6 +29,10 @@ fetch(baseUrl + "/get-all-restaurant", fetchOpts)
       payload: data,
     })
   );
+
+fetch(baseUrl + "/getSliders")
+  .then((r) => r.json())
+  .then((r) => APP_STATE.dispatch({ type: "sliders/init", payload: r }));
 
 const savedSlug = window.localStorage.getItem("slug");
 
