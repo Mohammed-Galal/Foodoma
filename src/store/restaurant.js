@@ -15,9 +15,10 @@ reducers.init = function (state, action) {
   const schedule_data = action.payload.schedule_data;
 
   if (schedule_data) {
-    const workingHours = {};
-    Object.keys(JSON.parse(schedule_data)).forEach(
-      (day) => (workingHours[day] = schedule_data[day][0])
+    const resTime = JSON.parse(schedule_data),
+      workingHours = {};
+    Object.keys(resTime).forEach(
+      (day) => (workingHours[day] = resTime[day][0])
     );
     state.workingHours = workingHours;
   }

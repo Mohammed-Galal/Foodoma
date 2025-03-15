@@ -4,6 +4,8 @@ import getText from "../translation";
 import { useEffect, useState } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
 
+let errMsg = "";
+
 export default () => {
   const params = useParams(),
     [query] = useSearchParams(),
@@ -25,29 +27,50 @@ export default () => {
       })
         .then((r) => r.json())
         .then((res) => {
-          // debugger;
-          const basicOrderData = JSON.parse(
-              window.localStorage.getItem("invoiceData")
-            ),
-            { data } = res,
-            invoiceState = {
-              ...basicOrderData,
-              date: data.created_at.split(" "),
-              comment: data.order_comment,
-              code: data.unique_order_id,
-              PIN: data.delivery_pin,
-              paymentMode: getText("checkout", 10),
-              price: data.total,
-              total: data.total + basicOrderData.deliveryCharges,
-              subTotal: data.sub_total,
-            };
+          if (res.success) {
+            const basicOrderData = JSON.parse(
+                window.localStorage.getItem("invoiceData")
+              ),
+              { data } = res,
+              invoiceState = {
+                ...basicOrderData,
+                date: data.created_at.split(" "),
+                comment: data.order_comment,
+                code: data.unique_order_id,
+                PIN: data.delivery_pin,
+                price: data.total,
+                total: data.total + basicOrderData.deliveryCharges,
+                subTotal: data.sub_total,
+              };
 
-          setState(invoiceState);
+            setState(invoiceState);
+          } else {
+            errMsg = res.message;
+            setState(false);
+          }
         });
     }
   }, []);
 
   if (state === null) return null;
+  else if (state === false) {
+    return (
+      <div className="container">
+        <div
+          className="text-center"
+          style={{
+            color: "var(--midgray)",
+            fontSize: "larger",
+            fontWeight: "400",
+          }}
+        >
+          <span className="d-block h3 text-danger">فشلت عملية الدفع</span>
+          {errMsg}
+        </div>
+      </div>
+    );
+  }
+
   window.localStorage.removeItem("invoiceData");
 
   return (

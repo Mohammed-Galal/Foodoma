@@ -283,23 +283,25 @@ export function _useCoupon(params, auth, callback, rejectCallback) {
 }
 
 function ProductItem(item, I, editCart) {
-  const { id, quantity, name, addons, price } = item,
-    Addons =
-      addons.length === 0 ? (
-        <li>{getText("cart", 14)}</li>
-      ) : (
-        addons.map((a) => {
-          price += a.price;
-          return (
-            <li key={a.addon_id} className="d-flex justify-content-center">
-              {a.addon_name} -
-              <span>
-                {a.price} {getText("cart", 16)}
-              </span>
-            </li>
-          );
-        })
-      );
+  const { id, quantity, name, addons } = item;
+  let price = item.price;
+
+  const Addons =
+    addons.length === 0 ? (
+      <li>{getText("cart", 14)}</li>
+    ) : (
+      addons.map((a) => {
+        price += a.price;
+        return (
+          <li key={a.addon_id} className="d-flex justify-content-center">
+            {a.addon_name} -
+            <span>
+              {a.price} {getText("cart", 16)}
+            </span>
+          </li>
+        );
+      })
+    );
 
   return (
     <React.Fragment key={id * price}>

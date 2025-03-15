@@ -2,7 +2,7 @@
 import getText from "../../translation";
 import { _useCoupon, calcCashback } from "../Cart";
 import { useDispatch, useSelector } from "react-redux";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import NXT from "../../icons/NXT";
 import React from "react";
 import "./index.scss";
@@ -34,8 +34,11 @@ export default function () {
     dispatch = useDispatch(),
     activeAddress = User.activeAddressIndex,
     redirect = useNavigate(),
-    setActiveAddress = (indx) =>
+    setActiveAddress = (indx) => {
+      debugger;
+      indx === activeAddress || (closestRes = null);
       dispatch({ type: "user/setActiveAddress", payload: indx });
+    };
 
   const customProps = {
       is_special: false,
@@ -49,7 +52,7 @@ export default function () {
   } else basicBodyReq.location = defaultLoc;
 
   const deliveryCharges = +Restaurant.data.delivery_charges;
-  useLayoutEffect(() => {
+  useEffect(() => {
     User.loaded || redirect("/user/login");
     Products.cart.length || redirect("/cart");
     if (delivery && userAddresses.length) {
@@ -92,10 +95,7 @@ export default function () {
       data-active={activeAddress === i}
     >
       <label
-        onClick={() => {
-          closestRes = null;
-          setActiveAddress(i);
-        }}
+        onClick={() => setActiveAddress(i)}
         className="align-items-center d-flex gap-2 h-100 justify-content-start px-3 py-1 w-100"
       >
         <img src="/assets/settings/address.png" alt="icon" />
@@ -322,7 +322,7 @@ export default function () {
           {delivery &&
             (userAddresses.length ? (
               <ul
-                className="align-items-stretch d-flex gap-2 list-unstyled m-0 p-0 w-100"
+                className="align-items-stretch d-flex flex-wrap gap-2 list-unstyled m-0 p-0 w-100"
                 style={{ gridColumnStart: "span 2" }}
               >
                 {addresses}
@@ -373,6 +373,7 @@ export default function () {
   );
 
   function placeOrder(cashbackVal) {
+    debugger;
     if (delivery && !checkResCoverage(Restaurant.data)) return;
     if (!isWithinWorkingHours(Restaurant.data) && !accept2Continue) {
       document.getElementById("time-warning").showPopover();
@@ -417,6 +418,7 @@ export default function () {
   }
 
   function handleInvoice(res) {
+    debugger;
     if (res.success === false) return alert(getText("checkout", 8));
 
     window.localStorage.removeItem("coupon");
@@ -427,6 +429,8 @@ export default function () {
       deliveryType: getText("checkout", 9),
       deliveryAddress: Restaurant.data.name,
       deliveryCharges: delivery_charges,
+      paymentMode:
+        paymentMethod === "COD" ? getText("checkout", 10) : paymentMethod,
     };
 
     if (delivery) {
@@ -454,7 +458,6 @@ export default function () {
         code: data.unique_order_id,
         PIN: data.delivery_pin,
         total: data.total + delivery_charges,
-        paymentMode: getText("checkout", 10),
         price: data.total,
         subTotal: data.sub_total,
       };
@@ -476,7 +479,7 @@ function OrderInfo({
   const cashbackVal = +calcCashback(totalPrice, cashback),
     [discount, setDiscount] = useState(0);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const coupon = window.localStorage.getItem("coupon");
     if (coupon) {
       setDiscount(false);

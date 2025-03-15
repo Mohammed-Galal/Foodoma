@@ -67,11 +67,9 @@ body {
   }
 }
 
-#invoice {
-  table {
-    empty-cells: hide;
-    flex: 1 0 460px;
-  }
+table:not(.default) {
+  empty-cells: hide;
+  flex: 1 0 49%;
 
   th + th {
     border-right: 1px solid var(--lightgray);
