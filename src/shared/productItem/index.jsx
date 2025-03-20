@@ -112,7 +112,12 @@ export default function (item, I) {
         />
 
         <div className="desc d-flex flex-column gap-3 py-1">
-          <span className="h5 m-0">{item[nameTarget] || item.name}</span>
+          <span className="h5 d-none d-md-block m-0">
+            {item[nameTarget] || item.name}
+          </span>
+          <span className="h6 d-md-none m-0">
+            {item[nameTarget] || item.name}
+          </span>
 
           <div className="align-items-center d-grid gap-1 rate">
             <object

@@ -20,7 +20,7 @@ reducers.init = function (state, action) {
     Object.keys(resTime).forEach(
       (day) => (workingHours[day] = resTime[day][0])
     );
-    state.workingHours = workingHours;
+    state.data.workingHours = workingHours;
   }
 };
 

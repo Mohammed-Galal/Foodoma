@@ -33,8 +33,9 @@ export default function () {
       return ProductItem(item, I, editCartItem);
     });
 
-  const delivery =
-    totalPrice >= restaurant.data.free_delivery_subtotal ? 0 : deliveryCharges;
+  const FDOS = +restaurant.data.free_delivery_subtotal,
+    delivery =
+      FDOS === 0 ? deliveryCharges : totalPrice >= FDOS ? 0 : deliveryCharges;
 
   useLayoutEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -67,7 +68,7 @@ export default function () {
           className="align-items-center container d-flex flex-column gap-3 h5 my-0"
           style={{ cssText: "color: var(--primary); font-weight: 600;" }}
         >
-          أضف {cashback.max} واحصل على {cashback.min} ر.س
+          {getText("cart", 3)(cashback.max, cashback.min)}
           <progress
             value={totalPrice}
             max={+cashback.max}

@@ -26,7 +26,11 @@ export default function () {
           <Link to="/restaurant">{getText("header", 1)}</Link>
         </li>
         <li>
-          <button type="button" className="btn px-3 py-2">
+          <button
+            type="button"
+            className="btn px-3 py-2"
+            onClick={() => redirect("/all-products")}
+          >
             {getText("header", 2)}
           </button>
         </li>

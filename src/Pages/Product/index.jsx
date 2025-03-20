@@ -105,16 +105,16 @@ function ProductInfo(state) {
       className="container-fluid container-lg d-flex flex-wrap"
     >
       <div
-        className="d-flex flex-column justify-content-between py-2"
+        className="d-flex flex-column justify-content-center py-2"
         style={{ flex: "1 0 39%" }}
       >
-        <img src={imageSrc} alt="product" />
-        <div className="d-flex justify-content-around">
+        <img src={imageSrc} style={{ objectFit: "none" }} alt="product" />
+        {/* <div className="d-flex justify-content-around">
           <img src={imageSrc} alt="product" />
           <img src={imageSrc} alt="product" />
           <img src={imageSrc} alt="product" />
           <img src={imageSrc} alt="product" />
-        </div>
+        </div> */}
       </div>
 
       <div

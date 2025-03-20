@@ -87,11 +87,9 @@ export default function () {
       </div>
 
       <div
-        className="d-sm-flex flex-wrap gap-3 justify-content-evenly"
+        className="d-flex flex-wrap gap-3 justify-content-evenly"
         style={{
           flex: "1 0 70%",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fill, 48%)",
         }}
       >
         {items}

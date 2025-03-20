@@ -123,7 +123,7 @@ export default {
     "Cart",
     "Checkout",
     "Order Confirmation",
-    "Add 100 SAR to Cart and Get 10 SAR Cashback",
+    (a, b) => `Buy ${a} SAR and Get ${b} SAR Cashback`,
     "Product",
     "Add-ons",
     "Price",

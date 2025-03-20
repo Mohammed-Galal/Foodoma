@@ -56,7 +56,7 @@ export default function () {
         sectionName={getText("home", 22)}
       />
       <Services sectionName={getText("home", 23)} />
-      <Rate />
+      {/* <Rate /> */}
       <About />
     </>
   );

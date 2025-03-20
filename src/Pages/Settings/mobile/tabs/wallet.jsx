@@ -43,11 +43,11 @@ export default function () {
           }}
         >
           <img src="/assets/settings/coins.png" alt="coins" />
-          <span className="flex-grow-1">نقطة</span>
+          <span className="flex-grow-1">ريال</span>
           {balance}
         </div>
 
-        <div className="col-12 col-lg-8" style={{ textAlign: "center" }}>
+        {/* <div className="col-12 col-lg-8" style={{ textAlign: "center" }}>
           <span
             className="d-block h5"
             style={{ cssText: "color: var(--primary); font-weight: 700" }}
@@ -100,7 +100,7 @@ export default function () {
               {getText("settings", 33)} {1000 - 460} {getText("settings", 14)}
             </a>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );

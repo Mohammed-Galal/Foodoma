@@ -21,7 +21,8 @@ export default function () {
   if (!loaded) return null;
 
   const now = new Date(),
-    exDate = new Date(other.ex_data);
+    exDate = new Date(other.ex_data),
+    isExpired = now > exDate;
 
   const nameArg = currLang ? "name_ar" : "name";
   const descArg = currLang ? "description_ar" : "description";
@@ -34,17 +35,13 @@ export default function () {
             <span className="h1 my-5">{other[nameArg]}</span>
 
             <div className="text-center my-auto">
-              {now < exDate && (
-                <>
-                  {getText("bookings", 1)}
-                  <p className="d-grid my-4">
-                    <Timer expireDate={exDate} />
-                    <span>{getText("bookings", 4)}</span>:
-                    <span>{getText("bookings", 3)}</span>:
-                    <span>{getText("bookings", 2)}</span>
-                  </p>
-                </>
-              )}
+              {getText("bookings", 1)}
+              <p className="d-grid my-4">
+                <Timer expireDate={exDate} isExpired={isExpired} />
+                <span>{getText("bookings", 4)}</span>:
+                <span>{getText("bookings", 3)}</span>:
+                <span>{getText("bookings", 2)}</span>
+              </p>
 
               {other[descArg]}
             </div>
@@ -54,32 +51,38 @@ export default function () {
         </div>
       </section>
 
-      <BookProducts />
+      {isExpired || <BookProducts />}
     </>
   );
 }
 
-function Timer({ expireDate }) {
+function Timer({ expireDate, isExpired }) {
   const [update, setUpdate] = useState(true);
 
-  const now = new Date().getTime();
-  let diff = expireDate - now;
+  let days = 0,
+    hours = 0,
+    minutes = 0;
 
-  const days = Math.floor(diff / daysInMs);
-  diff -= days * daysInMs;
+  if (!isExpired) {
+    const now = new Date().getTime();
+    let diff = expireDate - now;
 
-  const hours = diff / hoursInMs;
-  diff -= days * hoursInMs;
+    days = Math.floor(diff / daysInMs);
+    diff -= days * daysInMs;
 
-  const minutes = diff / minsInMs;
+    hours = diff / hoursInMs;
+    diff -= days * hoursInMs;
 
-  setTimeout(() => setUpdate(!update), 30000);
+    minutes = diff / minsInMs;
+
+    setTimeout(() => now < expireDate && setUpdate(!update), 1000);
+  }
 
   return (
     <span className="align-items-baseline display-4 timer">
       <samp>{Math.max(0, Math.floor(minutes % 60))}</samp>:
       <samp>{Math.max(0, Math.floor(hours % 60))}</samp>:
-      <samp>{Math.max(0, Math.floor(days))}</samp>
+      <samp>{Math.max(0, days)}</samp>
     </span>
   );
 }

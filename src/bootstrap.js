@@ -1,4 +1,4 @@
-const version = "1.2.7",
+const version = "2.1.15",
   activeVer = window && window.localStorage.getItem("ver");
 
 if (activeVer !== version && window) {

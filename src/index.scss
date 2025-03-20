@@ -67,6 +67,10 @@ body {
   }
 }
 
+#products > .gap-3 > div {
+  flex: 1 1 45%;
+}
+
 table:not(.default) {
   empty-cells: hide;
   flex: 1 0 49%;

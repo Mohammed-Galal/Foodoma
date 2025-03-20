@@ -373,7 +373,6 @@ export default function () {
   );
 
   function placeOrder(cashbackVal) {
-    debugger;
     if (delivery && !checkResCoverage(Restaurant.data)) return;
     if (!isWithinWorkingHours(Restaurant.data) && !accept2Continue) {
       document.getElementById("time-warning").showPopover();
