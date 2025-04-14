@@ -65,6 +65,8 @@ reducers.addSingleItemToCart = function (state, { item }) {
     ];
   }
 
+  const slug = window.localStorage.getItem("slug");
+  cartStorage[slug] = state.cart;
   window.localStorage.setItem("cartItems", JSON.stringify(cartStorage));
 };
 

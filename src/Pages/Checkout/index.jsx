@@ -2,17 +2,12 @@ import React, { useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { _useCoupon } from "../Cart";
-import NXT from "../../icons/NXT";
+import { updateUserInfo } from "../../store";
 
+import NXT from "../../icons/NXT";
 import OrderOptions from "./OrderOptions";
 import OrderInfo from "./OrderInfo";
 import "./index.scss";
-import { updateUserInfo } from "../../store";
-
-/**
- * store coverage
- * working hours
- */
 
 const complimentaryData = {},
   placeOrderApi = process.env.REACT_APP_API_URL + "/public/api/place-order",
@@ -92,6 +87,7 @@ export default function () {
         />
       </div>
 
+      <TimeWarning placeOrder={placeOrder} />
       <ClosestResPopup
         setDelivery={deliveryState[1]}
         closestRes={clues.closestRes}
@@ -101,9 +97,12 @@ export default function () {
     </section>
   );
 
-  function placeOrder() {
+  function placeOrder(ignoreWorkingHours) {
     if (deliveryState[0] && !checkResCoverage(currRes, clues.closestRes))
       return;
+
+    if (!isWithinWorkingHours(currRes) && !ignoreWorkingHours)
+      return document.getElementById("time-warning").showPopover();
 
     const images = reqBody.images || [],
       formData = new FormData();
@@ -246,6 +245,57 @@ function ClosestResPopup({ setDelivery, closestRes, dispatch, redirect }) {
           }}
         >
           {"اختيار اقرب فرع"}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function TimeWarning({ placeOrder }) {
+  return (
+    <div
+      id="time-warning"
+      popover="manual"
+      style={{
+        borderColor: "aliceblue",
+        borderRadius: "8px",
+      }}
+    >
+      <div
+        className="d-flex flex-wrap gap-3 px-5 py-3 text-center justify-content-center"
+        style={{
+          color: "var(--midgray)",
+        }}
+      >
+        <b className="text-danger w-100">{"اشعار بالمواعيد"}</b>
+        {
+          "هذا الفرع مغلق الآن، يرجى العلم أن الفرع لن تمكن من قبول طلبكم قبل بدأ ساعات العمل الرسمية"
+        }
+        <br />
+        {"هل مازلت تريد متابعة تقديم الطلب؟"}
+        <button
+          type="button"
+          className="btn"
+          style={{
+            flex: "1 0 45%",
+            backgroundColor: "var(--primary)",
+            color: "#fff",
+          }}
+          onClick={() => placeOrder(true)}
+        >
+          {"المتابعة"}
+        </button>
+        <button
+          type="button"
+          className="btn"
+          style={{
+            flex: "1 0 45%",
+            backgroundColor: "var(--primary)",
+            color: "#fff",
+          }}
+          onClick={() => document.getElementById("time-warning").hidePopover()}
+        >
+          {"الغاء"}
         </button>
       </div>
     </div>
