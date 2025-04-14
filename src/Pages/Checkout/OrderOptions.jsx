@@ -31,7 +31,6 @@ export default function ({ deliveryState, reqBody, clues, resIdState }) {
 
   if (delivery) {
     reqBody.delivery_type = "1";
-    clues.userMap ||= userAddresses.map(userAddress);
     const currAddress = userAddresses[activeAddress];
     if (currAddress) {
       Object.assign(reqBody.user.data.default_address, currAddress);
@@ -120,7 +119,7 @@ export default function ({ deliveryState, reqBody, clues, resIdState }) {
             className="align-items-stretch d-flex flex-wrap gap-2 list-unstyled m-0 p-0 w-100"
             style={{ gridColumnStart: "span 2" }}
           >
-            {clues.userMap}
+            {userAddresses.map(userAddress)}
           </ul>
         ) : (
           <p className="my-2" style={{ color: "var(--midgray)" }}>
