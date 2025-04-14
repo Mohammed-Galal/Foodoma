@@ -17,10 +17,9 @@ export default function () {
   const { cashback } = useSelector((S) => S.Products),
     [discount, setDiscount] = useState(0),
     store = useStore().getState(),
-    dispatch = useDispatch(),
+    dispatch = useDispatch();
+  const userWallet = +store.User.data.wallet_balance,
     restaurant = store.Restaurant;
-
-  const deliveryCharges = +restaurant.data.delivery_charges;
 
   let coupon = window.localStorage.getItem("coupon") || "",
     totalPrice = 0;
@@ -29,13 +28,9 @@ export default function () {
 
   const { cart, data } = useSelector((S) => S.Products),
     items = cart.map((item, I) => {
-      totalPrice += item.totalPrice;
+      totalPrice += +item.price * item.quantity;
       return ProductItem(item, I, editCartItem);
     });
-
-  const FDOS = +restaurant.data.free_delivery_subtotal,
-    delivery =
-      FDOS === 0 ? deliveryCharges : totalPrice >= FDOS ? 0 : deliveryCharges;
 
   useLayoutEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -83,7 +78,7 @@ export default function () {
       {cart.length ? (
         <section
           id="cart"
-          className="align-items-center align-items-stretch container d-flex flex-column flex-xl-row gap-3"
+          className="align-items-baseline container d-flex flex-column flex-xl-row gap-3"
         >
           <ul className="text-center d-grid gap-1 list-unstyled m-0 overflow-hidden p-3">
             <li>{"المنتج"}</li>
@@ -168,56 +163,38 @@ export default function () {
             <p className="h4 m-0 pb-2 text-center">{"إجمالي العربة"}</p>
 
             <span>
-              <samp>{"إجمالي المنتجات"}</samp>
-              {totalPrice} {"ر.س"}
+              <samp>{"المجموع"}</samp>
+              <samp>
+                {totalPrice} {"ر.س"}
+              </samp>
             </span>
 
             <p className="d-grid gap-3 m-0 py-2">
-              <span>
-                <samp className="flex-grow-1">
-                  {"رسوم التوصيل"}
-                  {delivery === 0 && (
-                    <sub
-                      className="px-2"
-                      style={{
-                        backgroundColor: "#ffcd00",
-                        color: "#fff",
-                        borderRadius: "12px",
-                      }}
-                    >
-                      {"توصيل مجاني"}
-                    </sub>
-                  )}
+              <span className="total">
+                <samp>{"رصيد المحفظة"}</samp>
+                <samp>
+                  {userWallet + " "}
+                  {"ر.س"}
                 </samp>
-                {delivery === 0 ? (
-                  <del>{delivery + " " + "ر.س"}</del>
-                ) : (
-                  delivery + " " + "ر.س"
-                )}
               </span>
 
               <span>
                 <samp>{"الخصم"}</samp>
-                {discount === false
-                  ? "جاري التحقق"
-                  : calcCashback(totalPrice, cashback) +
-                    Math.abs(discount) +
-                    " " +
-                    "ر.س"}
+                <samp>
+                  {discount === false
+                    ? "جاري التحقق"
+                    : calcCashback(totalPrice, cashback) +
+                      Math.abs(discount) +
+                      " " +
+                      "ر.س"}
+                </samp>
               </span>
             </p>
 
             <span className="total">
-              <samp>{"رصيد المحفظة"}</samp>
-              {store.User.data.wallet_balance + " "}
-              {"ر.س"}
-            </span>
-
-            <span className="total">
               <samp>{"الإجمالي"}</samp>
-              {+delivery +
-                -calcCashback(totalPrice, cashback) +
-                totalPrice +
+              {-calcCashback(totalPrice, cashback) +
+                (totalPrice - userWallet) +
                 +discount +
                 " "}
               {"ر.س"}
@@ -320,7 +297,11 @@ function ProductItem(item, I, editCart) {
         <button className="btn p-0" onClick={() => editCart(I, 0)}>
           x
         </button>
-        <Link className="text-decoration-none" to={"/products/" + id}>
+        <Link
+          className="text-decoration-none"
+          style={{ textAlign: "start" }}
+          to={"/products/" + id}
+        >
           {item[nameTarget] || name}
         </Link>
       </li>

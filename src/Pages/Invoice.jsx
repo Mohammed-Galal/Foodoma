@@ -38,8 +38,8 @@ export default () => {
                 comment: data.order_comment,
                 code: data.unique_order_id,
                 PIN: data.delivery_pin,
-                price: data.total,
-                total: data.total + basicOrderData.deliveryCharges,
+                price: data.payable,
+                total: data.total,
                 subTotal: data.sub_total,
               };
 
@@ -174,17 +174,19 @@ export default () => {
 
           <tfoot className="fw-bold text-center">
             <tr>
-              <td colSpan="4">{"ثمن الطلب"}</td>
+              <td>{"ثمن الطلب"}</td>
               <td>{state.subTotal}</td>
-            </tr>
-            <tr>
-              <td colSpan="4">{"رسوم التوصيل"}</td>
+
+              <td colSpan="2">{"رسوم التوصيل"}</td>
               <td>{state.deliveryCharges}</td>
             </tr>
 
             <tr>
-              <td colSpan="4">{"رسوم ادارية"}</td>
+              <td>{"رسوم ادارية"}</td>
               <td>{state.restaurant_charge}</td>
+
+              <td colSpan="2">{"الخصم"}</td>
+              <td>{state.discount}</td>
             </tr>
 
             <tr>
@@ -194,7 +196,7 @@ export default () => {
 
             <tr>
               <td colSpan="4">{"الاجمالي"}</td>
-              <td>{state.price}</td>
+              <td>{state.total}</td>
             </tr>
           </tfoot>
         </table>

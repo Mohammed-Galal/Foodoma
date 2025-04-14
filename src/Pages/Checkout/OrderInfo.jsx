@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useStore } from "react-redux";
 import { calcCashback } from "../Cart";
 import { _useCoupon } from "../Cart";
@@ -30,21 +30,26 @@ export default function (props) {
 
   const coupon = window.localStorage.getItem("coupon"),
     order = cartItems.map((CI) => {
-      totalPrice += +CI.totalPrice;
+      totalPrice += +CI.price * CI.quantity;
       CI.customProps && Object.assign(reqBody, CI.customProps);
       return extractData(CI, resId);
     });
 
-  if (coupon) {
-    setDiscount(false);
-    const token = window.localStorage.getItem("token"),
-      couponParams = {
-        coupon,
-        restaurant_id: "" + currRes.id,
-        subtotal: "" + totalPrice,
-      };
-    _useCoupon(couponParams, token, applyCoupon, rejectCoupon);
-  }
+  useEffect(
+    function () {
+      if (coupon) {
+        setDiscount(false);
+        const token = window.localStorage.getItem("token"),
+          couponParams = {
+            coupon,
+            restaurant_id: "" + currRes.id,
+            subtotal: "" + totalPrice,
+          };
+        _useCoupon(couponParams, token, applyCoupon, rejectCoupon);
+      }
+    },
+    [coupon]
+  );
 
   const cashbackAmount = +calcCashback(totalPrice, cashback),
     calcSubtotalDelivery =
@@ -55,24 +60,37 @@ export default function (props) {
 
   reqBody.order = order;
   reqBody.method = paymentMethod;
-  coupon && (reqBody.coupon.code = coupon);
   reqBody.cashback = cashbackAmount;
+  coupon && (reqBody.coupon.code = coupon);
 
   totalPrice -= cashbackAmount;
   totalPrice += +delivery_charges;
 
+  clues.discount = cashbackAmount + wallet_balance;
+  discountAmount && (clues.discount += Math.abs(discountAmount));
+
   return (
-    <div className="p-3">
-      <span className="h5 title text-center">{"الطلب"}</span>
+    <div className="p-3" style={{ color: "var(--midgray)" }}>
+      <span className="h5 title text-center d-block">{"الطلب"}</span>
 
       <hr />
       <ul className="list-unstyled m-0 p-0">{order.map(productItem)}</ul>
       <hr />
+
+      <p>
+        {"رسوم التوصيل"}
+        <span>
+          {delivery ? clues.deliveryCharges : 0} {"ر.س"}
+        </span>
+      </p>
+
+      <hr />
+
       <div>
         <p>
-          {"التوصيل"}
+          {"رصيد المحفظة"}
           <span>
-            {delivery ? clues.deliveryCharges : 0} {"ر.س"}
+            {wallet_balance + " "} {"رس"}
           </span>
         </p>
         <p>
@@ -84,23 +102,25 @@ export default function (props) {
           </span>
         </p>
       </div>
+
+      <hr />
+      <p>
+        {"الضرائب"}
+        <span>
+          {0 + " "} {"رس"}
+        </span>
+      </p>
+
       <hr />
 
-      <p className="total">
-        {"رصيد المحفظة"}
-        <span>
-          {wallet_balance + " "} {"رس"}
-        </span>
-      </p>
-
-      <p className="total">
+      <p className="total" style={{ color: "var(--black)" }}>
         {"الإجمالي"}
         <span>
-          {totalPrice + +discountAmount} {"ر.س"}
+          {totalPrice - wallet_balance + +discountAmount} {"ر.س"}
         </span>
       </p>
 
-      <form>
+      <form style={{ color: "var(--black)" }}>
         <span className="d-block h5">{"طرق الدفع"}</span>
 
         <label className="d-flex gap-2 mb-2">
@@ -161,7 +181,10 @@ function productItem(item) {
     <li
       key={id}
       className="align-items-center d-flex gap-3 justify-content-between"
-      style={{ "font-size": "small", "font-weight": 600 }}
+      style={{
+        "font-size": "small",
+        "font-weight": 600,
+      }}
     >
       <span className="flex-grow-1" style={{ color: "var(--primary)" }}>
         {item[nameTarget] || name}

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { _useCoupon } from "../Cart";
@@ -45,13 +45,10 @@ export default function () {
   clues.cashback = store.Products.cashback;
   clues.deliveryCharges = store.Restaurant.data.delivery_charges;
 
-  useLayoutEffect(
-    function () {
-      userAuthientcated || redirect("/user/login");
-      cartItems.length || redirect("/cart");
-    },
-    [userAuthientcated]
-  );
+  useEffect(function () {
+    userAuthientcated || redirect("/user/login");
+    cartItems.length || redirect("/cart");
+  });
 
   useLayoutEffect(
     function () {
@@ -59,6 +56,8 @@ export default function () {
     },
     [resId, clues.isExceptionalCart]
   );
+
+  if (cartItems.length === 0) return "جاري اعادة التوجيه";
 
   return (
     <section id="checkout">
@@ -70,7 +69,7 @@ export default function () {
         <li>{"تأكيد الطلب"}</li>
       </ul>
 
-      <div className="align-items-stretch container d-flex flex-column flex-xl-row gap-3 justify-content-center">
+      <div className="align-items-start container d-flex flex-column flex-xl-row gap-3 justify-content-center">
         <OrderOptions
           reqBody={reqBody}
           clues={clues}
@@ -138,6 +137,7 @@ export default function () {
     const paymentMode = res.data.payment_mode,
       basicOrderData = {
         order: reqBody.order,
+        discount: clues.discount,
         deliveryType: "من الفرع",
         deliveryAddress: currRes.name,
         deliveryCharges: deliveryState[0] ? currRes.delivery_charges : 0,
@@ -165,10 +165,10 @@ export default function () {
         date: data.created_at.split(" "),
         comment: data.order_comment,
         code: data.unique_order_id,
-        tax_amount: data.tax_amount,
         PIN: data.delivery_pin,
-        total: data.total + +basicOrderData.deliveryCharges,
-        price: data.total,
+        tax_amount: data.tax_amount,
+        total: data.total,
+        price: data.payable,
         subTotal: data.sub_total,
       };
 
