@@ -6,12 +6,12 @@ import { useSelector } from "react-redux";
 
 const orderState = [
   false,
-  getText("settings", 8),
-  getText("settings", 9),
-  getText("settings", 10),
-  getText("settings", 10),
-  getText("settings", 11),
-  getText("settings", 12),
+  "بانتظار الموافقة",
+  "جاري اعداد الطلب",
+  "الطلب في الطريق اليك",
+  "الطلب في الطريق اليك",
+  "تم التوصيل",
+  "تم الغاء الطلب",
   "الطلب جاهز للاستلام",
   "بانتظار تأكيد الدفع",
   "فشل الدفع",
@@ -94,8 +94,7 @@ function orderItem(order) {
           style={{ cssText: "color: var(--midgray); font-size: smaller" }}
         >
           <span className="h6 m-0 mb-1">{date}</span>
-          {price} {getText("settings", 14)}/ {quantity}{" "}
-          {getText("settings", 13)}
+          {price} {"ر.س"}/ {quantity} {"منتج"}
         </p>
 
         <button
@@ -125,7 +124,7 @@ function orderItem(order) {
 
 function Popover({ order }) {
   order.address === "NA" && (order.address = order.restaurant.address);
-  
+
   console.log(order);
 
   return (
@@ -146,14 +145,14 @@ function Popover({ order }) {
           <thead>
             <tr>
               <th colSpan="2" className="text-center">
-                {getText("invoice", 3)}
+                {"بيانات الاستلام"}
               </th>
             </tr>
           </thead>
 
           <tbody>
             <tr>
-              <td>{getText("invoice", 4)}</td>
+              <td>{"كود الطلب"}</td>
               <td>{order.unique_order_id}</td>
             </tr>
             <tr>
@@ -161,15 +160,15 @@ function Popover({ order }) {
               <td>{order.delivery_pin}</td>
             </tr>
             <tr>
-              <td>{getText("invoice", 5)}</td>
+              <td>{"طريقة الاستلام"}</td>
               <td>{order.delivery_type - 1 ? "من الفرع" : "توصيل"}</td>
             </tr>
             <tr>
-              <td>{getText("invoice", 6)}</td>
+              <td>{"عنوان الاستلام"}</td>
               <td>{order.address}</td>
             </tr>
             <tr>
-              <td>{getText("invoice", 7)}</td>
+              <td>{"طريقة الدفع"}</td>
               <td>
                 {order.payment_mode === "COD"
                   ? "عند الاستلام"
@@ -180,8 +179,8 @@ function Popover({ order }) {
 
           <tfoot>
             <tr>
-              <td>{getText("invoice", 8)}</td>
-              <td>{order.order_comment || getText("invoice", 9)}</td>
+              <td>{"الملاحظات والتوصيات"}</td>
+              <td>{order.order_comment || "لا يوجد"}</td>
             </tr>
           </tfoot>
         </table>
@@ -200,16 +199,16 @@ function Popover({ order }) {
                 colSpan="5"
                 className="text-center"
               >
-                {getText("invoice", 10)}
+                {"بيانات الطلب"}
               </th>
             </tr>
 
             <tr className="text-center">
-              <th>{getText("invoice", 11)}</th>
-              <th>{getText("invoice", 12)}</th>
-              <th>{getText("invoice", 13)}</th>
-              <th>{getText("invoice", 14)}</th>
-              <th>{getText("invoice", 15)}</th>
+              <th>{"اسم المنتج"}</th>
+              <th>{"السعر"}</th>
+              <th>{"الاضافات"}</th>
+              <th>{"العدد"}</th>
+              <th>{"الاجمالي"}</th>
             </tr>
           </thead>
 
@@ -217,15 +216,15 @@ function Popover({ order }) {
 
           <tfoot className="fw-bold text-center">
             <tr>
-              <td colSpan="4">{getText("invoice", 16)}</td>
+              <td colSpan="4">{"ثمن الطلب"}</td>
               <td>{order.sub_total}</td>
             </tr>
             <tr>
-              <td colSpan="4">{getText("invoice", 17)}</td>
+              <td colSpan="4">{"رسوم التوصيل"}</td>
               <td>{order.delivery_charge}</td>
             </tr>
             <tr>
-              <td colSpan="4">{getText("invoice", 18)}</td>
+              <td colSpan="4">{"الاجمالي"}</td>
               <td>{order.total}</td>
             </tr>
           </tfoot>
@@ -240,7 +239,7 @@ function ProductItem({ id, name, price, order_item_addons, quantity }) {
 
   const Addons =
     order_item_addons.length === 0 ? (
-      getText("invoice", 20)
+      "بدون اضافات"
     ) : (
       <ul className="list-unstyled m-0 p-0">
         {order_item_addons.map((a) => {
@@ -270,12 +269,12 @@ function ProductItem({ id, name, price, order_item_addons, quantity }) {
         {name}
       </td>
       <td>
-        {price} {getText("invoice", 21)}
+        {price} {"ر.س"}
       </td>
       <td>{Addons}</td>
       <td>{quantity}</td>
       <td>
-        {total} {getText("invoice", 21)}
+        {total} {"ر.س"}
       </td>
     </tr>
   );

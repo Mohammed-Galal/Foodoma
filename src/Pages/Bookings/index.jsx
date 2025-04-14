@@ -35,12 +35,11 @@ export default function () {
             <span className="h1 my-5">{other[nameArg]}</span>
 
             <div className="text-center my-auto">
-              {getText("bookings", 1)}
+              {"ينتهي الحجز في"}
               <p className="d-grid my-4">
                 <Timer expireDate={exDate} isExpired={isExpired} />
-                <span>{getText("bookings", 4)}</span>:
-                <span>{getText("bookings", 3)}</span>:
-                <span>{getText("bookings", 2)}</span>
+                <span>{"يوم"}</span>:<span>{"ساعة"}</span>:
+                <span>{"دقيقة"}</span>
               </p>
 
               {other[descArg]}
@@ -97,7 +96,7 @@ function BookProducts() {
       id="book-products"
       className="container align-items-stretch px-2 mx-auto d-flex flex-wrap gap-3"
     >
-      <p className="h4">{getText("bookings", 6)}</p>
+      <p className="h4">{"منتجات ذات صلة"}</p>
       {targetItems}
     </section>
   );

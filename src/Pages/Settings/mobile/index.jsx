@@ -28,13 +28,13 @@ export default function () {
           {Globe}
           <span>{window.localStorage.getItem("lang") || "العربية"}</span>
           {AltArrowDown}
-          <ul className="d-grid list-unstyled m-0 p-0 py-2 text-center">
+          {/* <ul className="d-grid list-unstyled m-0 p-0 py-2 text-center">
             {keys.map((k) => (
               <li key={k} className="px-3 py-2" onClick={() => changeLang(k)}>
                 {k}
               </li>
             ))}
-          </ul>
+          </ul> */}
         </div>
       </div>
 

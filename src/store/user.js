@@ -13,6 +13,11 @@ const User = {
   },
   reducers = (User.reducers = {});
 
+
+  reducers.changePhoneNum = function (state, payload) {
+    state.data.phone = payload;
+  };
+
 reducers.init = function (state, action) {
   state.loaded = true;
   state.data = action.payload;

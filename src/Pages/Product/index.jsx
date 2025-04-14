@@ -13,6 +13,7 @@ import Plus from "../../icons/Plus";
 import "./index.scss";
 
 const isArabic = window.localStorage.getItem("lang") === "العربية",
+  priceTypes = window.priceTypes,
   hiddenAlert = { opacity: 0, transform: "translateY(100%)" },
   activeAlert = { opacity: 1, transform: "translateY(0)" },
   baseUrl = process.env.REACT_APP_API_URL,
@@ -41,6 +42,12 @@ function ProductInfo(state) {
     [quantity, setQuntity] = useState(1),
     selectedAddons = useRef(new Set()).current;
 
+  const priceType =
+    state &&
+    (isArabic
+      ? priceTypes[state.price_type]
+      : state.price_type.replace(/_/g, " ").toUpperCase());
+
   useEffect(() => {
     Alert &&
       setTimeout(() => {
@@ -52,7 +59,7 @@ function ProductInfo(state) {
   }, [Alert]);
 
   if (state === undefined) return false;
-  const calsTxt = getText("product", 11),
+  const calsTxt = "السعرات الحرارية",
     cals = state.calories && (
       <p
         className="align-items-center d-flex gap-2"
@@ -70,8 +77,7 @@ function ProductInfo(state) {
         className="flag"
         style={{ "--bg": "#e4f4ff", "--color": "var(--primary)" }}
       >
-        {100 - (+state.price / old_price) * 100}%
-        <sub>{getText("product", 0)}</sub>
+        {100 - (+state.price / old_price) * 100}%<sub>{"خصم"}</sub>
       </span>
     );
 
@@ -133,7 +139,7 @@ function ProductInfo(state) {
           transition: "150ms ease-out",
         }}
       >
-        {getText("product", 1)}
+        {"تمت اضافة المنتج الى العربة بنجاح"}
         <img
           src={baseUrl + "/assets/animation.gif"}
           style={{ maxHeight: "40px" }}
@@ -157,7 +163,7 @@ function ProductInfo(state) {
 
         <p className="state text-center d-flex align-items-center gap-2">
           <span className="flag">
-            {!!state.is_active ? getText("product", 2) : getText("product", 3)}
+            {!!state.is_active ? "متوفر" : "غير متوفر"}
           </span>
           {discountFlag}
         </p>
@@ -172,27 +178,27 @@ function ProductInfo(state) {
         {old_price > 0 && (
           <p>
             <del>
-              {state.old_price} {getText("product", 10)}
+              {state.old_price} {"ر.س"}
             </del>
           </p>
         )}
 
         <p className="price">
           <span>
-            {state.price} {getText("product", 10)}
+            {state.price} {"ر.س"}
           </span>
-          /{getText("product", 4)}
+          /{priceType}
         </p>
 
         {cals}
 
         <p className="align-items-center d-flex rate">
           <img src="/assets/home/icons/star.svg" alt="star" /> 5
-          <Link to="/rate">{getText("product", 5)}</Link>
+          <Link to="/rate">{"اكتب رأيك"}</Link>
         </p>
         {!!categories.length && (
           <div className="addons d-flex flex-wrap w-100">
-            <span className="h5 m-0">{getText("product", 6)}</span>
+            <span className="h5 m-0">{"الإضافات"}</span>
 
             <select
               className="input-group-text my-2 text-end w-100"
@@ -201,7 +207,7 @@ function ProductInfo(state) {
               onChange={({ target }) => setAddonCat(target.value)}
             >
               <option value="" onClick={() => setAddonCat("")}>
-                {getText("product", 7)}
+                {"اختر من الاصناف"}
               </option>
 
               {categories.map((C, I) => (
@@ -238,7 +244,7 @@ function ProductInfo(state) {
             className="btn d-flex gap-2 align-items-center"
             onClick={addItemToCart}
           >
-            {getText("product", 8)}
+            {"اضف الى العربة"}
             {Cart}
           </div>
 
@@ -246,7 +252,7 @@ function ProductInfo(state) {
             className="h5 m-0"
             style={{ fontWeight: "600", color: "var(--primary)" }}
           >
-            {totalPrice} {getText("product", 10)}
+            {totalPrice} {"ر.س"}
           </span>
         </div>
 
@@ -297,6 +303,7 @@ function ProductInfo(state) {
         id: state.id,
         name: state.name,
         name_ar: state.name_ar,
+        category_name: state.category_name,
         price: +state.price,
         restaurant_id: +resId,
         quantity,
@@ -335,7 +342,7 @@ function Related({ items }) {
   return (
     <section id="related" className="container">
       <p className="h3">
-        <span>{getText("product", 9)}</span>
+        <span>{"منتجات ذات صلة"}</span>
       </p>
 
       <Carousel

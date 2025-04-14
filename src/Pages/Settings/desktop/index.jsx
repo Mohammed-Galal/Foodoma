@@ -33,7 +33,7 @@ export default function () {
                 to="/settings/addresses"
               >
                 <img src="/assets/settings/address.png" alt="Icon" />
-                {getText("settings", 0)}
+                {"عناويني"}
               </NavLink>
             </li>
 
@@ -43,7 +43,7 @@ export default function () {
                 to="/settings/history"
               >
                 <img src="/assets/settings/delivery.png" alt="Icon" />
-                {getText("settings", 1)}
+                {"طلباتي"}
               </NavLink>
             </li>
 
@@ -53,7 +53,7 @@ export default function () {
                 to="/settings/fav"
               >
                 <img src="/assets/settings/shop.png" alt="Icon" />
-                {getText("settings", 2)}
+                {"العناصر المفضلة"}
               </NavLink>
             </li>
 
@@ -63,7 +63,7 @@ export default function () {
                 to="/settings/wallet"
               >
                 <img src="/assets/settings/wallet.png" alt="Icon" />
-                {getText("settings", 3)}
+                {"محفظتي"}
               </NavLink>
             </li>
 
@@ -73,7 +73,7 @@ export default function () {
                 to="/settings/account"
               >
                 <img src="/assets/settings/gears.png" alt="Icon" />
-                {getText("settings", 4)}
+                {"إعدادات الحساب"}
               </NavLink>
             </li>
 
@@ -83,7 +83,7 @@ export default function () {
                 onClick={logout}
               >
                 {Power}
-                {getText("settings", 5)}
+                {"تسجيل الخروج"}
               </button>
             </li>
           </ul>
@@ -123,13 +123,13 @@ function AccountInfo() {
         {window.localStorage.getItem("lang") || "العربية"}
         {AltArrowDown}
 
-        <ul className="d-grid list-unstyled m-0 p-0 py-2 text-center">
+        {/* <ul className="d-grid list-unstyled m-0 p-0 py-2 text-center">
           {keys.map((k) => (
             <li key={k} className="px-3 py-2" onClick={() => changeLang(k)}>
               {k}
             </li>
           ))}
-        </ul>
+        </ul> */}
       </div>
     </div>
   );

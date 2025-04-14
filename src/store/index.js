@@ -36,7 +36,16 @@ fetch(baseUrl + "/getSliders")
 
 const savedSlug = window.localStorage.getItem("slug");
 
-export const logout = function () {
+export const updateUserInfo = function () {
+    fetch(baseUrl + "/update-user-info", fetchOpts)
+      .then(toJson)
+      .then((r) => {
+        APP_STATE.dispatch({ type: "user/init", payload: r.data });
+        getFavourites();
+        getUserAlerts();
+      });
+  },
+  logout = function () {
     APP_STATE.dispatch({ type: "products/clearCart" });
     APP_STATE.dispatch({ type: "user/logout" });
   },
@@ -87,15 +96,7 @@ function toJson(res) {
   return res.json();
 }
 
-if (window.localStorage.getItem("token")) {
-  fetch(baseUrl + "/update-user-info", fetchOpts)
-    .then(toJson)
-    .then((r) => {
-      APP_STATE.dispatch({ type: "user/init", payload: r.data });
-      getFavourites();
-      getUserAlerts();
-    });
-}
+if (window.localStorage.getItem("token")) updateUserInfo();
 
 if (savedSlug) {
   fetch(baseUrl + "/get-restaurant-info/" + savedSlug, fetchOpts)

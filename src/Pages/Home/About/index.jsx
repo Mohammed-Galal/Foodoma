@@ -38,27 +38,29 @@ export default () => {
       id="about-us"
       className="container-fluid container-lg d-flex flex-column text-center"
     >
-      <span className="h3 m-0">{getText("home", 0)}</span>
-      {getText("home", 1)}
+      <span className="h3 m-0">{"أرقام نفتخر بها"}</span>
+      {
+        "في عائلة مون 10، نفتخر بأرقامنا التي تعكس نجاحاتنا وإنجازاتنا. نواصل السعي بكل شغف وطموح لنحقق المزيد من التميز والنمو في رحلتنا المستمرة"
+      }
 
-      <br />
-      {getText("home", 2)}
-
-      <div ref={cardsContainer} className="d-flex flex-wrap text-center w-100">
+      <div
+        ref={cardsContainer}
+        className="d-flex flex-no-wrap text-center w-100"
+      >
         <div className="d-flex flex-column">
           <img src="/assets/home/icons/ph_stamp-light.svg" alt="LIGHT" />
           <Inc curr={count} until={73} />
-          {getText("home", 3)}
+          {"سنة خبرة"}
         </div>
         <div className="d-flex flex-column">
           <img src="/assets/home/icons/hugeicons_happy.svg" alt="HAPPY FACE" />
           <Inc curr={count} until={1000} />
-          {getText("home", 4)}
+          {"عميل سعيد"}
         </div>
         <div className="d-flex flex-column">
           <img src="/assets/home/icons/bi_cake.svg" alt="CAKE" />
           <Inc curr={count} until={3000} />
-          {getText("home", 5)}
+          {"عمل طلب"}
         </div>
       </div>
     </section>

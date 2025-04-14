@@ -22,13 +22,13 @@ export default (
       <div className="align-items-stretch row">
         <div className="col-3 d-flex flex-column">
           <img className="mb-3" src="/assets/home/logo-white.svg" alt="logo" />
-          {getText("footer", 7)}
+          {"حلويات مونتانا سابقا"}
           <br />
-          {getText("footer", 8)}
+          {"تأسست عام 1950 من"}
         </div>
 
         <div className="col-3 d-flex flex-column">
-          <span className="h5 mb-3">{getText("footer", 0)}</span>
+          <span className="h5 mb-3">{"اتصل بنا"}</span>
           <a
             className="text-decoration-none mb-3 d-flex align-items-center gap-2"
             href="tel:+966920035416"
@@ -52,15 +52,15 @@ export default (
         </div>
 
         <div className="col-3 d-flex flex-column">
-          <span className="h5 mb-3">{getText("footer", 1)}</span>
+          <span className="h5 mb-3">{"روابط مساعدة"}</span>
           {/* <Link className="mb-2 text-decoration-none" to="/">
-            {getText("footer", 2)}
+            {"نبذة عن مون 10"}
           </Link> */}
           <Link className="mb-2 text-decoration-none" to="/about-us">
-            {getText("footer", 3)}
+            {"من نحن"}
           </Link>
           <Link className="mb-2 text-decoration-none" to="/faq">
-            {getText("footer", 4)}
+            {"الأسئلة الشائعة"}
           </Link>
         </div>
 
@@ -168,7 +168,7 @@ export default (
       </div>
     </div>
     <p className="mt-4 mb-0 text-center">
-      <span>{getText("footer", 6)} | </span>© 2003-2024 Mon10
+      <span>{"جميع الحقوق محفوظة"} | </span>© 2003-2024 Mon10
     </p>
   </>
 );

@@ -51,7 +51,7 @@ export default (
         boxShadow: "rgb(0, 0, 0, 0.2) 2px 2px 8px 0px",
       }}
     >
-      يرجى التحقق من البيانات الطلوبة
+      {"يرجى التحقق من البيانات الطلوبة"}
     </div>
 
     <div
@@ -66,7 +66,7 @@ export default (
         boxShadow: "rgb(0, 0, 0, 0.2) 2px 2px 8px 0px",
       }}
     >
-      هذا الحساب مسجل بالفعل
+      {"هذا الحساب مسجل بالفعل"}
     </div>
 
     <BrowserRouter>

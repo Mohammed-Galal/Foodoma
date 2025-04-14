@@ -64,7 +64,7 @@ export default () => {
             fontWeight: "400",
           }}
         >
-          <span className="d-block h3 text-danger">فشلت عملية الدفع</span>
+          <span className="d-block h3 text-danger">{"فشلت عملية الدفع"}</span>
           {errMsg}
         </div>
       </div>
@@ -72,7 +72,6 @@ export default () => {
   }
 
   window.localStorage.removeItem("invoiceData");
-
   return (
     <section id="invoice" className="container">
       <img className="d-block mx-auto" src="/assets/check.gif" alt="success" />
@@ -85,16 +84,16 @@ export default () => {
           className="mx-auto px-3"
           style={{ float: "none", width: "auto", color: "var(--primary)" }}
         >
-          {getText("invoice", 0)}
+          {"شكراً لاختياركم mon10"}
         </legend>
 
         <p
           className="m-0 text-center"
           style={{ color: "var(--midgray)", lineHeight: "1.6" }}
         >
-          {getText("invoice", 1)}
+          {"يسرنا أن نُبلغكم أنه تم تقديم طلبكم بنجاح بتاريخ"}
           {" " + state.date[0] + " "}
-          {getText("invoice", 2)}
+          {"في تمام الساعة"}
           {" " + state.date[1] + " "}
         </p>
 
@@ -108,14 +107,14 @@ export default () => {
           <thead>
             <tr>
               <th colSpan="2" className="text-center">
-                {getText("invoice", 3)}
+                {"بيانات الاستلام"}
               </th>
             </tr>
           </thead>
 
           <tbody>
             <tr>
-              <td>{getText("invoice", 4)}</td>
+              <td>{"كود الطلب"}</td>
               <td>{state.code}</td>
             </tr>
             <tr>
@@ -123,23 +122,23 @@ export default () => {
               <td>{state.PIN}</td>
             </tr>
             <tr>
-              <td>{getText("invoice", 5)}</td>
+              <td>{"طريقة الاستلام"}</td>
               <td>{state.deliveryType}</td>
             </tr>
             <tr>
-              <td>{getText("invoice", 6)}</td>
+              <td>{"عنوان الاستلام"}</td>
               <td>{state.deliveryAddress}</td>
             </tr>
             <tr>
-              <td>{getText("invoice", 7)}</td>
+              <td>{"طريقة الدفع"}</td>
               <td>{state.paymentMode}</td>
             </tr>
           </tbody>
 
           <tfoot>
             <tr>
-              <td>{getText("invoice", 8)}</td>
-              <td>{state.comment || getText("invoice", 9)}</td>
+              <td>{"الملاحظات والتوصيات"}</td>
+              <td>{state.comment || "لا يوجد"}</td>
             </tr>
           </tfoot>
         </table>
@@ -158,16 +157,16 @@ export default () => {
                 colSpan="5"
                 className="text-center"
               >
-                {getText("invoice", 10)}
+                {"بيانات الطلب"}
               </th>
             </tr>
 
             <tr className="text-center">
-              <th>{getText("invoice", 11)}</th>
-              <th>{getText("invoice", 12)}</th>
-              <th>{getText("invoice", 13)}</th>
-              <th>{getText("invoice", 14)}</th>
-              <th>{getText("invoice", 15)}</th>
+              <th>{"اسم المنتج"}</th>
+              <th>{"السعر"}</th>
+              <th>{"الاضافات"}</th>
+              <th>{"العدد"}</th>
+              <th>{"الاجمالي"}</th>
             </tr>
           </thead>
 
@@ -175,15 +174,26 @@ export default () => {
 
           <tfoot className="fw-bold text-center">
             <tr>
-              <td colSpan="4">{getText("invoice", 16)}</td>
+              <td colSpan="4">{"ثمن الطلب"}</td>
               <td>{state.subTotal}</td>
             </tr>
             <tr>
-              <td colSpan="4">{getText("invoice", 17)}</td>
+              <td colSpan="4">{"رسوم التوصيل"}</td>
               <td>{state.deliveryCharges}</td>
             </tr>
+
             <tr>
-              <td colSpan="4">{getText("invoice", 18)}</td>
+              <td colSpan="4">{"رسوم ادارية"}</td>
+              <td>{state.restaurant_charge}</td>
+            </tr>
+
+            <tr>
+              <td colSpan="4">{"ضرائب"}</td>
+              <td>{("" + state.tax_amount).slice(0, 4)}</td>
+            </tr>
+
+            <tr>
+              <td colSpan="4">{"الاجمالي"}</td>
               <td>{state.price}</td>
             </tr>
           </tfoot>
@@ -193,7 +203,7 @@ export default () => {
           className="m-0 text-center"
           style={{ color: "var(--midgray)", lineHeight: "1.6" }}
         >
-          {getText("invoice", 19)}
+          {"mon10 تتمنى لكم يوماً سعيداً!"}
         </p>
       </fieldset>
     </section>
@@ -205,7 +215,7 @@ function ProductItem({ id, name, price, selectedaddons, quantity }) {
 
   const Addons =
     selectedaddons.length === 0 ? (
-      getText("invoice", 20)
+      "بدون اضافات"
     ) : (
       <ul className="list-unstyled m-0 p-0">
         {selectedaddons.map((a) => {
@@ -235,12 +245,12 @@ function ProductItem({ id, name, price, selectedaddons, quantity }) {
         {name}
       </td>
       <td>
-        {price} {getText("invoice", 21)}
+        {price} {"ر.س"}
       </td>
       <td>{Addons}</td>
       <td>{quantity}</td>
       <td>
-        {total} {getText("invoice", 21)}
+        {total} {"ر.س"}
       </td>
     </tr>
   );

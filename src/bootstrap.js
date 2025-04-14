@@ -1,5 +1,12 @@
-const version = "2.1.15",
+const version = "4.1.16",
   activeVer = window && window.localStorage.getItem("ver");
+
+window.priceTypes = {
+  piece: "للقطعة",
+  quarter_kilo: "للربع كيلو",
+  half_kilo: "للنصف كيلو",
+  one_kilo: "للكيلو",
+};
 
 if (activeVer !== version && window) {
   window.localStorage.clear();

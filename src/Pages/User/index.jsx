@@ -1,13 +1,17 @@
 /* eslint-disable import/no-anonymous-default-export */
 import getText from "../../translation";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, redirect, useNavigate, useParams } from "react-router-dom";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import store, { getUserAlerts } from "../../store/index.js";
 
 const dispatch = store.dispatch,
   Base = process.env.REACT_APP_API_URL + "/public/api",
-  Components = { login: Login, register: Register };
+  Components = {
+    login: Login,
+    register: Register,
+    resetPassword: ResetPassword,
+  };
 
 const loader = (
   <div
@@ -67,23 +71,55 @@ export default function () {
     authed && navigate("/");
   });
 
-  useEffect(
-    function () {
-      setLoading(false);
-    },
-    [authed]
-  );
+  useEffect(() => {
+    setLoading(false);
+  }, [authed]);
 
   return (
     <section id="user-credits" className="container position-relative">
       <TargetPage sendReq={sendReq} reqBody={reqBody} />
-      {loading &&  loader }
+      {loading && loader}
+
+      <div
+        id="reset-password"
+        popover="manual"
+        className="container"
+        style={{
+          borderRadius: "8px",
+          borderColor: "aliceblue",
+          maxWidth: "600px",
+          color: "var(--primary)",
+        }}
+      >
+        <div className="d-flex flex-column gap-3 px-5 py-4">
+          <span className="h6">{"يرجى ادخال رقم الهاتف"}</span>
+
+          <div className="input-group" dir="ltr">
+            <span className="input-group-text">966</span>
+            <input
+              type="tel"
+              className="form-control"
+              onChange={({ target }) => (reqBody.email = target.value)}
+              placeholder={"رقم الهاتف"}
+              defaultValue={reqBody.email}
+            />
+          </div>
+
+          <button
+            className="btn"
+            style={{ backgroundColor: "var(--primary)", color: "#fff" }}
+            onClick={resetPassword}
+          >
+            {"تأكيد"}
+          </button>
+        </div>
+      </div>
     </section>
   );
 
   function sendReq() {
     if (!("email" in reqBody && "password" in reqBody))
-      return alert(getText("user", 7));
+      return alert("يرجى ملئ جميع البيانات");
 
     const phone = reqBody.email === "" ? reqBody.phone : reqBody.email;
     if (phone.length !== 9) return alert("رقم الهاتف يجب ان يكون 9 ارقام");
@@ -105,6 +141,22 @@ export default function () {
         setLoading(false);
       })
       .catch(console.error);
+  }
+
+  function resetPassword() {
+    if (reqBody.email.length !== 9)
+      return alert("رقم الهاتف يجب ان يكون 9 ارقام");
+    fetch(Base + "/forgot-password", {
+      method: "POST",
+      body: JSON.stringify({
+        phone: reqBody.email,
+      }),
+    })
+      .then((r) => r.json())
+      .then((r) => {
+        // if (!r.success) return alert(r.data);
+        navigate("/user/resetPassword");
+      });
   }
 }
 
@@ -137,18 +189,18 @@ function Login({ sendReq, reqBody }) {
 
         <div className="d-flex flex-column gap-2">
           <b className="h3 m-0" style={{ fontWeight: 700 }}>
-            {getText("user", 0)}
+            {"تسجيل الدخول"}
           </b>
-          <span>{getText("user", 1)}</span>
+          <span>{"أدخل رقم الهاتف وكلمة المرور"}</span>
         </div>
       </div>
 
       <div
-        className="my-5 row"
+        className="my-5 row flex-column align-items-center"
         style={{ rowGap: "1rem", color: "var(--primary)" }}
       >
         <div className="col-12 col-md-6">
-          <h6>{getText("user", 2)}</h6>
+          <h6>{"رقم الهاتف"}</h6>
 
           <div className="flex-nowrap input-group" dir="ltr">
             <span
@@ -167,20 +219,20 @@ function Login({ sendReq, reqBody }) {
               style={{ outline: "none", borderRadius: "0 0.375rem 0.375rem 0" }}
               defaultValue={reqBody.email}
               onChange={(e) => (reqBody.email = e.target.value)}
-              placeholder={getText("user", 2)}
+              placeholder={"رقم الهاتف"}
             />
           </div>
         </div>
 
         <div className="col-12 col-md-6">
-          <h6>{getText("user", 3)}</h6>
+          <h6>{"كلمة المرور"}</h6>
           <input
             type="password"
             style={{ outline: "none" }}
             className="form-control"
             defaultValue={reqBody.password}
             onChange={(e) => (reqBody.password = e.target.value)}
-            placeholder={getText("user", 3)}
+            placeholder={"كلمة المرور"}
           />
         </div>
 
@@ -191,20 +243,31 @@ function Login({ sendReq, reqBody }) {
             style={{ backgroundColor: "var(--primary)", color: "#fff" }}
             onClick={sendReq}
           >
-            {getText("user", 4)}
+            {"سجل دخول"}
           </button>
         </div>
       </div>
 
       <p className="m-0 text-center" style={{ color: "var(--midgray)" }}>
-        {getText("user", 5)}
+        {"ليس لديك حساب بعد؟"}
+
         <Link
           to="/user/register"
           className="m-2 text-decoration-none"
           style={{ color: "var(--primary)" }}
         >
-          {getText("user", 6)}
+          {"أنشئ حسابك الآن"}
         </Link>
+
+        <button
+          className="d-block mt-2 btn mx-auto"
+          style={{ color: "var(--primary)" }}
+          onClick={() =>
+            document.getElementById("reset-password").showPopover()
+          }
+        >
+          {"إعادة تعيين كلمة المرور؟"}
+        </button>
       </p>
     </div>
   );
@@ -239,39 +302,30 @@ function Register({ sendReq, reqBody }) {
 
         <div className="d-flex flex-column gap-2">
           <b className="h3 m-0" style={{ fontWeight: 700 }}>
-            {getText("user", 8)}
+            {"إنشاء حساب جديد"}
           </b>
-          <span>{getText("user", 9)}</span>
+          <span>{"أنشئ حسابك الآن مجاناً"}</span>
         </div>
       </div>
 
       <div
-        className="my-5 row"
+        className="my-5 row flex-column align-items-center"
         style={{ rowGap: "1rem", color: "var(--primary)" }}
       >
         <div className="col-12 col-md-6">
-          <h6>{getText("user", 10)}</h6>
+          <h6>{"الاسم"}</h6>
           <input
             type="text"
             style={{ outline: "none" }}
             defaultValue={reqBody.name}
             onChange={(e) => (reqBody.name = e.target.value)}
             className="form-control"
-            placeholder={getText("user", 10)}
+            placeholder={"الاسم"}
           />
         </div>
-        {/* <div className="col-12 col-md-6">
-          <h6>{getText("user", 11)}</h6>
-          <input
-            type="email"
-            style={{ outline: "none" }}
-            onChange={(e) => (reqBody.email = e.target.value)}
-            className="form-control"
-            placeholder={getText("user", 11)}
-          />
-        </div> */}
+
         <div className="col-12 col-md-6">
-          <h6>{getText("user", 12)}</h6>
+          <h6>{"رقم الهاتف"}</h6>
           <div className="flex-nowrap input-group" dir="ltr">
             <span
               className="input-group-text"
@@ -288,18 +342,18 @@ function Register({ sendReq, reqBody }) {
               style={{ outline: "none", borderRadius: "0 0.375rem 0.375rem 0" }}
               defaultValue={reqBody.phone}
               onChange={(e) => (reqBody.phone = e.target.value)}
-              placeholder={getText("user", 12)}
+              placeholder={"رقم الهاتف"}
             />
           </div>
         </div>
         <div className="col-12 col-md-6 mx-auto">
-          <h6>{getText("user", 13)}</h6>
+          <h6>{"كلمة المرور"}</h6>
           <input
             type="password"
             defaultValue={reqBody.password}
             onChange={(e) => (reqBody.password = e.target.value)}
             className="form-control"
-            placeholder={getText("user", 13)}
+            placeholder={"كلمة المرور"}
           />
         </div>
         <div className="col-12">
@@ -310,24 +364,100 @@ function Register({ sendReq, reqBody }) {
               style={{ backgroundColor: "var(--primary)", color: "#fff" }}
               onClick={sendReq}
             >
-              {getText("user", 14)}
+              {"أنشئ حسابك"}
             </button>
           </div>
         </div>
       </div>
 
       <p className="m-0 text-center" style={{ color: "var(--midgray)" }}>
-        {getText("user", 15)}
+        {"لديك حساب بالفعل؟"}
         <Link
           to="/user/login"
           className="m-2 text-decoration-none"
           style={{ color: "var(--primary)" }}
         >
-          {getText("user", 16)}
+          {"سجل دخولك"}
         </Link>
       </p>
     </div>
   );
+}
+
+function ResetPassword({ reqBody }) {
+  const navigate = useNavigate(),
+    otpInfo = useRef({ phone: reqBody.email, otp: "", password: "" }).current;
+
+  useEffect(() => {
+    document.getElementById("reset-password").hidePopover();
+  });
+
+  // if (!otpInfo.phone) return null;
+
+  return (
+    <div>
+      <div
+        className="d-flex justify-content-center align-items-center gap-2 py-5 px-3"
+        style={{
+          borderRadius: "16px",
+          backgroundColor: "aliceblue",
+          color: "var(--black)",
+        }}
+      >
+        <img
+          className="animate-reveal"
+          src={
+            process.env.REACT_APP_API_URL +
+            "/assets/img/various/login-illustration.png"
+          }
+          alt="avatar"
+        />
+
+        <div className="d-flex flex-column gap-2">
+          <b className="h3 m-0" style={{ fontWeight: 700 }}>
+            {"اعادة تعيين كلمة المرور"}
+          </b>
+          <span>{"يرجى إدخال البيانات المطلوبة"}</span>
+        </div>
+      </div>
+
+      <label className="h6">
+        {"رمز التحقق"}
+        <input
+          type="number"
+          className="form-control"
+          onChange={({ target }) => (otpInfo.otp = target.value)}
+          placeholder="رمز التحقق"
+        />
+      </label>
+
+      <label className="h6">
+        {"كلمة المرور الجديدة"}
+        <input
+          type="password"
+          className="form-control"
+          onChange={({ target }) => (otpInfo.password = target.value)}
+          placeholder="كلمة المرور الجديدة"
+        />
+      </label>
+
+      <button className="input-group-text btn" onClick={confirmOTP}>
+        {"ارسال"}
+      </button>
+    </div>
+  );
+
+  function confirmOTP() {
+    // validation
+    fetch(Base + "/user/reset-password", {
+      method: "POST",
+      body: JSON.stringify(otpInfo),
+    })
+      .then((r) => r.json())
+      .then(() => {
+        navigate("/user/login");
+      });
+  }
 }
 
 function OTP({ reqBody }) {
@@ -348,11 +478,11 @@ function OTP({ reqBody }) {
         style={{ color: "var(--midgray)" }}
       >
         <b className="text-danger">OTP</b>
-        يرجى ادخال رمز التحقق
+        {"يرجى ادخال رمز التحقق"}
         <div className="d-flex gap-2">
           <input type="text" className="form-control" ref={otpRef} />
           <button className="btn btn-primary" type="button" onClick={sendOTP}>
-            ارسال
+            {"ارسال"}
           </button>
         </div>
         <Timer reqRef={reqBody} />
@@ -392,7 +522,7 @@ function Timer({ reqRef }) {
         `يمكنك اعادة ارسال الكود بعد ${time} ثانية`
       ) : (
         <button className="btn btn-outline-secondary px-4" onClick={resendCode}>
-          اعادة ارسال الكود
+          {"اعادة ارسال الكود"}
         </button>
       )}
     </div>

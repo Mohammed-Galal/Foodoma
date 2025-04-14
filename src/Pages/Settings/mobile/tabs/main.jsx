@@ -19,7 +19,7 @@ export default function main() {
             to="/settings/addresses"
           >
             <img src="/assets/settings/address.png" alt="Icon" />
-            {getText("settings", 0)}
+            {"عناويني"}
           </Link>
         </li>
 
@@ -29,7 +29,7 @@ export default function main() {
             to="/settings/history"
           >
             <img src="/assets/settings/delivery.png" alt="Icon" />
-            {getText("settings", 1)}
+            {"طلباتي"}
           </Link>
         </li>
 
@@ -39,7 +39,7 @@ export default function main() {
             to="/settings/fav"
           >
             <img src="/assets/settings/shop.png" alt="Icon" />
-            {getText("settings", 2)}
+            {"المفضلة"}
           </Link>
         </li>
 
@@ -49,7 +49,7 @@ export default function main() {
             to="/settings/wallet"
           >
             <img src="/assets/settings/wallet.png" alt="Icon" />
-            {getText("settings", 3)}
+            {"محفظتي"}
           </Link>
         </li>
 
@@ -59,7 +59,7 @@ export default function main() {
             to="/settings/account"
           >
             <img src="/assets/settings/gears.png" alt="Icon" />
-            {getText("settings", 4)}
+            {"الاعدادات"}
           </Link>
         </li>
 
@@ -69,13 +69,13 @@ export default function main() {
             to="/about-us"
           >
             <img src="/assets/settings/address.png" alt="Icon" />
-            {getText("settings", 27)}
+            {"حول التطبيق"}
           </Link>
         </li>
       </ul>
 
       <button type="button" className="btn container" onClick={logout}>
-        {getText("settings", 5)} {Power}
+        {"تسجيل الخروج"} {Power}
       </button>
     </>
   );

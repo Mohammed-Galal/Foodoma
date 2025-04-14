@@ -13,7 +13,7 @@ export default function () {
         className="d-block h3 mb-3"
         style={{ cssText: " font-weight: 600; color: var(--primary)" }}
       >
-        {getText("settings", 26)}
+        {"المفضلة"}
       </span>
 
       {!!favs.length && <Carousel innerItems={favs.map(productItem)} />}

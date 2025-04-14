@@ -42,6 +42,32 @@ reducers.init = function (state, action) {
   state.cart = cartItems;
 };
 
+reducers.addSingleItemToCart = function (state, { item }) {
+  const targetItem = state.cart.find((e) => e.id === item.id);
+
+  if (targetItem) {
+    targetItem.quantity++;
+    state.cart = [...state.cart];
+  } else {
+    state.cart = [
+      ...state.cart,
+      {
+        category_name: item.category_name,
+        id: item.id,
+        name: item.name,
+        name_ar: item.name_ar,
+        price: item.price,
+        restaurant_id: item.restaurant_id,
+        quantity: 1,
+        addons: [],
+        totalPrice: +item.price,
+      },
+    ];
+  }
+
+  window.localStorage.setItem("cartItems", JSON.stringify(cartStorage));
+};
+
 reducers.addToCart = function (state, { payload }) {
   const isCustomItem = state.cart.concat(payload).some((e) => !!e.customProps);
 

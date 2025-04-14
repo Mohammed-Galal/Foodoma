@@ -1,6 +1,6 @@
-.swiper-slide:has(.product-item) {
-  height: auto;
-  width: auto;
+.swiper-slide {
+  // height: auto !important;
+  width: auto !important;
 }
 
 div.product-item {
@@ -23,8 +23,7 @@ div.product-item {
     }
   }
 
-
-  // flex: 1 1 auto;
+  flex: 1 1 auto;
   max-width: 252px;
   overflow: hidden;
   border-radius: 16px;
@@ -55,21 +54,22 @@ div.product-item {
     font-weight: 500;
   }
 
-  & > a {
-    &:hover .desc {
-      transform: translateY(var(--hover-length));
-    }
+  & > img {
+    height: min(200px, 14vh);
+    display: block;
+  }
 
-    & > img {
-      height: min(200px, 14vh);
-      display: block;
-    }
+  &:hover .desc {
+    transform: translateY(var(--hover-length));
+  }
 
-    & > .desc {
+  & > .desc {
+    transition: transform var(--hover-transition);
+    transform: translate(0);
+    background-color: #fff;
+
+    & > a {
       color: var(--primary);
-      transition: transform var(--hover-transition);
-      transform: translate(0);
-      background-color: #fff;
 
       & > span:first-child {
         display: -webkit-box;
@@ -101,33 +101,33 @@ div.product-item {
           color: var(--primary);
         }
       }
+    }
 
-      & > button {
-        transition: all var(--hover-transition);
-        margin-bottom: var(--hover-length);
-        background-color: var(--primary);
-        color: #fff;
-        opacity: var(--btn-opacity);
-        font-size: 16px;
-        max-height: var(--btn-height);
-        overflow: hidden;
+    & > button {
+      transition: all var(--hover-transition);
+      margin-bottom: var(--hover-length);
+      background-color: var(--primary) !important;
+      color: #fff !important;
+      opacity: var(--btn-opacity);
+      font-size: 16px;
+      max-height: var(--btn-height);
+      overflow: hidden;
 
-        & > * {
-          height: var(--btn-height);
-          flex-shrink: 0;
-          position: relative;
-        }
+      & > * {
+        height: var(--btn-height);
+        flex-shrink: 0;
+        position: relative;
+      }
 
-        & > span {
-          width: 100%;
-          transition: margin-top var(--hover-transition);
-        }
+      & > span {
+        width: 100%;
+        transition: margin-top var(--hover-transition);
+      }
 
-        &:hover {
-          --btn-opacity: 1;
-          & > span:first-child {
-            margin-top: calc(0px - var(--btn-height));
-          }
+      &:hover {
+        --btn-opacity: 1;
+        & > span:first-child {
+          margin-top: calc(0px - var(--btn-height));
         }
       }
     }

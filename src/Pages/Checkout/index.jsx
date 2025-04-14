@@ -1,407 +1,119 @@
-/* eslint-disable import/no-anonymous-default-export */
-import getText from "../../translation";
-import { _useCoupon, calcCashback } from "../Cart";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import NXT from "../../icons/NXT";
-import React from "react";
-import "./index.scss";
+import React, { useLayoutEffect, useRef, useState } from "react";
+import { useDispatch, useStore } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { _useCoupon } from "../Cart";
+import NXT from "../../icons/NXT";
 
-const days = [/^sun/i, /^mon/i, /^tue/i, /^wed/i, /^thu/i, /^fri/i, /^sat/i],
-  isArabic = window.localStorage.getItem("lang") === "العربية",
-  nameTarget = isArabic ? "name_ar" : "name";
+import OrderOptions from "./OrderOptions";
+import OrderInfo from "./OrderInfo";
+import "./index.scss";
+import { updateUserInfo } from "../../store";
 
-const placeOrderApi = process.env.REACT_APP_API_URL + "/public/api/place-order",
-  basicBodyReq = {},
-  defaultLoc = {
-    lat: "",
-    lng: "",
-  },
-  addresItemStyle = {
-    width: "100%",
-    border: "2px solid #a8d0ec",
-    borderRadius: "8px",
-  },
+/**
+ * store coverage
+ * working hours
+ */
+
+const complimentaryData = {},
+  placeOrderApi = process.env.REACT_APP_API_URL + "/public/api/place-order",
+  days = [/^sun/i, /^mon/i, /^tue/i, /^wed/i, /^thu/i, /^fri/i, /^sat/i],
+  exceptionalCategories = [undefined, "الحجز المبكر"],
   emptyStr = "";
 
-let paymentMethod = "COD",
-  closestRes = null;
-
 export default function () {
-  const { User, Restaurant, Products } = useSelector((e) => e),
-    [delivery, setDelivery] = useState(false),
+  const redirect = useNavigate(),
+    store = useStore().getState(),
     dispatch = useDispatch(),
-    activeAddress = User.activeAddressIndex,
-    redirect = useNavigate(),
-    setActiveAddress = (indx) => {
-      debugger;
-      indx === activeAddress || (closestRes = null);
-      dispatch({ type: "user/setActiveAddress", payload: indx });
-    };
+    deliveryState = useState(true),
+    resIdState = useState(null);
 
-  const customProps = {
+  const reqBody = useRef({
       is_special: false,
+      images: [],
+      phrase: "",
+      order_comment: "",
       comment: "",
+      location: {},
+      coupon: { code: emptyStr },
+      user: { data: { default_address: {} } },
+    }).current,
+    clues = useRef({}).current;
+
+  const currRes = store.Restaurant.data,
+    resId = currRes.id,
+    userAuthientcated = store.User.loaded,
+    cartItems = store.Products.cart;
+
+  clues.isExceptionalCart = checkForExceptionalItems(cartItems);
+  clues.userAddresses = store.User.addresses;
+  clues.closestRes = null;
+  clues.cashback = store.Products.cashback;
+  clues.deliveryCharges = store.Restaurant.data.delivery_charges;
+
+  useLayoutEffect(
+    function () {
+      userAuthientcated || redirect("/user/login");
+      cartItems.length || redirect("/cart");
     },
-    userAddresses = User.addresses;
+    [userAuthientcated]
+  );
 
-  if (delivery) {
-    basicBodyReq.location.lat = userAddresses[activeAddress]?.latitude;
-    basicBodyReq.location.lng = userAddresses[activeAddress]?.longitude;
-  } else basicBodyReq.location = defaultLoc;
-
-  const deliveryCharges = +Restaurant.data.delivery_charges;
-  useEffect(() => {
-    User.loaded || redirect("/user/login");
-    Products.cart.length || redirect("/cart");
-    if (delivery && userAddresses.length) {
-      fetch(
-        process.env.REACT_APP_API_URL + "/public/api/get-delivery-restaurants",
-        {
-          method: "POST",
-          body: JSON.stringify(userAddresses[activeAddress]),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-        .then((r) => r.json())
-        .then((r) => {
-          const minDistance = Math.min.apply(
-            Math,
-            r.map(({ distance }) => distance)
-          );
-          closestRes =
-            r.find(({ distance }) => distance === minDistance) || false;
-        });
-    }
-  }, [delivery, activeAddress]);
-
-  let accept2Continue = false,
-    totalPrice = 0;
-
-  const order = Products.cart.map((CI) => {
-    totalPrice += +CI.totalPrice;
-    CI.customProps && Object.assign(customProps, CI.customProps);
-    return extractData(CI);
-  });
-
-  const addresses = userAddresses.map((e, i) => (
-    <li
-      key={i}
-      style={addresItemStyle}
-      value={e.id}
-      data-active={activeAddress === i}
-    >
-      <label
-        onClick={() => setActiveAddress(i)}
-        className="align-items-center d-flex gap-2 h-100 justify-content-start px-3 py-1 w-100"
-      >
-        <img src="/assets/settings/address.png" alt="icon" />
-
-        <div
-          className="d-grid gap-2"
-          style={{ cssText: "color: var(--midgray); font-weight: 600" }}
-        >
-          <span
-            style={{
-              cssText: "color: var(--primary); font-weight: bold",
-            }}
-            className="h5 m-0"
-          >
-            {e.tag}
-          </span>
-        </div>
-      </label>
-    </li>
-  ));
-
-  const calcSubtotalDelivery =
-      totalPrice >= Restaurant.data.free_delivery_subtotal
-        ? 0
-        : deliveryCharges,
-    delivery_charges = delivery ? calcSubtotalDelivery : 0;
-
-  totalPrice += delivery_charges;
+  useLayoutEffect(
+    function () {
+      resIdState[1](clues.isExceptionalCart ? resId : null);
+    },
+    [resId, clues.isExceptionalCart]
+  );
 
   return (
     <section id="checkout">
-      <div
-        id="closest-res"
-        popover="manual"
-        className="px-5 py-3 text-center"
-        style={{
-          color: "var(--midgray)",
-          borderColor: "#c9e2f4",
-          borderRadius: "8px",
-        }}
-      >
-        <b className="text-danger" style={{ fontSize: "larger" }}>
-          تنبيه
-        </b>
-
-        <p className="my-3">
-          تبين أن العنوان الذي قمت باختياره خارج نطاق تغطية الفرع الحالي
-        </p>
-
-        <div className="d-flex gap-2 justify-content-evenly">
-          <button
-            type="button"
-            className="btn flex-grow-1"
-            style={{
-              backgroundColor: "var(--primary)",
-              color: "#fff",
-              maxWidth: "50%",
-            }}
-            onClick={() => {
-              document.getElementById("closest-res").hidePopover();
-              setDelivery(false);
-            }}
-          >
-            الاستلام من الفرع
-          </button>
-
-          <button
-            type="button"
-            className="btn flex-grow-1"
-            style={{
-              backgroundColor: "var(--primary)",
-              color: "#fff",
-              maxWidth: "50%",
-            }}
-            onClick={() => {
-              if (closestRes) {
-                fetch(
-                  process.env.REACT_APP_API_URL +
-                    "/public/api/get-restaurant-items/" +
-                    closestRes.slug,
-                  {
-                    method: "POST",
-                    headers: { "Content-type": "application/json" },
-                  }
-                )
-                  .then((res) => res.json())
-                  .then((data) => {
-                    dispatch({ type: "restaurant/init", payload: closestRes });
-                    dispatch({ type: "products/init", payload: data });
-                    // Redirect to the home page
-                    redirect("/");
-                  });
-              } else alert("لا يوجد فرع قريب");
-
-              document.getElementById("closest-res").hidePopover();
-            }}
-          >
-            اختيار اقرب فرع
-          </button>
-        </div>
-      </div>
-
-      <div
-        id="time-warning"
-        popover="manual"
-        style={{
-          borderColor: "aliceblue",
-          borderRadius: "8px",
-        }}
-      >
-        <div
-          className="d-flex flex-wrap gap-3 px-5 py-3 text-center justify-content-center"
-          style={{
-            color: "var(--midgray)",
-          }}
-        >
-          <b className="text-danger w-100">اشعار بالمواعيد</b>
-          هذا الفرع مغلق الآن، يرجى العلم أن الفرع لن تمكن من قبول طلبكم قبل بدأ
-          ساعات العمل الرسمية
-          <br />
-          هل مازلت تريد متابعة تقديم الطلب؟
-          <button
-            type="button"
-            className="btn"
-            style={{
-              flex: "1 0 45%",
-              backgroundColor: "var(--primary)",
-              color: "#fff",
-            }}
-            onClick={() => {
-              accept2Continue = true;
-              document.getElementById("time-warning").hidePopover();
-            }}
-          >
-            المتابعة
-          </button>
-          <button
-            type="button"
-            className="btn"
-            style={{
-              flex: "1 0 45%",
-              backgroundColor: "var(--primary)",
-              color: "#fff",
-            }}
-            onClick={() =>
-              document.getElementById("time-warning").hidePopover()
-            }
-          >
-            الغاء
-          </button>
-        </div>
-      </div>
-
       <ul className="d-flex gap-2 justify-content-center list-unstyled mb-5 mx-auto p-0">
-        <li>{getText("checkout", 0)}</li>
+        <li>{"السلة"}</li>
         <li>{NXT}</li>
-        <li className="h5 m-0">{getText("checkout", 1)}</li>
+        <li className="h5 m-0">{"الدفع"}</li>
         <li>{NXT}</li>
-        <li>{getText("checkout", 2)}</li>
+        <li>{"تأكيد الطلب"}</li>
       </ul>
 
       <div className="align-items-stretch container d-flex flex-column flex-xl-row gap-3 justify-content-center">
-        <fieldset
-          className="d-flex flex-column gap-3 p-3 w-100"
-          style={{
-            border: "1px solid rgb(241, 241, 241)",
-            borderRadius: "16px",
-          }}
-        >
-          <legend
-            className="float-none mx-auto px-3 mb-0"
-            style={{
-              alignSelf: "center",
-              color: "var(--primary)",
-              width: "auto",
-            }}
-          >
-            {getText("checkout", 3)}
-          </legend>
-
-          <div
-            className="d-flex flex-wrap gap-2"
-            style={{ color: "var(--primary)" }}
-          >
-            <span className="w-100">{getText("checkout", 4)}</span>
-            <button
-              className="btn d-flex align-items-center gap-2"
-              data-active={!delivery}
-              onClick={() => setDelivery(false)}
-            >
-              <img
-                style={{
-                  maxHeight: "25px",
-                  filter: "grayscale(" + +delivery + ")",
-                }}
-                src={
-                  process.env.REACT_APP_API_URL +
-                  "/assets/img/various/self-pickup.png"
-                }
-                alt="branch"
-              />
-              {getText("checkout", 5)}
-            </button>
-            <button
-              className="btn d-flex align-items-center gap-2"
-              data-active={delivery}
-              onClick={() => setDelivery(true)}
-            >
-              <img
-                style={{
-                  maxHeight: "25px",
-                  filter: "grayscale(" + +!delivery + ")",
-                }}
-                src={
-                  process.env.REACT_APP_API_URL +
-                  "/assets/img/various/home-delivery.png"
-                }
-                alt="delivery"
-              />
-              {getText("checkout", 6)}
-            </button>
-          </div>
-
-          {delivery &&
-            (userAddresses.length ? (
-              <ul
-                className="align-items-stretch d-flex flex-wrap gap-2 list-unstyled m-0 p-0 w-100"
-                style={{ gridColumnStart: "span 2" }}
-              >
-                {addresses}
-              </ul>
-            ) : (
-              <p className="my-2" style={{ color: "var(--midgray)" }}>
-                <b className="d-block text-danger">تنبيه</b>
-                يرجى اضافة عنوان اولاً حتى تتمكن من اكمال الدفع
-                <button
-                  type="button"
-                  className="btn d-block mt-2 mx-auto px-5"
-                  style={{ background: "var(--primary)", color: "#fff" }}
-                  onClick={() => redirect("/settings/addresses")}
-                >
-                  اضافة عنوان
-                </button>
-              </p>
-            ))}
-
-          <textarea
-            placeholder={getText("checkout", 7)}
-            className="input-group-text mt-auto"
-            defaultValue={customProps.comment}
-            onChange={({ target }) => (customProps.comment = target.value)}
-            style={{
-              resize: "none",
-              width: "100%",
-              textAlign: "right",
-              borderColor: "#e9f3fa !important",
-              backgroundColor: "#fbfbfb",
-              outline: "none",
-            }}
-          ></textarea>
-        </fieldset>
-
+        <OrderOptions
+          reqBody={reqBody}
+          clues={clues}
+          resIdState={resIdState}
+          deliveryState={deliveryState}
+        />
         <OrderInfo
-          renderBtn={!delivery || !!userAddresses.length}
-          cart={Products.cart}
-          products={Products}
-          cashback={Products.cashback}
-          delivery={delivery_charges}
-          restaurant_id={Restaurant.data.id}
-          totalPrice={totalPrice}
+          reqBody={reqBody}
+          clues={clues}
+          resId={resIdState[0] || resId}
+          cartItems={cartItems}
+          deliveryState={deliveryState}
           placeOrder={placeOrder}
         />
       </div>
+
+      <ClosestResPopup
+        setDelivery={deliveryState[1]}
+        closestRes={clues.closestRes}
+        dispatch={dispatch}
+        redirect={redirect}
+      />
     </section>
   );
 
-  function placeOrder(cashbackVal) {
-    if (delivery && !checkResCoverage(Restaurant.data)) return;
-    if (!isWithinWorkingHours(Restaurant.data) && !accept2Continue) {
-      document.getElementById("time-warning").showPopover();
+  function placeOrder() {
+    if (deliveryState[0] && !checkResCoverage(currRes, clues.closestRes))
       return;
-    }
 
-    const images = customProps.images,
+    const images = reqBody.images || [],
       formData = new FormData();
 
-    const reqBody = {
-      ...basicBodyReq,
-      ...customProps,
-      order,
-      cashback: cashbackVal,
-      user: { data: { default_address: userAddresses[activeAddress] } },
-      delivery_type: delivery ? "1" : "2",
-      coupon: { code: window.localStorage.getItem("coupon") || emptyStr },
-      method: paymentMethod,
-      CallBackUrl: window.location.origin + "/invoice/",
-      order_comment: customProps.comment,
-    };
-
+    Object.assign(reqBody, complimentaryData);
     appendFormData(formData, reqBody);
 
     if (images && images.length > 0) {
-      for (let i = 0; i < images.length; i++) {
-        // Append each file to the FormData object
+      for (let i = 0; i < images.length; i++)
         formData.append("images[]", images[i], images[i].name);
-      }
     }
 
     const fetchOpts = {
@@ -417,46 +129,46 @@ export default function () {
   }
 
   function handleInvoice(res) {
-    debugger;
-    if (res.success === false) return alert(getText("checkout", 8));
+    if (res.success === false) return alert("حدث خطأ");
+
+    updateUserInfo();
 
     window.localStorage.removeItem("coupon");
     dispatch({ type: "products/clearCart" });
 
-    const basicOrderData = {
-      order,
-      deliveryType: getText("checkout", 9),
-      deliveryAddress: Restaurant.data.name,
-      deliveryCharges: delivery_charges,
-      paymentMode:
-        paymentMethod === "COD" ? getText("checkout", 10) : paymentMethod,
-    };
+    const paymentMode = res.data.payment_mode,
+      basicOrderData = {
+        order: reqBody.order,
+        deliveryType: "من الفرع",
+        deliveryAddress: currRes.name,
+        deliveryCharges: deliveryState[0] ? currRes.delivery_charges : 0,
+        restaurant_charge: currRes.restaurant_charges,
+        paymentMode: paymentMode === "COD" ? "عند الاستلام" : paymentMode,
+      };
 
-    if (delivery) {
-      basicOrderData.deliveryType = getText("checkout", 6);
-      basicOrderData.deliveryAddress = userAddresses[activeAddress].tag;
+    if (deliveryState[0]) {
+      basicOrderData.deliveryType = "توصيل";
+      basicOrderData.deliveryAddress =
+        clues.userAddresses[store.User.activeAddressIndex].tag;
     }
 
-    if (paymentMethod !== "COD") {
-      paymentMethod = "COD";
-
+    if (paymentMode !== "COD") {
       window.localStorage.setItem(
         "invoiceData",
         JSON.stringify(basicOrderData)
       );
-
       return (window.location.href = res.data.link);
     }
 
     const { data } = res,
       invoiceState = {
         ...basicOrderData,
-        order,
         date: data.created_at.split(" "),
         comment: data.order_comment,
         code: data.unique_order_id,
+        tax_amount: data.tax_amount,
         PIN: data.delivery_pin,
-        total: data.total + delivery_charges,
+        total: data.total + +basicOrderData.deliveryCharges,
         price: data.total,
         subTotal: data.sub_total,
       };
@@ -465,182 +177,83 @@ export default function () {
   }
 }
 
-function OrderInfo({
-  renderBtn,
-  cart,
-  cashback,
-  delivery,
-  restaurant_id,
-  placeOrder,
-  totalPrice,
-}) {
-  const items = cart.map(productItem);
-  const cashbackVal = +calcCashback(totalPrice, cashback),
-    [discount, setDiscount] = useState(0);
-
-  useEffect(() => {
-    const coupon = window.localStorage.getItem("coupon");
-    if (coupon) {
-      setDiscount(false);
-      const token = window.localStorage.getItem("token"),
-        couponParams = {
-          coupon,
-          restaurant_id: "" + restaurant_id,
-          subtotal: "" + totalPrice,
-        };
-      _useCoupon(couponParams, token, applyCoupon, rejectCoupon);
-    }
-  }, []);
-
-  totalPrice -= cashbackVal;
-
+function ClosestResPopup({ setDelivery, closestRes, dispatch, redirect }) {
   return (
-    <div className="p-3">
-      <span className="h5 title text-center">{getText("checkout", 11)}</span>
+    <div
+      id="closest-res"
+      popover="manual"
+      className="px-5 py-3 text-center"
+      style={{
+        color: "var(--midgray)",
+        borderColor: "#c9e2f4",
+        borderRadius: "8px",
+      }}
+    >
+      <b className="text-danger" style={{ fontSize: "larger" }}>
+        {"تنبيه"}
+      </b>
 
-      <hr />
-      <ul className="list-unstyled m-0 p-0">{items}</ul>
-
-      <hr />
-      <div>
-        <p>
-          {getText("checkout", 12)}
-          <span>
-            {delivery} {getText("checkout", 16)}
-          </span>
-        </p>
-        <p>
-          {getText("checkout", 13)}
-          <span>
-            {discount === false
-              ? "جاري التحقق"
-              : Math.abs(discount) +
-                cashbackVal +
-                " " +
-                getText("checkout", 16)}
-          </span>
-        </p>
-      </div>
-      <hr />
-
-      <p className="total">
-        {getText("checkout", 14)}
-        <span>
-          {totalPrice + +discount} {getText("checkout", 16)}
-        </span>
+      <p className="my-3">
+        {"تبين أن العنوان الذي قمت باختياره خارج نطاق تغطية الفرع الحالي"}
       </p>
 
-      <form>
-        <span className="d-block h5">طرق الدفع</span>
-
-        <label className="d-flex gap-2">
-          <input
-            type="radio"
-            name="payment"
-            onClick={() => (paymentMethod = "COD")}
-            defaultChecked={paymentMethod === "COD"}
-          />
-          الدفع عند الاستلام
-        </label>
-
-        <label className="d-flex gap-2 mb-2">
-          <input
-            type="radio"
-            name="payment"
-            onClick={() => (paymentMethod = "myfatoorah")}
-            defaultChecked={paymentMethod === "myfatoorah"}
-          />
-          بطاقات الائتمان
-        </label>
-      </form>
-
-      {renderBtn && (
+      <div className="d-flex gap-2 justify-content-evenly">
         <button
           type="button"
-          onClick={() => placeOrder(cashbackVal)}
-          className="btn mt-4 mx-auto w-100"
+          className="btn flex-grow-1"
+          style={{
+            backgroundColor: "var(--primary)",
+            color: "#fff",
+            maxWidth: "50%",
+          }}
+          onClick={() => {
+            document.getElementById("closest-res").hidePopover();
+            setDelivery(false);
+          }}
         >
-          {getText("checkout", 15)}
+          {"الاستلام من الفرع"}
         </button>
-      )}
+
+        <button
+          type="button"
+          className="btn flex-grow-1"
+          style={{
+            backgroundColor: "var(--primary)",
+            color: "#fff",
+            maxWidth: "50%",
+          }}
+          onClick={() => {
+            if (closestRes) {
+              fetch(
+                process.env.REACT_APP_API_URL +
+                  "/public/api/get-restaurant-items/" +
+                  closestRes.slug,
+                {
+                  method: "POST",
+                  headers: { "Content-type": "application/json" },
+                }
+              )
+                .then((res) => res.json())
+                .then((data) => {
+                  dispatch({ type: "restaurant/init", payload: closestRes });
+                  dispatch({ type: "products/init", payload: data });
+                  // Redirect to the home page
+                  redirect("/");
+                });
+            } else alert("لا يوجد فرع قريب");
+
+            document.getElementById("closest-res").hidePopover();
+          }}
+        >
+          {"اختيار اقرب فرع"}
+        </button>
+      </div>
     </div>
   );
-
-  function applyCoupon(res) {
-    const { discount_type, discount } = res,
-      value =
-        discount_type === "PERCENTAGE"
-          ? (totalPrice / 100) * +discount
-          : +discount;
-
-    setDiscount(-Math.floor(value));
-  }
-
-  function rejectCoupon() {
-    setDiscount(0);
-    window.localStorage.removeItem("coupon");
-  }
 }
 
-function productItem(item) {
-  const { id, quantity, price, name } = item;
-  return (
-    <li
-      key={id}
-      className="align-items-center d-flex gap-3 justify-content-between"
-      style={{ "font-size": "small", "font-weight": 600 }}
-    >
-      <span className="flex-grow-1" style={{ color: "var(--primary)" }}>
-        {item[nameTarget] || name}
-      </span>
-      <span>x {quantity}</span>
-      <span>
-        {price} {getText("checkout", 16)}
-      </span>
-    </li>
-  );
-}
-
-//================ Utils
-function extractData(i) {
-  const { restaurant_id, id, name, price } = i;
-
-  return {
-    name: i[nameTarget] || name,
-    restaurant_id: +restaurant_id,
-    id: emptyStr + id,
-    price: emptyStr + price,
-    quantity: emptyStr + i.quantity,
-    selectedaddons: i.addons.map((a) => ({ ...a, price: emptyStr + a.price })),
-  };
-}
-
-Object.assign(basicBodyReq, {
-  tipAmount: "",
-  cash_change_amount: "",
-  pending_payment: "",
-  partial_wallet: "",
-  is_scheduled: "",
-  schedule_date: "",
-  schedule_slot: "",
-  auto_acceptable: false,
-});
-
-function appendFormData(fd, data, parentKey = "") {
-  if (data && typeof data === "object" && !Array.isArray(data)) {
-    Object.keys(data).forEach((key) => {
-      appendFormData(fd, data[key], parentKey ? `${parentKey}[${key}]` : key);
-    });
-  } else if (Array.isArray(data)) {
-    data.forEach((item, index) => {
-      appendFormData(fd, item, `${parentKey}[${index}]`);
-    });
-  } else {
-    fd.append(parentKey, data === null ? "" : data);
-  }
-}
-
-function checkResCoverage(currRes) {
+// =======================  UTILS  =============================
+function checkResCoverage(currRes, closestRes) {
   // if the closest restaurant is not loaded yet
   if (closestRes === null) return false;
   // if there's no closest restaurant
@@ -673,3 +286,37 @@ function isWithinWorkingHours({ workingHours }) {
 
   return true;
 }
+
+function appendFormData(fd, data, parentKey = "") {
+  if (data && typeof data === "object" && !Array.isArray(data)) {
+    Object.keys(data).forEach((key) => {
+      appendFormData(fd, data[key], parentKey ? `${parentKey}[${key}]` : key);
+    });
+  } else if (Array.isArray(data)) {
+    data.forEach((item, index) => {
+      appendFormData(fd, item, `${parentKey}[${index}]`);
+    });
+  } else {
+    fd.append(parentKey, data === null ? "" : data);
+  }
+}
+
+function checkForExceptionalItems(cartItems) {
+  return cartItems.some((item) => {
+    const category = item.category_name,
+      exceptional = exceptionalCategories.includes(category);
+    return exceptional;
+  });
+}
+
+Object.assign(complimentaryData, {
+  tipAmount: "",
+  cash_change_amount: "",
+  pending_payment: "",
+  // partial_wallet: "",
+  is_scheduled: "",
+  schedule_date: "",
+  schedule_slot: "",
+  auto_acceptable: false,
+  CallBackUrl: window.location.origin + "/invoice/",
+});

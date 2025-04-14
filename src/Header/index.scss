@@ -1,3 +1,11 @@
+header #branches {
+  font-size: small;
+
+  @media screen and (min-width: 576px) {
+    font-size: 1rem;
+  }
+}
+
 body:not(#mobile) > header {
   position: sticky;
   top: -40px;
@@ -9,7 +17,7 @@ body:not(#mobile) > header {
   & > div:last-child {
     grid-template-columns: auto 1fr auto auto;
     gap: 16px;
-    
+
     button.btn {
       color: var(--primary);
       background-color: #ffcd00;
@@ -58,12 +66,12 @@ header .DD {
   --translateY: 10px;
   --opacity: 0;
   --visibility: hidden;
-  --scale:0;
-  
+  --scale: 0;
+
   &:hover {
     --visibility: visible;
     --opacity: 1;
-    --scale:1;
+    --scale: 1;
     --translateY: 0px;
   }
 

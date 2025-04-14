@@ -5,18 +5,23 @@ import S, { getFavourites } from "../../store";
 import "./index.scss";
 import getText from "../../translation";
 
-const isArabic = window.localStorage.getItem("lang") === "العربية",
+const dispatch = S.dispatch,
+  isArabic = window.localStorage.getItem("lang") === "العربية",
   nameTarget = isArabic ? "name_ar" : "name";
 
-const Base = process.env.REACT_APP_API_URL + "/",
+const priceTypes = window.priceTypes,
+  Base = process.env.REACT_APP_API_URL + "/",
   baseUrl = Base + "public/api";
 
 export default function (item, I) {
-  if (item.is_active === 0) return false;
+  // if (item.is_active === 0) return false;
 
   let product;
 
-  const store = S.getState(),
+  const priceType = isArabic
+      ? priceTypes[item.price_type]
+      : item.price_type.replace(/_/g, " ").toUpperCase(),
+    store = S.getState(),
     { fav: favs } = store.Products,
     { loaded } = store.User,
     isHearted = favs.some((e) => e.id === item.id),
@@ -25,8 +30,7 @@ export default function (item, I) {
     old_price = +item.old_price,
     discount = old_price > price && (
       <span>
-        {100 - (price / old_price) * 100}%{" "}
-        <sub>{getText("productItem", 0)}</sub>
+        {100 - (price / old_price) * 100}% <sub>{"خصم"}</sub>
       </span>
     ),
     key = item.item_category_id * item.restaurant_id + I;
@@ -97,21 +101,26 @@ export default function (item, I) {
     >
       <div className="align-items-center d-flex justify-content-between">
         <div className="d-flex gap-1">
-          {is_new ? <span>{getText("productItem", 1)}</span> : ""}
+          {is_new ? <span>{"جديد"}</span> : ""}
           {discount}
         </div>
 
         {loaded && vid}
       </div>
 
-      <Link to={"/products/" + item.id} className="text-decoration-none">
+      <Link to={"/products/" + item.id}>
         <img
           src={Base + image}
           className="mb-3 mx-auto"
           alt={item[nameTarget]}
         />
+      </Link>
 
-        <div className="desc d-flex flex-column gap-3 py-1">
+      <div className="desc">
+        <Link
+          to={"/products/" + item.id}
+          className="text-decoration-none d-flex flex-column gap-3 py-3"
+        >
           <span className="h5 d-none d-md-block m-0">
             {item[nameTarget] || item.name}
           </span>
@@ -124,7 +133,8 @@ export default function (item, I) {
               data="/assets/home/icons/star.svg"
               type="image/svg+xml"
             ></object>
-            {Math.max(3, Math.ceil(Math.random() * 5))}
+
+            {4.7}
 
             {item.category_name && (
               <span className="align-items-center d-flex">
@@ -134,21 +144,25 @@ export default function (item, I) {
           </div>
 
           <div className="align-items-center d-flex price">
-            <span>{price + " " + getText("settings", 14)}</span> /
-            {getText("productItem", 2)}
+            <span>{price + " " + "ر.س"}</span> /{priceType}
           </div>
+        </Link>
 
-          <button
-            type="button"
-            className="btn d-flex flex-column align-items-center p-0"
-          >
-            <span className="d-flex align-items-center justify-content-center text-capitalize">
-              {getText("productItem", 3)}
-            </span>
-            <img src="/assets/home/icons/mdi-light_cart.svg" alt="Cart" />
-          </button>
-        </div>
-      </Link>
+        <button
+          type="button"
+          className="btn d-flex flex-column align-items-center p-0 w-100"
+          onClick={addSingle}
+        >
+          <span className="d-flex align-items-center justify-content-center text-capitalize">
+            {"اضافة للسلة"}
+          </span>
+          <img src="/assets/home/icons/mdi-light_cart.svg" alt="Cart" />
+        </button>
+      </div>
     </div>
   );
+
+  function addSingle() {
+    dispatch({ type: "products/addSingleItemToCart", item });
+  }
 }

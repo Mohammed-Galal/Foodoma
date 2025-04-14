@@ -20,10 +20,10 @@ export default function () {
     <div className="align-items-center container d-grid py-3">
       <ul className="align-items-center d-flex list-unstyled m-0 p-0">
         <li>
-          <Link to="/all-products">{getText("header", 0)}</Link>
+          <Link to="/all-products">{"منتجاتنا"}</Link>
         </li>
         <li>
-          <Link to="/restaurant">{getText("header", 1)}</Link>
+          <Link to="/restaurant">{"الفروع"}</Link>
         </li>
         <li>
           <button
@@ -31,7 +31,7 @@ export default function () {
             className="btn px-3 py-2"
             onClick={() => redirect("/all-products")}
           >
-            {getText("header", 2)}
+            {"اطلب الآن"}
           </button>
         </li>
       </ul>
@@ -57,11 +57,11 @@ export default function () {
           {loaded && (
             <ul className="d-flex flex-column list-unstyled m-0 p-0">
               <li className="p-2">
-                <Link to="/settings/addresses">{getText("header", 3)}</Link>
+                <Link to="/settings/addresses">{"حسابي"}</Link>
               </li>
 
               <li className="p-2 text-danger" onClick={logout}>
-                {getText("header", 4)}
+                {"تسجيل الخروج"}
               </li>
             </ul>
           )}
@@ -79,7 +79,7 @@ export default function () {
             style={{ maxWidth: "24px", filter: "contrast(0.7)" }}
           />
 
-          <ul
+          {/* <ul
             className="d-flex flex-column list-unstyled m-0 px-0 py-2"
             style={{ textAlign: "center", minWidth: "70px" }}
           >
@@ -90,7 +90,7 @@ export default function () {
                 </li>
               );
             })}
-          </ul>
+          </ul> */}
         </li>
       </ul>
     </div>

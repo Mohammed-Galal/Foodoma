@@ -17,12 +17,12 @@ export default function () {
     customProducts = products.custom,
     params = useParams();
 
+  if (customProducts.length === 0) return null;
+
   const activeTab = params.style || customProducts[0]?.name,
     availOptions = customProducts.find(
       (i) => i.is_active && i.name === activeTab
     );
-
-  if (customProducts.length === 0) return null;
 
   return (
     <>
@@ -40,7 +40,7 @@ export default function () {
         <ul className="d-flex gap-2 justify-content-center list-unstyled mx-0 mb-5 p-0">
           <li>mon 10</li>
           <li>{NXT}</li>
-          <li>{getText("design", 0)}</li>
+          <li>{"صمم كيكتك بنفسك"}</li>
           <li>{NXT}</li>
           <li>{availOptions.name}</li>
         </ul>
@@ -163,7 +163,7 @@ function Form({ productItem }) {
           type="file"
           accept="image/*"
         />
-        {getText("design", 1)}
+        {"أضف صورة"}
       </label>
 
       <ul className="d-grid gap-3 list-unstyled">
@@ -171,7 +171,7 @@ function Form({ productItem }) {
 
         <li>
           <label htmlFor="phrase" className="title">
-            {getText("design", 2)}
+            {"العبارة على الكيك"}
           </label>
           <input
             type="text"
@@ -184,7 +184,7 @@ function Form({ productItem }) {
 
         <li>
           <label htmlFor="notes" className="title">
-            {getText("design", 3)}
+            {"شكل آخر اكتبه في الملاحظات"}
           </label>
 
           <input
@@ -192,7 +192,7 @@ function Form({ productItem }) {
             name="comment"
             onChange={(e) => (customProps.current.comment = e.target.value)}
             className="input-group-text"
-            placeholder={getText("design", 4)}
+            placeholder={"ملاحظات"}
           />
         </li>
 
@@ -212,11 +212,13 @@ function Form({ productItem }) {
             className="d-flex gap-1 align-items-center"
             onClick={storeFormData}
           >
-            {getText("design", 5)}
+            {"اضف الى العربة"}
             {Cart}
           </button>
 
-          <span className="h5 m-0">{totalPrice} ر.س</span>
+          <span className="h5 m-0">
+            {totalPrice} {"ر.س"}
+          </span>
         </li>
       </ul>
     </form>
@@ -238,6 +240,6 @@ function Form({ productItem }) {
 
   function storeFormData() {
     formBody.formData = new FormData(form.current);
-    dispatch({ type: "products/addToCart", payload: formBody });
+    dispatch({ type: "products/addToCart", payload: formBody, special: true });
   }
 }

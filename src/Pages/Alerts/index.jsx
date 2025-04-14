@@ -31,7 +31,7 @@ export default function Alerts() {
         style={{ border: "none", outline: "none" }}
         onClick={markAllAsRead}
       >
-        {getText("alerts", 0)}
+        {"تمييز الكل كمقروء"}
       </button>
 
       <ul className="list-unstyled m-0 p-0 w-100" style={{ maxWidth: "992px" }}>

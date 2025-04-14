@@ -23,7 +23,7 @@ export default function () {
   return (
     <div className="addresses d-flex flex-column gap-3">
       <span className="h5 m-0 title" style={{ color: "var(--primary)" }}>
-        {getText("settings", 6)}
+        {"العناوين المسجلة"}
       </span>
 
       <ul className="list-unstyled d-grid gap-3 m-0 p-0">{Addresses}</ul>
@@ -38,7 +38,7 @@ export default function () {
             "background-color: var(--primary); color: #fff; border-radius: 24px; scale: 0.9; position: sticky; bottom: 72px;",
         }}
       >
-        {getText("settings", 7)}
+        {"أضف عنوان جديد"}
       </button>
     </div>
   );
@@ -80,7 +80,7 @@ function AddressItem(
         onClick={removeAdrress}
         style={{ fontSize: "smaller" }}
         className="border-0 btn btn-outline-danger"
-        value={getText("settings", 41)}
+        value={"حذف"}
       />
     </li>
   );
@@ -95,10 +95,6 @@ function AddressItem(
       },
     })
       .then((e) => e.json())
-      .then((r) => {
-        console.log(r);
-
-        dispatch({ type: "user/setAddresses", payload: r });
-      });
+      .then((r) => dispatch({ type: "user/setAddresses", payload: r }));
   }
 }

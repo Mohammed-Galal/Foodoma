@@ -35,7 +35,7 @@ export default ({ sectionName }) => {
             <span dangerouslySetInnerHTML={{ __html: main[descArg] }}></span>
 
             <Link to="/design" className="text-decoration-none">
-              {getText("home", 14)}
+              {"اطلب الآن"}
             </Link>
           </p>
 
@@ -49,7 +49,7 @@ export default ({ sectionName }) => {
             <span dangerouslySetInnerHTML={{ __html: other[descArg] }}></span>
 
             <Link to="/early-booking" className="text-decoration-none">
-              {getText("home", 18)}
+              {"احجز الآن"}
             </Link>
           </p>
 

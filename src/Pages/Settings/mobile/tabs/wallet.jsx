@@ -1,7 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 
 import { useLayoutEffect, useState } from "react";
-import getText from "../../../../translation";
 
 const api =
   process.env.REACT_APP_API_URL + "/public/api/get-wallet-transactions";

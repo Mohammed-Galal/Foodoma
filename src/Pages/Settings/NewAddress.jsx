@@ -38,39 +38,39 @@ export default function NewAddress({ isActive, deActivate }) {
 
       <div className="container d-grid gap-3 h5 my-0 p-3">
         <label>
-          {getText("settings", 34)}
+          {"احفظ العنوان باسم"}
           <input
             type="text"
             className="input-group-text"
-            placeholder={getText("settings", 35)}
+            placeholder={"عنوان المنزل على سبيل المثال"}
             role="input"
             onChange={(e) => (opts.tag = e.target.value)}
           />
         </label>
 
         <label>
-          {getText("settings", 36)}
+          {"العنوان"}
           <input
             type="text"
             className="input-group-text"
-            placeholder={getText("settings", 36)}
+            placeholder={"العنوان"}
             role="input"
             onChange={(e) => (opts.address = e.target.value)}
           />
         </label>
 
         <label>
-          {getText("settings", 37)}
+          {"المنزل"}
           <input
             type="text"
             className="input-group-text"
-            placeholder={getText("settings", 37)}
+            placeholder={"المنزل"}
             role="input"
             onChange={(e) => (opts.house = e.target.value)}
           />
         </label>
 
-        <label>{getText("settings", 38)}</label>
+        <label>{"حدد الموقع على الخريطة"}</label>
 
         <APIProvider apiKey="AIzaSyAzuTxVwWxJIk39BIRSwsT-BKv4sC6BqnQ">
           <Map
@@ -86,7 +86,7 @@ export default function NewAddress({ isActive, deActivate }) {
         </APIProvider>
 
         <button className="btn mx-auto" onClick={addAddress}>
-          {getText("settings", 39)}
+          {"أضف العنوان"}
         </button>
       </div>
     </div>
@@ -97,7 +97,7 @@ export default function NewAddress({ isActive, deActivate }) {
   }
 
   function addAddress() {
-    if (!checkValidity()) return alert(getText("settings", 40));
+    if (!checkValidity()) return alert("يجب ملئ جميع البيانات");
     if (position === null) return alert("يجب تحديد الموقع على الخريطة");
 
     fetch(saveAddressApi, {

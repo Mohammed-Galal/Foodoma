@@ -16,7 +16,7 @@ export default ({ data }) => {
       className="container-fluid container-lg d-flex flex-column"
     >
       <p className="d-flex align-items-center">
-        <span className="h3">{getText("home", 9)}</span>
+        <span className="h3">{"تصاميم جاهزة لكل مناسبة"}</span>
       </p>
 
       <Carousel
@@ -31,7 +31,7 @@ function oItem({ name, image_url }) {
   return (
     <Link
       key={name}
-      to={"/all-products/" + name}
+      to={"/all-products/" + name + "?occasions=1"}
       className="d-flex flex-column gap-2 text-center text-decoration-none"
       style={{ color: "var(--primary)" }}
     >

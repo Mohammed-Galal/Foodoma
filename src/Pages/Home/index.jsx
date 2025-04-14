@@ -39,23 +39,23 @@ export default function () {
       <Banner />
       <Products
         id="new-items"
-        title={getText("home", 19)}
+        title={"المنتجات الجديدة"}
         categoryKey="is_new"
       />
       <Products
         id="popular-items"
-        title={getText("home", 20)}
+        title={"المنتجات الأكثر مبيعاً"}
         categoryKey="is_popular"
       />
       <Departments
         data={categories.current.Departments}
-        sectionName={getText("home", 21)}
+        sectionName={"أقسام مون 10"}
       />
       <Occassions
         data={categories.current.Occassions}
-        sectionName={getText("home", 22)}
+        sectionName={"تصاميم جاهزة المناسبات"}
       />
-      <Services sectionName={getText("home", 23)} />
+      <Services sectionName={"خدمات مون 10 الإضافية"} />
       {/* <Rate /> */}
       <About />
     </>

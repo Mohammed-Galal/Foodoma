@@ -19,7 +19,7 @@ export default function () {
         style={{ cssText: "color: var(--primary); font-weight: 700" }}
         className="h4 m-0 title"
       >
-        {getText("settings", 24)}
+        {"اختر عنوان التوصيل"}
       </p>
 
       <ul className="d-grid gap-3 list-unstyled m-0 p-0">{addressItems}</ul>
@@ -35,7 +35,7 @@ export default function () {
             "background-color: var(--primary); color: #fff; border-radius: 24px; width: 70%;",
         }}
       >
-        {getText("settings", 25)}
+        {"اضف عنوان جديد"}
       </button>
     </div>
   );

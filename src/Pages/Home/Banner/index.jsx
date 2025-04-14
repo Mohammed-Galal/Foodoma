@@ -4,8 +4,8 @@ import "./index.scss";
 export default () => (
   <section key="banner" id="banner" className="container-fluid container-lg">
     <div className="align-items-center d-flex flex-column justify-content-center text-center">
-      <span className="h1 m-0">{getText("home", 6)}!</span>
-      <p className="my-2">{getText("home", 7)}</p>
+      <span className="h1 m-0">{"صمم كيكتك بنفسك"}!</span>
+      <p className="my-2">{`اجعل احتفالك مميزًا بلمستك الخاصة، اختر النكهات والتصاميم التي تعكس ذوقك الفريد وابتكر كيكة تروي حكايتك في كل تفاصيلها لتكون لحظاتك أحلى وأكثر تميزًا!`}</p>
 
       {/* <Link to="/all-products" className="text-decoration-none">
         {getText("home", 8)}

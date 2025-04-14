@@ -7,7 +7,7 @@ export default (
     <li>
       <NavLink to="/settings/addresses">
         <div>{Loc}</div>
-        {getText("nav", 0)}
+        {"عناويني"}
       </NavLink>
     </li>
 
@@ -29,7 +29,7 @@ export default (
             </svg>
           }
         </div>
-        {getText("nav", 1)}
+        {"المفضلة"}
       </NavLink>
     </li>
 
@@ -49,7 +49,7 @@ export default (
             />
           </svg>
         </div>
-        {getText("nav", 2)}
+        {"السلة"}
       </NavLink>
     </li>
 
@@ -74,7 +74,7 @@ export default (
             </g>
           </svg>
         </div>
-        {getText("nav", 3)}
+        {"البحث"}
       </NavLink>
     </li>
 
@@ -105,7 +105,7 @@ export default (
             </g>
           </svg>
         </div>
-        {getText("nav", 4)}
+        {"الرئيسية"}
       </NavLink>
     </li>
   </ul>
