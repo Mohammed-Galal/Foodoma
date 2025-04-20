@@ -4,9 +4,10 @@ import Products from "./products.js";
 import User from "./user.js";
 import Restaurant from "./restaurant.js";
 import Sliders from "./sliders.js";
+import settings from "./settings.js";
 
 const APP_STATE = configureStore({
-  reducer: { Products, User, Restaurant, Sliders },
+  reducer: { Products, User, Restaurant, Sliders, settings },
 });
 export default APP_STATE;
 
@@ -91,6 +92,10 @@ export const updateUserInfo = function () {
       })
       .catch(console.error);
   };
+
+fetch(baseUrl + "/getAppSetting", { method: "GET" })
+  .then((r) => r.json())
+  .then((r) => APP_STATE.dispatch({ type: "settings/init", payload: r }));
 
 function toJson(res) {
   return res.json();

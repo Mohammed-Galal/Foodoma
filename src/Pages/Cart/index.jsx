@@ -14,11 +14,14 @@ const baseUrl = process.env.REACT_APP_API_URL;
 let couponData = null;
 
 export default function () {
-  const { cashback } = useSelector((S) => S.Products),
-    [discount, setDiscount] = useState(0),
+  const products = useSelector((S) => S.Products),
+    { cart, data } = products,
     store = useStore().getState(),
+    [discount, setDiscount] = useState(0),
     dispatch = useDispatch();
-  const userWallet = +store.User.data.wallet_balance,
+
+  const cashback = mergeKeys(store.settings.data || products.cashback),
+    userWallet = +store.User.data.wallet_balance,
     restaurant = store.Restaurant;
 
   let coupon = window.localStorage.getItem("coupon") || "",
@@ -26,11 +29,10 @@ export default function () {
 
   coupon === "" && (couponData = null);
 
-  const { cart, data } = useSelector((S) => S.Products),
-    items = cart.map((item, I) => {
-      totalPrice += +item.price * item.quantity;
-      return ProductItem(item, I, editCartItem);
-    });
+  const items = cart.map((item, I) => {
+    totalPrice += +item.price * item.quantity;
+    return ProductItem(item, I, editCartItem);
+  });
 
   useLayoutEffect(() => {
     const token = window.localStorage.getItem("token");
@@ -44,6 +46,8 @@ export default function () {
     } else if (token === undefined) alert("يجب تسجيل الدخول أولا");
     else couponData = null;
   }, [coupon, totalPrice, discount]);
+
+  const cashbackAmount = calcCashback(totalPrice, cashback);
 
   return (
     <>
@@ -63,10 +67,10 @@ export default function () {
           className="align-items-center container d-flex flex-column gap-3 h5 my-0"
           style={{ cssText: "color: var(--primary); font-weight: 600;" }}
         >
-          {((a, b) => `اشتري بقيمة ${a} ر.س وأحصل على ${b} ر.س كاش باك`)(
-            cashback.max,
-            cashback.min
-          )}
+          {((a, b) =>
+            `اشتري بقيمة ${a} ر.س وأحصل على ${b} ${
+              cashback.type === "percentage" ? "%" : "ر.س"
+            } كاش باك`)(cashback.max, cashback.value)}
           <progress
             value={totalPrice}
             max={+cashback.max}
@@ -78,7 +82,7 @@ export default function () {
       {cart.length ? (
         <section
           id="cart"
-          className="align-items-baseline container d-flex flex-column flex-xl-row gap-3"
+          className="container d-flex flex-column flex-xl-row gap-3"
         >
           <ul className="text-center d-grid gap-1 list-unstyled m-0 overflow-hidden p-3">
             <li>{"المنتج"}</li>
@@ -160,7 +164,7 @@ export default function () {
           </ul>
 
           <div className="d-grid gap-3 p-3">
-            <p className="h4 m-0 pb-2 text-center">{"إجمالي العربة"}</p>
+            <p className="h5 m-0 pb-2 text-center">{"إجمالي العربة"}</p>
 
             <span>
               <samp>{"المجموع"}</samp>
@@ -173,7 +177,7 @@ export default function () {
               <span className="total">
                 <samp>{"رصيد المحفظة"}</samp>
                 <samp>
-                  {userWallet + " "}
+                  {-userWallet + " "}
                   {"ر.س"}
                 </samp>
               </span>
@@ -183,20 +187,18 @@ export default function () {
                 <samp>
                   {discount === false
                     ? "جاري التحقق"
-                    : calcCashback(totalPrice, cashback) +
-                      Math.abs(discount) +
-                      " " +
-                      "ر.س"}
+                    : -(cashbackAmount + Math.abs(discount)) + " " + "ر.س"}
                 </samp>
               </span>
             </p>
 
             <span className="total">
               <samp>{"الإجمالي"}</samp>
-              {-calcCashback(totalPrice, cashback) +
+              {(
+                -cashbackAmount +
                 (totalPrice - userWallet) +
-                +discount +
-                " "}
+                +discount
+              ).toFixed(2) + " "}
               {"ر.س"}
             </span>
 
@@ -337,5 +339,27 @@ function ProductItem(item, I, editCart) {
 }
 
 export function calcCashback(totalPrice, cashback) {
-  return cashback && totalPrice > +cashback.max ? +cashback.min : 0;
+  if (!cashback) return 0;
+  let { max, value, type } = cashback;
+  type === "percentage" && (value = (value / 100) * totalPrice);
+  return totalPrice >= max ? value : 0;
+}
+
+export function mergeKeys(cashback) {
+  if (!cashback) return null;
+
+  const isNew = !!cashback.wallet_cash_type,
+    obj = {
+      max: +cashback.max,
+      value: +cashback.min,
+      type: "fixed",
+    };
+
+  if (isNew) {
+    obj.max = +cashback.wallet_cash_min_order;
+    obj.value = +cashback.wallet_cash_value;
+    obj.type = cashback.wallet_cash_type;
+  }
+
+  return obj;
 }

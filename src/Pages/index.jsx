@@ -112,7 +112,11 @@ function App() {
         <Route path="/alerts" Component={Alerts} caseSensitive={true} />
         <Route path="/user/:action?" Component={User} />
         <Route path="/settings/:tab?" Component={Settings} />
-        <Route path="/products/:id" caseSensitive={true} Component={Product} />
+        <Route
+          path="/products/:id/:isEarlyBooking"
+          caseSensitive={true}
+          Component={Product}
+        />
         <Route
           path="/early-booking"
           caseSensitive={true}

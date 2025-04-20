@@ -21,8 +21,9 @@ const isArabic = window.localStorage.getItem("lang") === "العربية",
 
 export default function () {
   const Products = useSelector(($) => $.Products),
-    items = Products.data,
-    productId = Number(useParams().id),
+    { id, isEarlyBooking } = useParams(),
+    productId = parseInt(id),
+    items = !!+isEarlyBooking ? Products.early_booking : Products.data,
     state = items.find((e) => e.id === productId);
 
   return (

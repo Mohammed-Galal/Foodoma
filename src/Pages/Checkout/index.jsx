@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { _useCoupon } from "../Cart";
+import { _useCoupon, mergeKeys } from "../Cart";
 import { updateUserInfo } from "../../store";
 
 import NXT from "../../icons/NXT";
@@ -42,7 +42,7 @@ export default function () {
   clues.isExceptionalCart = checkForExceptionalItems(cartItems);
   clues.userAddresses = store.User.addresses;
   clues.closestRes = null;
-  clues.cashback = store.Products.cashback;
+  clues.cashback = mergeKeys(store.settings.data || store.Products.cashback);
   clues.deliveryCharges = store.Restaurant.data.delivery_charges;
 
   useEffect(function () {
@@ -57,7 +57,7 @@ export default function () {
     [resId, clues.isExceptionalCart]
   );
 
-  if (cartItems.length === 0) return "جاري اعادة التوجيه";
+  if (cartItems.length === 0) return null;
 
   return (
     <section id="checkout">
@@ -69,7 +69,7 @@ export default function () {
         <li>{"تأكيد الطلب"}</li>
       </ul>
 
-      <div className="align-items-start container d-flex flex-column flex-xl-row gap-3 justify-content-center">
+      <div className="align-items-stretch align-items-xl-start container d-flex flex-column flex-xl-row gap-3 justify-content-center">
         <OrderOptions
           reqBody={reqBody}
           clues={clues}

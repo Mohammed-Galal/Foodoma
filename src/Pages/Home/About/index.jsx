@@ -49,17 +49,17 @@ export default () => {
       >
         <div className="d-flex flex-column">
           <img src="/assets/home/icons/ph_stamp-light.svg" alt="LIGHT" />
-          <Inc curr={count} until={73} />
+          <Inc curr={count} until={75} />
           {"سنة خبرة"}
         </div>
         <div className="d-flex flex-column">
           <img src="/assets/home/icons/hugeicons_happy.svg" alt="HAPPY FACE" />
-          <Inc curr={count} until={1000} />
+          <Inc curr={count} until={32000} />
           {"عميل سعيد"}
         </div>
         <div className="d-flex flex-column">
           <img src="/assets/home/icons/bi_cake.svg" alt="CAKE" />
-          <Inc curr={count} until={3000} />
+          <Inc curr={count} until={15000} />
           {"عمل طلب"}
         </div>
       </div>

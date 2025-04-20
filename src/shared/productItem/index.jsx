@@ -90,6 +90,9 @@ export default function (item, I) {
     }
   }
 
+  const href =
+    "/products/" + item.id + "/" + +(item.category_name === "الحجز المبكر");
+
   return (
     <div
       key={key}
@@ -108,7 +111,7 @@ export default function (item, I) {
         {loaded && vid}
       </div>
 
-      <Link to={"/products/" + item.id}>
+      <Link to={href}>
         <img
           src={Base + image}
           className="mb-3 mx-auto"
@@ -118,7 +121,7 @@ export default function (item, I) {
 
       <div className="desc">
         <Link
-          to={"/products/" + item.id}
+          to={href}
           className="text-decoration-none d-flex flex-column gap-3 py-3"
         >
           <span className="h5 d-none d-md-block m-0">

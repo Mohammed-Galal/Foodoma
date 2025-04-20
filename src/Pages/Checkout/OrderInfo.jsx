@@ -51,23 +51,30 @@ export default function (props) {
     [coupon]
   );
 
-  const cashbackAmount = +calcCashback(totalPrice, cashback),
+  const subTotal = totalPrice,
+    cashbackAmount = +calcCashback(totalPrice, cashback),
     calcSubtotalDelivery =
       freeDeliverySubtotal > 0 && totalPrice >= freeDeliverySubtotal
         ? 0
         : clues.deliveryCharges,
-    delivery_charges = delivery ? calcSubtotalDelivery : 0;
+    delivery_charges = delivery ? +calcSubtotalDelivery : 0;
 
   reqBody.order = order;
   reqBody.method = paymentMethod;
   reqBody.cashback = cashbackAmount;
   coupon && (reqBody.coupon.code = coupon);
 
-  totalPrice -= cashbackAmount;
-  totalPrice += +delivery_charges;
-
   clues.discount = cashbackAmount + wallet_balance;
   discountAmount && (clues.discount += Math.abs(discountAmount));
+  totalPrice += delivery_charges;
+  totalPrice -= clues.discount;
+
+  const taxes =
+    store.settings.data.taxApplicable === "true"
+      ? calcTaxes(totalPrice, +store.settings.data.taxPercentage)
+      : 0;
+  const totalBeforeDiscount = subTotal + taxes + delivery_charges;
+  const deliveryTargetOption = delivery ? "enCODonDelivery" : "enCODonSF";
 
   return (
     <div className="p-3" style={{ color: "var(--midgray)" }}>
@@ -76,65 +83,107 @@ export default function (props) {
       <hr />
       <ul className="list-unstyled m-0 p-0">{order.map(productItem)}</ul>
       <hr />
+      <p>
+        {"المجموع"}
+        <span style={{ color: "var(--primary)", fontWeight: "600" }}>
+          {subTotal} {"ر.س"}
+        </span>
+      </p>
 
       <p>
-        {"رسوم التوصيل"}
+        {"الخصم"}
         <span>
-          {delivery ? clues.deliveryCharges : 0} {"ر.س"}
+          {discountAmount === false
+            ? "جاري التحقق"
+            : -(Math.abs(discountAmount) + cashbackAmount) + " " + "ر.س"}
         </span>
       </p>
 
       <hr />
-
-      <div>
-        <p>
-          {"رصيد المحفظة"}
-          <span>
-            {wallet_balance + " "} {"رس"}
-          </span>
-        </p>
-        <p>
-          {"الخصم"}
-          <span>
-            {discountAmount === false
-              ? "جاري التحقق"
-              : Math.abs(discountAmount) + cashbackAmount + " " + "ر.س"}
-          </span>
-        </p>
-      </div>
-
-      <hr />
       <p>
-        {"الضرائب"}
         <span>
-          {0 + " "} {"رس"}
+          {"رسوم التوصيل"}{" "}
+          {delivery && delivery_charges === 0 && (
+            <sub
+              className="px-2"
+              style={{
+                background: "#ffc933",
+                color: "#fff",
+                borderRadius: "14px",
+              }}
+            >
+              {"توصيل مجاني"}
+            </sub>
+          )}
+        </span>
+
+        <span>
+          {delivery_charges} {"ر.س"}
         </span>
       </p>
 
+      {taxes > 0 && (
+        <p>
+          {"ضرائب (14%)"}
+          <span>
+            {taxes.toFixed(2)} {"رس"}
+          </span>
+        </p>
+      )}
+
       <hr />
 
-      <p className="total" style={{ color: "var(--black)" }}>
+      <p>
+        {"رصيد المحفظة"}
+        <span>
+          {-wallet_balance + " "} {"رس"}
+        </span>
+      </p>
+
+      <p
+        className="total h5"
+        style={{ color: "var(--primary)", fontWeight: "bold" }}
+      >
         {"الإجمالي"}
+
+        {totalBeforeDiscount > totalPrice && (
+          <sub
+            style={{
+              color: "var(--midgray)",
+              marginInlineStart: "auto",
+              marginInlineEnd: "6px",
+            }}
+          >
+            <del>
+              {totalBeforeDiscount.toFixed(2)} {"ر.س"}
+            </del>
+          </sub>
+        )}
         <span>
-          {totalPrice - wallet_balance + +discountAmount} {"ر.س"}
+          {(totalPrice + taxes).toFixed(2)} {"ر.س"}
         </span>
       </p>
 
       <form style={{ color: "var(--black)" }}>
-        <span className="d-block h5">{"طرق الدفع"}</span>
+        <span
+          className="d-block h5 text-center"
+          style={{ color: "var(--primary)" }}
+        >
+          {"طرق الدفع"}
+        </span>
 
-        <label className="d-flex gap-2 mb-2">
+        <label className="d-flex gap-2 mb-3">
           <input
             type="radio"
             name="payment"
             onClick={() => setPaymentMethod("myfatoorah")}
             checked={paymentMethod === "myfatoorah"}
           />
-          {"بطاقات الائتمان"}
+          {"ادفع الآن"}
         </label>
 
         {isExceptionalCart ||
-          (!delivery && (
+          (store.settings.data[deliveryTargetOption] === "true" && (
             <label className="d-flex gap-2">
               <input
                 type="radio"
@@ -208,4 +257,8 @@ function extractData(i, restaurant_id) {
     quantity: emptyStr + i.quantity,
     selectedaddons: i.addons.map((a) => ({ ...a, price: emptyStr + a.price })),
   };
+}
+
+function calcTaxes(price, percentage) {
+  return (percentage / 100) * price;
 }

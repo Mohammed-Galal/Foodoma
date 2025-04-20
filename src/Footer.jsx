@@ -22,9 +22,8 @@ export default (
       <div className="align-items-stretch row">
         <div className="col-3 d-flex flex-column">
           <img className="mb-3" src="/assets/home/logo-white.svg" alt="logo" />
-          {"حلويات مونتانا سابقا"}
           <br />
-          {"تأسست عام 1950 من"}
+          {"تأسست عام 1950 م"}
         </div>
 
         <div className="col-3 d-flex flex-column">

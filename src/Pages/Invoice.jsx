@@ -1,5 +1,3 @@
-/* eslint-disable import/no-anonymous-default-export */
-
 import getText from "../translation";
 import { useEffect, useState } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
@@ -191,12 +189,12 @@ export default () => {
 
             <tr>
               <td colSpan="4">{"ضرائب"}</td>
-              <td>{("" + state.tax_amount).slice(0, 4)}</td>
+              <td>{state.tax_amount.toFixed(2)}</td>
             </tr>
 
             <tr>
               <td colSpan="4">{"الاجمالي"}</td>
-              <td>{state.total}</td>
+              <td>{state.total.toFixed(2)}</td>
             </tr>
           </tfoot>
         </table>

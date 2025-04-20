@@ -38,8 +38,8 @@ export default function () {
               {"ينتهي الحجز في"}
               <p className="d-grid my-4">
                 <Timer expireDate={exDate} isExpired={isExpired} />
-                <span>{"يوم"}</span>:<span>{"ساعة"}</span>:
-                <span>{"دقيقة"}</span>
+                <span>{"دقيقة"}</span>:<span>{"ساعة"}</span>:
+                <span>{"يوم"}</span>
               </p>
 
               {other[descArg]}
