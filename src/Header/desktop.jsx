@@ -38,7 +38,7 @@ export default function () {
 
       <Link to="/" className="mx-auto">
         <img
-          src="/assets/home/logo.svg"
+          src="https://montana.amir-adel.com/admin/assets/home/logo.svg"
           alt="logo"
           style={{ height: "62px" }}
         />

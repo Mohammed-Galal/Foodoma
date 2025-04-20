@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStore } from "react-redux";
-import { calcCashback } from "../Cart";
+import { calcWalletCashback } from "../Cart";
 import { _useCoupon } from "../Cart";
 
 const isArabic = window.localStorage.getItem("lang") === "العربية",
@@ -54,7 +54,7 @@ export default function (props) {
   );
 
   const subTotal = totalPrice,
-    cashbackAmount = +calcCashback(totalPrice, cashback),
+    cashbackAmount = +calcWalletCashback(totalPrice, cashback),
     calcSubtotalDelivery =
       freeDeliverySubtotal > 0 && totalPrice >= freeDeliverySubtotal
         ? 0

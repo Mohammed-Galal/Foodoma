@@ -21,7 +21,11 @@ export default (
     <div className="container-fluid container-lg">
       <div className="align-items-stretch row">
         <div className="col-3 d-flex flex-column">
-          <img className="mb-3" src="/assets/home/logo-white.svg" alt="logo" />
+          <img
+            className="mb-3"
+            src="https://montana.amir-adel.com/admin/assets/home/logo-white.svg"
+            alt="logo"
+          />
           <br />
           {"تأسست عام 1950 م"}
         </div>

@@ -15,13 +15,13 @@ let couponData = null;
 
 export default function () {
   const products = useSelector((S) => S.Products),
-    { cart, data, cashback } = products,
+    { cart, data } = products,
     store = useStore().getState(),
-    settings = store.settings.data,
     [discount, setDiscount] = useState(0),
     dispatch = useDispatch();
 
-  const userWallet = +store.User.data.wallet_balance || 0,
+  const cashback = mergeKeys(store.settings.data || products.cashback),
+    userWallet = +store.User.data.wallet_balance,
     restaurant = store.Restaurant;
 
   let coupon = window.localStorage.getItem("coupon") || "",
@@ -47,7 +47,7 @@ export default function () {
     else couponData = null;
   }, [coupon, totalPrice, discount]);
 
-  const cashbackAmount = calcWalletCashback(totalPrice, settings);
+  const cashbackAmount = calcCashback(totalPrice, cashback);
 
   return (
     <>
@@ -62,8 +62,22 @@ export default function () {
         <li>{"تأكيد الطلب"}</li>
       </ul>
 
-      <CartCashback totalPrice={totalPrice} source={cashback} />
-      <CartCashback totalPrice={totalPrice} source={settings} />
+      {cashback && (
+        <div
+          className="align-items-center container d-flex flex-column gap-3 h5 my-0"
+          style={{ cssText: "color: var(--primary); font-weight: 600;" }}
+        >
+          {((a, b) =>
+            `اشتري بقيمة ${a} ر.س وأحصل على ${b} ${
+              cashback.type === "percentage" ? "%" : "ر.س"
+            } كاش باك`)(cashback.max, cashback.value)}
+          <progress
+            value={totalPrice}
+            max={+cashback.max}
+            style={{ cssText: "max-width: 500px;" }}
+          ></progress>
+        </div>
+      )}
 
       {cart.length ? (
         <section
@@ -163,7 +177,8 @@ export default function () {
               <span className="total">
                 <samp>{"رصيد المحفظة"}</samp>
                 <samp>
-                  {-userWallet} {"ر.س"}
+                  {store.User.loaded ? -userWallet : 0}
+                  {"ر.س"}
                 </samp>
               </span>
 
@@ -179,9 +194,10 @@ export default function () {
 
             <span className="total">
               <samp>{"الإجمالي"}</samp>
-              {Math.max(
-                0,
-                -cashbackAmount + (totalPrice - userWallet) + +discount
+              {(
+                -cashbackAmount +
+                (totalPrice - userWallet) +
+                +discount
               ).toFixed(2) + " "}
               {"ر.س"}
             </span>
@@ -325,48 +341,28 @@ function ProductItem(item, I, editCart) {
   );
 }
 
-function CartCashback({ totalPrice, source }) {
-  if (!source) return null;
-
-  const obj = {
-    max: +source.max,
-    value: +source.min,
-    type: "fixed",
-  };
-
-  if (source.wallet_cash_type) {
-    const walletTxt = +source.wallet_text;
-    if (walletTxt === NaN || walletTxt === 0) return null;
-    obj.max = +source.wallet_cash_min_order;
-    obj.value = +source.wallet_cash_value;
-    obj.type = source.wallet_cash_type;
-  }
-
-  return (
-    <div
-      className="align-items-center container d-flex flex-column gap-3 h5 my-0 my-3"
-      style={{ cssText: "color: var(--primary); font-weight: 600;" }}
-    >
-      {((a, b) =>
-        `اشتري بقيمة ${a} ر.س وأحصل على ${b} ${
-          obj.type === "percentage" ? "%" : "ر.س"
-        } كاش باك`)(obj.max, obj.value)}
-      <progress
-        value={totalPrice}
-        max={+obj.max}
-        style={{ cssText: "max-width: 500px;" }}
-      ></progress>
-    </div>
-  );
-}
-
-export function calcWalletCashback(totalPrice, cashback) {
+export function calcCashback(totalPrice, cashback) {
   if (!cashback) return 0;
-
-  let max = +cashback.wallet_cash_min_order,
-    value = +cashback.wallet_cash_value,
-    type = cashback.wallet_cash_type;
-
+  let { max, value, type } = cashback;
   type === "percentage" && (value = (value / 100) * totalPrice);
   return totalPrice >= max ? value : 0;
+}
+
+export function mergeKeys(cashback) {
+  if (!cashback) return null;
+
+  const isNew = !!cashback.wallet_cash_type,
+    obj = {
+      max: +cashback.max,
+      value: +cashback.min,
+      type: "fixed",
+    };
+
+  if (isNew) {
+    obj.max = +cashback.wallet_cash_min_order;
+    obj.value = +cashback.wallet_cash_value;
+    obj.type = cashback.wallet_cash_type;
+  }
+
+  return obj;
 }

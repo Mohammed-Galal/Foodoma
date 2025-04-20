@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { _useCoupon, mergeKeys } from "../Cart";
+import { _useCoupon } from "../Cart";
 import { updateUserInfo } from "../../store";
 
 import NXT from "../../icons/NXT";
@@ -42,7 +42,7 @@ export default function () {
       closestRes: null,
       isExceptionalCart: checkForExceptionalItems(cartItems),
       userAddresses: store.User.addresses,
-      cashback: mergeKeys(store.settings.data || store.Products.cashback),
+      cashback: store.settings.data,
     }).current;
 
   clues.deliveryCharges = store.Restaurant.data.delivery_charges;

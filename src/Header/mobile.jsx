@@ -16,7 +16,7 @@ export default function MobileHeader() {
 
       <Link to="/" className="mx-auto flex-grow-1 text-center">
         <img
-          src="/assets/home/logo.svg"
+          src="https://montana.amir-adel.com/admin/assets/home/logo.svg"
           alt="logo"
           style={{ height: "62px" }}
         />
