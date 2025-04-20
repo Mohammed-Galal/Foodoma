@@ -153,7 +153,7 @@ function ProductInfo(state) {
         style={{ flex: "1 0 59%" }}
       >
         <ul className="d-flex gap-1 list-unstyled m-0 p-0">
-          <li>mon10</li>
+          <li>Montana</li>
           <li>{NXT}</li>
           <li>الصنف</li>
           <li>{NXT}</li>

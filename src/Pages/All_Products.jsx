@@ -60,7 +60,7 @@ export default function () {
               borderBottom: "1px solid currentColor",
             }}
           >
-            {"أقسام mon10"}
+            {"أقسام Montana"}
           </h5>
 
           <ul

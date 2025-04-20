@@ -82,7 +82,7 @@ export default () => {
           className="mx-auto px-3"
           style={{ float: "none", width: "auto", color: "var(--primary)" }}
         >
-          {"شكراً لاختياركم mon10"}
+          {"شكراً لاختياركم Montana"}
         </legend>
 
         <p
@@ -203,7 +203,7 @@ export default () => {
           className="m-0 text-center"
           style={{ color: "var(--midgray)", lineHeight: "1.6" }}
         >
-          {"mon10 تتمنى لكم يوماً سعيداً!"}
+          {"Montana تتمنى لكم يوماً سعيداً!"}
         </p>
       </fieldset>
     </section>

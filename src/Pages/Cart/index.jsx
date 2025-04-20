@@ -302,7 +302,9 @@ function ProductItem(item, I, editCart) {
         <Link
           className="text-decoration-none"
           style={{ textAlign: "start" }}
-          to={"/products/" + id}
+          to={
+            "/products/" + id + "/" + +(item.category_name === "الحجز المبكر")
+          }
         >
           {item[nameTarget] || name}
         </Link>

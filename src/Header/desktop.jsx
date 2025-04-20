@@ -37,7 +37,11 @@ export default function () {
       </ul>
 
       <Link to="/" className="mx-auto">
-        <img src="/assets/home/logo.svg" alt="logo" />
+        <img
+          src="/assets/home/logo.svg"
+          alt="logo"
+          style={{ height: "62px" }}
+        />
       </Link>
 
       <ul className="align-items-center d-flex list-unstyled m-0 p-0">

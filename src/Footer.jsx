@@ -64,7 +64,7 @@ export default (
         </div>
 
         <div className="col-3 d-flex flex-column gap-1">
-          <span className="h5 mb-3">حمل التطبيق الآن</span>
+          <span className="h5 mb-3">{"حمل التطبيق الآن"}</span>
           <Link to="">
             <img
               style={{ width: "142px" }}
@@ -137,7 +137,7 @@ export default (
                   style={{ maxWidth: "64px" }}
                 />
               </div>
-              السجل التجاري
+              {"السجل التجاري"}
               <br />
               4030479174
             </li>
@@ -158,7 +158,7 @@ export default (
                   style={{ maxWidth: "70px" }}
                 />
               </div>
-              الرقم الضريبي
+              {"الرقم الضريبي"}
               <br />
               311354802600003
             </li>
@@ -167,7 +167,7 @@ export default (
       </div>
     </div>
     <p className="mt-4 mb-0 text-center">
-      <span>{"جميع الحقوق محفوظة"} | </span>© 2003-2024 Mon10
+      <span>{"جميع الحقوق محفوظة"} | </span>© 2003-2025 Montana
     </p>
   </>
 );

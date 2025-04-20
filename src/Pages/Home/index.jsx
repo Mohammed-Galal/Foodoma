@@ -49,13 +49,13 @@ export default function () {
       />
       <Departments
         data={categories.current.Departments}
-        sectionName={"أقسام مون 10"}
+        sectionName={"أقسام مونتانا"}
       />
       <Occassions
         data={categories.current.Occassions}
         sectionName={"تصاميم جاهزة المناسبات"}
       />
-      <Services sectionName={"خدمات مون 10 الإضافية"} />
+      <Services sectionName={"خدمات مونتانا الإضافية"} />
       {/* <Rate /> */}
       <About />
     </>

@@ -29,7 +29,7 @@ export default function () {
 
       <section id="design" className="container">
         <ul className="d-flex gap-2 justify-content-center list-unstyled mx-0 mb-5 p-0">
-          <li>mon 10</li>
+          <li>Montana</li>
           <li>{NXT}</li>
           <li>صمم كيكتك بنفسك</li>
           <li>{NXT}</li>

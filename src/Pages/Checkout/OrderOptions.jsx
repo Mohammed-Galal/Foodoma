@@ -12,10 +12,17 @@ const defaultLoc = {
     borderRadius: "8px",
   };
 
-export default function ({ deliveryState, reqBody, clues, resIdState }) {
+export default function ({
+  deliveryState,
+  reqBody,
+  clues,
+  resIdState,
+  payment,
+}) {
   const dispatch = useDispatch(),
     redirect = useNavigate(),
     { User, Restaurant } = useSelector((e) => e),
+    setPaymentMethod = payment[1],
     [resId, setResId] = resIdState,
     [delivery, setDelivery] = deliveryState;
 
@@ -69,7 +76,10 @@ export default function ({ deliveryState, reqBody, clues, resIdState }) {
         <button
           className="btn d-flex align-items-center gap-2"
           data-active={!delivery}
-          onClick={() => setDelivery(false)}
+          onClick={() => {
+            setDelivery(false);
+            setPaymentMethod("myfatoorah");
+          }}
         >
           <img
             style={{
@@ -87,7 +97,10 @@ export default function ({ deliveryState, reqBody, clues, resIdState }) {
         <button
           className="btn d-flex align-items-center gap-2"
           data-active={delivery}
-          onClick={() => setDelivery(true)}
+          onClick={() => {
+            setDelivery(true);
+            setPaymentMethod("myfatoorah");
+          }}
         >
           <img
             style={{

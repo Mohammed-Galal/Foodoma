@@ -15,7 +15,11 @@ export default function MobileHeader() {
       </Link>
 
       <Link to="/" className="mx-auto flex-grow-1 text-center">
-        <img src="/assets/home/logo.svg" alt="logo" />
+        <img
+          src="/assets/home/logo.svg"
+          alt="logo"
+          style={{ height: "62px" }}
+        />
       </Link>
 
       <Link to="/alerts" className="btn text-decoration-none position-relative">

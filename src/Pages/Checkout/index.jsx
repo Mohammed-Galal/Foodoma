@@ -20,7 +20,13 @@ export default function () {
     store = useStore().getState(),
     dispatch = useDispatch(),
     deliveryState = useState(true),
+    payment = useState("myfatoorah"),
     resIdState = useState(null);
+
+  const currRes = store.Restaurant.data,
+    resId = currRes.id,
+    userAuthientcated = store.User.loaded,
+    cartItems = store.Products.cart;
 
   const reqBody = useRef({
       is_special: false,
@@ -32,17 +38,13 @@ export default function () {
       coupon: { code: emptyStr },
       user: { data: { default_address: {} } },
     }).current,
-    clues = useRef({}).current;
+    clues = useRef({
+      closestRes: null,
+      isExceptionalCart: checkForExceptionalItems(cartItems),
+      userAddresses: store.User.addresses,
+      cashback: mergeKeys(store.settings.data || store.Products.cashback),
+    }).current;
 
-  const currRes = store.Restaurant.data,
-    resId = currRes.id,
-    userAuthientcated = store.User.loaded,
-    cartItems = store.Products.cart;
-
-  clues.isExceptionalCart = checkForExceptionalItems(cartItems);
-  clues.userAddresses = store.User.addresses;
-  clues.closestRes = null;
-  clues.cashback = mergeKeys(store.settings.data || store.Products.cashback);
   clues.deliveryCharges = store.Restaurant.data.delivery_charges;
 
   useEffect(function () {
@@ -74,9 +76,11 @@ export default function () {
           reqBody={reqBody}
           clues={clues}
           resIdState={resIdState}
+          payment={payment}
           deliveryState={deliveryState}
         />
         <OrderInfo
+          payment={payment}
           reqBody={reqBody}
           clues={clues}
           resId={resIdState[0] || resId}

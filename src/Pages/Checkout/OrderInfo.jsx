@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "react-redux";
 import { calcCashback } from "../Cart";
 import { _useCoupon } from "../Cart";
@@ -8,23 +8,25 @@ const isArabic = window.localStorage.getItem("lang") === "العربية",
   emptyStr = "";
 
 export default function (props) {
-  const { reqBody, placeOrder, cartItems, deliveryState, clues, resId } = props,
+  const {
+      reqBody,
+      placeOrder,
+      cartItems,
+      deliveryState,
+      clues,
+      resId,
+      payment,
+    } = props,
     { userAddresses, isExceptionalCart, cashback } = clues;
 
   const store = useStore().getState(),
+    settings = store.settings.data,
     currRes = store.Restaurant.data,
     freeDeliverySubtotal = currRes.free_delivery_subtotal,
     wallet_balance = store.User.data.wallet_balance,
     [delivery] = deliveryState,
-    [paymentMethod, setPaymentMethod] = useState("myfatoorah"),
+    [paymentMethod, setPaymentMethod] = payment,
     [discountAmount, setDiscount] = useState(0);
-
-  useLayoutEffect(
-    function () {
-      delivery && setPaymentMethod("myfatoorah");
-    },
-    [delivery, isExceptionalCart]
-  );
 
   let totalPrice = 0;
 
@@ -64,15 +66,18 @@ export default function (props) {
   reqBody.cashback = cashbackAmount;
   coupon && (reqBody.coupon.code = coupon);
 
-  clues.discount = cashbackAmount + wallet_balance;
+  clues.discount = cashbackAmount;
   discountAmount && (clues.discount += Math.abs(discountAmount));
   totalPrice += delivery_charges;
-  totalPrice -= clues.discount;
 
   const taxes =
-    store.settings.data.taxApplicable === "true"
-      ? calcTaxes(totalPrice, +store.settings.data.taxPercentage)
+    settings.taxApplicable === "true"
+      ? calcTaxes(totalPrice - clues.discount, +settings.taxPercentage)
       : 0;
+
+  clues.discount += wallet_balance;
+  totalPrice -= clues.discount;
+
   const totalBeforeDiscount = subTotal + taxes + delivery_charges;
   const deliveryTargetOption = delivery ? "enCODonDelivery" : "enCODonSF";
 
@@ -124,7 +129,7 @@ export default function (props) {
 
       {taxes > 0 && (
         <p>
-          {"ضرائب (14%)"}
+          {"ضرائب "}({settings.taxPercentage}%)
           <span>
             {taxes.toFixed(2)} {"رس"}
           </span>
@@ -160,7 +165,7 @@ export default function (props) {
           </sub>
         )}
         <span>
-          {(totalPrice + taxes).toFixed(2)} {"ر.س"}
+          {Math.max(0, totalPrice + taxes).toFixed(2)} {"ر.س"}
         </span>
       </p>
 
@@ -183,7 +188,7 @@ export default function (props) {
         </label>
 
         {isExceptionalCart ||
-          (store.settings.data[deliveryTargetOption] === "true" && (
+          (settings[deliveryTargetOption] === "true" && (
             <label className="d-flex gap-2">
               <input
                 type="radio"
