@@ -42,7 +42,7 @@ export default function () {
       closestRes: null,
       isExceptionalCart: checkForExceptionalItems(cartItems),
       userAddresses: store.User.addresses,
-      cashback: store.settings.data,
+      cashback: store.Products.cashback,
     }).current;
 
   clues.deliveryCharges = store.Restaurant.data.delivery_charges;

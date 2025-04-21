@@ -30,7 +30,7 @@ export default function (item, I) {
     old_price = +item.old_price,
     discount = old_price > price && (
       <span>
-        {100 - (price / old_price) * 100}% <sub>{"خصم"}</sub>
+        {parseInt(100 - (price / old_price) * 100)}% <sub>{"خصم"}</sub>
       </span>
     ),
     key = item.item_category_id * item.restaurant_id + I;
@@ -147,6 +147,11 @@ export default function (item, I) {
           </div>
 
           <div className="align-items-center d-flex price">
+            {old_price > 0 && (
+              <sub style={{ marginInlineEnd: "4px" }}>
+                <del>{old_price}</del>
+              </sub>
+            )}
             <span>{price + " " + "ر.س"}</span> /{priceType}
           </div>
         </Link>

@@ -17,7 +17,7 @@ export default function () {
   Products.cart.forEach((p) => (itemsQuantity += p.quantity));
 
   return (
-    <div className="align-items-center container d-grid py-3">
+    <div className="align-items-center container d-grid py-2">
       <ul className="align-items-center d-flex list-unstyled m-0 p-0">
         <li>
           <Link to="/all-products">{"منتجاتنا"}</Link>

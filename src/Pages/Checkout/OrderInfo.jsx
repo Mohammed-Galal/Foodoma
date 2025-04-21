@@ -131,7 +131,7 @@ export default function (props) {
         <p>
           {"ضرائب "}({settings.taxPercentage}%)
           <span>
-            {taxes.toFixed(2)} {"رس"}
+            {taxes.toLocaleString()} {"رس"}
           </span>
         </p>
       )}
@@ -160,12 +160,12 @@ export default function (props) {
             }}
           >
             <del>
-              {totalBeforeDiscount.toFixed(2)} {"ر.س"}
+              {totalBeforeDiscount.toLocaleString()} {"ر.س"}
             </del>
           </sub>
         )}
         <span>
-          {Math.max(0, totalPrice + taxes).toFixed(2)} {"ر.س"}
+          {Math.max(0, totalPrice + taxes).toLocaleString()} {"ر.س"}
         </span>
       </p>
 

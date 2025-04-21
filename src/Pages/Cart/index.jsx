@@ -47,7 +47,7 @@ export default function () {
     else couponData = null;
   }, [coupon, totalPrice, discount]);
 
-  const cashbackAmount = calcWalletCashback(totalPrice, settings);
+  const cashbackAmount = calcWalletCashback(totalPrice, cashback);
 
   return (
     <>
@@ -172,7 +172,9 @@ export default function () {
                 <samp>
                   {discount === false
                     ? "جاري التحقق"
-                    : -(cashbackAmount + Math.abs(discount)) + " " + "ر.س"}
+                    : -(cashbackAmount + Math.abs(discount)).toLocaleString() +
+                      " " +
+                      "ر.س"}
                 </samp>
               </span>
             </p>
@@ -182,7 +184,7 @@ export default function () {
               {Math.max(
                 0,
                 -cashbackAmount + (totalPrice - userWallet) + +discount
-              ).toFixed(2) + " "}
+              ).toLocaleString() + " "}
               {"ر.س"}
             </span>
 
@@ -331,7 +333,7 @@ function CartCashback({ totalPrice, source }) {
   const obj = {
     max: +source.max,
     value: +source.min,
-    type: "fixed",
+    type: source.type || source.wallet_cash_type,
   };
 
   if (source.wallet_cash_type) {
@@ -339,7 +341,6 @@ function CartCashback({ totalPrice, source }) {
     if (walletTxt === NaN || walletTxt === 0) return null;
     obj.max = +source.wallet_cash_min_order;
     obj.value = +source.wallet_cash_value;
-    obj.type = source.wallet_cash_type;
   }
 
   return (
@@ -363,9 +364,9 @@ function CartCashback({ totalPrice, source }) {
 export function calcWalletCashback(totalPrice, cashback) {
   if (!cashback) return 0;
 
-  let max = +cashback.wallet_cash_min_order,
-    value = +cashback.wallet_cash_value,
-    type = cashback.wallet_cash_type;
+  let max = +cashback.max,
+    value = +cashback.min,
+    type = cashback.type;
 
   type === "percentage" && (value = (value / 100) * totalPrice);
   return totalPrice >= max ? value : 0;

@@ -78,7 +78,7 @@ function ProductInfo(state) {
         className="flag"
         style={{ "--bg": "#e4f4ff", "--color": "var(--primary)" }}
       >
-        {100 - (+state.price / old_price) * 100}%<sub>{"خصم"}</sub>
+        {parseInt(100 - (+state.price / old_price) * 100)}%<sub>{"خصم"}</sub>
       </span>
     );
 
@@ -166,7 +166,7 @@ function ProductInfo(state) {
           <span className="flag">
             {!!state.is_active ? "متوفر" : "غير متوفر"}
           </span>
-          {discountFlag}
+          {+state.price < old_price && discountFlag}
         </p>
 
         {state.desc && (
@@ -176,7 +176,7 @@ function ProductInfo(state) {
           ></p>
         )}
 
-        {old_price > 0 && (
+        {old_price > 0 && +state.price < old_price && (
           <p>
             <del>
               {state.old_price} {"ر.س"}

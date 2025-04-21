@@ -3,29 +3,26 @@ import getText from "../../translation";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import productItem from "../../shared/productItem";
+import moment from "moment";
 import "./index.scss";
-
-// const expireDate = new Date();
-// setting Fixed Time (currTime(ms) + expireTime(ms))
-// expireDate.setTime(expireDate.getTime() + 172800000);
 
 const currLang = window.localStorage.getItem("lang") === "العربية";
 
-const daysInMs = 1000 * 60 * 60 * 24,
-  hoursInMs = 1000 * 60 * 60,
-  minsInMs = 60 * 1000;
-
 export default function () {
-  const { loaded, other } = useSelector((e) => e.Sliders);
+  const { loaded, other } = useSelector((e) => e.Sliders),
+    [update, setUpdate] = useState(true);
 
   if (!loaded) return null;
 
-  const now = new Date(),
-    exDate = new Date(other.ex_data),
-    isExpired = now > exDate;
-
   const nameArg = currLang ? "name_ar" : "name";
   const descArg = currLang ? "description_ar" : "description";
+
+  const now = new Date(),
+    diff = moment(other.ex_data).diff(now),
+    duration = moment.duration(diff),
+    isExpired = diff <= 0;
+
+  if (!isExpired) setTimeout(() => !isExpired && setUpdate(!update), 1000);
 
   return (
     <>
@@ -37,7 +34,7 @@ export default function () {
             <div className="text-center my-auto">
               {"ينتهي الحجز في"}
               <p className="d-grid my-4">
-                <Timer expireDate={exDate} isExpired={isExpired} />
+                <Timer duration={duration} isExpired={isExpired} />
                 <span>{"دقيقة"}</span>:<span>{"ساعة"}</span>:
                 <span>{"يوم"}</span>
               </p>
@@ -55,33 +52,20 @@ export default function () {
   );
 }
 
-function Timer({ expireDate, isExpired }) {
-  const [update, setUpdate] = useState(true);
-
+function Timer({ duration, isExpired }) {
   let days = 0,
     hours = 0,
     minutes = 0;
 
   if (!isExpired) {
-    const now = new Date().getTime();
-    let diff = expireDate - now;
-
-    days = Math.floor(diff / daysInMs);
-    diff -= days * daysInMs;
-
-    hours = diff / hoursInMs;
-    diff -= days * hoursInMs;
-
-    minutes = diff / minsInMs;
-
-    setTimeout(() => now < expireDate && setUpdate(!update), 1000);
+    days = duration.days();
+    hours = duration.hours();
+    minutes = duration.minutes();
   }
 
   return (
     <span className="align-items-baseline display-4 timer">
-      <samp>{Math.max(0, Math.floor(minutes % 60))}</samp>:
-      <samp>{Math.max(0, Math.floor(hours % 60))}</samp>:
-      <samp>{Math.max(0, days)}</samp>
+      <samp>{minutes}</samp>:<samp>{hours}</samp>:<samp>{days}</samp>
     </span>
   );
 }
