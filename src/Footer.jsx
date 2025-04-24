@@ -26,7 +26,6 @@ export default (
             src="https://montana.amir-adel.com/admin/assets/home/logo-white.svg"
             alt="logo"
           />
-          <br />
           {"تأسست عام 1950 م"}
         </div>
 
