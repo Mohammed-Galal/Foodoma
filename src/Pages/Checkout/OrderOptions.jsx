@@ -97,7 +97,9 @@ export default function ({
         <button
           className="btn d-flex align-items-center gap-2"
           data-active={delivery}
+          disabled={isExceptionalCart}
           onClick={() => {
+            if (isExceptionalCart) return;
             setDelivery(true);
             setPaymentMethod("myfatoorah");
           }}
@@ -119,7 +121,7 @@ export default function ({
 
       {!delivery && isExceptionalCart && (
         <ul
-          className="align-items-stretch d-flex flex-wrap gap-2 list-unstyled m-0 p-0 w-100"
+          className="d-flex flex-column flex-wrap gap-2 list-unstyled m-0 p-0"
           style={{ gridColumnStart: "span 2" }}
         >
           {branches.map(branchItem)}
@@ -168,7 +170,7 @@ export default function ({
 
   function branchItem({ id, name }) {
     return (
-      <li key={id} data-active={resId === id}>
+      <li key={id} style={addresItemStyle} data-active={resId === id}>
         <label
           onClick={() => setResId(id)}
           className="align-items-center d-flex gap-2 h-100 justify-content-start px-3 py-1 w-100"

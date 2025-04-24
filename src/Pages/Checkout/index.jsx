@@ -54,9 +54,12 @@ export default function () {
 
   useLayoutEffect(
     function () {
-      resIdState[1](clues.isExceptionalCart ? resId : null);
+      if (clues.isExceptionalCart) {
+        resIdState[1](resId);
+        deliveryState[1](false);
+      }
     },
-    [resId, clues.isExceptionalCart]
+    [resId, clues.isExceptionalCart, deliveryState[0]]
   );
 
   if (cartItems.length === 0) return null;
