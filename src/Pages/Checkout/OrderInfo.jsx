@@ -83,29 +83,29 @@ export default function (props) {
 
   return (
     <div className="p-3" style={{ color: "var(--midgray)" }}>
-      <span className="h5 title text-center d-block">{"الطلب"}</span>
+      <h5 className="title m-0 text-center d-block">{"الطلب"}</h5>
 
       <hr />
       <ul className="list-unstyled m-0 p-0">{order.map(productItem)}</ul>
       <hr />
-      <p>
+      <div>
         {"المجموع"}
         <span style={{ color: "var(--primary)", fontWeight: "600" }}>
           {subTotal} {"ر.س"}
         </span>
-      </p>
+      </div>
 
-      <p>
+      <div>
         {"الخصم"}
         <span>
           {discountAmount === false
             ? "جاري التحقق"
             : -(Math.abs(discountAmount) + cashbackAmount) + " " + "ر.س"}
         </span>
-      </p>
+      </div>
 
       <hr />
-      <p>
+      <div>
         <span>
           {"رسوم التوصيل"}{" "}
           {delivery && delivery_charges === 0 && (
@@ -125,27 +125,27 @@ export default function (props) {
         <span>
           {delivery_charges} {"ر.س"}
         </span>
-      </p>
+      </div>
 
       {taxes > 0 && (
-        <p>
+        <div>
           {"ضرائب "}({settings.taxPercentage}%)
           <span>
             {taxes.toLocaleString()} {"رس"}
           </span>
-        </p>
+        </div>
       )}
 
       <hr />
 
-      <p>
+      <div>
         {"رصيد المحفظة"}
         <span>
           {-wallet_balance + " "} {"رس"}
         </span>
-      </p>
+      </div>
 
-      <p
+      <div
         className="total h5"
         style={{ color: "var(--primary)", fontWeight: "bold" }}
       >
@@ -167,7 +167,7 @@ export default function (props) {
         <span>
           {Math.max(0, totalPrice + taxes).toLocaleString()} {"ر.س"}
         </span>
-      </p>
+      </div>
 
       <form style={{ color: "var(--black)" }}>
         <span

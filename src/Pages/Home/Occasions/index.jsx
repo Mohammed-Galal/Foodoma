@@ -16,7 +16,7 @@ export default ({ data }) => {
       className="container-fluid container-lg d-flex flex-column"
     >
       <p className="d-flex align-items-center">
-        <span className="h3">{"تصاميم جاهزة لكل مناسبة"}</span>
+        <h3>{"تصاميم جاهزة لكل مناسبة"}</h3>
       </p>
 
       <Carousel

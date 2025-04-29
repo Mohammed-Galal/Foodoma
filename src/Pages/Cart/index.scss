@@ -88,13 +88,14 @@ main {
       border: 1px solid #f8f8f8;
       border-radius: 24px;
 
-      & > p {
+      & > h5 {
         border-bottom: 1px solid #f8f8f8;
         color: var(--primary);
+      }
 
-        &:nth-child(3) {
-          border-top: 1px solid #f8f8f8;
-        }
+      & > div {
+        border-top: 1px solid #f8f8f8 ;
+        border-bottom: 1px solid #f8f8f8;
       }
 
       span {

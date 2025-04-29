@@ -160,43 +160,45 @@ function ProductInfo(state) {
           <li>{state.name}</li>
         </ul>
 
-        <p className="title h2">{(isArabic && state.name_ar) || state.name}</p>
+        <h1 className="title h2">
+          {(isArabic && state.name_ar) || state.name}
+        </h1>
 
-        <p className="state text-center d-flex align-items-center gap-2">
+        <div className="state text-center d-flex align-items-center gap-2">
           <span className="flag">
             {!!state.is_active ? "متوفر" : "غير متوفر"}
           </span>
           {+state.price < old_price && discountFlag}
-        </p>
+        </div>
 
         {state.desc && (
-          <p
+          <div
             className="desc w-100"
             dangerouslySetInnerHTML={{ __html: docFrag.textContent }}
-          ></p>
+          ></div>
         )}
 
         {old_price > 0 && +state.price < old_price && (
-          <p>
+          <div>
             <del>
               {state.old_price} {"ر.س"}
             </del>
-          </p>
+          </div>
         )}
 
-        <p className="price">
+        <div className="price">
           <span>
             {state.price} {"ر.س"}
           </span>
           /{priceType}
-        </p>
+        </div>
 
         {cals}
 
-        <p className="align-items-center d-flex rate">
+        <div className="align-items-center d-flex rate">
           <img src="/assets/home/icons/star.svg" alt="star" /> 5
           <Link to="/rate">{"اكتب رأيك"}</Link>
-        </p>
+        </div>
         {!!categories.length && (
           <div className="addons d-flex flex-wrap w-100">
             <span className="h5 m-0">{"الإضافات"}</span>

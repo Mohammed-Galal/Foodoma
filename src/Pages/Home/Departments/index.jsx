@@ -16,9 +16,7 @@ export default ({ sectionName, data }) => (
             marginBottom: "var(--internal-gap)",
           }}
         >
-          <span className="h3" style={{ fontWeight: "bold" }}>
-            {sectionName}
-          </span>
+          <h3 style={{ fontWeight: "bold" }}>{sectionName}</h3>
         </p>
       )}
 

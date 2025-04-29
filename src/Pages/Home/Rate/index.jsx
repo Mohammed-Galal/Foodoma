@@ -15,7 +15,7 @@ const icons = { insta, snapshot, whatsapp };
 export default () => (
   <section key="rates" id="rates">
     <div className="container-fluid container-lg">
-      <span className="d-block h3 text-center">{"آراء عملائنا"}</span>
+      <h3 className="d-block text-center">{"آراء عملائنا"}</h3>
       <Swiper
         modules={[A11y, Scrollbar, Pagination, Navigation]}
         navigation

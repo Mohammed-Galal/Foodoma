@@ -22,9 +22,9 @@ export default function () {
 
   return (
     <div className="addresses d-flex flex-column gap-3">
-      <span className="h5 m-0 title" style={{ color: "var(--primary)" }}>
+      <h5 className="m-0 title" style={{ color: "var(--primary)" }}>
         {"العناوين المسجلة"}
-      </span>
+      </h5>
 
       <ul className="list-unstyled d-grid gap-3 m-0 p-0">{Addresses}</ul>
 

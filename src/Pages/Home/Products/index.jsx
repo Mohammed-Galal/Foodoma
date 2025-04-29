@@ -19,7 +19,7 @@ export default function ({ id, title, categoryKey }) {
       className="mx-auto container-fluid container-lg"
     >
       <p className="d-flex align-items-center">
-        <span className="h3">{title}</span>
+        <h3>{title}</h3>
       </p>
 
       <Carousel innerItems={products} />

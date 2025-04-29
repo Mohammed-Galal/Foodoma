@@ -23,7 +23,7 @@ export default ({ sectionName }) => {
     >
       {sectionName && (
         <p className="d-flex align-items-center">
-          <span className="h3">{sectionName}</span>
+          <h3>{sectionName}</h3>
         </p>
       )}
 

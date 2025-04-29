@@ -150,7 +150,7 @@ export default function () {
           </ul>
 
           <div className="d-grid gap-3 p-3">
-            <p className="h5 m-0 pb-2 text-center">{"إجمالي العربة"}</p>
+            <h5 className="h5 m-0 pb-2 text-center">{"إجمالي العربة"}</h5>
 
             <span>
               <samp>{"المجموع"}</samp>
@@ -159,7 +159,7 @@ export default function () {
               </samp>
             </span>
 
-            <p className="d-grid gap-3 m-0 py-2">
+            <div className="d-grid gap-3 m-0 py-2">
               <span className="total">
                 <samp>{"رصيد المحفظة"}</samp>
                 <samp>
@@ -177,7 +177,7 @@ export default function () {
                       "ر.س"}
                 </samp>
               </span>
-            </p>
+            </div>
 
             <span className="total">
               <samp>{"الإجمالي"}</samp>
