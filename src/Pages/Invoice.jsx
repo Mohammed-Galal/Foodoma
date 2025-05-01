@@ -1,4 +1,5 @@
 import getText from "../translation";
+import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
 
@@ -69,7 +70,9 @@ export default () => {
     );
   }
 
+  window.localStorage.removeItem("coupon");
   window.localStorage.removeItem("invoiceData");
+  dispatch({ type: "products/clearCart" });
   return (
     <section id="invoice" className="container">
       <img className="d-block mx-auto" src="/assets/check.gif" alt="success" />

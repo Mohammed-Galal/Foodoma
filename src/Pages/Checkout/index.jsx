@@ -138,9 +138,6 @@ export default function () {
 
     updateUserInfo();
 
-    window.localStorage.removeItem("coupon");
-    dispatch({ type: "products/clearCart" });
-
     const paymentMode = res.data.payment_mode,
       basicOrderData = {
         order: reqBody.order,
