@@ -7,14 +7,17 @@ window.localStorage.setItem("lang", lang);
 
 export const keys = Object.keys(file);
 
-export default function getText(pageName, phraseIndex) {
-  const fallback = file["العربية"][pageName][phraseIndex];
+export default function getPage(pageName) {
+  const fallback = file["العربية"][pageName];
 
-  try {
-    return file[lang][pageName][phraseIndex] || fallback;
-  } catch {
-    return fallback;
-  }
+  return function (phraseIndex) {
+    try {
+      // debugger;
+      return file[lang][pageName][phraseIndex] || fallback[phraseIndex];
+    } catch {
+      return fallback;
+    }
+  };
 }
 
 if (window)

@@ -1,10 +1,12 @@
-import getText from "../../../translation";
+import getPage from "../../../translation";
 import { Link } from "react-router-dom";
 import Carousel from "../../../shared/Carousel";
 import "./index.scss";
 
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable import/no-anonymous-default-export */
+
+const getText = getPage("home");
 
 export default ({ data }) => {
   const items = data.map(oItem);
@@ -16,7 +18,7 @@ export default ({ data }) => {
       className="container-fluid container-lg d-flex flex-column"
     >
       <p className="d-flex align-items-center">
-        <h3>{"تصاميم جاهزة لكل مناسبة"}</h3>
+        <h3>{getText(7)}</h3>
       </p>
 
       <Carousel

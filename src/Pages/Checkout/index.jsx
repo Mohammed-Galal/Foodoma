@@ -3,17 +3,20 @@ import { useDispatch, useStore } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { _useCoupon } from "../Cart";
 import { updateUserInfo } from "../../store";
-
+import getPage from "../../translation";
 import NXT from "../../icons/NXT";
 import OrderOptions from "./OrderOptions";
 import OrderInfo from "./OrderInfo";
 import "./index.scss";
 
-const complimentaryData = {},
+const getText = getPage("checkout"),
+  complimentaryData = {},
   placeOrderApi = process.env.REACT_APP_API_URL + "/public/api/place-order",
   days = [/^sun/i, /^mon/i, /^tue/i, /^wed/i, /^thu/i, /^fri/i, /^sat/i],
-  exceptionalCategories = [undefined, "الحجز المبكر"],
+  exceptionalCategories = [undefined, getText(0)],
   emptyStr = "";
+
+let requestSent = false;
 
 export default function () {
   const redirect = useNavigate(),
@@ -67,11 +70,11 @@ export default function () {
   return (
     <section id="checkout">
       <ul className="d-flex gap-2 justify-content-center list-unstyled mb-5 mx-auto p-0">
-        <li>{"السلة"}</li>
+        <li>{getText(1)}</li>
         <li>{NXT}</li>
-        <li className="h5 m-0">{"الدفع"}</li>
+        <li className="h5 m-0">{getText(2)}</li>
         <li>{NXT}</li>
-        <li>{"تأكيد الطلب"}</li>
+        <li>{getText(3)}</li>
       </ul>
 
       <div className="align-items-stretch align-items-xl-start container d-flex flex-column flex-xl-row gap-3 justify-content-center">
@@ -104,11 +107,14 @@ export default function () {
   );
 
   function placeOrder(ignoreWorkingHours) {
-    if (deliveryState[0] && !checkResCoverage(currRes, clues.closestRes))
+    if (requestSent) return;
+    else if (deliveryState[0] && !checkResCoverage(currRes, clues.closestRes))
       return;
 
     if (!isWithinWorkingHours(currRes) && !ignoreWorkingHours)
       return document.getElementById("time-warning").showPopover();
+
+    requestSent = true;
 
     const images = reqBody.images || [],
       formData = new FormData();
@@ -134,7 +140,7 @@ export default function () {
   }
 
   function handleInvoice(res) {
-    if (res.success === false) return alert("حدث خطأ");
+    if (res.success === false) return alert(getText(4));
 
     updateUserInfo();
 
@@ -142,15 +148,15 @@ export default function () {
       basicOrderData = {
         order: reqBody.order,
         discount: clues.discount,
-        deliveryType: "من الفرع",
+        deliveryType: getText(5),
         deliveryAddress: currRes.name,
         deliveryCharges: deliveryState[0] ? currRes.delivery_charges : 0,
         restaurant_charge: currRes.restaurant_charges,
-        paymentMode: paymentMode === "COD" ? "عند الاستلام" : paymentMode,
+        paymentMode: paymentMode === "COD" ? getText(6) : paymentMode,
       };
 
     if (deliveryState[0]) {
-      basicOrderData.deliveryType = "توصيل";
+      basicOrderData.deliveryType = getText(7);
       basicOrderData.deliveryAddress =
         clues.userAddresses[store.User.activeAddressIndex].tag;
     }
@@ -193,12 +199,10 @@ function ClosestResPopup({ setDelivery, closestRes, dispatch, redirect }) {
       }}
     >
       <b className="text-danger" style={{ fontSize: "larger" }}>
-        {"تنبيه"}
+        {getText(8)}
       </b>
 
-      <p className="my-3">
-        {"تبين أن العنوان الذي قمت باختياره خارج نطاق تغطية الفرع الحالي"}
-      </p>
+      <p className="my-3">{getText(9)}</p>
 
       <div className="d-flex gap-2 justify-content-evenly">
         <button
@@ -214,7 +218,7 @@ function ClosestResPopup({ setDelivery, closestRes, dispatch, redirect }) {
             setDelivery(false);
           }}
         >
-          {"الاستلام من الفرع"}
+          {getText(10)}
         </button>
 
         <button
@@ -243,12 +247,12 @@ function ClosestResPopup({ setDelivery, closestRes, dispatch, redirect }) {
                   // Redirect to the home page
                   redirect("/");
                 });
-            } else alert("لا يوجد فرع قريب");
+            } else alert(getText(11));
 
             document.getElementById("closest-res").hidePopover();
           }}
         >
-          {"اختيار اقرب فرع"}
+          {getText(12)}
         </button>
       </div>
     </div>
@@ -271,12 +275,10 @@ function TimeWarning({ placeOrder }) {
           color: "var(--midgray)",
         }}
       >
-        <b className="text-danger w-100">{"اشعار بالمواعيد"}</b>
-        {
-          "هذا الفرع مغلق الآن، يرجى العلم أن الفرع لن تمكن من قبول طلبكم قبل بدأ ساعات العمل الرسمية"
-        }
+        <b className="text-danger w-100">{getText(13)}</b>
+        {getText(14)}
         <br />
-        {"هل مازلت تريد متابعة تقديم الطلب؟"}
+        {getText(15)}
         <button
           type="button"
           className="btn"
@@ -287,7 +289,7 @@ function TimeWarning({ placeOrder }) {
           }}
           onClick={() => placeOrder(true)}
         >
-          {"المتابعة"}
+          {getText(16)}
         </button>
         <button
           type="button"
@@ -299,7 +301,7 @@ function TimeWarning({ placeOrder }) {
           }}
           onClick={() => document.getElementById("time-warning").hidePopover()}
         >
-          {"الغاء"}
+          {getText(17)}
         </button>
       </div>
     </div>

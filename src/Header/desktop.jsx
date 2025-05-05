@@ -1,10 +1,12 @@
 /* eslint-disable import/no-anonymous-default-export */
-import getText from "../translation";
+import getPage from "../translation";
 import Globe from "../icons/Globe";
 import { keys } from "../translation";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../store";
+
+const getText = getPage("header");
 
 export default function () {
   const redirect = useNavigate(),
@@ -20,10 +22,10 @@ export default function () {
     <div className="align-items-center container d-grid py-2">
       <ul className="align-items-center d-flex list-unstyled m-0 p-0">
         <li>
-          <Link to="/all-products">{"منتجاتنا"}</Link>
+          <Link to="/all-products">{getText(0)}</Link>
         </li>
         <li>
-          <Link to="/restaurant">{"الفروع"}</Link>
+          <Link to="/restaurant">{getText(1)}</Link>
         </li>
         <li>
           <button
@@ -31,7 +33,7 @@ export default function () {
             className="btn px-3 py-2"
             onClick={() => redirect("/all-products")}
           >
-            {"اطلب الآن"}
+            {getText(2)}
           </button>
         </li>
       </ul>
@@ -61,11 +63,11 @@ export default function () {
           {loaded && (
             <ul className="d-flex flex-column list-unstyled m-0 p-0">
               <li className="p-2">
-                <Link to="/settings/addresses">{"حسابي"}</Link>
+                <Link to="/settings/addresses">{getText(3)}</Link>
               </li>
 
               <li className="p-2 text-danger" onClick={logout}>
-                {"تسجيل الخروج"}
+                {getText(4)}
               </li>
             </ul>
           )}

@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import getText from "../../translation";
+import getPage from "../../translation";
 import { _useCoupon, calcCashback } from "../Cart";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import { useEffect, useState } from "react";

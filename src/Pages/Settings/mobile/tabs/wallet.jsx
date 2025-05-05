@@ -1,12 +1,12 @@
 /* eslint-disable import/no-anonymous-default-export */
-
+import getPage from "../../../../translation";
 import { useLayoutEffect, useState } from "react";
 
-const api =
-  process.env.REACT_APP_API_URL + "/public/api/get-wallet-transactions";
+const getText = getPage("settings"),
+  api = process.env.REACT_APP_API_URL + "/public/api/get-wallet-transactions";
 
 export default function () {
-  const [balance, setBalance] = useState("جاري التحقق");
+  const [balance, setBalance] = useState(getText(23));
 
   useLayoutEffect(function () {
     fetch(api, {

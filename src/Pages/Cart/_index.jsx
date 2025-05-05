@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import getText from "../../translation";
+import getPage from "../../translation";
 import React, { useLayoutEffect, useState } from "react";
 import { useSelector, useDispatch, useStore } from "react-redux";
 import { Link } from "react-router-dom";

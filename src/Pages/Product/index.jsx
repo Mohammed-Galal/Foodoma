@@ -1,4 +1,4 @@
-import getText from "../../translation";
+import getPage from "../../translation";
 // eslint-disable-next-line react-hooks/exhaustive-deps
 /* eslint-disable import/no-anonymous-default-export */
 import React, { useEffect, useRef, useState } from "react";
@@ -12,7 +12,8 @@ import Minus from "../../icons/Minus";
 import Plus from "../../icons/Plus";
 import "./index.scss";
 
-const isArabic = window.localStorage.getItem("lang") === "العربية",
+const getText = getPage("product"),
+  isArabic = window.localStorage.getItem("lang") === "العربية",
   priceTypes = window.priceTypes,
   hiddenAlert = { opacity: 0, transform: "translateY(100%)" },
   activeAlert = { opacity: 1, transform: "translateY(0)" },
@@ -60,7 +61,7 @@ function ProductInfo(state) {
   }, [Alert]);
 
   if (state === undefined) return false;
-  const calsTxt = "السعرات الحرارية",
+  const calsTxt = getText(0),
     cals = state.calories && (
       <p
         className="align-items-center d-flex gap-2"
@@ -78,7 +79,8 @@ function ProductInfo(state) {
         className="flag"
         style={{ "--bg": "#e4f4ff", "--color": "var(--primary)" }}
       >
-        {parseInt(100 - (+state.price / old_price) * 100)}%<sub>{"خصم"}</sub>
+        {parseInt(100 - (+state.price / old_price) * 100)}%
+        <sub>{getText(1)}</sub>
       </span>
     );
 
@@ -140,7 +142,7 @@ function ProductInfo(state) {
           transition: "150ms ease-out",
         }}
       >
-        {"تمت اضافة المنتج الى العربة بنجاح"}
+        {getText(2)}
         <img
           src={baseUrl + "/assets/animation.gif"}
           style={{ maxHeight: "40px" }}
@@ -155,7 +157,7 @@ function ProductInfo(state) {
         <ul className="d-flex gap-1 list-unstyled m-0 p-0">
           <li>Montana</li>
           <li>{NXT}</li>
-          <li>الصنف</li>
+          <li>{getText(3)}</li>
           <li>{NXT}</li>
           <li>{state.name}</li>
         </ul>
@@ -166,7 +168,7 @@ function ProductInfo(state) {
 
         <div className="state text-center d-flex align-items-center gap-2">
           <span className="flag">
-            {!!state.is_active ? "متوفر" : "غير متوفر"}
+            {!!state.is_active ? getText(4) : getText(5)}
           </span>
           {+state.price < old_price && discountFlag}
         </div>
@@ -181,14 +183,14 @@ function ProductInfo(state) {
         {old_price > 0 && +state.price < old_price && (
           <div>
             <del>
-              {state.old_price} {"ر.س"}
+              {state.old_price} {getText(6)}
             </del>
           </div>
         )}
 
         <div className="price">
           <span>
-            {state.price} {"ر.س"}
+            {state.price} {getText(6)}
           </span>
           /{priceType}
         </div>
@@ -197,11 +199,11 @@ function ProductInfo(state) {
 
         <div className="align-items-center d-flex rate">
           <img src="/assets/home/icons/star.svg" alt="star" /> 5
-          <Link to="/rate">{"اكتب رأيك"}</Link>
+          <Link to="/rate">{getText(7)}</Link>
         </div>
         {!!categories.length && (
           <div className="addons d-flex flex-wrap w-100">
-            <span className="h5 m-0">{"الإضافات"}</span>
+            <span className="h5 m-0">{getText(8)}</span>
 
             <select
               className="input-group-text my-2 text-end w-100"
@@ -210,7 +212,7 @@ function ProductInfo(state) {
               onChange={({ target }) => setAddonCat(target.value)}
             >
               <option value="" onClick={() => setAddonCat("")}>
-                {"اختر من الاصناف"}
+                {getText(9)}
               </option>
 
               {categories.map((C, I) => (
@@ -247,7 +249,7 @@ function ProductInfo(state) {
             className="btn d-flex gap-2 align-items-center"
             onClick={addItemToCart}
           >
-            {"اضف الى العربة"}
+            {getText(10)}
             {Cart}
           </div>
 
@@ -255,7 +257,7 @@ function ProductInfo(state) {
             className="h5 m-0"
             style={{ fontWeight: "600", color: "var(--primary)" }}
           >
-            {totalPrice} {"ر.س"}
+            {totalPrice} {getText(6)}
           </span>
         </div>
 
@@ -345,7 +347,7 @@ function Related({ items }) {
   return (
     <section id="related" className="container">
       <p className="h3">
-        <span>{"منتجات ذات صلة"}</span>
+        <span>{getText(11)}</span>
       </p>
 
       <Carousel

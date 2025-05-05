@@ -1,10 +1,11 @@
-import getText from "../../translation";
+import getPage from "../../translation";
 import { useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./index.scss";
 
-const EMPTY_STR = "",
+const getText = getPage("restaurant"),
+  EMPTY_STR = "",
   cities = ["حي السلامة", "حي الصفا", "حي النزهة", "حي السامر"],
   baseUrl = process.env.REACT_APP_API_URL + "/public/api/",
   fetchOpts = {
@@ -79,11 +80,11 @@ export default function Restaurant({ isPopup }) {
             fontWeight: "600",
           }}
         >
-          {"يتطلب هذا الخيار تفعيل الـGPS"}
+          {getText(0)}
           <input
             className="btn px-3"
             type="button"
-            value={"اختيار أقرب مطعم"}
+            value={getText(1)}
             onClick={getUserLocation}
             style={{
               border: "none",
@@ -109,7 +110,7 @@ export default function Restaurant({ isPopup }) {
       >
         <input
           type="search"
-          placeholder={"ابحث عن الفروع"}
+          placeholder={getText(2)}
           className="py-1 px-3"
           onChange={(e) => setFilter(e.target.value)}
           value={filterValue}
@@ -188,7 +189,7 @@ export default function Restaurant({ isPopup }) {
           .then((r) => r.json())
           .then((data) => confirmLocation(data[0].slug));
       },
-      (error) => alert("لم يتمكن المتصفح من تحديد موقعك")
+      (error) => alert(getText(3))
     );
   }
 

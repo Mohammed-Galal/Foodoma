@@ -2,7 +2,7 @@
 import { useRef, useState } from "react";
 import { useStore } from "react-redux";
 import { APIProvider, Map, Marker } from "@vis.gl/react-google-maps";
-import getText from "../../translation";
+import getPage from "../../translation";
 
 const saveAddressApi =
   process.env.REACT_APP_API_URL + "/public/api/save-address";

@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import getText from "../../translation";
+import getPage from "../../translation";
 import React, { useLayoutEffect, useState } from "react";
 import { useSelector, useDispatch, useStore } from "react-redux";
 import { Link } from "react-router-dom";
@@ -7,7 +7,8 @@ import NXT from "../../icons/NXT";
 import Recommended from "./Recommended";
 import "./index.scss";
 
-const isArabic = window.localStorage.getItem("lang") === "العربية",
+const getText = getPage("cart"),
+  isArabic = window.localStorage.getItem("lang") === "العربية",
   nameTarget = isArabic ? "name_ar" : "name";
 
 const baseUrl = process.env.REACT_APP_API_URL;
@@ -43,7 +44,7 @@ export default function () {
         subtotal: "" + totalPrice,
       };
       _useCoupon(couponParams, token, applyCoupon, rejectCoupon);
-    } else if (token === undefined) alert("يجب تسجيل الدخول أولا");
+    } else if (token === undefined) alert(getText(0));
     else couponData = null;
   }, [coupon, totalPrice, discount]);
 
@@ -55,11 +56,11 @@ export default function () {
         id="cart-breadcrumb"
         className="d-flex gap-2 justify-content-center list-unstyled m-0 px-0 py-5"
       >
-        <li>{"السلة"}</li>
+        <li>{getText(1)}</li>
         <li>{NXT}</li>
-        <li>{"الدفع"}</li>
+        <li>{getText(2)}</li>
         <li>{NXT}</li>
-        <li>{"تأكيد الطلب"}</li>
+        <li>{getText(3)}</li>
       </ul>
 
       <CartCashback totalPrice={totalPrice} source={cashback} />
@@ -71,11 +72,11 @@ export default function () {
           className="container d-flex flex-column flex-xl-row gap-3"
         >
           <ul className="text-center d-grid gap-1 list-unstyled m-0 overflow-hidden p-3">
-            <li>{"المنتج"}</li>
-            <li>{"الاضافات"}</li>
-            <li>{"السعر"}</li>
-            <li>{"العدد"}</li>
-            <li>{"الاجمالي"}</li>
+            <li>{getText(4)}</li>
+            <li>{getText(5)}</li>
+            <li>{getText(6)}</li>
+            <li>{getText(7)}</li>
+            <li>{getText(8)}</li>
 
             <li className="seperator mb-3">
               <hr className="m-0" />
@@ -110,7 +111,7 @@ export default function () {
                       }}
                     />
                     <sub style={{ color: "var(--primary)" }}>
-                      {couponData.count} {"مرات"}
+                      {couponData.count} {getText(9)}
                     </sub>
                   </h5>
                   {couponData.description}
@@ -136,60 +137,60 @@ export default function () {
                   ref={(e) => e && (e.value = coupon)}
                   className="input-group-text"
                   onChange={({ target }) => (coupon = target.value)}
-                  placeholder={"أضف كود الخصم"}
+                  placeholder={getText(10)}
                 />
                 <button
                   type="button"
                   className="btn px-3 py-2"
                   onClick={addCoupon}
                 >
-                  {"أضف"}
+                  {getText(11)}
                 </button>
               </li>
             )}
           </ul>
 
           <div className="d-grid gap-3 p-3">
-            <h5 className="h5 m-0 pb-2 text-center">{"إجمالي العربة"}</h5>
+            <h5 className="h5 m-0 pb-2 text-center">{getText(12)}</h5>
 
             <span>
-              <samp>{"المجموع"}</samp>
+              <samp>{getText(13)}</samp>
               <samp>
-                {totalPrice} {"ر.س"}
+                {totalPrice} {getText(14)}
               </samp>
             </span>
 
             <div className="d-grid gap-3 m-0 py-2">
               <span className="total">
-                <samp>{"رصيد المحفظة"}</samp>
+                <samp>{getText(15)}</samp>
                 <samp>
-                  {-userWallet} {"ر.س"}
+                  {-userWallet} {getText(14)}
                 </samp>
               </span>
 
               <span>
-                <samp>{"الخصم"}</samp>
+                <samp>{getText(16)}</samp>
                 <samp>
                   {discount === false
-                    ? "جاري التحقق"
+                    ? getText(17)
                     : -(cashbackAmount + Math.abs(discount)).toLocaleString() +
                       " " +
-                      "ر.س"}
+                      getText(14)}
                 </samp>
               </span>
             </div>
 
             <span className="total">
-              <samp>{"الإجمالي"}</samp>
+              <samp>{getText(18)}</samp>
               {Math.max(
                 0,
                 -cashbackAmount + (totalPrice - userWallet) + +discount
               ).toLocaleString() + " "}
-              {"ر.س"}
+              {getText(14)}
             </span>
 
             <Link className="btn" to="/checkout">
-              {"أكمل الدفع"}
+              {getText(19)}
             </Link>
           </div>
         </section>
@@ -216,7 +217,7 @@ export default function () {
 
   function addCoupon() {
     if (coupon === "") return false;
-    else if (!store.User.loaded) return alert("يرجى تسجيل الدخول أولاً");
+    else if (!store.User.loaded) return alert(getText(20));
     window.localStorage.setItem("coupon", coupon);
     setDiscount(false);
   }
@@ -250,10 +251,7 @@ export function _useCoupon(params, auth, callback, rejectCallback) {
     .then((r) => r.json())
     .then((r) => {
       if (r.success && r.max_count >= r.count) return callback(r);
-      const minReached =
-        r.type === "MINSUBTOTAL"
-          ? "لم تتخطى قيمة العربة الحد الأدنى"
-          : "كوبون غير صالح";
+      const minReached = r.type === "MINSUBTOTAL" ? getText(21) : getText(22);
       rejectCallback();
       alert(minReached);
     });
@@ -265,7 +263,7 @@ function ProductItem(item, I, editCart) {
 
   const Addons =
     addons.length === 0 ? (
-      <li>{"بدون إضافات"}</li>
+      <li>{getText(23)}</li>
     ) : (
       addons.map((a) => {
         price += a.price;
@@ -273,7 +271,7 @@ function ProductItem(item, I, editCart) {
           <li key={a.addon_id} className="d-flex justify-content-center">
             {a.addon_name} -
             <span>
-              {a.price} {"ر.س"}
+              {a.price} {getText(14)}
             </span>
           </li>
         );
@@ -289,9 +287,7 @@ function ProductItem(item, I, editCart) {
         <Link
           className="text-decoration-none"
           style={{ textAlign: "start" }}
-          to={
-            "/products/" + id + "/" + +(item.category_name === "الحجز المبكر")
-          }
+          to={"/products/" + id + "/" + +(item.category_name === getText(24))}
         >
           {item[nameTarget] || name}
         </Link>
@@ -307,7 +303,7 @@ function ProductItem(item, I, editCart) {
       </li>
 
       <li className="item-price">
-        <span>{price}</span> {"ر.س"}
+        <span>{price}</span> {getText(14)}
       </li>
 
       <li className="align-items-center d-flex gap-2 item-quantity justify-content-center">
@@ -321,7 +317,7 @@ function ProductItem(item, I, editCart) {
       </li>
 
       <li className="item-total">
-        <span>{price * quantity}</span> {"ر.س"}
+        <span>{price * quantity}</span> {getText(14)}
       </li>
     </React.Fragment>
   );
@@ -348,10 +344,12 @@ function CartCashback({ totalPrice, source }) {
       className="align-items-center container d-flex flex-column gap-3 h5 my-0 my-3"
       style={{ cssText: "color: var(--primary); font-weight: 600;" }}
     >
-      {((a, b) =>
-        `اشتري بقيمة ${a} ر.س وأحصل على ${b} ${
-          obj.type === "percentage" ? "%" : "ر.س"
-        } كاش باك`)(obj.max, obj.value)}
+      {getText(25) +
+        obj.max +
+        getText(26) +
+        (obj.type === "percentage" ? "%" : getText(14)) +
+        obj.value +
+        getText(27)}
       <progress
         value={totalPrice}
         max={+obj.max}

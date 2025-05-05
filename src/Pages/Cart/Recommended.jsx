@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import getText from "../../translation";
+import getPage from "../../translation";
 import productItem from "../../shared/productItem";
 import Carousel from "../../shared/Carousel";
 

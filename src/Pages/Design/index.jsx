@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 /* eslint-disable jsx-a11y/alt-text */
-import getText from "../../translation";
+import getPage from "../../translation";
 import { useRef, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { useSelector, useDispatch, useStore } from "react-redux";
@@ -10,7 +10,8 @@ import Minus from "../../icons/Minus";
 import Cart from "../../icons/Cart";
 import "./index.scss";
 
-const fallbackSrc = "/assets/home/img-placeholder.png";
+const getText = getPage("design"),
+  fallbackSrc = "/assets/home/img-placeholder.png";
 
 export default function () {
   const products = useSelector((e) => e.Products),
@@ -40,7 +41,7 @@ export default function () {
         <ul className="d-flex gap-2 justify-content-center list-unstyled mx-0 mb-5 p-0">
           <li>Montana</li>
           <li>{NXT}</li>
-          <li>{"صمم كيكتك بنفسك"}</li>
+          <li>{getText(0)}</li>
           <li>{NXT}</li>
           <li>{availOptions.name}</li>
         </ul>
@@ -99,7 +100,7 @@ function Form({ productItem }) {
             {addon.name}
 
             <span style={{ fontSize: "smaller", marginLeft: "20px" }}>
-              /{addon.price} ر.س
+              /{addon.price} {getText(1)}
             </span>
 
             {isActive ? Minus : Plus}
@@ -163,7 +164,7 @@ function Form({ productItem }) {
           type="file"
           accept="image/*"
         />
-        {"أضف صورة"}
+        {getText(2)}
       </label>
 
       <ul className="d-grid gap-3 list-unstyled">
@@ -171,7 +172,7 @@ function Form({ productItem }) {
 
         <li>
           <label htmlFor="phrase" className="title">
-            {"العبارة على الكيك"}
+            {getText(3)}
           </label>
           <input
             type="text"
@@ -184,7 +185,7 @@ function Form({ productItem }) {
 
         <li>
           <label htmlFor="notes" className="title">
-            {"شكل آخر اكتبه في الملاحظات"}
+            {getText(4)}
           </label>
 
           <input
@@ -192,7 +193,7 @@ function Form({ productItem }) {
             name="comment"
             onChange={(e) => (customProps.current.comment = e.target.value)}
             className="input-group-text"
-            placeholder={"ملاحظات"}
+            placeholder={getText(5)}
           />
         </li>
 
@@ -212,12 +213,12 @@ function Form({ productItem }) {
             className="d-flex gap-1 align-items-center"
             onClick={storeFormData}
           >
-            {"اضف الى العربة"}
+            {getText(6)}
             {Cart}
           </button>
 
           <span className="h5 m-0">
-            {totalPrice} {"ر.س"}
+            {totalPrice} {getText(1)}
           </span>
         </li>
       </ul>

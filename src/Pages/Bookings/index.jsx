@@ -1,12 +1,13 @@
 /* eslint-disable import/no-anonymous-default-export */
-import getText from "../../translation";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import productItem from "../../shared/productItem";
 import moment from "moment";
 import "./index.scss";
+import getPage from "../../translation";
 
-const currLang = window.localStorage.getItem("lang") === "العربية";
+const getText = getPage("bookings"),
+  currLang = window.localStorage.getItem("lang") === "العربية";
 
 export default function () {
   const { loaded, other } = useSelector((e) => e.Sliders),
@@ -32,11 +33,11 @@ export default function () {
             <span className="h1 my-5">{other[nameArg]}</span>
 
             <div className="text-center my-auto">
-              {"ينتهي الحجز في"}
+              {getText(0)}
               <p className="d-grid my-4">
                 <Timer duration={duration} isExpired={isExpired} />
-                <span>{"دقيقة"}</span>:<span>{"ساعة"}</span>:
-                <span>{"يوم"}</span>
+                <span>{getText(1)}</span>:<span>{getText(2)}</span>:
+                <span>{getText(3)}</span>
               </p>
 
               {other[descArg]}
@@ -80,7 +81,7 @@ function BookProducts() {
       id="book-products"
       className="container align-items-stretch px-2 mx-auto d-flex flex-wrap gap-3"
     >
-      <p className="h4">{"منتجات ذات صلة"}</p>
+      <p className="h4">{getText(4)}</p>
       {targetItems}
     </section>
   );

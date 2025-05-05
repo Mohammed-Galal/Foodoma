@@ -1,4 +1,4 @@
-import getText from "./translation";
+import getPage from "./translation";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import call from "./icons/call.jsx";
@@ -6,15 +6,16 @@ import whatsapp from "./icons/whatsapp.jsx";
 
 /* eslint-disable import/no-anonymous-default-export */
 
-const banks = [
-  "https://www.msegat.com/_astro/mada.Bx07ek4T_17YVYh.svg",
-  "https://www.msegat.com/_astro/bank-transfer.C0oXorf9_Z2rVK1U.webp",
-  "https://www.msegat.com/_astro/master-card.DOsJuDqG_Z1bPDkw.svg",
-  "https://www.msegat.com/_astro/visa.fN2z271z_Z1hHDKY.webp",
-  "https://www.msegat.com/_astro/apple-pay.Dg2YpybF_Z2pgIge.webp",
-  "https://www.msegat.com/_astro/stc-pay.DkAsAmzl_1oFqQV.webp",
-  "https://www.msegat.com/_astro/sadad.Dazq8A7k_Z1mB36r.webp",
-];
+const getText = getPage("footer"),
+  banks = [
+    "https://www.msegat.com/_astro/mada.Bx07ek4T_17YVYh.svg",
+    "https://www.msegat.com/_astro/bank-transfer.C0oXorf9_Z2rVK1U.webp",
+    "https://www.msegat.com/_astro/master-card.DOsJuDqG_Z1bPDkw.svg",
+    "https://www.msegat.com/_astro/visa.fN2z271z_Z1hHDKY.webp",
+    "https://www.msegat.com/_astro/apple-pay.Dg2YpybF_Z2pgIge.webp",
+    "https://www.msegat.com/_astro/stc-pay.DkAsAmzl_1oFqQV.webp",
+    "https://www.msegat.com/_astro/sadad.Dazq8A7k_Z1mB36r.webp",
+  ];
 
 export default (
   <>
@@ -26,11 +27,11 @@ export default (
             src="https://montana.amir-adel.com/admin/assets/home/logo-white.svg"
             alt="logo"
           />
-          {"تأسست عام 1950 م"}
+          {getText(0)}
         </div>
 
         <div className="col-3 d-flex flex-column">
-          <span className="h5 mb-3">{"اتصل بنا"}</span>
+          <span className="h5 mb-3">{getText(1)}</span>
           <a
             className="text-decoration-none mb-3 d-flex align-items-center gap-2"
             href="tel:+966920035416"
@@ -59,15 +60,15 @@ export default (
             {"نبذة عن مون 10"}
           </Link> */}
           <Link className="mb-2 text-decoration-none" to="/about-us">
-            {"من نحن"}
+            {getText(2)}
           </Link>
           <Link className="mb-2 text-decoration-none" to="/faq">
-            {"الأسئلة الشائعة"}
+            {getText(3)}
           </Link>
         </div>
 
         <div className="col-3 d-flex flex-column gap-1">
-          <span className="h5 mb-3">{"حمل التطبيق الآن"}</span>
+          <span className="h5 mb-3">{getText(4)}</span>
           <Link to="">
             <img
               style={{ width: "142px" }}
@@ -140,7 +141,7 @@ export default (
                   style={{ maxWidth: "64px" }}
                 />
               </div>
-              {"السجل التجاري"}
+              {getText(5)}
               <br />
               4030479174
             </li>
@@ -161,7 +162,7 @@ export default (
                   style={{ maxWidth: "70px" }}
                 />
               </div>
-              {"الرقم الضريبي"}
+              {getText(6)}
               <br />
               311354802600003
             </li>
@@ -170,7 +171,7 @@ export default (
       </div>
     </div>
     <p className="mt-4 mb-0 text-center">
-      <span>{"جميع الحقوق محفوظة"} | </span>© 2003-2025 Montana
+      <span>{getText(7)} | </span>© 2003-2025 Montana
     </p>
   </>
 );

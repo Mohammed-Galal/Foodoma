@@ -1,10 +1,11 @@
 /* eslint-disable import/no-anonymous-default-export */
-import getText from "../../../../translation";
+import getPage from "../../../../translation";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NewAddress from "../../NewAddress";
 
-const emptyStr = "";
+const getText = getPage("settings"),
+  emptyStr = "";
 
 let I;
 export default function () {
@@ -23,7 +24,7 @@ export default function () {
   return (
     <div className="addresses d-flex flex-column gap-3">
       <h5 className="m-0 title" style={{ color: "var(--primary)" }}>
-        {"العناوين المسجلة"}
+        {getText(6)}
       </h5>
 
       <ul className="list-unstyled d-grid gap-3 m-0 p-0">{Addresses}</ul>
@@ -38,7 +39,7 @@ export default function () {
             "background-color: var(--primary); color: #fff; border-radius: 24px; scale: 0.9; position: sticky; bottom: 72px;",
         }}
       >
-        {"أضف عنوان جديد"}
+        {getText(7)}
       </button>
     </div>
   );
@@ -80,7 +81,7 @@ function AddressItem(
         onClick={removeAdrress}
         style={{ fontSize: "smaller" }}
         className="border-0 btn btn-outline-danger"
-        value={"حذف"}
+        value={getText(8)}
       />
     </li>
   );

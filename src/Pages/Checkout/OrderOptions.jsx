@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import getPage from "../../translation/index.js";
 
-const defaultLoc = {
+const getText = getPage("checkout"),
+  defaultLoc = {
     lat: "",
     lng: "",
   },
@@ -65,14 +67,14 @@ export default function ({
           width: "auto",
         }}
       >
-        {"بيانات الاستلام"}
+        {getText(32)}
       </legend>
 
       <div
         className="d-flex flex-wrap gap-2"
         style={{ color: "var(--primary)" }}
       >
-        <span className="w-100">{"طريقة الاستلام"}</span>
+        <span className="w-100">{getText(33)}</span>
         <button
           className="btn d-flex align-items-center gap-2"
           data-active={!delivery}
@@ -92,7 +94,7 @@ export default function ({
             }
             alt="branch"
           />
-          {"الاستلام من الفرع"}
+          {getText(34)}
         </button>
         <button
           className="btn d-flex align-items-center gap-2"
@@ -115,7 +117,7 @@ export default function ({
             }
             alt="delivery"
           />
-          {"توصيل"}
+          {getText(35)}
         </button>
       </div>
 
@@ -138,21 +140,21 @@ export default function ({
           </ul>
         ) : (
           <p className="my-2" style={{ color: "var(--midgray)" }}>
-            <b className="d-block text-danger">{"تنبيه"}</b>
-            {"يرجى اضافة عنوان اولاً حتى تتمكن من اكمال الدفع"}
+            <b className="d-block text-danger">{getText(36)}</b>
+            {getText(37)}
             <button
               type="button"
               className="btn d-block mt-2 mx-auto px-5"
               style={{ background: "var(--primary)", color: "#fff" }}
               onClick={() => redirect("/settings/addresses")}
             >
-              {"اضافة عنوان"}
+              {getText(38)}
             </button>
           </p>
         ))}
 
       <textarea
-        placeholder={"ملاحظات"}
+        placeholder={getText(39)}
         className="input-group-text mt-auto"
         defaultValue={reqBody.order_comment}
         onChange={({ target }) => (reqBody.order_comment = target.value)}

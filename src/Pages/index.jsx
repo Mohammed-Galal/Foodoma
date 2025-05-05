@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import { createPortal } from "react-dom";
 import isMobileView from "../shared/isMobile.js";
 import store from "../store";
+import getPage from "../translation/index.js";
 
 import About from "./About.jsx";
 import Alerts from "./Alerts";
@@ -24,7 +25,8 @@ import Header from "../Header";
 import Nav from "../Nav";
 import Footer from "../Footer.jsx";
 
-const body = document.body,
+const getText = getPage("popup"),
+  body = document.body,
   header = document.createElement("header"),
   nav = document.querySelector("nav"),
   footer = document.querySelector("body > footer");
@@ -51,7 +53,7 @@ export default (
         boxShadow: "rgb(0, 0, 0, 0.2) 2px 2px 8px 0px",
       }}
     >
-      {"يرجى التحقق من البيانات الطلوبة"}
+      {getText(0)}
     </div>
 
     <div
@@ -66,7 +68,7 @@ export default (
         boxShadow: "rgb(0, 0, 0, 0.2) 2px 2px 8px 0px",
       }}
     >
-      {"هذا الحساب مسجل بالفعل"}
+      {getText(1)}
     </div>
 
     <BrowserRouter>

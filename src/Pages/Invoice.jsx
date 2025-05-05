@@ -1,14 +1,17 @@
-import getText from "../translation";
+import getPage from "../translation";
 import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
 
 let errMsg = "";
 
+const getText = getPage("invoice");
+
 export default () => {
   const params = useParams(),
     [query] = useSearchParams(),
     LOC = useLocation(),
+    dispatch = useDispatch(),
     [state, setState] = useState(LOC.state);
 
   useEffect(function () {
@@ -63,7 +66,7 @@ export default () => {
             fontWeight: "400",
           }}
         >
-          <span className="d-block h3 text-danger">{"فشلت عملية الدفع"}</span>
+          <span className="d-block h3 text-danger">{getText(0)}</span>
           {errMsg}
         </div>
       </div>
@@ -85,16 +88,16 @@ export default () => {
           className="mx-auto px-3"
           style={{ float: "none", width: "auto", color: "var(--primary)" }}
         >
-          {"شكراً لاختياركم Montana"}
+          {getText(1)}
         </legend>
 
         <p
           className="m-0 text-center"
           style={{ color: "var(--midgray)", lineHeight: "1.6" }}
         >
-          {"يسرنا أن نُبلغكم أنه تم تقديم طلبكم بنجاح بتاريخ"}
+          {getText(2)}
           {" " + state.date[0] + " "}
-          {"في تمام الساعة"}
+          {getText(3)}
           {" " + state.date[1] + " "}
         </p>
 
@@ -108,14 +111,14 @@ export default () => {
           <thead>
             <tr>
               <th colSpan="2" className="text-center">
-                {"بيانات الاستلام"}
+                {getText(4)}
               </th>
             </tr>
           </thead>
 
           <tbody>
             <tr>
-              <td>{"كود الطلب"}</td>
+              <td>{getText(5)}</td>
               <td>{state.code}</td>
             </tr>
             <tr>
@@ -123,23 +126,23 @@ export default () => {
               <td>{state.PIN}</td>
             </tr>
             <tr>
-              <td>{"طريقة الاستلام"}</td>
+              <td>{getText(6)}</td>
               <td>{state.deliveryType}</td>
             </tr>
             <tr>
-              <td>{"عنوان الاستلام"}</td>
+              <td>{getText(7)}</td>
               <td>{state.deliveryAddress}</td>
             </tr>
             <tr>
-              <td>{"طريقة الدفع"}</td>
+              <td>{getText(8)}</td>
               <td>{state.paymentMode}</td>
             </tr>
           </tbody>
 
           <tfoot>
             <tr>
-              <td>{"الملاحظات والتوصيات"}</td>
-              <td>{state.comment || "لا يوجد"}</td>
+              <td>{getText(9)}</td>
+              <td>{state.comment || getText(10)}</td>
             </tr>
           </tfoot>
         </table>
@@ -158,16 +161,16 @@ export default () => {
                 colSpan="5"
                 className="text-center"
               >
-                {"بيانات الطلب"}
+                {getText(11)}
               </th>
             </tr>
 
             <tr className="text-center">
-              <th>{"اسم المنتج"}</th>
-              <th>{"السعر"}</th>
-              <th>{"الاضافات"}</th>
-              <th>{"العدد"}</th>
-              <th>{"الاجمالي"}</th>
+              <th>{getText(12)}</th>
+              <th>{getText(13)}</th>
+              <th>{getText(16)}</th>
+              <th>{getText(17)}</th>
+              <th>{getText(18)}</th>
             </tr>
           </thead>
 
@@ -175,28 +178,28 @@ export default () => {
 
           <tfoot className="fw-bold text-center">
             <tr>
-              <td>{"ثمن الطلب"}</td>
+              <td>{getText(19)}</td>
               <td>{state.subTotal}</td>
 
-              <td colSpan="2">{"رسوم التوصيل"}</td>
+              <td colSpan="2">{getText(20)}</td>
               <td>{state.deliveryCharges}</td>
             </tr>
 
             <tr>
-              <td>{"رسوم ادارية"}</td>
+              <td>{getText(21)}</td>
               <td>{state.restaurant_charge}</td>
 
-              <td colSpan="2">{"الخصم"}</td>
+              <td colSpan="2">{getText(22)}</td>
               <td>{state.discount}</td>
             </tr>
 
             <tr>
-              <td colSpan="4">{"ضرائب"}</td>
+              <td colSpan="4">{getText(23)}</td>
               <td>{state.tax_amount.toFixed(2)}</td>
             </tr>
 
             <tr>
-              <td colSpan="4">{"الاجمالي"}</td>
+              <td colSpan="4">{getText(24)}</td>
               <td>{state.total.toFixed(2)}</td>
             </tr>
           </tfoot>
@@ -206,7 +209,7 @@ export default () => {
           className="m-0 text-center"
           style={{ color: "var(--midgray)", lineHeight: "1.6" }}
         >
-          {"Montana تتمنى لكم يوماً سعيداً!"}
+          {getText(25)}
         </p>
       </fieldset>
     </section>
@@ -218,14 +221,17 @@ function ProductItem({ id, name, price, selectedaddons, quantity }) {
 
   const Addons =
     selectedaddons.length === 0 ? (
-      "بدون اضافات"
+      getText(26)
     ) : (
       <ul className="list-unstyled m-0 p-0">
         {selectedaddons.map((a) => {
           total += +a.price;
           return (
             <li key={a.addon_id} className="d-flex justify-content-center">
-              {a.addon_name} - <span>{a.price} ر.س</span>
+              {a.addon_name} -{" "}
+              <span>
+                {a.price} {getText(27)}
+              </span>
             </li>
           );
         })}
@@ -248,12 +254,12 @@ function ProductItem({ id, name, price, selectedaddons, quantity }) {
         {name}
       </td>
       <td>
-        {price} {"ر.س"}
+        {price} {getText(27)}
       </td>
       <td>{Addons}</td>
       <td>{quantity}</td>
       <td>
-        {total} {"ر.س"}
+        {total} {getText(27)}
       </td>
     </tr>
   );

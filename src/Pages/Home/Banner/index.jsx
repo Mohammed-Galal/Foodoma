@@ -1,11 +1,13 @@
-import getText from "../../../translation";
+import getPage from "../../../translation";
 import "./index.scss";
+
+const getText = getPage("home");
 // eslint-disable-next-line import/no-anonymous-default-export
 export default () => (
   <section key="banner" id="banner" className="container-fluid container-lg">
     <div className="align-items-center d-flex flex-column justify-content-center text-center">
-      <h1 className="h1 m-0">{"صمم كيكتك بنفسك"}!</h1>
-      <p className="my-2">{`اجعل احتفالك مميزًا بلمستك الخاصة، اختر النكهات والتصاميم التي تعكس ذوقك الفريد وابتكر كيكة تروي حكايتك في كل تفاصيلها لتكون لحظاتك أحلى وأكثر تميزًا!`}</p>
+      <h1 className="h1 m-0">{getText(5)}!</h1>
+      <p className="my-2">{getText(6)}</p>
 
       {/* <Link to="/all-products" className="text-decoration-none">
         {getText("home", 8)}

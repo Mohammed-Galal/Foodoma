@@ -1,4 +1,4 @@
-import getText from "../../../translation";
+import getPage from "../../../translation";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Card, CardHeader, CardText, CardBody, CardFooter } from "reactstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -15,7 +15,7 @@ const icons = { insta, snapshot, whatsapp };
 export default () => (
   <section key="rates" id="rates">
     <div className="container-fluid container-lg">
-      <h3 className="d-block text-center">{"آراء عملائنا"}</h3>
+      <h3 className="d-block text-center">{getPage("home")(8)}</h3>
       <Swiper
         modules={[A11y, Scrollbar, Pagination, Navigation]}
         navigation

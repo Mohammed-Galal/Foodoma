@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import getText, { keys } from "../../../translation";
+import getPage, { keys } from "../../../translation";
 import { useNavigate, useParams } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import tabs from "./tabs";
@@ -9,6 +9,8 @@ import AltArrowDown from "../../../icons/Arrow_Down";
 import Power from "../../../icons/Power";
 import { useSelector } from "react-redux";
 import { logout } from "../../../store";
+
+const getText = getPage("settings");
 
 export default function () {
   const tabName = useParams().tab,
@@ -33,7 +35,7 @@ export default function () {
                 to="/settings/addresses"
               >
                 <img src="/assets/settings/address.png" alt="Icon" />
-                {"عناويني"}
+                {getText(0)}
               </NavLink>
             </li>
 
@@ -43,7 +45,7 @@ export default function () {
                 to="/settings/history"
               >
                 <img src="/assets/settings/delivery.png" alt="Icon" />
-                {"طلباتي"}
+                {getText(1)}
               </NavLink>
             </li>
 
@@ -53,7 +55,7 @@ export default function () {
                 to="/settings/fav"
               >
                 <img src="/assets/settings/shop.png" alt="Icon" />
-                {"العناصر المفضلة"}
+                {getText(2)}
               </NavLink>
             </li>
 
@@ -63,7 +65,7 @@ export default function () {
                 to="/settings/wallet"
               >
                 <img src="/assets/settings/wallet.png" alt="Icon" />
-                {"محفظتي"}
+                {getText(3)}
               </NavLink>
             </li>
 
@@ -73,7 +75,7 @@ export default function () {
                 to="/settings/account"
               >
                 <img src="/assets/settings/gears.png" alt="Icon" />
-                {"إعدادات الحساب"}
+                {getText(4)}
               </NavLink>
             </li>
 
@@ -83,7 +85,7 @@ export default function () {
                 onClick={logout}
               >
                 {Power}
-                {"تسجيل الخروج"}
+                {getText(5)}
               </button>
             </li>
           </ul>

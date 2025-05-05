@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { useStore } from "react-redux";
 import { calcWalletCashback } from "../Cart";
 import { _useCoupon } from "../Cart";
+import getPage from "../../translation";
 
-const isArabic = window.localStorage.getItem("lang") === "العربية",
+const getText = getPage("checkout"),
+  isArabic = window.localStorage.getItem("lang") === "العربية",
   nameTarget = isArabic ? "name_ar" : "name",
   emptyStr = "";
 
@@ -83,31 +85,31 @@ export default function (props) {
 
   return (
     <div className="p-3" style={{ color: "var(--midgray)" }}>
-      <h5 className="title m-0 text-center d-block">{"الطلب"}</h5>
+      <h5 className="title m-0 text-center d-block">{getText(18)}</h5>
 
       <hr />
       <ul className="list-unstyled m-0 p-0">{order.map(productItem)}</ul>
       <hr />
       <div>
-        {"المجموع"}
+        {getText(19)}
         <span style={{ color: "var(--primary)", fontWeight: "600" }}>
-          {subTotal} {"ر.س"}
+          {subTotal} {getText(20)}
         </span>
       </div>
 
       <div>
-        {"الخصم"}
+        {getText(21)}
         <span>
           {discountAmount === false
-            ? "جاري التحقق"
-            : -(Math.abs(discountAmount) + cashbackAmount) + " " + "ر.س"}
+            ? getText(22)
+            : -(Math.abs(discountAmount) + cashbackAmount) + " " + getText(20)}
         </span>
       </div>
 
       <hr />
       <div>
         <span>
-          {"رسوم التوصيل"}{" "}
+          {getText(23)}{" "}
           {delivery && delivery_charges === 0 && (
             <sub
               className="px-2"
@@ -117,21 +119,21 @@ export default function (props) {
                 borderRadius: "14px",
               }}
             >
-              {"توصيل مجاني"}
+              {getText(24)}
             </sub>
           )}
         </span>
 
         <span>
-          {delivery_charges} {"ر.س"}
+          {delivery_charges} {getText(20)}
         </span>
       </div>
 
       {taxes > 0 && (
         <div>
-          {"ضرائب "}({settings.taxPercentage}%)
+          {getText(25)}({settings.taxPercentage}%)
           <span>
-            {taxes.toLocaleString()} {"رس"}
+            {taxes.toLocaleString()} {getText(20)}
           </span>
         </div>
       )}
@@ -139,9 +141,9 @@ export default function (props) {
       <hr />
 
       <div>
-        {"رصيد المحفظة"}
+        {getText(26)}
         <span>
-          {-wallet_balance + " "} {"رس"}
+          {-wallet_balance + " "} {getText(20)}
         </span>
       </div>
 
@@ -149,7 +151,7 @@ export default function (props) {
         className="total h5"
         style={{ color: "var(--primary)", fontWeight: "bold" }}
       >
-        {"الإجمالي"}
+        {getText(27)}
 
         {totalBeforeDiscount > totalPrice && (
           <sub
@@ -160,12 +162,12 @@ export default function (props) {
             }}
           >
             <del>
-              {totalBeforeDiscount.toLocaleString()} {"ر.س"}
+              {totalBeforeDiscount.toLocaleString()} {getText(20)}
             </del>
           </sub>
         )}
         <span>
-          {Math.max(0, totalPrice + taxes).toLocaleString()} {"ر.س"}
+          {Math.max(0, totalPrice + taxes).toLocaleString()} {getText(20)}
         </span>
       </div>
 
@@ -174,7 +176,7 @@ export default function (props) {
           className="d-block h5 text-center"
           style={{ color: "var(--primary)" }}
         >
-          {"طرق الدفع"}
+          {getText(28)}
         </span>
 
         <label className="d-flex gap-2 mb-3">
@@ -184,7 +186,7 @@ export default function (props) {
             onClick={() => setPaymentMethod("myfatoorah")}
             checked={paymentMethod === "myfatoorah"}
           />
-          {"ادفع الآن"}
+          {getText(29)}
         </label>
 
         {isExceptionalCart ||
@@ -196,7 +198,7 @@ export default function (props) {
                 onClick={() => setPaymentMethod("COD")}
                 checked={paymentMethod === "COD"}
               />
-              {"الدفع عند الاستلام"}
+              {getText(30)}
             </label>
           ))}
       </form>
@@ -207,7 +209,7 @@ export default function (props) {
           onClick={placeOrder}
           className="btn mt-4 mx-auto w-100"
         >
-          {"أكمل الدفع"}
+          {getText(31)}
         </button>
       )}
     </div>
@@ -245,7 +247,7 @@ function productItem(item) {
       </span>
       <span>x {quantity}</span>
       <span>
-        {price} {"ر.س"}
+        {price} {getText(20)}
       </span>
     </li>
   );

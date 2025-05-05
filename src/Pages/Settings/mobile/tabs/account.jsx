@@ -1,9 +1,10 @@
 /* eslint-disable import/no-anonymous-default-export */
-import getText from "../../../../translation";
+import getPage from "../../../../translation";
 import { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
-const phaseComponent = [ChangeNonOTPData, ChangePhoneNumber],
+const getText = getPage("settings"),
+  phaseComponent = [ChangeNonOTPData, ChangePhoneNumber],
   liStyle = {
     borderRadius: "inherit",
     transition: "0.3s",
@@ -33,7 +34,7 @@ export default function () {
             backgroundColor: "#fff" + (!targetAction ? "f" : "0"),
           }}
         >
-          {"الاسم وكلمة المرور"}
+          {getText(34)}
         </li>
         <li
           onClick={() => setTargetAction(1)}
@@ -43,7 +44,7 @@ export default function () {
             backgroundColor: "#fff" + (!!targetAction ? "f" : "0"),
           }}
         >
-          {"رقم الهاتف"}
+          {getText(35)}
         </li>
       </ul>
 
@@ -72,7 +73,7 @@ function ChangeNonOTPData({ userData }) {
       }}
     >
       <label>
-        {"الاسم بالكامل"}
+        {getText(36)}
         <input
           type="text"
           className="form-control mt-3"
@@ -86,13 +87,13 @@ function ChangeNonOTPData({ userData }) {
           type="checkbox"
           onChange={({ target }) => setChangePassword(target.checked)}
         />{" "}
-        {"تغيير كلمة المرور"}
+        {getText(37)}
       </label>
 
       {changePassword && (
         <>
           <label>
-            {"كلمة المرور الجديدة"}
+            {getText(38)}
             <input
               type="password"
               className="form-control mt-3"
@@ -114,19 +115,19 @@ function ChangeNonOTPData({ userData }) {
           borderRadius: "24px",
         }}
       >
-        {"حفظ التحديثات"}
+        {getText(39)}
       </button>
 
       <div id="confirm-password" popover="manual">
-        <label>{"كلمة المرور الحالية"}</label>
+        <label>{getText(40)}</label>
         <input
           type="password"
           className="form-control"
           onChange={({ target }) => (reqBody.old_password = target.value)}
         />
 
-        <button onClick={updateUserData}>{"تأكيد"}</button>
-        <button onClick={() => {}}>{"الغاء"}</button>
+        <button onClick={updateUserData}>{getText(41)}</button>
+        <button onClick={() => {}}>{getText(42)}</button>
       </div>
     </div>
   );
@@ -141,7 +142,7 @@ function ChangeNonOTPData({ userData }) {
       .then((r) =>
         r.success || true ? window.location.reload() : alert(r.data)
       )
-      .catch(() => alert("حدث خطأ، يرجى اعادة المحاولة"));
+      .catch(() => alert(getText(43)));
   }
 }
 
@@ -176,7 +177,7 @@ function ChangePhoneNumber({ userData }) {
           borderRadius: "30px",
         }}
       >
-        {"تأكيد"}
+        {getText(44)}
       </button>
 
       <div
@@ -192,12 +193,12 @@ function ChangePhoneNumber({ userData }) {
         }}
       >
         <div className="align-items-center d-flex flex-column gap-3 px-4 py-3">
-          <label>{"يرجى ادخال رمز التحقق"}</label>
+          <label>{getText(45)}</label>
 
           <input
             type="number"
             className="form-control"
-            placeholder={"يرجى ادخال رمز التحقق"}
+            placeholder={getText(46)}
             onChange={({ target }) => (OTP = target.value)}
           />
 
@@ -211,7 +212,7 @@ function ChangePhoneNumber({ userData }) {
             }}
             onClick={confirmOTP}
           >
-            {"تأكيد"}
+            {getText(47)}
           </button>
         </div>
       </div>
@@ -219,8 +220,7 @@ function ChangePhoneNumber({ userData }) {
   );
 
   function openPhoneOTP() {
-    if (newPhone.length !== 9)
-      return alert("يجب أن يتكون رقم الهاتف من 9 ارقام");
+    if (newPhone.length !== 9) return alert(getText(48));
     const phoneOTP = document.getElementById("phone-otp");
 
     fetch(process.env.REACT_APP_API_URL + "/public/api/change-mobile-otp", {

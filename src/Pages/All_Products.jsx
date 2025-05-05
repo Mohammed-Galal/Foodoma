@@ -3,9 +3,10 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import ProductItem from "../shared/productItem";
 import { useParams, useSearchParams } from "react-router-dom";
-import getText from "../translation";
+import getPage from "../translation";
 
-const emptyStr = "",
+const getText = getPage("allProducts"),
+  emptyStr = "",
   liStyle = {
     color: "var(--midgray)",
     border: "1px solid currentColor",
@@ -47,7 +48,7 @@ export default function () {
         <div style={{ flex: "1 0 30%", height: "fit-content" }}>
           <input
             type="search"
-            placeholder={"ابحث باسم المنتج..."}
+            placeholder={getText(0)}
             onChange={({ target }) => setProductName(target.value)}
             className="input-group-text m-0 w-100"
             style={{ outline: "none", borderColor: "#ecf5ff" }}
@@ -60,7 +61,7 @@ export default function () {
               borderBottom: "1px solid currentColor",
             }}
           >
-            {"أقسام مونتانا"}
+            {getText(1)}
           </h5>
 
           <ul

@@ -1,13 +1,14 @@
-import getText from "../../../translation";
+import getPage from "../../../translation";
 import { useEffect, useRef, useState } from "react";
 import "./index.scss";
 /* eslint-disable import/no-anonymous-default-export */
 
-const options = {
-  root: null,
-  rootMargin: "0px",
-  threshold: 1.0,
-};
+const getText = getPage("home"),
+  options = {
+    root: null,
+    rootMargin: "0px",
+    threshold: 1.0,
+  };
 
 let observer;
 
@@ -38,10 +39,8 @@ export default () => {
       id="about-us"
       className="container-fluid container-lg d-flex flex-column text-center"
     >
-      <span className="h3 m-0">{"أرقام نفتخر بها"}</span>
-      {
-        "في عائلة مونتانا ، نفتخر بأرقامنا التي تعكس نجاحاتنا وإنجازاتنا. نواصل السعي بكل شغف وطموح لنحقق المزيد من التميز والنمو في رحلتنا المستمرة"
-      }
+      <span className="h3 m-0">{getText(0)}</span>
+      {getText(1)}
 
       <div
         ref={cardsContainer}
@@ -50,17 +49,17 @@ export default () => {
         <div className="d-flex flex-column">
           <img src="/assets/home/icons/ph_stamp-light.svg" alt="LIGHT" />
           <Inc curr={count} until={75} />
-          {"سنة خبرة"}
+          {getText(2)}
         </div>
         <div className="d-flex flex-column">
           <img src="/assets/home/icons/hugeicons_happy.svg" alt="HAPPY FACE" />
           <Inc curr={count} until={32000} />
-          {"عميل سعيد"}
+          {getText(3)}
         </div>
         <div className="d-flex flex-column">
           <img src="/assets/home/icons/bi_cake.svg" alt="CAKE" />
           <Inc curr={count} until={15000} />
-          {"عمل طلب"}
+          {getText(4)}
         </div>
       </div>
     </section>

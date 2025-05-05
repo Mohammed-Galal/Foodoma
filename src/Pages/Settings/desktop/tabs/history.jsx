@@ -1,23 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable import/no-anonymous-default-export */
-import getText from "../../../../translation";
+import getPage from "../../../../translation";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-const orderState = [
-  false,
-  "بانتظار الموافقة",
-  "جاري اعداد الطلب",
-  "الطلب في الطريق اليك",
-  "الطلب في الطريق اليك",
-  "تم التوصيل",
-  "تم الغاء الطلب",
-  "الطلب جاهز للاستلام",
-  "بانتظار تأكيد الدفع",
-  "فشل الدفع",
-  "طلب مجدول",
-  "طلب مقبول",
-];
+const getText = getPage("settings"),
+  orderState = [
+    false,
+    getText(9),
+    getText(10),
+    getText(11),
+    getText(12),
+    getText(13),
+    getText(14),
+    getText(15),
+    getText(16),
+    getText(17),
+    getText(18),
+    getText(19),
+  ];
 
 const base = process.env.REACT_APP_API_URL;
 
@@ -94,7 +95,7 @@ function orderItem(order) {
           style={{ cssText: "color: var(--midgray); font-size: smaller" }}
         >
           <span className="h6 m-0 mb-1">{date}</span>
-          {price} {"ر.س"}/ {quantity} {"منتج"}
+          {price} {getText(20)}/ {quantity} {getText(21)}
         </p>
 
         <button
@@ -102,7 +103,7 @@ function orderItem(order) {
           className="btn"
           popovertarget={"popover-" + order.id}
         >
-          عرض بيانات الطلب
+          {getText(22)}
         </button>
       </div>
 

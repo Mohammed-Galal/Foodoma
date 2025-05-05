@@ -1,4 +1,4 @@
-import getText from "../../translation";
+import getPage from "../../translation";
 import Banner from "./Banner";
 import Products from "./Products";
 import Departments from "./Departments";
@@ -12,7 +12,8 @@ import "swiper/css/bundle";
 import { useEffect, useRef, useState } from "react";
 
 /* eslint-disable import/no-anonymous-default-export */
-const excluded = [3, 4, 5, 6, 7];
+const getText = getPage("home"),
+  excluded = [3, 4, 5, 6, 7];
 
 export default function () {
   const categories = useRef({ Occassions: [], Departments: [] }),
@@ -37,25 +38,21 @@ export default function () {
   return (
     <>
       <Banner />
-      <Products
-        id="new-items"
-        title={"المنتجات الجديدة"}
-        categoryKey="is_new"
-      />
+      <Products id="new-items" title={getText(11)} categoryKey="is_new" />
       <Products
         id="popular-items"
-        title={"المنتجات الأكثر مبيعاً"}
+        title={getText(12)}
         categoryKey="is_popular"
       />
       <Departments
         data={categories.current.Departments}
-        sectionName={"أقسام مونتانا"}
+        sectionName={getText(13)}
       />
       <Occassions
         data={categories.current.Occassions}
-        sectionName={"تصاميم جاهزة المناسبات"}
+        sectionName={getText(14)}
       />
-      <Services sectionName={"خدمات مونتانا الإضافية"} />
+      <Services sectionName={getText(15)} />
       {/* <Rate /> */}
       <About />
     </>

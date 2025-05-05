@@ -1,10 +1,11 @@
 /* eslint-disable import/no-anonymous-default-export */
-import getText from "../../../../translation";
+import getPage from "../../../../translation";
 import { useState } from "react";
 import NewAddress from "../../NewAddress";
 import { useStore } from "react-redux";
 
-const emptyStr = "";
+const getText = getPage("settings"),
+  emptyStr = "";
 
 export default function () {
   const addresses = useStore().getState().User.addresses,
@@ -19,7 +20,7 @@ export default function () {
         style={{ cssText: "color: var(--primary); font-weight: 700" }}
         className="h4 m-0 title"
       >
-        {"اختر عنوان التوصيل"}
+        {getText(32)}
       </p>
 
       <ul className="d-grid gap-3 list-unstyled m-0 p-0">{addressItems}</ul>
@@ -35,7 +36,7 @@ export default function () {
             "background-color: var(--primary); color: #fff; border-radius: 24px; width: 70%;",
         }}
       >
-        {"اضف عنوان جديد"}
+        {getText(33)}
       </button>
     </div>
   );

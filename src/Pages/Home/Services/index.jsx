@@ -1,10 +1,11 @@
 /* eslint-disable jsx-a11y/alt-text */
-import getText from "../../../translation";
+import getPage from "../../../translation";
 import { Link } from "react-router-dom";
 import "./index.scss";
 import { useSelector } from "react-redux";
 
-const targetLang = window.localStorage.getItem("lang") === "العربية";
+const getText = getPage("home"),
+  targetLang = window.localStorage.getItem("lang") === "العربية";
 
 /* eslint-disable import/no-anonymous-default-export */
 export default ({ sectionName }) => {
@@ -35,7 +36,7 @@ export default ({ sectionName }) => {
             <span dangerouslySetInnerHTML={{ __html: main[descArg] }}></span>
 
             <Link to="/design" className="text-decoration-none">
-              {"اطلب الآن"}
+              {getText(9)}
             </Link>
           </p>
 
@@ -49,7 +50,7 @@ export default ({ sectionName }) => {
             <span dangerouslySetInnerHTML={{ __html: other[descArg] }}></span>
 
             <Link to="/early-booking" className="text-decoration-none">
-              {"احجز الآن"}
+              {getText(10)}
             </Link>
           </p>
 

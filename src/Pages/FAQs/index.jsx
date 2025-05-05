@@ -1,12 +1,14 @@
-import getText from "../../translation";
+import getPage from "../../translation";
 import faqs from "./data.json";
 import "./index.scss";
+
+const getText = getPage("faq");
 
 export default function () {
   return (
     <section id="faq" className="container" style={{ color: "var(--primary)" }}>
       <h3 className="mb-5 text-center" style={{ cursor: "pointer" }}>
-        {"الأسئلة الشائعة"}
+        {getText(0)}
       </h3>
       <ul className="d-grid gap-3 list-unstyled m-0 p-0">{faqs.map(tab)}</ul>
     </section>

@@ -3,9 +3,10 @@
 import { Link } from "react-router-dom";
 import S, { getFavourites } from "../../store";
 import "./index.scss";
-import getText from "../../translation";
+import getPage from "../../translation";
 
-const dispatch = S.dispatch,
+const getText = getPage("productItem"),
+  dispatch = S.dispatch,
   isArabic = window.localStorage.getItem("lang") === "العربية",
   nameTarget = isArabic ? "name_ar" : "name";
 
@@ -30,7 +31,7 @@ export default function (item, I) {
     old_price = +item.old_price,
     discount = old_price > price && (
       <span>
-        {parseInt(100 - (price / old_price) * 100)}% <sub>{"خصم"}</sub>
+        {parseInt(100 - (price / old_price) * 100)}% <sub>{getText(0)}</sub>
       </span>
     ),
     key = item.item_category_id * item.restaurant_id + I;
@@ -91,7 +92,7 @@ export default function (item, I) {
   }
 
   const href =
-    "/products/" + item.id + "/" + +(item.category_name === "الحجز المبكر");
+    "/products/" + item.id + "/" + +(item.category_name === getText(1));
 
   return (
     <div
@@ -104,7 +105,7 @@ export default function (item, I) {
     >
       <div className="align-items-center d-flex justify-content-between">
         <div className="d-flex gap-1">
-          {is_new ? <span>{"جديد"}</span> : ""}
+          {is_new ? <span>{getText(2)}</span> : ""}
           {discount}
         </div>
 
@@ -152,7 +153,7 @@ export default function (item, I) {
                 <del>{old_price}</del>
               </sub>
             )}
-            <span>{price + " " + "ر.س"}</span> /{priceType}
+            <span>{price + " " + getText(3)}</span> /{priceType}
           </div>
         </Link>
 
@@ -162,7 +163,7 @@ export default function (item, I) {
           onClick={addSingle}
         >
           <span className="d-flex align-items-center justify-content-center text-capitalize">
-            {"اضافة للسلة"}
+            {getText(4)}
           </span>
           <img src="/assets/home/icons/mdi-light_cart.svg" alt="Cart" />
         </button>
