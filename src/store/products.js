@@ -54,6 +54,7 @@ reducers.addSingleItemToCart = function (state, { item }) {
       {
         category_name: item.category_name,
         id: item.id,
+        slug: item.slug,
         name: item.name,
         name_ar: item.name_ar,
         price: item.price,

@@ -14,6 +14,9 @@ const priceTypes = window.priceTypes,
   Base = process.env.REACT_APP_API_URL + "/",
   baseUrl = Base + "public/api";
 
+const titleClassName =
+  window.innerWidth > 768 ? "h5 d-none d-md-block m-0" : "h6 d-md-none m-0";
+
 export default function (item, I) {
   // if (item.is_active === 0) return false;
 
@@ -92,7 +95,12 @@ export default function (item, I) {
   }
 
   const href =
-    "/products/" + item.id + "/" + +(item.category_name === getText(1));
+    "/products/" +
+    +(item.category_name === getText(1)) +
+    "/" +
+    item.slug +
+    "?id=" +
+    item.id;
 
   return (
     <div
@@ -125,12 +133,7 @@ export default function (item, I) {
           to={href}
           className="text-decoration-none d-flex flex-column gap-3 py-3"
         >
-          <span className="h5 d-none d-md-block m-0">
-            {item[nameTarget] || item.name}
-          </span>
-          <span className="h6 d-md-none m-0">
-            {item[nameTarget] || item.name}
-          </span>
+          <h3 className={titleClassName}>{item[nameTarget] || item.name}</h3>
 
           <div className="align-items-center d-grid gap-1 rate">
             <object

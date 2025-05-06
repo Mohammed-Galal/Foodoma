@@ -8,7 +8,7 @@ export default ({ sectionName, data }) => (
   <section id="moon-sections">
     <div className="container-fluid container-lg d-flex flex-column align-items-center">
       {sectionName && (
-        <p
+        <h2
           className="d-flex align-items-center justify-content-between"
           style={{
             width: "100%",
@@ -16,8 +16,8 @@ export default ({ sectionName, data }) => (
             marginBottom: "var(--internal-gap)",
           }}
         >
-          <h3 style={{ fontWeight: "bold" }}>{sectionName}</h3>
-        </p>
+          {sectionName}
+        </h2>
       )}
 
       <div className="d-flex flex-wrap gap-3 justify-content-around">
@@ -35,7 +35,7 @@ function sectionItem({ image_url, name }) {
       key={name}
     >
       <img className="my-auto" src={image_url} alt={name} />
-      {name}
+      <h3 className="m-0 h5">{name}</h3>
     </Link>
   );
 }

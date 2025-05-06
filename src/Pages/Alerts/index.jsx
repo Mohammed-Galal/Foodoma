@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { getUserAlerts } from "../../store";
 import { Link, useNavigate } from "react-router-dom";
 import { useLayoutEffect } from "react";
-import getPage from "../../translation/index.js";
+import getPage from "../../translation.js";
 
 const getText = getPage("alerts");
 

@@ -287,7 +287,14 @@ function ProductItem(item, I, editCart) {
         <Link
           className="text-decoration-none"
           style={{ textAlign: "start" }}
-          to={"/products/" + id + "/" + +(item.category_name === getText(24))}
+          to={
+            "/products/" +
+            +(item.category_name === getText(24)) +
+            "/" +
+            item.slug +
+            "?id=" +
+            id
+          }
         >
           {item[nameTarget] || name}
         </Link>
@@ -347,8 +354,9 @@ function CartCashback({ totalPrice, source }) {
       {getText(25) +
         obj.max +
         getText(26) +
-        (obj.type === "percentage" ? "%" : getText(14)) +
         obj.value +
+        " " +
+        (obj.type === "percentage" ? "%" : getText(14)) +
         getText(27)}
       <progress
         value={totalPrice}

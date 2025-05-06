@@ -91,6 +91,12 @@ export const updateUserInfo = function () {
           });
       })
       .catch(console.error);
+
+    fetch(baseUrl + "/get-orders", fetchOpts)
+      .then((r) => r.json())
+      .then((r) =>
+        APP_STATE.dispatch({ type: "user/setPrevOrders", payload: r })
+      );
   };
 
 fetch(baseUrl + "/getAppSetting", { method: "GET" })

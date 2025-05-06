@@ -3,7 +3,7 @@ import { useDispatch, useStore } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { _useCoupon } from "../Cart";
 import { updateUserInfo } from "../../store";
-import getPage from "../../translation";
+import getPage, { observeLang } from "../../translation";
 import NXT from "../../icons/NXT";
 import OrderOptions from "./OrderOptions";
 import OrderInfo from "./OrderInfo";
@@ -13,10 +13,12 @@ const getText = getPage("checkout"),
   complimentaryData = {},
   placeOrderApi = process.env.REACT_APP_API_URL + "/public/api/place-order",
   days = [/^sun/i, /^mon/i, /^tue/i, /^wed/i, /^thu/i, /^fri/i, /^sat/i],
-  exceptionalCategories = [undefined, getText(0)],
+  exceptionalCategories = [undefined],
   emptyStr = "";
 
 let requestSent = false;
+
+observeLang(() => (exceptionalCategories[1] = getText(0)));
 
 export default function () {
   const redirect = useNavigate(),

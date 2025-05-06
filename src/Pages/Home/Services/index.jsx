@@ -23,15 +23,13 @@ export default ({ sectionName }) => {
       className="container-fluid container-lg d-flex flex-column text-center container-fluid container-lg"
     >
       {sectionName && (
-        <p className="d-flex align-items-center">
-          <h3>{sectionName}</h3>
-        </p>
+        <h2 className="d-flex align-items-center">{sectionName}</h2>
       )}
 
       <div className="align-items-stretch d-flex flex-wrap flex-lg-nowrap gap-3">
         <div className="align-items-stretch d-grid">
           <p className="align-items-center d-flex flex-column h-100 justify-content-evenly m-0">
-            <span className="d-block h4">{main[nameArg]}</span>
+            <h2 className="d-block h4">{main[nameArg]}</h2>
 
             <span dangerouslySetInnerHTML={{ __html: main[descArg] }}></span>
 
@@ -45,7 +43,7 @@ export default ({ sectionName }) => {
 
         <div className="align-items-stretch d-grid">
           <p className="align-items-center d-flex flex-column h-100 justify-content-evenly m-0">
-            <span className="d-block h4">{other[nameArg]}</span>
+            <h2 className="d-block h4">{other[nameArg]}</h2>
 
             <span dangerouslySetInnerHTML={{ __html: other[descArg] }}></span>
 

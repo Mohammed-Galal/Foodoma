@@ -17,9 +17,7 @@ export default ({ data }) => {
       id="occasions"
       className="container-fluid container-lg d-flex flex-column"
     >
-      <p className="d-flex align-items-center">
-        <h3>{getText(7)}</h3>
-      </p>
+      <h2 className="d-flex align-items-center">{getText(7)}</h2>
 
       <Carousel
         innerItems={items}

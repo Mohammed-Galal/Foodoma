@@ -85,7 +85,7 @@ export default function () {
             style={{ maxWidth: "24px", filter: "contrast(0.7)" }}
           />
 
-          {/* <ul
+          <ul
             className="d-flex flex-column list-unstyled m-0 px-0 py-2"
             style={{ textAlign: "center", minWidth: "70px" }}
           >
@@ -96,7 +96,7 @@ export default function () {
                 </li>
               );
             })}
-          </ul> */}
+          </ul>
         </li>
       </ul>
     </div>

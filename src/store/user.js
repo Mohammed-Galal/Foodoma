@@ -9,14 +9,14 @@ const User = {
       loc: {},
       alerts: [],
       addresses: [],
+      prevOrders: [],
     },
   },
   reducers = (User.reducers = {});
 
-
-  reducers.changePhoneNum = function (state, payload) {
-    state.data.phone = payload;
-  };
+reducers.changePhoneNum = function (state, payload) {
+  state.data.phone = payload;
+};
 
 reducers.init = function (state, action) {
   state.loaded = true;
@@ -24,6 +24,10 @@ reducers.init = function (state, action) {
 
   const token = action.payload.auth_token;
   window.localStorage.setItem("token", "Bearer " + token);
+};
+
+reducers.setPrevOrders = function (state, { payload }) {
+  state.prevOrders = payload.data;
 };
 
 reducers.logout = function (state) {

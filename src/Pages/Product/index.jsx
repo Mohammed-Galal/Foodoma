@@ -3,7 +3,12 @@ import getPage from "../../translation";
 /* eslint-disable import/no-anonymous-default-export */
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import {
+  Link,
+  useParams,
+  useNavigation,
+  useSearchParams,
+} from "react-router-dom";
 import productItem from "../../shared/productItem";
 import Carousel from "../../shared/Carousel";
 import NXT from "../../icons/NXT";
@@ -22,14 +27,17 @@ const getText = getPage("product"),
 
 export default function () {
   const Products = useSelector(($) => $.Products),
-    { id, isEarlyBooking } = useParams(),
-    productId = parseInt(id),
+    [query] = useSearchParams(),
+    id = query.get("id"),
+    isEarlyBooking = useParams().isEarlyBooking;
+
+  const productId = parseInt(id),
     items = !!+isEarlyBooking ? Products.early_booking : Products.data,
     state = items.find((e) => e.id === productId);
 
   return (
     <>
-      {ProductInfo(state)}
+      {state && <ProductInfo {...state} />}
       <Related items={items} />
     </>
   );
@@ -60,16 +68,18 @@ function ProductInfo(state) {
       }, 3000);
   }, [Alert]);
 
-  if (state === undefined) return false;
   const calsTxt = getText(0),
     cals = state.calories && (
-      <p
+      <div
         className="align-items-center d-flex gap-2"
         style={{ maxHeight: "40px" }}
       >
         <img src="/assets/cals.png" alt="cals" />
-        {calsTxt}: {state.calories}
-      </p>
+        <h3 style={{ fontSize: "inherit" }} className="m-0">
+          {calsTxt}
+        </h3>
+        : {state.calories}
+      </div>
     );
 
   const alertState = Alert ? activeAlert : hiddenAlert,
@@ -105,8 +115,14 @@ function ProductInfo(state) {
     update(!load);
   }
 
-  const imageSrc = baseUrl + (state.image || "");
+  const productName = (isArabic && state.name_ar) || state.name,
+    imageSrc = baseUrl + (state.image || "");
   docFrag.innerHTML = (isArabic && state.desc_ar) || state.desc;
+
+  document.title = state.meta_title || "Montana / " + productName;
+  document
+    .querySelector('meta[name="description"]')
+    .setAttribute("content", state.meta_description);
 
   return (
     <section
@@ -162,9 +178,7 @@ function ProductInfo(state) {
           <li>{state.name}</li>
         </ul>
 
-        <h1 className="title h2">
-          {(isArabic && state.name_ar) || state.name}
-        </h1>
+        <h1 className="title h2">{productName}</h1>
 
         <div className="state text-center d-flex align-items-center gap-2">
           <span className="flag">
@@ -174,10 +188,10 @@ function ProductInfo(state) {
         </div>
 
         {state.desc && (
-          <div
+          <p
             className="desc w-100"
             dangerouslySetInnerHTML={{ __html: docFrag.textContent }}
-          ></div>
+          ></p>
         )}
 
         {old_price > 0 && +state.price < old_price && (
@@ -307,6 +321,7 @@ function ProductInfo(state) {
       payload: {
         id: state.id,
         name: state.name,
+        slug: state.slug,
         name_ar: state.name_ar,
         category_name: state.category_name,
         price: +state.price,

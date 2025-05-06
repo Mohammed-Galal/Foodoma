@@ -1,5 +1,5 @@
 import getPage from "../translation";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { useLocation, useParams, useSearchParams } from "react-router-dom";
 
@@ -11,46 +11,19 @@ export default () => {
   const params = useParams(),
     [query] = useSearchParams(),
     LOC = useLocation(),
+    prevOrders = useSelector((e) => e.User.prevOrders),
     dispatch = useDispatch(),
     [state, setState] = useState(LOC.state);
 
-  useEffect(function () {
-    if (state === null && params.id !== undefined) {
-      fetch(process.env.REACT_APP_API_URL + "/public/api/payment-callback", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: window.localStorage.getItem("token"),
-        },
-        body: JSON.stringify({
-          order_id: params.id,
-          paymentId: query.get("paymentId"),
-        }),
-      })
-        .then((r) => r.json())
-        .then((res) => {
-          if (res.success) {
-            const basicOrderData = JSON.parse(
-                window.localStorage.getItem("invoiceData")
-              ),
-              { data } = res,
-              invoiceState = {
-                ...basicOrderData,
-                date: data.created_at.split(" "),
-                comment: data.order_comment,
-                code: data.unique_order_id,
-                PIN: data.delivery_pin,
-                price: data.payable,
-                total: data.total,
-                subTotal: data.sub_total,
-              };
+  const orderId = query.get("orderId");
 
-            setState(invoiceState);
-          } else {
-            errMsg = res.message;
-            setState(false);
-          }
-        });
+  useEffect(function () {
+    if (state === null) {
+      if (params.id) instantPaymentInvoice();
+      else if (orderId) {
+        const data = getOrderData(+orderId, prevOrders);
+        setState(data);
+      }
     }
   }, []);
 
@@ -73,9 +46,12 @@ export default () => {
     );
   }
 
-  window.localStorage.removeItem("coupon");
-  window.localStorage.removeItem("invoiceData");
-  dispatch({ type: "products/clearCart" });
+  if (!orderId) {
+    window.localStorage.removeItem("coupon");
+    window.localStorage.removeItem("invoiceData");
+    dispatch({ type: "products/clearCart" });
+  }
+
   return (
     <section id="invoice" className="container">
       <img className="d-block mx-auto" src="/assets/check.gif" alt="success" />
@@ -168,9 +144,9 @@ export default () => {
             <tr className="text-center">
               <th>{getText(12)}</th>
               <th>{getText(13)}</th>
+              <th>{getText(14)}</th>
+              <th>{getText(15)}</th>
               <th>{getText(16)}</th>
-              <th>{getText(17)}</th>
-              <th>{getText(18)}</th>
             </tr>
           </thead>
 
@@ -178,28 +154,28 @@ export default () => {
 
           <tfoot className="fw-bold text-center">
             <tr>
-              <td>{getText(19)}</td>
+              <td>{getText(17)}</td>
               <td>{state.subTotal}</td>
 
-              <td colSpan="2">{getText(20)}</td>
+              <td colSpan="2">{getText(18)}</td>
               <td>{state.deliveryCharges}</td>
             </tr>
 
             <tr>
-              <td>{getText(21)}</td>
+              <td>{getText(19)}</td>
               <td>{state.restaurant_charge}</td>
 
-              <td colSpan="2">{getText(22)}</td>
+              <td colSpan="2">{getText(20)}</td>
               <td>{state.discount}</td>
             </tr>
 
             <tr>
-              <td colSpan="4">{getText(23)}</td>
+              <td colSpan="4">{getText(21)}</td>
               <td>{state.tax_amount.toFixed(2)}</td>
             </tr>
 
             <tr>
-              <td colSpan="4">{getText(24)}</td>
+              <td colSpan="4">{getText(22)}</td>
               <td>{state.total.toFixed(2)}</td>
             </tr>
           </tfoot>
@@ -209,11 +185,49 @@ export default () => {
           className="m-0 text-center"
           style={{ color: "var(--midgray)", lineHeight: "1.6" }}
         >
-          {getText(25)}
+          {getText(23)}
         </p>
       </fieldset>
     </section>
   );
+
+  function instantPaymentInvoice() {
+    fetch(process.env.REACT_APP_API_URL + "/public/api/payment-callback", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: window.localStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        order_id: params.id,
+        paymentId: query.get("paymentId"),
+      }),
+    })
+      .then((r) => r.json())
+      .then((res) => {
+        if (res.success) {
+          const basicOrderData = JSON.parse(
+              window.localStorage.getItem("invoiceData")
+            ),
+            { data } = res,
+            invoiceState = {
+              ...basicOrderData,
+              date: data.created_at.split(" "),
+              comment: data.order_comment,
+              code: data.unique_order_id,
+              PIN: data.delivery_pin,
+              price: data.payable,
+              total: data.total,
+              subTotal: data.sub_total,
+            };
+
+          setState(invoiceState);
+        } else {
+          errMsg = res.message;
+          setState(false);
+        }
+      });
+  }
 };
 
 function ProductItem({ id, name, price, selectedaddons, quantity }) {
@@ -263,4 +277,171 @@ function ProductItem({ id, name, price, selectedaddons, quantity }) {
       </td>
     </tr>
   );
+}
+
+function getOrderData(orderId, prevOrders) {
+  const orderData = prevOrders.find(({ id }) => id === orderId);
+
+  if (!orderData) return null;
+
+  const isDelivery = orderData.delivery_type === 2,
+    result = {};
+
+  // debugger;
+  result.order = orderData.orderitems.map((item) => ({
+    ...item,
+    selectedaddons: item.order_item_addons,
+  }));
+
+  result.code = orderData.unique_order_id;
+  result.deliveryType = isDelivery ? "من الفرع" : "توصيل";
+  result.deliveryAddress = isDelivery
+    ? orderData.address
+    : orderData.restaurant.name;
+  result.deliveryCharges = orderData.delivery_charge;
+  result.restaurant_charge = orderData.restaurant_charge;
+  result.paymentMode =
+    orderData.payment_mode === "COD" ? "عند الاستلام" : orderData.payment_mode;
+
+  result.comment = orderData.order_comment;
+  result.PIN = orderData.delivery_pin;
+  result.tax_amount = orderData.tax_amount;
+  result.date = orderData.updated_at.split(" ");
+  result.subTotal = orderData.sub_total;
+  result.discount = 0;
+  result.total = orderData.total;
+  result.price = orderData.payable;
+
+  return result;
+  //  {
+  //   // code: "OD-05-06-9HAU-72KZLER4Q",
+  //   // deliveryType: "From Branch",
+  //   // deliveryAddress: "حي الرحاب",
+  //   // order: [
+  //   //   {
+  //   //     name: "Hijazi Maamoul",
+  //   //     restaurant_id: 10,
+  //   //     id: "133",
+  //   //     price: "30",
+  //   //     quantity: "1",
+  //   //     selectedaddons: [],
+  //   //   },
+  //   // ],
+  //   discount: 0,
+  //   // deliveryCharges: 0,
+  //   // restaurant_charge: "0.00",
+  //   // date: ["2025-05-06", "00:52:12"],
+  //   // paymentMode: "On Receipt",
+  //   // comment: null,
+  //   // PIN: "16548",
+  //   // tax_amount: 4.2,
+  //   total: 34.2,
+  //   price: 34.2,
+  //   subTotal: 30,
+  // };
+
+  /**
+ {
+  "id": 130,
+  "unique_order_id": "OD-03-15-VJAH-N03DG4KVY",
+  "orderstatus_id": 1,
+  "user_id": 30,
+  "coupon_name": null,
+  "location": "{\"lat\":null,\"lng\":null}",
+  "address": "NA",
+  "tax": null,
+  "restaurant_charge": 0,
+  "delivery_charge": "0.00",
+  "actual_delivery_charge": "0.00",
+  "total": 49,
+  "created_at": "2025-03-15 20:11:19",
+  "updated_at": "2025-03-15 20:11:19",
+  "payment_mode": "COD",
+  "order_comment": null,
+  "restaurant_id": 3,
+  "transaction_id": null,
+  "delivery_type": 2,
+  "payable": 49,
+  "wallet_amount": null,
+  "tip_amount": null,
+  "tax_amount": 0,
+  "coupon_amount": null,
+  "sub_total": 49,
+  "cash_change_amount": null,
+  "is_scheduled": 0,
+  "schedule_date": null,
+  "schedule_slot": null,
+  "distance": null,
+  "delivery_pin": "28915",
+  "zone_id": 2,
+  "phrase": "",
+  "is_special": 0,
+  "shipping_id": null,
+  "is_ratable": false,
+  "orderitems": [
+    {
+      "id": 135,
+      "order_id": 130,
+      "item_id": 56,
+      "name": "تورتة سويسرول ردفلفت",
+      "quantity": 1,
+      "price": "49.00",
+      "created_at": "2025-03-15 20:11:19",
+      "updated_at": "2025-03-15 20:11:19",
+      "order_item_addons": []
+    }
+  ],
+  "restaurant": {
+    "id": 3,
+    "name": "حي الصفا",
+    "description": "حي الصفا",
+    "location_id": null,
+    "image": "/assets/img/restaurants/1726660032Z6XCBebMoy.jpg",
+    "rating": "5",
+    "delivery_time": "15",
+    "price_range": "15",
+    "is_pureveg": 1,
+    "slug": "hy-alsfa-jd-vb7fv2cx4hvumed",
+    "placeholder_image": null,
+    "latitude": "21.580441782632928",
+    "longitude": "39.19873833083975",
+    "certificate": null,
+    "restaurant_charges": "0.00",
+    "delivery_charges": "19.00",
+    "address": "حي الصفا",
+    "pincode": null,
+    "landmark": "حي الصفا",
+    "sku": "17266600320foo0rHznW",
+    "is_active": 1,
+    "is_accepted": 1,
+    "is_featured": 1,
+    "commission_rate": "0.00",
+    "delivery_type": 3,
+    "delivery_radius": 10,
+    "delivery_charge_type": "FIXED",
+    "base_delivery_charge": null,
+    "base_delivery_distance": null,
+    "extra_delivery_charge": null,
+    "extra_delivery_distance": null,
+    "min_order_price": "0.00",
+    "is_notifiable": 0,
+    "auto_acceptable": 0,
+    "schedule_data": null,
+    "is_schedulable": 0,
+    "order_column": 2,
+    "custom_message": null,
+    "is_orderscheduling": false,
+    "custom_featured_name": null,
+    "accept_scheduled_orders": 0,
+    "schedule_slot_buffer": 30,
+    "zone_id": 2,
+    "free_delivery_subtotal": 70,
+    "custom_message_on_list": null,
+    "deleted_at": null
+  },
+  "rating": null,
+  "shipment": null,
+  "payment": null
+}
+ */
 }

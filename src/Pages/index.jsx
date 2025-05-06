@@ -4,7 +4,7 @@ import { Provider } from "react-redux";
 import { createPortal } from "react-dom";
 import isMobileView from "../shared/isMobile.js";
 import store from "../store";
-import getPage from "../translation/index.js";
+import getPage from "../translation.js";
 
 import About from "./About.jsx";
 import Alerts from "./Alerts";
@@ -34,47 +34,12 @@ const getText = getPage("popup"),
 isMobileView && (body.id = "mobile");
 body.prepend(header);
 
-// const containerStyle = {
-//   width: "100%",
-//   height: "400px",
-// };
-
 export default (
   <React.StrictMode>
-    <div
-      id="wrong-credentials"
-      popover="auto"
-      className="px-5 py-4 text-danger"
-      style={{
-        borderRadius: "8px",
-        borderColor: "#f0f8ff",
-        background: "#fff",
-        animation: "reveal 1s ease",
-        boxShadow: "rgb(0, 0, 0, 0.2) 2px 2px 8px 0px",
-      }}
-    >
-      {getText(0)}
-    </div>
-
-    <div
-      id="used-account"
-      popover="auto"
-      className="px-5 py-4 text-danger"
-      style={{
-        borderRadius: "8px",
-        borderColor: "#f0f8ff",
-        background: "#fff",
-        animation: "reveal 1s ease",
-        boxShadow: "rgb(0, 0, 0, 0.2) 2px 2px 8px 0px",
-      }}
-    >
-      {getText(1)}
-    </div>
-
+    <Popups />
     <BrowserRouter>
       <Provider store={store}>
         <App />
-        {createPortal(Footer, footer)}
       </Provider>
     </BrowserRouter>
   </React.StrictMode>
@@ -115,7 +80,8 @@ function App() {
         <Route path="/user/:action?" Component={User} />
         <Route path="/settings/:tab?" Component={Settings} />
         <Route
-          path="/products/:id/:isEarlyBooking"
+          // path="/products/:id/:isEarlyBooking"
+          path="/products/:isEarlyBooking/:slug"
           caseSensitive={true}
           Component={Product}
         />
@@ -134,6 +100,43 @@ function App() {
         <Route path="*" Component={HomePage} />
       </Routes>
       {createPortal(Nav(isMobileView), nav)}
+      {createPortal(Footer(), footer)}
+    </>
+  );
+}
+
+function Popups() {
+  return (
+    <>
+      <div
+        id="wrong-credentials"
+        popover="auto"
+        className="px-5 py-4 text-danger"
+        style={{
+          borderRadius: "8px",
+          borderColor: "#f0f8ff",
+          background: "#fff",
+          animation: "reveal 1s ease",
+          boxShadow: "rgb(0, 0, 0, 0.2) 2px 2px 8px 0px",
+        }}
+      >
+        {getText(0)}
+      </div>
+
+      <div
+        id="used-account"
+        popover="auto"
+        className="px-5 py-4 text-danger"
+        style={{
+          borderRadius: "8px",
+          borderColor: "#f0f8ff",
+          background: "#fff",
+          animation: "reveal 1s ease",
+          boxShadow: "rgb(0, 0, 0, 0.2) 2px 2px 8px 0px",
+        }}
+      >
+        {getText(1)}
+      </div>
     </>
   );
 }

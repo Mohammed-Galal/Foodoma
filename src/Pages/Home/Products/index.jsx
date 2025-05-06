@@ -8,7 +8,7 @@ import "./index.scss";
 export default function ({ id, title, categoryKey }) {
   const { data: items } = useSelector((e) => e.Products),
     targetItems = categoryKey
-      ? items.filter((item) => !!item[categoryKey] )
+      ? items.filter((item) => !!item[categoryKey])
       : items,
     products = targetItems.map(productItem);
 
@@ -18,9 +18,7 @@ export default function ({ id, title, categoryKey }) {
       id={id}
       className="mx-auto container-fluid container-lg"
     >
-      <p className="d-flex align-items-center">
-        <h3>{title}</h3>
-      </p>
+      <h2 className="d-flex align-items-center">{title}</h2>
 
       <Carousel innerItems={products} />
     </section>

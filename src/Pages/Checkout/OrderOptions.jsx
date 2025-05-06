@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import getPage from "../../translation/index.js";
+import getPage from "../../translation.js";
 
 const getText = getPage("checkout"),
   defaultLoc = {
