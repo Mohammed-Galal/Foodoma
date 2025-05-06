@@ -24,12 +24,16 @@ async function initLangs(callback) {
   callback();
 }
 
-export { keys, initLangs, observeLang };
+export { keys, initLangs, observeLang, getActiveLang };
 
 export default function getPage(pageName) {
   return function (phraseIndex) {
     return file[pageName][phraseIndex];
   };
+}
+
+function getActiveLang() {
+  return lang;
 }
 
 function observeLang(observer) {

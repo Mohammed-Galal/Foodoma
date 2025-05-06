@@ -11,7 +11,7 @@ export default function ({ items }) {
         className="d-block h3 mb-4 text-center"
         style={{ color: "var(--primary)" }}
       >
-        {"قد يعجبك ايضاً"}
+        {getPage("cart")(28)}
       </span>
 
       <Carousel

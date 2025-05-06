@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Provider } from "react-redux";
 import { createPortal } from "react-dom";
 import isMobileView from "../shared/isMobile.js";
 import store from "../store";
-import getPage from "../translation.js";
+import getPage, { getActiveLang } from "../translation.js";
 
 import About from "./About.jsx";
 import Alerts from "./Alerts";
@@ -34,6 +34,8 @@ const getText = getPage("popup"),
 isMobileView && (body.id = "mobile");
 body.prepend(header);
 
+let pageTitles = null;
+
 export default (
   <React.StrictMode>
     <Popups />
@@ -47,14 +49,28 @@ export default (
 
 function App() {
   const storeDefined = window.localStorage.getItem("slug");
-  const location = useLocation(),
+  const [titlesLoaded, setTitlesLoaded] = useState(false),
+    location = useLocation(),
     showPopup = !storeDefined && location.pathname !== "/restaurant";
+
+  !titlesLoaded &&
+    fetch("/assets/page-title.json")
+      .then((r) => r.json())
+      .then((r) => {
+        pageTitles = r;
+        // debugger;
+        setTitlesLoaded(true);
+      });
 
   useEffect(() => {
     window.scrollTo(0, 0);
     // Add your custom event logic here
     body.style.overflow = showPopup ? "hidden" : "auto";
   }, [location]);
+
+  if (titlesLoaded === false) return null;
+
+  setDocTitle();
 
   return (
     <>
@@ -80,7 +96,6 @@ function App() {
         <Route path="/user/:action?" Component={User} />
         <Route path="/settings/:tab?" Component={Settings} />
         <Route
-          // path="/products/:id/:isEarlyBooking"
           path="/products/:isEarlyBooking/:slug"
           caseSensitive={true}
           Component={Product}
@@ -139,4 +154,23 @@ function Popups() {
       </div>
     </>
   );
+}
+
+function setDocTitle() {
+  const activeLang = getActiveLang(),
+    nameKey = activeLang === "العربية" ? "name_ar" : "name",
+    docPath = window.location.pathname;
+
+  let index = 0;
+  while (index < pageTitles.length) {
+    const iPath = pageTitles[index++],
+      isExact = iPath.exact,
+      path = "^" + iPath.path + (isExact ? "/?$" : ""),
+      regEx = new RegExp(path);
+    debugger;
+    if (regEx.test(docPath)) {
+      document.title = iPath[nameKey];
+      break;
+    }
+  }
 }

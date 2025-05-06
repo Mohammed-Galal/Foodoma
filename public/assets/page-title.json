@@ -1,0 +1,81 @@
+[
+  {
+    "name": "Montana - Alerts",
+    "name_ar": "مونتانا - الاشعارات",
+    "path": "/alerts",
+    "exact": true
+  },
+  {
+    "name": "Montana - Restaurants",
+    "name_ar": "مونتانا - اختيار المطاعم",
+    "path": "/restaurant",
+    "exact": true
+  },
+  {
+    "name": "Montana - FAQs",
+    "name_ar": "مونتانا - الاسئلة المتكررة",
+    "path": "/faq",
+    "exact": true
+  },
+  {
+    "name": "Montana - About",
+    "name_ar": "مونتانا - من نحن",
+    "path": "/about-us",
+    "exact": true
+  },
+  {
+    "name": "Montana - Early Booking",
+    "name_ar": "مونتانا - الحجز المبكر",
+    "path": "/early-booking",
+    "exact": true
+  },
+  {
+    "name": "Montana - Cart",
+    "name_ar": "مونتانا - عربة التسوق",
+    "path": "/cart",
+    "exact": true
+  },
+  {
+    "name": "Montana - Checkout",
+    "name_ar": "مونتانا - تأكيد الطلب",
+    "path": "/checkout",
+    "exact": true
+  },
+
+  {
+    "name": "Montana - Design Your Cake",
+    "name_ar": "مونتانا - صمم الكيكة بنفسك",
+    "path": "/design",
+    "exact": false
+  },
+  {
+    "name": "Montana - Settings",
+    "name_ar": "مونتانا - الاعدادات",
+    "path": "/settings",
+    "exact": false
+  },
+  {
+    "name": "Montana - Register",
+    "name_ar": "مونتانا - تسجيل الدخول",
+    "path": "/user",
+    "exact": false
+  },
+  {
+    "name": "Montana - Products",
+    "name_ar": "مونتانا - جميع المنتجات",
+    "path": "/all-products",
+    "exact": false
+  },
+  {
+    "name": "Montana - Invoice",
+    "name_ar": "مونتانا - الفاتورة",
+    "path": "/invoice",
+    "exact": false
+  },
+  {
+    "name": "Montana",
+    "name_ar": "مونتانا",
+    "path": "/",
+    "exact": false
+  }
+]
