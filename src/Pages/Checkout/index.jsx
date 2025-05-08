@@ -16,8 +16,6 @@ const getText = getPage("checkout"),
   exceptionalCategories = [undefined],
   emptyStr = "";
 
-let requestSent = false;
-
 observeLang(() => (exceptionalCategories[1] = getText(0)));
 
 export default function () {
@@ -48,6 +46,7 @@ export default function () {
       isExceptionalCart: checkForExceptionalItems(cartItems),
       userAddresses: store.User.addresses,
       cashback: store.Products.cashback,
+      requestSent: false,
     }).current;
 
   clues.deliveryCharges = store.Restaurant.data.delivery_charges;
@@ -109,6 +108,8 @@ export default function () {
   );
 
   function placeOrder(ignoreWorkingHours) {
+    const requestSent = clues.requestSent;
+
     if (requestSent) return;
     else if (deliveryState[0] && !checkResCoverage(currRes, clues.closestRes))
       return;
@@ -116,7 +117,7 @@ export default function () {
     if (!isWithinWorkingHours(currRes) && !ignoreWorkingHours)
       return document.getElementById("time-warning").showPopover();
 
-    requestSent = true;
+    clues.requestSent = true;
 
     const images = reqBody.images || [],
       formData = new FormData();

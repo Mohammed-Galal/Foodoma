@@ -45,7 +45,7 @@ function orderItem(order) {
 
   const Products = this,
     { updated_at, total, delivery_charge, orderstatus_id } = order,
-    isDelevered = orderState[orderstatus_id] || orderstatus_id,
+    orderStatus = orderState[orderstatus_id] || orderstatus_id,
     date = updated_at.split(" ")[0].replace(/-/g, "."),
     price = +total + +delivery_charge,
     quantity = order.orderitems.length;
@@ -81,10 +81,15 @@ function orderItem(order) {
           <span className="h6 m-0 mb-1">{date}</span>
           {price} {getText(20)}/ {quantity} {getText(21)}
         </p>
-
-        <Link className="btn" to={"/invoice?orderId=" + order.id}>
-          {getText(22)}
-        </Link>
+        {orderstatus_id === 8 ? (
+          <a className="btn" href={order.payment.InvoiceURL}>
+            {"أكمل الدفع"}
+          </a>
+        ) : (
+          <Link className="btn" to={"/invoice?orderId=" + order.id}>
+            {getText(22)}
+          </Link>
+        )}
       </div>
 
       <div className="overflow-hidden px-2">{images}</div>
@@ -95,7 +100,7 @@ function orderItem(order) {
           cssText: "color: var(--midgray); background-color: #e6f0f7",
         }}
       >
-        <span>{isDelevered}</span>
+        <span>{orderStatus}</span>
       </div>
     </li>
   );

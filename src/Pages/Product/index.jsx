@@ -3,12 +3,7 @@ import getPage from "../../translation";
 /* eslint-disable import/no-anonymous-default-export */
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
-import {
-  Link,
-  useParams,
-  useNavigation,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import productItem from "../../shared/productItem";
 import Carousel from "../../shared/Carousel";
 import NXT from "../../icons/NXT";
@@ -29,7 +24,7 @@ export default function () {
   const Products = useSelector(($) => $.Products),
     [query] = useSearchParams(),
     id = query.get("id"),
-    isEarlyBooking = useParams().isEarlyBooking;
+    isEarlyBooking = query.get("isCustom");
 
   const productId = parseInt(id),
     items = !!+isEarlyBooking ? Products.early_booking : Products.data,
@@ -119,7 +114,9 @@ function ProductInfo(state) {
     imageSrc = baseUrl + (state.image || "");
   docFrag.innerHTML = (isArabic && state.desc_ar) || state.desc;
 
-  document.title = state.meta_title || "Montana / " + productName;
+  document.title =
+    state.meta_title ||
+    (isArabic ? "مونتانا" : "Montana") + " - " + productName;
   document
     .querySelector('meta[name="description"]')
     .setAttribute("content", state.meta_description);

@@ -96,7 +96,7 @@ function App() {
         <Route path="/user/:action?" Component={User} />
         <Route path="/settings/:tab?" Component={Settings} />
         <Route
-          path="/products/:isEarlyBooking/:slug"
+          path="/products/:slug"
           caseSensitive={true}
           Component={Product}
         />
@@ -167,7 +167,6 @@ function setDocTitle() {
       isExact = iPath.exact,
       path = "^" + iPath.path + (isExact ? "/?$" : ""),
       regEx = new RegExp(path);
-    debugger;
     if (regEx.test(docPath)) {
       document.title = iPath[nameKey];
       break;

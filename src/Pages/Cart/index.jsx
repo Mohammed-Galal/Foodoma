@@ -289,11 +289,11 @@ function ProductItem(item, I, editCart) {
           style={{ textAlign: "start" }}
           to={
             "/products/" +
-            +(item.category_name === getText(24)) +
-            "/" +
             item.slug +
             "?id=" +
-            id
+            id +
+            "&isCustom=" +
+            +(item.category_name === getText(24))
           }
         >
           {item[nameTarget] || name}

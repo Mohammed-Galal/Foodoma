@@ -96,11 +96,11 @@ export default function (item, I) {
 
   const href =
     "/products/" +
-    +(item.category_name === getText(1)) +
-    "/" +
     item.slug +
     "?id=" +
-    item.id;
+    item.id +
+    "&isCustom=" +
+    +(item.category_name === getText(1));
 
   return (
     <div
