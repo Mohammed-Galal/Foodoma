@@ -1,41 +1,67 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style="--img-aspect-ratio: 12 / 9">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <link rel="" href="" />
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
       Only files inside the `public` folder can be referenced from the HTML.
-
+      
       Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>Montana</title>
-
     <link rel="stylesheet" href="./index.css" />
-    <!--  -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap"
       rel="stylesheet"
     />
-    <!-- <link rel="preconnect" href="https://admin.montana.sa/" /> -->
+    <!-- SEO -->
+    <!-- https://chatgpt.com/share/68498e46-f314-8009-a02b-968230d2669b -->
+    <title>Montana</title>
+    <meta name="description" content="مونتانا" />
+
+    <!-- ✅ Canonical Link -->
+    <link rel="canonical" href="https://montana.sa" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <meta property="og:locale" content="ar_AR" />
+    <meta property="og:title" content="مونتانا" />
+    <meta property="og:site_name" content="مونتانا" />
+    <meta property="og:url" content="https://montana.sa/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:description" content="مونتانا" />
+    <meta property="og:image" content="https://montana.sa/logo.png" />
+
+    <!-- Required: Card type -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <!-- Recommended: Twitter username of the website or author -->
+    <meta name="twitter:site" content="@montana.sa" />
+    <!-- Required: Title and description -->
+    <meta name="twitter:title" content="مونتانا" />
+    <meta name="twitter:description" content="مونتانا" />
+    <!-- Required: Image for preview -->
+    <meta name="twitter:image" content="https://montana.sa/logo.png" />
+    <!-- Optional: Direct link to your page (redundant if canonical is set) -->
+    <meta name="twitter:url" content="https://montana.sa" />
+    <!-- Language (optional) -->
+    <meta http-equiv="content-language" content="ar" />
+    <!-- Cache Control (rarely used today) -->
+    <meta
+      http-equiv="Cache-Control"
+      content="no-cache, no-store, must-revalidate"
+    />
   </head>
   <body dir="rtl">
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -43,6 +69,29 @@
     <main class="mb-auto"></main>
     <nav></nav>
     <footer class="py-5 d-none d-lg-block"></footer>
+
+    <aside id="animation" class="active">
+      <style>
+        aside#animation {
+          position: fixed;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          left: 0;
+          background-color: #fff;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 999;
+        }
+      </style>
+      <img
+        src="/assets/home/logo.svg"
+        alt="loader animation"
+        style="max-height: 212px"
+      />
+    </aside>
+
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
