@@ -31,7 +31,7 @@ function oItem({ name, image_url }) {
   return (
     <Link
       key={name}
-      to={"/all-products/" + name + "?occasions=1"}
+      to={"/all-products/" + name + "?occassions=1"}
       className="d-flex flex-column gap-2 text-center text-decoration-none"
       style={{ color: "var(--primary)" }}
     >

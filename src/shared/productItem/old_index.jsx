@@ -3,32 +3,26 @@
 import { Link } from "react-router-dom";
 import S, { getFavourites } from "../../store";
 import "./index.scss";
-import getPage, { getActiveLang } from "../../translation";
+import getPage from "../../translation";
 
-const emptyArr = [],
-  getText = getPage("productItem"),
+const getText = getPage("productItem"),
   dispatch = S.dispatch,
-  isArabic = getActiveLang() === "العربية",
+  isArabic = window.localStorage.getItem("lang") === "العربية",
   nameTarget = isArabic ? "name_ar" : "name";
 
 const priceTypes = window.priceTypes,
-  Base = process.env.REACT_APP_API_URL,
-  baseUrl = Base + "/" + "public/api";
+  Base = process.env.REACT_APP_API_URL + "/",
+  baseUrl = Base + "public/api";
 
-const titleClassName = "m-0 " + (window.innerWidth > 768 ? "h5" : "h6");
+const titleClassName =
+  window.innerWidth > 768 ? "h5 d-none d-md-block m-0" : "h6 d-md-none m-0";
 
-export default function (item, i) {
-  return <ProductItem item={item} I={i} />;
-}
+export default function (item, I) {
+  // if (item.is_active === 0) return false;
 
-function ProductItem({ item, I }) {
-  if (item.visible === 0) return false;
+  let product;
 
-  let product,
-    quantity = 0;
-
-  const isActive = !!item.is_active,
-    priceType = isArabic
+  const priceType = isArabic
       ? priceTypes[item.price_type]
       : item.price_type.replace(/_/g, " ").toUpperCase(),
     store = S.getState(),
@@ -45,13 +39,6 @@ function ProductItem({ item, I }) {
     ),
     key = item.item_category_id * item.restaurant_id + I;
 
-  const cartItemRef = store.Products.cart.find((i) => i.id === item.id);
-
-  if (cartItemRef) {
-    // debugger;
-    quantity = cartItemRef.quantity;
-  }
-
   const vid = (
     <div
       onClick={toggleFav}
@@ -65,7 +52,7 @@ function ProductItem({ item, I }) {
       }}
     >
       <video
-        src="/assets/heart.mp4"
+        src={process.env.REACT_APP_API_URL + "/assets/heart.mp4"}
         style={{ maxHeight: "84px", marginLeft: "-17px" }}
         ref={handleFav}
       ></video>
@@ -113,7 +100,7 @@ function ProductItem({ item, I }) {
     "?id=" +
     item.id +
     "&isCustom=" +
-    +(item.category_name === "الحجز المبكر");
+    +(item.category_name === getText(1));
 
   return (
     <div
@@ -122,10 +109,7 @@ function ProductItem({ item, I }) {
         product = e;
         e && e.classList.remove("loading");
       }}
-      className={
-        "d-flex flex-column position-relative product-item px-3 py-4 gap-2" +
-        (isActive ? "" : " disabled")
-      }
+      className="d-flex flex-column justify-content-between position-relative product-item px-4 py-3"
     >
       <div className="align-items-center d-flex justify-content-between">
         <div className="d-flex gap-1">
@@ -138,34 +122,18 @@ function ProductItem({ item, I }) {
 
       <Link to={href}>
         <img
-          loading="lazy"
           src={Base + image}
+          className="mb-3 mx-auto"
           alt={item[nameTarget]}
-          style={{
-            aspectRatio: "var(--img-aspect-ratio)",
-          }}
         />
       </Link>
 
       <div className="desc">
         <Link
           to={href}
-          className="text-decoration-none d-flex flex-column gap-2"
+          className="text-decoration-none d-flex flex-column gap-3 py-3"
         >
-          <h6
-            className={titleClassName}
-            style={{
-              height: "3.1rem",
-              display: "-webkit-box",
-              WebkitBoxOrient: "vertical",
-              WebkitLineClamp: "2",
-              overflowWrap: "break-word",
-              textOverflow: "ellipsis",
-              overflow: "hidden",
-            }}
-          >
-            {item[nameTarget] || item.name}
-          </h6>
+          <h3 className={titleClassName}>{item[nameTarget] || item.name}</h3>
 
           <div className="align-items-center d-grid gap-1 rate">
             <object
@@ -191,78 +159,22 @@ function ProductItem({ item, I }) {
             <span>{price + " " + getText(3)}</span> /{priceType}
           </div>
         </Link>
-      </div>
 
-      {isActive ? (
-        <div className="actions gap-3 mt-2">
-          <button
-            className="align-items-center btn d-flex justify-content-center p-0"
-            onClick={inc}
-          >
-            +
-          </button>
-          {quantity}
-          <button
-            className="align-items-center btn d-flex justify-content-center p-0"
-            onClick={dec}
-          >
-            -
-          </button>
-
-          {/* <button
-              type="button"
-              className="align-items-center btn d-flex justify-content-center p-0 flex-grow-1"
-              onClick={addItemToCart}
-            >
-              <span className="d-flex align-items-center justify-content-center text-capitalize">
-                {getText(4)}
-              </span>
-              <img src="/assets/home/icons/mdi-light_cart.svg" alt="Cart" />
-            </button> */}
-        </div>
-      ) : (
         <button
-          className="btn py-1 mt-2"
-          style={{
-            color: "var(--bs-danger)",
-            border: "none",
-            fontSize: "small",
-            width: "100%",
-          }}
+          type="button"
+          className="btn d-flex flex-column align-items-center p-0 w-100"
+          onClick={addSingle}
         >
-          {getText(5)}
+          <span className="d-flex align-items-center justify-content-center text-capitalize">
+            {getText(4)}
+          </span>
+          <img src="/assets/home/icons/mdi-light_cart.svg" alt="Cart" />
         </button>
-      )}
+      </div>
     </div>
   );
 
-  function inc() {
-    quantity++;
-    applyToCart();
-  }
-
-  function dec() {
-    quantity = Math.max(quantity - 1, 0);
-    applyToCart();
-  }
-
-  function applyToCart() {
-    const restaurant_id = store.Restaurant.data.id;
-    dispatch({
-      type: "products/addToCart",
-      payload: {
-        slug: item.slug,
-        quantity,
-        // is_special: item.category_name === "الحجز المبكر",
-        restaurant_id: +restaurant_id,
-        id: item.id,
-        name: item.name,
-        name_ar: item.name_ar,
-        category_name: item.category_name,
-        price: +item.price,
-        addons: emptyArr,
-        // totalPrice: quantity * price,
-      },
-    });
+  function addSingle() {
+    dispatch({ type: "products/addSingleItemToCart", item });
   }
 }

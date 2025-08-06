@@ -27,12 +27,13 @@ export default ({ sectionName, data }) => (
   </section>
 );
 
-function sectionItem({ image_url, name }) {
+function sectionItem(item) {
+  const { image_url, name, id } = item;
   return (
     <Link
+      key={id}
       className="align-items-center d-flex flex-column gap-2 p-4"
-      to={"/all-products/" + name}
-      key={name}
+      to={"/all-products/" + name + "?miniCategories=1"}
     >
       <img className="my-auto" src={image_url} alt={name} />
       <h3 className="m-0 h5">{name}</h3>

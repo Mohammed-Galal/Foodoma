@@ -81,7 +81,6 @@ function BookProducts() {
       id="book-products"
       className="container align-items-stretch px-2 mx-auto d-flex flex-wrap gap-3"
     >
-      <p className="h4">{getText(4)}</p>
       {targetItems}
     </section>
   );

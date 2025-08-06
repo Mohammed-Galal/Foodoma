@@ -60,6 +60,7 @@ const loader = (
 export default function () {
   const reqBody = useRef({}).current;
   const [loading, setLoading] = useState(true);
+  const [err, setErr] = useState("");
   const [otpRequired, setOtp] = useState(false);
   const navigate = useNavigate();
   const targetAct = useParams().action;
@@ -95,6 +96,12 @@ export default function () {
         <div className="d-flex flex-column gap-3 px-5 py-4">
           <span className="h6">{getText(0)}</span>
 
+          {!!err && (
+            <span className="d-block text-capitalize text-center text-danger w-100">
+              {err}
+            </span>
+          )}
+
           <div className="input-group" dir="ltr">
             <span className="input-group-text">966</span>
             <input
@@ -120,10 +127,11 @@ export default function () {
 
   function sendReq() {
     if (!("email" in reqBody && "password" in reqBody))
-      return alert(getText(3));
+      return setErr(getText(3));
 
     const phone = reqBody.email === "" ? reqBody.phone : reqBody.email;
-    if (phone.length !== 9 && phone !== "01010541135") return alert(getText(4));
+    if (phone.length !== 9 && phone !== "01010541135")
+      return setErr(getText(4));
 
     setLoading(true);
 
@@ -145,22 +153,25 @@ export default function () {
   }
 
   function resetPassword() {
-    if (reqBody.email.length !== 9) return alert(getText(4));
+    if (reqBody.email.length !== 9) return setErr(getText(4));
     fetch(Base + "/forgot-password", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         phone: reqBody.email,
       }),
     })
       .then((r) => r.json())
       .then((r) => {
-        // if (!r.success) return alert(r.data);
+        if (!r.success) return alert(r.data);
         navigate("/user/resetPassword");
       });
   }
 }
 
 function Login({ sendReq, reqBody }) {
+  const [showPassword, setShow] = useState(false);
+
   useEffect(() => {
     reqBody.name = "";
     reqBody.email = "";
@@ -226,14 +237,27 @@ function Login({ sendReq, reqBody }) {
 
         <div className="col-12 col-md-6">
           <h6>{getText(7)}</h6>
-          <input
-            type="password"
-            style={{ outline: "none" }}
-            className="form-control"
-            defaultValue={reqBody.password}
-            onChange={(e) => (reqBody.password = e.target.value)}
-            placeholder={getText(7)}
-          />
+          <div className="input-group" dir="ltr">
+            <input
+              type={showPassword ? "text" : "password"}
+              style={{ outline: "none" }}
+              className="form-control"
+              defaultValue={reqBody.password}
+              onChange={(e) => (reqBody.password = e.target.value)}
+              placeholder={getText(7)}
+            />
+
+            <span
+              className="input-group-text"
+              onClick={() => setShow(!showPassword)}
+            >
+              <img
+                style={{ maxHeight: "24px" }}
+                src="https://cdn-icons-png.flaticon.com/512/6684/6684701.png"
+                alt="show password"
+              />
+            </span>
+          </div>
         </div>
 
         <div className="col-12 col-md-6 mx-auto">
@@ -421,29 +445,38 @@ function ResetPassword({ reqBody }) {
         </div>
       </div>
 
-      <label className="h6">
-        {getText(20)}
-        <input
-          type="number"
-          className="form-control"
-          onChange={({ target }) => (otpInfo.otp = target.value)}
-          placeholder={getText(20)}
-        />
-      </label>
+      <div
+        className="align-items-center d-flex flex-column gap-4 py-5"
+        style={{ color: "var(--primary)" }}
+      >
+        <label className="col-6 h6 m-0">
+          {getText(20)}
+          <input
+            type="number"
+            className="form-control mt-2"
+            onChange={({ target }) => (otpInfo.otp = target.value)}
+            placeholder={getText(20)}
+          />
+        </label>
 
-      <label className="h6">
-        {getText(21)}
-        <input
-          type="password"
-          className="form-control"
-          onChange={({ target }) => (otpInfo.password = target.value)}
-          placeholder={getText(21)}
-        />
-      </label>
+        <label className="col-6 h6 m-0">
+          {getText(21)}
+          <input
+            type="password"
+            className="form-control mt-2"
+            onChange={({ target }) => (otpInfo.password = target.value)}
+            placeholder={getText(21)}
+          />
+        </label>
 
-      <button className="input-group-text btn" onClick={confirmOTP}>
-        {getText(22)}
-      </button>
+        <button
+          className="btn col-6"
+          onClick={confirmOTP}
+          style={{ color: "#fff", backgroundColor: "var(--primary)" }}
+        >
+          {getText(22)}
+        </button>
+      </div>
     </div>
   );
 
@@ -451,6 +484,7 @@ function ResetPassword({ reqBody }) {
     // validation
     fetch(Base + "/user/reset-password", {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(otpInfo),
     })
       .then((r) => r.json())
@@ -462,6 +496,7 @@ function ResetPassword({ reqBody }) {
 
 function OTP({ reqBody }) {
   const navigate = useNavigate();
+  const [err, setErr] = useState("");
   const otpRef = useRef();
 
   return (
@@ -486,6 +521,15 @@ function OTP({ reqBody }) {
           </button>
         </div>
         <Timer reqRef={reqBody} />
+
+        {!!err && (
+          <span
+            className="d-block text-capitalize text-center text-danger w-100"
+            style={{ fontWeight: "600" }}
+          >
+            {err}
+          </span>
+        )}
       </div>
     </div>
   );
@@ -494,7 +538,7 @@ function OTP({ reqBody }) {
     const phone = reqBody.email === "" ? reqBody.phone : reqBody.email,
       otpCode = otpRef.current.value;
 
-    if (otpCode.length !== 6) return alert(getText(25));
+    if (otpCode.length !== 6) return setErr(getText(25));
 
     fetch(Base + "/user/verify-otp", {
       method: "POST",
@@ -504,7 +548,7 @@ function OTP({ reqBody }) {
       .then((r) => r.json())
       .then(handleUserData)
       .then((redirect) => redirect && navigate("/"))
-      .catch(console.error);
+      .catch(() => setErr("Something went wrong, please retry"));
   }
 }
 

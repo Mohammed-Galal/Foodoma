@@ -11,6 +11,27 @@ const APP_STATE = configureStore({
 });
 export default APP_STATE;
 
+fetch(process.env.REACT_APP_API_URL + "/public/api/getItemcategories")
+  .then((r) => r.json())
+  .then((r) => {
+    APP_STATE.dispatch({
+      type: "products/initMiniCategories",
+      payload: r,
+    });
+  });
+
+navigator.geolocation.getCurrentPosition((POS) => {
+  if (!("geolocation" in navigator))
+    return alert("Geolocation is not supported by your browser.");
+
+  const coords = {
+    latitude: "" + POS.coords.latitude,
+    longitude: "" + POS.coords.longitude,
+  };
+
+  APP_STATE.dispatch({ type: "user/setLoc", payload: coords });
+}, console.error);
+
 const baseUrl = process.env.REACT_APP_API_URL + "/public/api",
   fetchOpts = {
     method: "POST",
@@ -21,6 +42,14 @@ const baseUrl = process.env.REACT_APP_API_URL + "/public/api",
       return obj;
     },
   };
+
+fetch(baseUrl + "/get-settings", {
+  method: "POST",
+})
+  .then((r) => r.json())
+  .then((r) => {
+    APP_STATE.dispatch({ type: "settings/init", payload: r });
+  });
 
 fetch(baseUrl + "/get-all-restaurant", fetchOpts)
   .then((res) => res.json())
@@ -99,10 +128,6 @@ export const updateUserInfo = function () {
       );
   };
 
-fetch(baseUrl + "/getAppSetting", { method: "GET" })
-  .then((r) => r.json())
-  .then((r) => APP_STATE.dispatch({ type: "settings/init", payload: r }));
-
 function toJson(res) {
   return res.json();
 }
@@ -113,6 +138,12 @@ if (savedSlug) {
   fetch(baseUrl + "/get-restaurant-info/" + savedSlug, fetchOpts)
     .then(toJson)
     .then((resData) => {
+      if (!resData.is_active) {
+        window.localStorage.removeItem("slug");
+        window.location.reload();
+        return;
+      }
+
       APP_STATE.dispatch({ type: "restaurant/init", payload: resData });
 
       fetch(baseUrl + "/get-restaurant-items/" + savedSlug, fetchOpts)

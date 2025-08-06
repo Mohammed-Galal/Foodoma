@@ -1,3 +1,16 @@
+.pac-container.pac-logo {
+  max-width: 653px;
+  direction: rtl;
+
+  & > .pac-item {
+    text-align: start !important;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+  }
+}
+
 #new-address {
   position: fixed;
   top: 0;
@@ -16,7 +29,6 @@
 
     & > .container {
       transform: rotateX(0deg);
-      // scale: 1;
     }
   }
 
@@ -29,6 +41,7 @@
   }
 
   & > .container {
+    overflow: hidden;
     width: min(100%, 760px);
     transform: rotateX(90deg);
     background-color: #fff;
@@ -75,7 +88,7 @@
       transform: translateY(50%);
       transition: 150ms ease-out;
     }
-    
+
     &:hover > ul {
       visibility: visible;
       opacity: 1;
@@ -91,19 +104,17 @@
 #settings {
   #menu {
     li {
-      border-bottom: 1px solid #d4e8f6;
-
       a,
       button {
+        border-radius: 8px;
         text-align: unset;
         min-height: 45px;
         color: var(--primary);
         grid-template-columns: 72px 1fr;
 
-        &:hover,
+        &:not(button):hover,
         &.active {
           background-color: #d4e8f6;
-          border-radius: 16px;
         }
 
         svg path {
@@ -115,6 +126,10 @@
           margin-left: auto;
           margin-right: auto;
         }
+      }
+
+      button {
+        color: var(--bs-danger);
       }
     }
   }
@@ -145,7 +160,7 @@
     }
   }
 
-  & > ul {
+  & > ul#mobile-menu {
     color: var(--primary);
     font-weight: 600;
     row-gap: 16px;

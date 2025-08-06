@@ -1,8 +1,17 @@
+::backdrop {
+  background: #0002;
+}
+
+dialog::backdrop {
+  background-color: red;
+}
+
 body {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   user-select: none;
+  // background-color: #f8fafc;
 
   // ======================
   --hover-transition: 150ms ease-in-out;
@@ -46,6 +55,18 @@ body {
   --gradient-4: linear-gradient(0deg, #1faf38 -9900%, #60d669 100%);
 }
 
+@media print {
+  #invoice {
+    padding: 0 !important;
+  }
+
+  header,
+  #invoice-content + button,
+  #mobile-back {
+    display: none !important;
+  }
+}
+
 .dismisser {
   z-index: 9;
   position: fixed;
@@ -55,6 +76,24 @@ body {
   bottom: 0;
   left: 0;
   background: #0002;
+}
+
+aside#animation {
+  opacity: 0;
+  visibility: hidden;
+  transition: 1s;
+  // --kf-level: 1;
+
+  &.active {
+    opacity: 1;
+    visibility: visible;
+    // --kf-level: 0.7;
+
+    & > img {
+      animation: loading 2s;
+      animation-iteration-count: infinite;
+    }
+  }
 }
 
 #about {
@@ -178,6 +217,23 @@ table:not(.default) {
   }
 }
 
+@keyframes loading {
+  0% {
+    opacity: 0.7;
+    scale: 0.7;
+  }
+
+  50% {
+    opacity: 1;
+    scale: 1;
+  }
+
+  100% {
+    opacity: 0.7;
+    scale: 0.7;
+  }
+}
+
 progress {
   width: 100%;
   max-width: 200px;
@@ -207,6 +263,7 @@ progress::-moz-progress-bar {
 
 .swiper {
   color: var(--primary);
+  --swiper-navigation-sides-offset: 1px;
 
   &:hover {
     --translate-val: 0;
@@ -216,9 +273,10 @@ progress::-moz-progress-bar {
   & > [class^="swiper-button"] {
     width: unset;
     height: unset;
-    background-color: var(--primary);
+    background-color: #0b43680a;
+    color: var(--primary);
     border-radius: 4px;
-    color: #ecf5ff;
+    // color: #ecf5ff;
     padding: 8px 10px;
     opacity: var(--controllers-opacity) !important;
     transition: var(--hover-transition);

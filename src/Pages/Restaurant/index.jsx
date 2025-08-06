@@ -1,5 +1,5 @@
 import getPage from "../../translation";
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./index.scss";
@@ -32,21 +32,38 @@ const restaurantsProps = {
   },
 };
 
+let closestRes;
+
 export default function Restaurant({ isPopup }) {
-  const { branches: restaurants, loaded } = useSelector(
-      (state) => state.Restaurant
-    ),
+  const { Restaurant, User } = useSelector((state) => state),
+    { branches: restaurants } = Restaurant,
     [filterValue, setFilter] = useState(""),
-    [showBranches, setShowBranches] = useState(false),
+    [err, setErr] = useState(""),
     redirect = useNavigate(),
     dispatch = useDispatch();
 
+  useEffect(
+    function () {
+      fetch(baseUrl + "get-delivery-restaurants", {
+        method: "POST",
+        body: JSON.stringify(User.loc),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          closestRes = data.reduce((curr, store) => {
+            if (store.is_active && (!curr || curr.distance > store.distance))
+              return store;
+            return curr;
+          }, null);
+        });
+    },
+    [User.loc]
+  );
+
   let currLoc = null;
-
-  useLayoutEffect(() => {
-    loaded || getUserLocation();
-  }, [loaded]);
-
   const opts = { gridTemplateColumns: "min(100%, 774px)" };
   isPopup && Object.assign(opts, restaurantsProps.style);
 
@@ -100,6 +117,15 @@ export default function Restaurant({ isPopup }) {
         </label>
       </div>
 
+      {!!err && (
+        <span
+          className="d-block text-capitalize text-center text-danger w-100"
+          style={{ fontWeight: 600 }}
+        >
+          {err}
+        </span>
+      )}
+
       <div
         class="d-grid gap-4 p-3"
         style={{
@@ -150,6 +176,17 @@ export default function Restaurant({ isPopup }) {
     return null;
   }
 
+  function getUserLocation() {
+    if (Object.keys(User.loc).length) {
+      closestRes
+        ? confirmLocation(closestRes.slug)
+        : setErr("لا يوجد فرع قريب منك");
+    } else
+      setErr(
+        "يرجى تفعيل صلاحية الوصول للموقع الجغرافي الخاص بك ثم اعد المحاولة"
+      );
+  }
+
   function confirmLocation(slug) {
     currLoc = slug;
 
@@ -166,31 +203,6 @@ export default function Restaurant({ isPopup }) {
         // get the restaurant menu
         fetchMenu(currLoc);
       });
-  }
-
-  function getUserLocation() {
-    if (!("geolocation" in navigator))
-      return alert("Geolocation is not supported by your browser.");
-
-    navigator.geolocation.getCurrentPosition(
-      (POS) => {
-        const coords = {
-          latitude: "" + POS.coords.latitude,
-          longitude: "" + POS.coords.longitude,
-        };
-
-        fetch(baseUrl + "get-delivery-restaurants", {
-          method: "POST",
-          body: JSON.stringify(coords),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then((r) => r.json())
-          .then((data) => confirmLocation(data[0].slug));
-      },
-      (error) => alert(getText(3))
-    );
   }
 
   function fetchMenu() {

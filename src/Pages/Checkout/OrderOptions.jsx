@@ -130,8 +130,8 @@ export default function ({
         </ul>
       )}
 
-      {delivery &&
-        (userAddresses.length ? (
+      {delivery ? (
+        userAddresses.length ? (
           <ul
             className="align-items-stretch d-flex flex-wrap gap-2 list-unstyled m-0 p-0 w-100"
             style={{ gridColumnStart: "span 2" }}
@@ -151,7 +151,42 @@ export default function ({
               {getText(38)}
             </button>
           </p>
-        ))}
+        )
+      ) : (
+        <a
+          href={`https://www.google.com/maps?q=${Restaurant.data.latitude},${Restaurant.data.longitude}`}
+          className="align-items-center d-flex gap-3 px-2 py-1 text-decoration-none"
+          style={{
+            border: "2px solid rgb(168, 208, 236)",
+            backgroundColor: "#c9e2f4",
+            color: "var(--primary)",
+            borderRadius: "4px",
+          }}
+        >
+          <img
+            src="https://montana.amir-adel.com/admin/assets/home/logo.svg"
+            style={{ maxHeight: "40px" }}
+            alt="icon"
+          />
+          <div
+            className="d-flex flex-column gap-1"
+            style={{ lineHeight: "1.3", fontWeight: "600" }}
+          >
+            {Restaurant.data.name}
+            <span
+              style={{
+                color: "var(--midgray)",
+                fontWeight: "400",
+                fontSize: "smaller",
+              }}
+            >
+              {"العنوان على الخريطة"}
+            </span>
+          </div>
+
+          {/* <img src="" alt="" /> */}
+        </a>
+      )}
 
       <textarea
         placeholder={getText(39)}
@@ -242,9 +277,20 @@ export default function ({
     )
       .then((res) => res.json())
       .then((data) => {
-        const minDistance = Math.min(...data.map(({ distance }) => distance));
+        const activeStores = data.filter((s) => !!s.is_active);
+
+        if (activeStores.length === 0) {
+          const prompt = window.confirm(
+            "لا توجد فروع قريبة منك، هل لتريد استلام الطلب من الفرع ؟"
+          );
+          if (prompt) setDelivery(false);
+          return;
+        }
+        const minDistance = Math.min(
+          ...activeStores.map(({ distance }) => distance)
+        );
         clues.closestRes = minDistance
-          ? data.find(({ distance }) => distance === minDistance)
+          ? activeStores.find(({ distance }) => distance === minDistance)
           : false;
       });
   }

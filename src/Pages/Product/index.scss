@@ -23,15 +23,14 @@
       color: var(--lightgray);
     }
 
-     h1 {
+    h1 {
       color: var(--primary);
       font-weight: 700;
     }
-    
+
     & > div {
       margin: 0;
     }
-
 
     & > div.price > span {
       color: var(--primary);
@@ -39,7 +38,7 @@
     }
 
     & > div.state > span.flag {
-      background-color: var(--bg, #5b9c64) ;
+      // background-color: var(--bg, #5b9c64) ;
       color: var(--color, #fff);
       border-radius: 16px;
       padding: 4px 14px;
@@ -95,6 +94,20 @@
     }
 
     & > .checkout {
+      justify-content: start;
+
+      @media screen and (max-width: 1200px) {
+        background-color: aliceblue;
+        justify-content: center;
+        position: fixed;
+        z-index: 3;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding: 1rem 1rem 10vh;
+        border-radius: 25px 25px 0 0;
+      }
+
       & > button {
         background-color: #184369;
         color: #fff;

@@ -14,22 +14,53 @@ const getText = getPage("settings");
 
 export default function () {
   const tabName = useParams().tab,
-    TargetTab = tabs[tabName];
+    TargetTab = tabs[tabName],
+    DATA = useSelector((e) => e.User).data,
+    { name, phone } = DATA;
 
   return (
     <section id="settings">
-      <div
-        className="container p-3"
-        style={{ border: "1px solid #f4f9ff", borderRadius: "16px" }}
-      >
-        <AccountInfo />
+      <style>{`body{background-color: #f8fafc;}`}</style>
+      <div className="container p-3">
+        <LangInfo />
 
         <div
-          className="d-grid mt-5 gap-3"
-          style={{ "grid-template-columns": "256px 1fr" }}
+          className="d-grid mt-4 gap-4"
+          style={{ "grid-template-columns": "1fr 3fr" }}
         >
-          <ul id="menu" className="list-unstyled p-0 m-0">
-            <li className="pb-2">
+          <ul
+            id="menu"
+            className="d-flex flex-column gap-2 list-unstyled m-0 p-4 "
+            style={{
+              height: "fit-content",
+              backgroundColor: "#fff",
+              borderRadius: "8px",
+              boxShadow:
+                " 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24)",
+              position: "sticky",
+              top: "130px",
+            }}
+          >
+            <li className="align-items-center d-flex gap-2 mb-4">
+              <img
+                src="/assets/settings/avatar.png"
+                alt="avatar"
+                style={{ maxHeight: "54px" }}
+              />
+
+              <p
+                className="d-flex flex-column flex-grow-1 m-0"
+                style={{ cssText: "color: var(--midgray)" }}
+              >
+                <span className="h5 m-0" style={{ color: "var(--primary)" }}>
+                  {name}
+                </span>
+                {/* <span>{email}</span> */}
+                <span>{phone}</span>
+              </p>
+            </li>
+
+            <li>
               <NavLink
                 className="align-items-center d-grid gap-2 text-decoration-none"
                 to="/settings/addresses"
@@ -39,7 +70,7 @@ export default function () {
               </NavLink>
             </li>
 
-            <li className="py-2">
+            <li>
               <NavLink
                 className="align-items-center d-grid gap-2 text-decoration-none"
                 to="/settings/history"
@@ -49,7 +80,7 @@ export default function () {
               </NavLink>
             </li>
 
-            <li className="py-2">
+            <li>
               <NavLink
                 className="align-items-center d-grid gap-2 text-decoration-none"
                 to="/settings/fav"
@@ -59,7 +90,7 @@ export default function () {
               </NavLink>
             </li>
 
-            <li className="py-2">
+            <li>
               <NavLink
                 className="align-items-center d-grid gap-2 text-decoration-none"
                 to="/settings/wallet"
@@ -69,7 +100,7 @@ export default function () {
               </NavLink>
             </li>
 
-            <li className="py-2">
+            <li>
               <NavLink
                 className="align-items-center d-grid gap-2 text-decoration-none"
                 to="/settings/account"
@@ -79,7 +110,8 @@ export default function () {
               </NavLink>
             </li>
 
-            <li className="py-2">
+            <hr className="m-0" />
+            <li>
               <button
                 className="btn align-items-center d-grid gap-2 w-100 p-0"
                 onClick={logout}
@@ -97,42 +129,29 @@ export default function () {
   );
 }
 
-function AccountInfo() {
-  const redirect = useNavigate(),
-    DATA = useSelector((e) => e.User).data,
-    { name, phone } = DATA;
+function LangInfo() {
+  const redirect = useNavigate();
 
   return (
-    <div id="account" className="align-items-center d-flex gap-3">
-      <img src="/assets/settings/avatar.png" alt="avatar" />
+    <div
+      className="align-items-center d-flex gap-2 langs position-relative"
+      style={{
+        color: "var(--primary)",
+        width: "fit-content",
+        marginInlineStart: "auto",
+      }}
+    >
+      {Globe}
+      {window.localStorage.getItem("lang") || "العربية"}
+      {AltArrowDown}
 
-      <p
-        className="d-flex flex-column flex-grow-1 m-0"
-        style={{ cssText: "color: var(--midgray)" }}
-      >
-        <span className="h4" style={{ color: "var(--primary)" }}>
-          {name}
-        </span>
-        {/* <span>{email}</span> */}
-        <span>{phone}</span>
-      </p>
-
-      <div
-        className="align-items-center d-flex gap-2 langs position-relative"
-        style={{ color: "var(--primary)" }}
-      >
-        {Globe}
-        {window.localStorage.getItem("lang") || "العربية"}
-        {AltArrowDown}
-
-        <ul className="d-grid list-unstyled m-0 p-0 py-2 text-center">
-          {keys.map((k) => (
-            <li key={k} className="px-3 py-2" onClick={() => changeLang(k)}>
-              {k}
-            </li>
-          ))}
-        </ul>
-      </div>
+      <ul className="d-grid list-unstyled m-0 p-0 py-2 text-center">
+        {keys.map((k) => (
+          <li key={k} className="px-3 py-2" onClick={() => changeLang(k)}>
+            {k}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 

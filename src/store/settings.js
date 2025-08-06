@@ -8,11 +8,10 @@ const Store = {
 
 reducers.init = function (state, action) {
   const obj = {};
-
   state.loaded = true;
   action.payload.forEach(({ key, value }) => (obj[key] = value));
+  // console.log(obj);
   state.data = obj;
 };
 
-// Action creators are generated for each case reducer function
 export default createSlice(Store).reducer;

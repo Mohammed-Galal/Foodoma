@@ -1,16 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const cartStorage = JSON.parse(window.localStorage.getItem("cartItems")) || {};
-const cartMsg =
-  "لا يمكن اضافة الطلب المخصص الى العربة بجانب الطلبات الأخرى، هل تريد إخلاء العربة؟";
+const customOrderExp = new RegExp(
+    [
+      "يوم ميلاد",
+      "تخرج أو نجاح",
+      "هدية لأطفالك",
+      "زفاف",
+      "الحجز المبكر",
+      "الطلبات الخاصة",
+    ].join("|")
+  ),
+  cartStorage = JSON.parse(window.localStorage.getItem("cartItems")) || {},
+  cartMsg =
+    "لا يمكن اضافة الطلب المخصص الى العربة بجانب الطلبات الأخرى، هل تريد إخلاء العربة؟";
 
 const Products = {
     name: "products",
     initialState: {
       loaded: false,
+      is_special: false,
       early_booking: [],
       custom: [],
       categories: [],
+      customCategoriesExp: customOrderExp,
+      miniCategories: [],
       data: [],
       cart: [],
       cashback: null,
@@ -32,7 +45,10 @@ reducers.init = function (state, action) {
     slug = window.localStorage.getItem("slug"),
     cartItems = (cartStorage[slug] ||= []);
 
-  categories.forEach((k) => items.push.apply(items, itemsObj[k]));
+  categories.forEach((k) => {
+    const visibilityFilteration = itemsObj[k].filter((i) => !!i.visible);
+    items.push.apply(items, visibilityFilteration);
+  });
 
   state.loaded = true;
   state.data = items;
@@ -42,50 +58,42 @@ reducers.init = function (state, action) {
   state.cart = cartItems;
 };
 
-reducers.addSingleItemToCart = function (state, { item }) {
-  const targetItem = state.cart.find((e) => e.id === item.id);
-
-  if (targetItem) {
-    targetItem.quantity++;
-    state.cart = [...state.cart];
-  } else {
-    state.cart = [
-      ...state.cart,
-      {
-        category_name: item.category_name,
-        id: item.id,
-        slug: item.slug,
-        name: item.name,
-        name_ar: item.name_ar,
-        price: item.price,
-        restaurant_id: item.restaurant_id,
-        quantity: 1,
-        addons: [],
-        totalPrice: +item.price,
-      },
-    ];
-  }
-
-  const slug = window.localStorage.getItem("slug");
-  cartStorage[slug] = state.cart;
-  window.localStorage.setItem("cartItems", JSON.stringify(cartStorage));
+reducers.initMiniCategories = function (state, { payload }) {
+  state.miniCategories = payload;
 };
 
 reducers.addToCart = function (state, { payload }) {
-  const isCustomItem = state.cart.concat(payload).some((e) => !!e.customProps);
-
-  if (state.cart.length && isCustomItem) {
-    const proceedToClear = window.confirm(cartMsg);
-    if (proceedToClear) state.cart = [];
-    else return;
+  if (payload.quantity === 0) {
+    state.cart = state.cart.filter((i) => i.id !== payload.id);
+    return;
   }
 
-  const cart = [...state.cart, payload];
-  state.cart = cart;
+  const isSpecialItem = customOrderExp.test(payload.category_name),
+    clearCart =
+      state.cart.length &&
+      ((isSpecialItem && !state.is_special) ||
+        (!isSpecialItem && state.is_special));
 
-  if (!isCustomItem) {
+  if (clearCart) {
+    const proceedToClear = window.confirm(cartMsg);
+    if (!proceedToClear) return;
+    state.cart = [];
     const slug = window.localStorage.getItem("slug");
-    cartStorage[slug] = cart;
+    cartStorage[slug] = state.cart;
+    window.localStorage.setItem("cartItems", JSON.stringify(cartStorage));
+  }
+
+  state.is_special = isSpecialItem;
+
+  const itemRef = state.cart.find((e) => e.id === payload.id);
+  if (itemRef) {
+    itemRef.quantity = payload.quantity;
+    state.cart = [...state.cart];
+  } else state.cart = [...state.cart, payload];
+
+  if (!isSpecialItem) {
+    const slug = window.localStorage.getItem("slug");
+    cartStorage[slug] = state.cart;
     window.localStorage.setItem("cartItems", JSON.stringify(cartStorage));
   }
 };
@@ -121,6 +129,35 @@ reducers.clearCart = function (s) {
   cartStorage[slug] = s.cart;
   window.localStorage.setItem("cartItems", JSON.stringify(cartStorage));
 };
+
+// reducers.addSingleItemToCart = function (state, { item }) {
+//   const targetItem = state.cart.find((e) => e.id === item.id);
+
+//   if (targetItem) {
+//     targetItem.quantity++;
+//     state.cart = [...state.cart];
+//   } else {
+//     state.cart = [
+//       ...state.cart,
+//       {
+//         category_name: item.category_name,
+//         id: item.id,
+//         slug: item.slug,
+//         name: item.name,
+//         name_ar: item.name_ar,
+//         price: item.price,
+//         restaurant_id: item.restaurant_id,
+//         quantity: 1,
+//         addons: [],
+//         totalPrice: +item.price,
+//       },
+//     ];
+//   }
+
+//   const slug = window.localStorage.getItem("slug");
+//   cartStorage[slug] = state.cart;
+//   window.localStorage.setItem("cartItems", JSON.stringify(cartStorage));
+// };
 
 const Store = createSlice(Products);
 export const { addToFav, removeFromFav } = Store.actions;
