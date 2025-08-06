@@ -3,5 +3,5 @@ import mobile from "./mobile";
 import "./index.scss";
 
 export default function (isMobileDevice) {
-  return isMobileDevice ? mobile : desktop;
+  return isMobileDevice ? mobile() : desktop;
 }
