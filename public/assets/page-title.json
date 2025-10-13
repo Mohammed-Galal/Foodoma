@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
   "prefix": "Montana",
   "AR_prefix": "مونتانا",
@@ -84,3 +85,91 @@
     }
   ]
 }
+=======
+{
+  "prefix": "Montana",
+  "AR_prefix": "مونتانا",
+  "seperator": " - ",
+  "configs": [
+    {
+      "name": "Alerts",
+      "name_ar": "الاشعارات",
+      "path": "/alerts",
+      "exact": true
+    },
+    {
+      "name": "Restaurants",
+      "name_ar": "اختيار المطاعم",
+      "path": "/restaurant",
+      "exact": true
+    },
+    {
+      "name": "FAQs",
+      "name_ar": "الاسئلة المتكررة",
+      "path": "/faq",
+      "exact": true
+    },
+    {
+      "name": "About",
+      "name_ar": "من نحن",
+      "path": "/about-us",
+      "exact": true
+    },
+    {
+      "name": "Early Booking",
+      "name_ar": "الحجز المبكر",
+      "path": "/early-booking",
+      "exact": true
+    },
+    {
+      "name": "Cart",
+      "name_ar": "عربة التسوق",
+      "path": "/cart",
+      "exact": true
+    },
+    {
+      "name": "Checkout",
+      "name_ar": "تأكيد الطلب",
+      "path": "/checkout",
+      "exact": true
+    },
+
+    {
+      "name": "Design Your Cake",
+      "name_ar": "صمم الكيكة بنفسك",
+      "path": "/design",
+      "exact": false
+    },
+    {
+      "name": "Settings",
+      "name_ar": "الاعدادات",
+      "path": "/settings",
+      "exact": false
+    },
+    {
+      "name": "Register",
+      "name_ar": "تسجيل الدخول",
+      "path": "/user",
+      "exact": false
+    },
+    {
+      "name": "Products",
+      "name_ar": "جميع المنتجات",
+      "path": "/all-products",
+      "exact": false
+    },
+    {
+      "name": "Invoice",
+      "name_ar": "الفاتورة",
+      "path": "/invoice",
+      "exact": false
+    },
+    {
+      "name": null,
+      "name_ar": null,
+      "path": "/",
+      "exact": false
+    }
+  ]
+}
+>>>>>>> 8828f8872f24d5af85ad0af7e8efc7f7c81bcb4c

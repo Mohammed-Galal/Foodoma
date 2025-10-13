@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .swiper-slide {
   // height: auto !important;
   width: auto !important;
@@ -133,3 +134,140 @@ div.product-item {
     }
   }
 }
+=======
+.swiper-slide {
+  // height: auto !important;
+  width: auto !important;
+}
+
+div.product-item {
+  &.loading {
+    pointer-events: none;
+
+    &::after {
+      content: "";
+      background: rgba(255, 255, 255, 0.781)
+        url("https://admin.montana.sa/assets/loader.gif") no-repeat center;
+      background-size: cover;
+      position: absolute;
+      display: block;
+      clear: both;
+      z-index: 3;
+      right: 0;
+      left: 0;
+      top: 0;
+      bottom: 0;
+    }
+  }
+
+  flex: 1 1 auto;
+  max-width: 252px;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid #f8f8f8;
+  gap: 12px 0;
+
+  --btn-opacity: 0.9;
+  --hover-length: -60px;
+
+  & > div:first-child {
+    span {
+      font-size: small;
+      background-color: #ffcd00;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 26px;
+      line-height: 1;
+      font-weight: 500;
+
+      &:has(sub) {
+        background-color: #ecf5ff;
+        color: var(--primary);
+      }
+    }
+  }
+
+  & > span {
+    font-weight: 500;
+  }
+
+  & > img {
+    height: min(200px, 14vh);
+    display: block;
+  }
+
+  &:hover .desc {
+    transform: translateY(var(--hover-length));
+  }
+
+  & > .desc {
+    transition: transform var(--hover-transition);
+    transform: translate(0);
+    background-color: #fff;
+
+    & > a {
+      color: var(--primary);
+
+      & > span:first-child {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 2;
+      }
+
+      & > .rate {
+        grid-template-columns: auto 1fr auto;
+        color: var(--midgray);
+
+        & > span {
+          background-color: #e4f4ff;
+          font-size: small;
+          padding: 0.5rem 0.75rem;
+          line-height: 1;
+          border-radius: 27px;
+          color: var(--primary);
+        }
+      }
+
+      & > .price {
+        color: var(--midgray);
+        font-size: 1.1rem;
+
+        & > span {
+          color: var(--primary);
+        }
+      }
+    }
+
+    & > button {
+      transition: all var(--hover-transition);
+      margin-bottom: var(--hover-length);
+      background-color: var(--primary) !important;
+      color: #fff !important;
+      opacity: var(--btn-opacity);
+      font-size: 16px;
+      max-height: var(--btn-height);
+      overflow: hidden;
+
+      & > * {
+        height: var(--btn-height);
+        flex-shrink: 0;
+        position: relative;
+      }
+
+      & > span {
+        width: 100%;
+        transition: margin-top var(--hover-transition);
+      }
+
+      &:hover {
+        --btn-opacity: 1;
+        & > span:first-child {
+          margin-top: calc(0px - var(--btn-height));
+        }
+      }
+    }
+  }
+}
+>>>>>>> 8828f8872f24d5af85ad0af7e8efc7f7c81bcb4c

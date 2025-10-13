@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 [
   {
     "englishName": "Afghanistan",
@@ -776,3 +777,783 @@
     "arabicName": "زيمبابوي"
   }
 ]
+=======
+[
+  {
+    "englishName": "Afghanistan",
+    "arabicName": "أفغانستان"
+  },
+  {
+    "englishName": "Albania",
+    "arabicName": "ألبانيا"
+  },
+  {
+    "englishName": "Algeria",
+    "arabicName": "الجزائر"
+  },
+  {
+    "englishName": "Andorra",
+    "arabicName": "أندورا"
+  },
+  {
+    "englishName": "Angola",
+    "arabicName": "أنغولا"
+  },
+  {
+    "englishName": "Antigua and Barbuda",
+    "arabicName": "أنتيغوا وباربودا"
+  },
+  {
+    "englishName": "Argentina",
+    "arabicName": "الأرجنتين"
+  },
+  {
+    "englishName": "Armenia",
+    "arabicName": "أرمينيا"
+  },
+  {
+    "englishName": "Australia",
+    "arabicName": "أستراليا"
+  },
+  {
+    "englishName": "Austria",
+    "arabicName": "النمسا"
+  },
+  {
+    "englishName": "Azerbaijan",
+    "arabicName": "أذربيجان"
+  },
+  {
+    "englishName": "Bahamas",
+    "arabicName": "باهاماس"
+  },
+  {
+    "englishName": "Bahrain",
+    "arabicName": "البحرين"
+  },
+  {
+    "englishName": "Bangladesh",
+    "arabicName": "بنغلاديش"
+  },
+  {
+    "englishName": "Barbados",
+    "arabicName": "باربادوس"
+  },
+  {
+    "englishName": "Belarus",
+    "arabicName": "بيلاروسيا"
+  },
+  {
+    "englishName": "Belgium",
+    "arabicName": "بلجيكا"
+  },
+  {
+    "englishName": "Belize",
+    "arabicName": "بليز"
+  },
+  {
+    "englishName": "Benin",
+    "arabicName": "بنين"
+  },
+  {
+    "englishName": "Bhutan",
+    "arabicName": "بوتان"
+  },
+  {
+    "englishName": "Bolivia",
+    "arabicName": "بوليفيا"
+  },
+  {
+    "englishName": "Bosnia and Herzegovina",
+    "arabicName": "البوسنة والهرسك"
+  },
+  {
+    "englishName": "Botswana",
+    "arabicName": "بوتسوانا"
+  },
+  {
+    "englishName": "Brazil",
+    "arabicName": "البرازيل"
+  },
+  {
+    "englishName": "Brunei",
+    "arabicName": "بروناي"
+  },
+  {
+    "englishName": "Bulgaria",
+    "arabicName": "بلغاريا"
+  },
+  {
+    "englishName": "Burkina Faso",
+    "arabicName": "بوركينا فاسو"
+  },
+  {
+    "englishName": "Burundi",
+    "arabicName": "بوروندي"
+  },
+  {
+    "englishName": "Cabo Verde",
+    "arabicName": "الرأس الأخضر"
+  },
+  {
+    "englishName": "Cambodia",
+    "arabicName": "كمبوديا"
+  },
+  {
+    "englishName": "Cameroon",
+    "arabicName": "الكاميرون"
+  },
+  {
+    "englishName": "Canada",
+    "arabicName": "كندا"
+  },
+  {
+    "englishName": "Central African Republic",
+    "arabicName": "جمهورية أفريقيا الوسطى"
+  },
+  {
+    "englishName": "Chad",
+    "arabicName": "تشاد"
+  },
+  {
+    "englishName": "Chile",
+    "arabicName": "تشيلي"
+  },
+  {
+    "englishName": "China",
+    "arabicName": "الصين"
+  },
+  {
+    "englishName": "Colombia",
+    "arabicName": "كولومبيا"
+  },
+  {
+    "englishName": "Comoros",
+    "arabicName": "جزر القمر"
+  },
+  {
+    "englishName": "Congo (Congo-Brazzaville)",
+    "arabicName": "الكونغو"
+  },
+  {
+    "englishName": "Costa Rica",
+    "arabicName": "كوستاريكا"
+  },
+  {
+    "englishName": "Croatia",
+    "arabicName": "كرواتيا"
+  },
+  {
+    "englishName": "Cuba",
+    "arabicName": "كوبا"
+  },
+  {
+    "englishName": "Cyprus",
+    "arabicName": "قبرص"
+  },
+  {
+    "englishName": "Czechia (Czech Republic)",
+    "arabicName": "التشيك"
+  },
+  {
+    "englishName": "Denmark",
+    "arabicName": "الدنمارك"
+  },
+  {
+    "englishName": "Djibouti",
+    "arabicName": "جيبوتي"
+  },
+  {
+    "englishName": "Dominica",
+    "arabicName": "دومينيكا"
+  },
+  {
+    "englishName": "Dominican Republic",
+    "arabicName": "جمهورية الدومينيكان"
+  },
+  {
+    "englishName": "Ecuador",
+    "arabicName": "الإكوادور"
+  },
+  {
+    "englishName": "Egypt",
+    "arabicName": "مصر"
+  },
+  {
+    "englishName": "El Salvador",
+    "arabicName": "السلفادور"
+  },
+  {
+    "englishName": "Equatorial Guinea",
+    "arabicName": "غينيا الاستوائية"
+  },
+  {
+    "englishName": "Eritrea",
+    "arabicName": "إريتريا"
+  },
+  {
+    "englishName": "Estonia",
+    "arabicName": "إستونيا"
+  },
+  {
+    "englishName": "Eswatini",
+    "arabicName": "إسواتيني"
+  },
+  {
+    "englishName": "Ethiopia",
+    "arabicName": "إثيوبيا"
+  },
+  {
+    "englishName": "Fiji",
+    "arabicName": "فيجي"
+  },
+  {
+    "englishName": "Finland",
+    "arabicName": "فنلندا"
+  },
+  {
+    "englishName": "France",
+    "arabicName": "فرنسا"
+  },
+  {
+    "englishName": "Gabon",
+    "arabicName": "الغابون"
+  },
+  {
+    "englishName": "Gambia",
+    "arabicName": "غامبيا"
+  },
+  {
+    "englishName": "Georgia",
+    "arabicName": "جورجيا"
+  },
+  {
+    "englishName": "Germany",
+    "arabicName": "ألمانيا"
+  },
+  {
+    "englishName": "Ghana",
+    "arabicName": "غانا"
+  },
+  {
+    "englishName": "Greece",
+    "arabicName": "اليونان"
+  },
+  {
+    "englishName": "Grenada",
+    "arabicName": "غرينادا"
+  },
+  {
+    "englishName": "Guatemala",
+    "arabicName": "غواتيمالا"
+  },
+  {
+    "englishName": "Guinea",
+    "arabicName": "غينيا"
+  },
+  {
+    "englishName": "Guinea-Bissau",
+    "arabicName": "غينيا بيساو"
+  },
+  {
+    "englishName": "Guyana",
+    "arabicName": "غيانا"
+  },
+  {
+    "englishName": "Haiti",
+    "arabicName": "هايتي"
+  },
+  {
+    "englishName": "Honduras",
+    "arabicName": "هندوراس"
+  },
+  {
+    "englishName": "Hungary",
+    "arabicName": "المجر"
+  },
+  {
+    "englishName": "Iceland",
+    "arabicName": "آيسلندا"
+  },
+  {
+    "englishName": "India",
+    "arabicName": "الهند"
+  },
+  {
+    "englishName": "Indonesia",
+    "arabicName": "إندونيسيا"
+  },
+  {
+    "englishName": "Iran",
+    "arabicName": "إيران"
+  },
+  {
+    "englishName": "Iraq",
+    "arabicName": "العراق"
+  },
+  {
+    "englishName": "Ireland",
+    "arabicName": "أيرلندا"
+  },
+  {
+    "englishName": "Israel",
+    "arabicName": "إسرائيل"
+  },
+  {
+    "englishName": "Italy",
+    "arabicName": "إيطاليا"
+  },
+  {
+    "englishName": "Jamaica",
+    "arabicName": "جامايكا"
+  },
+  {
+    "englishName": "Japan",
+    "arabicName": "اليابان"
+  },
+  {
+    "englishName": "Jordan",
+    "arabicName": "الأردن"
+  },
+  {
+    "englishName": "Kazakhstan",
+    "arabicName": "كازاخستان"
+  },
+  {
+    "englishName": "Kenya",
+    "arabicName": "كينيا"
+  },
+  {
+    "englishName": "Kiribati",
+    "arabicName": "كيريباتي"
+  },
+  {
+    "englishName": "Korea, North",
+    "arabicName": "كوريا الشمالية"
+  },
+  {
+    "englishName": "Korea, South",
+    "arabicName": "كوريا الجنوبية"
+  },
+  {
+    "englishName": "Kosovo",
+    "arabicName": "كوسوفو"
+  },
+  {
+    "englishName": "Kuwait",
+    "arabicName": "الكويت"
+  },
+  {
+    "englishName": "Kyrgyzstan",
+    "arabicName": "قيرغيزستان"
+  },
+  {
+    "englishName": "Laos",
+    "arabicName": "لاوس"
+  },
+  {
+    "englishName": "Latvia",
+    "arabicName": "لاتفيا"
+  },
+  {
+    "englishName": "Lebanon",
+    "arabicName": "لبنان"
+  },
+  {
+    "englishName": "Lesotho",
+    "arabicName": "ليسوتو"
+  },
+  {
+    "englishName": "Liberia",
+    "arabicName": "ليبيريا"
+  },
+  {
+    "englishName": "Libya",
+    "arabicName": "ليبيا"
+  },
+  {
+    "englishName": "Liechtenstein",
+    "arabicName": "ليختنشتاين"
+  },
+  {
+    "englishName": "Lithuania",
+    "arabicName": "ليتوانيا"
+  },
+  {
+    "englishName": "Luxembourg",
+    "arabicName": "لوكسمبورغ"
+  },
+  {
+    "englishName": "Madagascar",
+    "arabicName": "مدغشقر"
+  },
+  {
+    "englishName": "Malawi",
+    "arabicName": "مالاوي"
+  },
+  {
+    "englishName": "Malaysia",
+    "arabicName": "ماليزيا"
+  },
+  {
+    "englishName": "Maldives",
+    "arabicName": "جزر المالديف"
+  },
+  {
+    "englishName": "Mali",
+    "arabicName": "مالي"
+  },
+  {
+    "englishName": "Malta",
+    "arabicName": "مالطا"
+  },
+  {
+    "englishName": "Marshall Islands",
+    "arabicName": "جزر مارشال"
+  },
+  {
+    "englishName": "Mauritania",
+    "arabicName": "موريتانيا"
+  },
+  {
+    "englishName": "Mauritius",
+    "arabicName": "موريشيوس"
+  },
+  {
+    "englishName": "Mexico",
+    "arabicName": "المكسيك"
+  },
+  {
+    "englishName": "Micronesia",
+    "arabicName": "ميكرونيزيا"
+  },
+  {
+    "englishName": "Moldova",
+    "arabicName": "مولدوفا"
+  },
+  {
+    "englishName": "Monaco",
+    "arabicName": "موناكو"
+  },
+  {
+    "englishName": "Mongolia",
+    "arabicName": "منغوليا"
+  },
+  {
+    "englishName": "Montenegro",
+    "arabicName": "الجبل الأسود"
+  },
+  {
+    "englishName": "Morocco",
+    "arabicName": "المغرب"
+  },
+  {
+    "englishName": "Mozambique",
+    "arabicName": "موزمبيق"
+  },
+  {
+    "englishName": "Myanmar (Burma)",
+    "arabicName": "ميانمار"
+  },
+  {
+    "englishName": "Namibia",
+    "arabicName": "ناميبيا"
+  },
+  {
+    "englishName": "Nauru",
+    "arabicName": "ناورو"
+  },
+  {
+    "englishName": "Nepal",
+    "arabicName": "نيبال"
+  },
+  {
+    "englishName": "Netherlands",
+    "arabicName": "هولندا"
+  },
+  {
+    "englishName": "New Zealand",
+    "arabicName": "نيوزيلندا"
+  },
+  {
+    "englishName": "Nicaragua",
+    "arabicName": "نيكاراغوا"
+  },
+  {
+    "englishName": "Niger",
+    "arabicName": "النيجر"
+  },
+  {
+    "englishName": "Nigeria",
+    "arabicName": "نيجيريا"
+  },
+  {
+    "englishName": "North Macedonia",
+    "arabicName": "مقدونيا الشمالية"
+  },
+  {
+    "englishName": "Norway",
+    "arabicName": "النرويج"
+  },
+  {
+    "englishName": "Oman",
+    "arabicName": "عُمان"
+  },
+  {
+    "englishName": "Pakistan",
+    "arabicName": "باكستان"
+  },
+  {
+    "englishName": "Palau",
+    "arabicName": "بالاو"
+  },
+  {
+    "englishName": "Panama",
+    "arabicName": "بنما"
+  },
+  {
+    "englishName": "Papua New Guinea",
+    "arabicName": "بابوا غينيا الجديدة"
+  },
+  {
+    "englishName": "Paraguay",
+    "arabicName": "باراغواي"
+  },
+  {
+    "englishName": "Peru",
+    "arabicName": "بيرو"
+  },
+  {
+    "englishName": "Philippines",
+    "arabicName": "الفلبين"
+  },
+  {
+    "englishName": "Poland",
+    "arabicName": "بولندا"
+  },
+  {
+    "englishName": "Portugal",
+    "arabicName": "البرتغال"
+  },
+  {
+    "englishName": "Qatar",
+    "arabicName": "قطر"
+  },
+  {
+    "englishName": "Romania",
+    "arabicName": "رومانيا"
+  },
+  {
+    "englishName": "Russia",
+    "arabicName": "روسيا"
+  },
+  {
+    "englishName": "Rwanda",
+    "arabicName": "رواندا"
+  },
+  {
+    "englishName": "Saint Kitts and Nevis",
+    "arabicName": "سانت كيتس ونيفيس"
+  },
+  {
+    "englishName": "Saint Lucia",
+    "arabicName": "سانت لوسيا"
+  },
+  {
+    "englishName": "Saint Vincent and the Grenadines",
+    "arabicName": "سانت فنسنت والغرينادين"
+  },
+  {
+    "englishName": "Samoa",
+    "arabicName": "ساموا"
+  },
+  {
+    "englishName": "San Marino",
+    "arabicName": "سان مارينو"
+  },
+  {
+    "englishName": "Sao Tome and Principe",
+    "arabicName": "ساو تومي وبرينسيبي"
+  },
+  {
+    "englishName": "Saudi Arabia",
+    "arabicName": "المملكة العربية السعودية"
+  },
+  {
+    "englishName": "Senegal",
+    "arabicName": "السنغال"
+  },
+  {
+    "englishName": "Serbia",
+    "arabicName": "صربيا"
+  },
+  {
+    "englishName": "Seychelles",
+    "arabicName": "سيشل"
+  },
+  {
+    "englishName": "Sierra Leone",
+    "arabicName": "سيراليون"
+  },
+  {
+    "englishName": "Singapore",
+    "arabicName": "سنغافورة"
+  },
+  {
+    "englishName": "Slovakia",
+    "arabicName": "سلوفاكيا"
+  },
+  {
+    "englishName": "Slovenia",
+    "arabicName": "سلوفينيا"
+  },
+  {
+    "englishName": "Solomon Islands",
+    "arabicName": "جزر سليمان"
+  },
+  {
+    "englishName": "Somalia",
+    "arabicName": "الصومال"
+  },
+  {
+    "englishName": "South Africa",
+    "arabicName": "جنوب أفريقيا"
+  },
+  {
+    "englishName": "South Sudan",
+    "arabicName": "جنوب السودان"
+  },
+  {
+    "englishName": "Spain",
+    "arabicName": "إسبانيا"
+  },
+  {
+    "englishName": "Sri Lanka",
+    "arabicName": "سريلانكا"
+  },
+  {
+    "englishName": "Sudan",
+    "arabicName": "السودان"
+  },
+  {
+    "englishName": "Suriname",
+    "arabicName": "سورينام"
+  },
+  {
+    "englishName": "Sweden",
+    "arabicName": "السويد"
+  },
+  {
+    "englishName": "Switzerland",
+    "arabicName": "سويسرا"
+  },
+  {
+    "englishName": "Syria",
+    "arabicName": "سوريا"
+  },
+  {
+    "englishName": "Taiwan",
+    "arabicName": "تايوان"
+  },
+  {
+    "englishName": "Tajikistan",
+    "arabicName": "طاجيكستان"
+  },
+  {
+    "englishName": "Tanzania",
+    "arabicName": "تنزانيا"
+  },
+  {
+    "englishName": "Thailand",
+    "arabicName": "تايلاند"
+  },
+  {
+    "englishName": "Timor-Leste",
+    "arabicName": "تيمور الشرقية"
+  },
+  {
+    "englishName": "Togo",
+    "arabicName": "توغو"
+  },
+  {
+    "englishName": "Tonga",
+    "arabicName": "تونغا"
+  },
+  {
+    "englishName": "Trinidad and Tobago",
+    "arabicName": "ترينيداد وتوباغو"
+  },
+  {
+    "englishName": "Tunisia",
+    "arabicName": "تونس"
+  },
+  {
+    "englishName": "Turkey",
+    "arabicName": "تركيا"
+  },
+  {
+    "englishName": "Turkmenistan",
+    "arabicName": "تركمانستان"
+  },
+  {
+    "englishName": "Tuvalu",
+    "arabicName": "توفالو"
+  },
+  {
+    "englishName": "Uganda",
+    "arabicName": "أوغندا"
+  },
+  {
+    "englishName": "Ukraine",
+    "arabicName": "أوكرانيا"
+  },
+  {
+    "englishName": "United Arab Emirates",
+    "arabicName": "الإمارات العربية المتحدة"
+  },
+  {
+    "englishName": "United Kingdom",
+    "arabicName": "المملكة المتحدة"
+  },
+  {
+    "englishName": "United States of America",
+    "arabicName": "الولايات المتحدة الأمريكية"
+  },
+  {
+    "englishName": "Uruguay",
+    "arabicName": "أوروغواي"
+  },
+  {
+    "englishName": "Uzbekistan",
+    "arabicName": "أوزبكستان"
+  },
+  {
+    "englishName": "Vanuatu",
+    "arabicName": "فانواتو"
+  },
+  {
+    "englishName": "Vatican City",
+    "arabicName": "الفاتيكان"
+  },
+  {
+    "englishName": "Venezuela",
+    "arabicName": "فنزويلا"
+  },
+  {
+    "englishName": "Vietnam",
+    "arabicName": "فيتنام"
+  },
+  {
+    "englishName": "Yemen",
+    "arabicName": "اليمن"
+  },
+  {
+    "englishName": "Zambia",
+    "arabicName": "زامبيا"
+  },
+  {
+    "englishName": "Zimbabwe",
+    "arabicName": "زيمبابوي"
+  }
+]
+>>>>>>> 8828f8872f24d5af85ad0af7e8efc7f7c81bcb4c
