@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #about-us {
   // row-gap: var(--internal-gap);
   color: var(--midgray);
@@ -29,35 +28,3 @@
     }
   }
 }
-=======
-#about-us {
-  // row-gap: var(--internal-gap);
-  color: var(--midgray);
-
-  & > h3 {
-    color: var(--primary);
-  }
-
-  & > div {
-    gap: 1rem;
-    justify-content: space-evenly;
-
-    & > div {
-      flex: 1 1;
-      padding: 1.5rem 0;
-      color: var(--primary);
-      border: 1px solid #ffcd00;
-      border-radius: 8px;
-      flex-shrink: 0;
-
-      @media screen and (min-width: 615px) {
-        width: 270px;
-      }
-    }
-
-    img {
-      max-height: 50px;
-    }
-  }
-}
->>>>>>> 8828f8872f24d5af85ad0af7e8efc7f7c81bcb4c

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 body#mobile > nav {
   position: sticky;
   top: 0;
@@ -60,66 +59,3 @@ body#mobile > nav {
     }
   }
 }
-=======
-body#mobile > nav {
-  position: sticky;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  background-color: #fff;
-  z-index: 9;
-  --transition-options: 150ms ease-out;
-  filter: brightness(0.98);
-
-  ul {
-    grid-template-columns: repeat(4, 1fr);
-    align-items: flex-end;
-    // min-height: 94px;
-    font-size: small;
-    gap: 12px;
-
-    & > li {
-      & > a {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-decoration: none;
-        color: var(--midgray);
-        // gap: 6px;
-        transition: color var(--transition-options);
-
-        & > div {
-          background-color: #18436900;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all var(--transition-options);
-          border-radius: 100%;
-          height: 32px;
-          width: 32px;
-        }
-
-        &.active {
-          color: var(--primary);
-
-          svg {
-            [fill] {
-              fill: #fff;
-            }
-
-            [stroke] {
-              stroke: #fff;
-            }
-          }
-
-          & > div {
-            background-color: var(--primary);
-            height: 42px;
-            width: 42px;
-          }
-        }
-      }
-    }
-  }
-}
->>>>>>> 8828f8872f24d5af85ad0af7e8efc7f7c81bcb4c
