@@ -40,7 +40,7 @@ export default function () {
                 <span>{getText(3)}</span>
               </p>
 
-              {other[descArg]}
+              <span dangerouslySetInnerHTML={{ __html: other[descArg] }}></span>
             </div>
           </div>
 
@@ -81,7 +81,6 @@ function BookProducts() {
       id="book-products"
       className="container align-items-stretch px-2 mx-auto d-flex flex-wrap gap-3"
     >
-      <p className="h4">{getText(4)}</p>
       {targetItems}
     </section>
   );

@@ -39,12 +39,12 @@ export default () => {
       id="about-us"
       className="container-fluid container-lg d-flex flex-column text-center"
     >
-      <span className="h3 m-0">{getText(0)}</span>
+      <h3>{getText(0)}</h3>
       {getText(1)}
 
       <div
         ref={cardsContainer}
-        className="d-flex flex-no-wrap text-center w-100"
+        className="d-flex flex-no-wrap text-center w-100 mt-5"
       >
         <div className="d-flex flex-column">
           <img src="/assets/home/icons/ph_stamp-light.svg" alt="LIGHT" />

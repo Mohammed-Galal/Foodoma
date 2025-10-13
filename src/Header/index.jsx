@@ -54,7 +54,10 @@ function CurrLoc() {
               {currentActiveAddress.tag} - {currentActiveAddress.address}
             </span>
 
-            <ul className="d-flex flex-column list-unstyled m-0 p-0">
+            <ul
+              className="d-flex flex-column list-unstyled m-0 p-0"
+              style={{ left: "unset", right: "0" }}
+            >
               {User.addresses.map((address, i) => (
                 <li
                   key={i}
@@ -77,7 +80,7 @@ function CurrLoc() {
           {currStore.name}
           {Arrow_Down}
 
-          <ul className="d-flex flex-column list-unstyled m-0 p-0">
+          <ul className="d-flex flex-column list-unstyled m-0 px-0 py-2 branches-list">
             {branches.map(branchItem)}
           </ul>
         </li>

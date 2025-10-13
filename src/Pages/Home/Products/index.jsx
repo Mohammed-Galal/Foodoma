@@ -12,6 +12,8 @@ export default function ({ id, title, categoryKey }) {
       : items,
     products = targetItems.map(productItem);
 
+  if (products.length === 0) return null;
+
   return (
     <section
       key={"__products__" + id}

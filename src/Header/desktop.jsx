@@ -1,15 +1,16 @@
 /* eslint-disable import/no-anonymous-default-export */
 import getPage from "../translation";
-import Globe from "../icons/Globe";
 import { keys } from "../translation";
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../store";
+import { useEffect, useRef } from "react";
 
 const getText = getPage("header");
 
 export default function () {
-  const redirect = useNavigate(),
+  const counter = useRef(),
+    redirect = useNavigate(),
     { alerts: Alerts, loaded } = useSelector((e) => e.User),
     alerts = Alerts.filter((e) => !e.is_read),
     Products = useSelector((e) => e.Products);
@@ -18,23 +19,35 @@ export default function () {
 
   Products.cart.forEach((p) => (itemsQuantity += p.quantity));
 
+  useEffect(
+    function () {
+      counter.current.classList.add("animate");
+    },
+    [itemsQuantity]
+  );
+
   return (
     <div className="align-items-center container d-grid py-2">
       <ul className="align-items-center d-flex list-unstyled m-0 p-0">
         <li>
-          <Link to="/all-products">{getText(0)}</Link>
+          <Link to="/jobs">{getText(2)}</Link>
         </li>
         <li>
           <Link to="/restaurant">{getText(1)}</Link>
         </li>
         <li>
-          <button
-            type="button"
-            className="btn px-3 py-2"
-            onClick={() => redirect("/all-products")}
+          <Link
+            to="/all-products"
+            className="btn mx-3 px-3 py-2"
+            style={{
+              background: "var(--sec)",
+              color: "var(--primary)",
+              borderRadius: "100px",
+              fontWeight: "700",
+            }}
           >
-            {getText(2)}
-          </button>
+            {getText(0)}
+          </Link>
         </li>
       </ul>
 
@@ -75,7 +88,13 @@ export default function () {
         <li>
           <Link to="/cart" className="position-relative">
             <img src="/assets/home/icons/header cart.svg" alt="cart" />
-            <span className="badge">{itemsQuantity}</span>
+            <span
+              className="badge"
+              ref={counter}
+              onAnimationEnd={(e) => e.target.classList.remove("animate")}
+            >
+              {itemsQuantity}
+            </span>
           </Link>
         </li>
         <li className="DD" style={{ color: "var(--primary)" }}>

@@ -58,11 +58,15 @@ export default function () {
             <Link className="mb-2 text-decoration-none" to="/faq">
               <h5 className="m-0 h6">{getText(3)}</h5>
             </Link>
+
+            <Link className="mb-2 text-decoration-none" to="/privacy-policy">
+              <h5 className="m-0 h6">{getText(9)}</h5>
+            </Link>
           </div>
 
           <div className="col-3 d-flex flex-column gap-1">
             <span className="h5 mb-3">{getText(4)}</span>
-            <Link to="">
+            <Link to="" className="mb-2">
               <img
                 style={{ width: "142px" }}
                 src="https://business-egy.com/assets/googleplay-9d43d8bd.jpg"
@@ -73,7 +77,7 @@ export default function () {
             <Link to="">
               <img
                 style={{ width: "142px" }}
-                src="https://business-egy.com/assets/appstore-25178aee.svg"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Download_on_the_App_Store_RGB_blk.svg/1024px-Download_on_the_App_Store_RGB_blk.svg.png"
                 alt="appstore"
               />
             </Link>

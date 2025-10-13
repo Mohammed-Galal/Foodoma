@@ -1,34 +1,39 @@
 import getPage from "../../translation";
 // eslint-disable-next-line react-hooks/exhaustive-deps
 /* eslint-disable import/no-anonymous-default-export */
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
-import { Link, useParams, useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import productItem from "../../shared/productItem";
 import Carousel from "../../shared/Carousel";
 import NXT from "../../icons/NXT";
 import Cart from "../../icons/Cart";
 import Minus from "../../icons/Minus";
 import Plus from "../../icons/Plus";
+import { getActiveLang } from "../../translation";
 import "./index.scss";
 
 const getText = getPage("product"),
-  isArabic = window.localStorage.getItem("lang") === "العربية",
+  isArabic = getActiveLang() === "العربية",
   priceTypes = window.priceTypes,
   hiddenAlert = { opacity: 0, transform: "translateY(100%)" },
   activeAlert = { opacity: 1, transform: "translateY(0)" },
   baseUrl = process.env.REACT_APP_API_URL,
   docFrag = document.createElement("div");
 
+let isEarlyBooking = false;
+
 export default function () {
   const Products = useSelector(($) => $.Products),
     [query] = useSearchParams(),
     id = query.get("id"),
-    isEarlyBooking = query.get("isCustom");
+    isCustom = query.get("isCustom");
 
   const productId = parseInt(id),
-    items = !!+isEarlyBooking ? Products.early_booking : Products.data,
+    items = !!+isCustom ? Products.early_booking : Products.data,
     state = items.find((e) => e.id === productId);
+
+  isEarlyBooking = !!+isCustom;
 
   return (
     <>
@@ -39,29 +44,35 @@ export default function () {
 }
 
 function ProductInfo(state) {
+  let quantity = 0;
+
   const dispatch = useDispatch(),
     resId = useStore().getState().Restaurant.data.id,
+    cartItems = useSelector((e) => e.Products).cart,
     [Alert, setAlert] = useState(false),
     [currCategoryName, setAddonCat] = useState(""),
     [load, update] = useState(false),
-    [quantity, setQuntity] = useState(1),
+    // [quantity, setQuntity] = useState(1),
     selectedAddons = useRef(new Set()).current;
-
-  const priceType =
-    state &&
-    (isArabic
-      ? priceTypes[state.price_type]
-      : state.price_type.replace(/_/g, " ").toUpperCase());
 
   useEffect(() => {
     Alert &&
       setTimeout(() => {
         selectedAddons.clear();
-        setQuntity(1);
+        // setQuntity(1);
         setAddonCat("");
         setAlert(false);
       }, 3000);
   }, [Alert]);
+
+  const cartRef = cartItems.find((e) => e.id === state.id);
+  if (cartRef) {
+    quantity = cartRef.quantity;
+  }
+
+  const priceType = isArabic
+    ? priceTypes[state.price_type]
+    : state.price_type.replace(/_/g, " ").toUpperCase();
 
   const calsTxt = getText(0),
     cals = state.calories && (
@@ -124,13 +135,10 @@ function ProductInfo(state) {
   return (
     <section
       id="product"
-      className="container-fluid container-lg d-flex flex-wrap"
+      className="container-fluid container-lg d-flex flex-wrap position-relative"
     >
-      <div
-        className="d-flex flex-column justify-content-center py-2"
-        style={{ flex: "1 0 39%" }}
-      >
-        <img src={imageSrc} style={{ objectFit: "none" }} alt="product" />
+      <div className="d-flex flex-column justify-content-center py-2">
+        <img src={imageSrc} alt="product" />
         {/* <div className="d-flex justify-content-around">
           <img src={imageSrc} alt="product" />
           <img src={imageSrc} alt="product" />
@@ -143,6 +151,8 @@ function ProductInfo(state) {
         className="alert m-0"
         style={{
           ...alertState,
+          opacity: "0",
+          transform: "translateY(100%)",
           width: "100%",
           background: "aliceblue",
           color: "var(--primary)",
@@ -150,8 +160,10 @@ function ProductInfo(state) {
           justifyContent: "space-between",
           alignItems: "center",
           order: "1",
-          position: "sticky",
+          position: "absolute",
+          zIndex: "2",
           bottom: "60px",
+          left: "0px",
           transition: "150ms ease-out",
         }}
       >
@@ -163,10 +175,8 @@ function ProductInfo(state) {
         />
       </div>
 
-      <div
-        className="align-items-start d-flex flex-column flex-grow-1 position-relative"
-        style={{ flex: "1 0 59%" }}
-      >
+      <div className="align-items-start col-12 col-lg d-flex flex-column position-relative">
+        {/*
         <ul className="d-flex gap-1 list-unstyled m-0 p-0">
           <li>Montana</li>
           <li>{NXT}</li>
@@ -174,22 +184,26 @@ function ProductInfo(state) {
           <li>{NXT}</li>
           <li>{state.name}</li>
         </ul>
+        */}
 
         <h1 className="title h2">{productName}</h1>
 
         <div className="state text-center d-flex align-items-center gap-2">
-          <span className="flag">
+          <span
+            className="flag"
+            style={{
+              backgroundColor: state.is_active ? "#5b9c64" : "var(--bs-danger)",
+            }}
+          >
             {!!state.is_active ? getText(4) : getText(5)}
           </span>
           {+state.price < old_price && discountFlag}
         </div>
 
-        {state.desc && (
-          <p
-            className="desc w-100"
-            dangerouslySetInnerHTML={{ __html: docFrag.textContent }}
-          ></p>
-        )}
+        <p
+          className="desc w-100"
+          dangerouslySetInnerHTML={{ __html: docFrag.textContent }}
+        ></p>
 
         {old_price > 0 && +state.price < old_price && (
           <div>
@@ -212,6 +226,7 @@ function ProductInfo(state) {
           <img src="/assets/home/icons/star.svg" alt="star" /> 5
           <Link to="/rate">{getText(7)}</Link>
         </div>
+
         {!!categories.length && (
           <div className="addons d-flex flex-wrap w-100">
             <span className="h5 m-0">{getText(8)}</span>
@@ -239,38 +254,40 @@ function ProductInfo(state) {
           </div>
         )}
 
-        <div className="mt-auto align-items-center checkout d-flex gap-1 gap-md-3 justify-content-between justify-content-md-start text-nowrap w-100">
-          <button
-            type="button"
-            className="align-items-center btn d-flex justify-content-center"
-            onClick={() => Alert || setQuntity(quantity + 1)}
-          >
-            {Plus}
-          </button>
-          {quantity}
-          <button
-            type="button"
-            className="align-items-center btn d-flex justify-content-center"
-            onClick={() => Alert || setQuntity(Math.max(1, quantity - 1))}
-          >
-            {Minus}
-          </button>
+        {!!state.is_active && (
+          <div className="mt-auto align-items-center checkout d-flex gap-3 text-nowrap w-100">
+            <button
+              type="button"
+              className="align-items-center btn d-flex justify-content-center"
+              onClick={inc}
+            >
+              {Plus}
+            </button>
+            {quantity}
+            <button
+              type="button"
+              className="align-items-center btn d-flex justify-content-center"
+              onClick={dec}
+            >
+              {Minus}
+            </button>
 
-          <div
-            className="btn d-flex gap-2 align-items-center"
-            onClick={addItemToCart}
-          >
-            {getText(10)}
-            {Cart}
+            {/* <div
+              className="btn d-flex gap-2 align-items-center"
+              onClick={addItemToCart}
+            >
+              {getText(10)}
+              {Cart}
+            </div> */}
+
+            <span
+              className="h5 m-0"
+              style={{ fontWeight: "600", color: "var(--primary)" }}
+            >
+              {totalPrice} {getText(6)}
+            </span>
           </div>
-
-          <span
-            className="h5 m-0"
-            style={{ fontWeight: "600", color: "var(--primary)" }}
-          >
-            {totalPrice} {getText(6)}
-          </span>
-        </div>
+        )}
 
         <div
           className="position-absolute d-flex align-items-center justify-content-center"
@@ -294,8 +311,19 @@ function ProductInfo(state) {
     </section>
   );
 
+  function inc() {
+    quantity++;
+    addItemToCart();
+  }
+
+  function dec() {
+    quantity = Math.max(0, quantity - 1);
+    addItemToCart();
+  }
+
   function addItemToCart() {
     if (Alert) return;
+
     // register addons category_name
     const addonsFilter = [...selectedAddons].map(
       ({ id, price, name, addon_category_id }) => {
@@ -317,6 +345,7 @@ function ProductInfo(state) {
       type: "products/addToCart",
       payload: {
         id: state.id,
+        // is_special: isEarlyBooking,
         name: state.name,
         slug: state.slug,
         name_ar: state.name_ar,
@@ -357,8 +386,8 @@ function Related({ items }) {
   items && (items = items.filter((i) => i.is_popular));
 
   return (
-    <section id="related" className="container">
-      <p className="h3">
+    <section id="related" className="container mb-5">
+      <p className="h3 mb-3" style={{ color: "var(--primary)" }}>
         <span>{getText(11)}</span>
       </p>
 

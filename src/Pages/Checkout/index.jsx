@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { useDispatch, useStore } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { _useCoupon } from "../Cart";
@@ -10,6 +10,7 @@ import OrderInfo from "./OrderInfo";
 import "./index.scss";
 
 const getText = getPage("checkout"),
+  customOrderExp = /الحجز المبكر|الطلبات الخاصة/,
   complimentaryData = {},
   placeOrderApi = process.env.REACT_APP_API_URL + "/public/api/place-order",
   days = [/^sun/i, /^mon/i, /^tue/i, /^wed/i, /^thu/i, /^fri/i, /^sat/i],
@@ -22,6 +23,7 @@ export default function () {
   const redirect = useNavigate(),
     store = useStore().getState(),
     dispatch = useDispatch(),
+    [err, setErr] = useState(""),
     deliveryState = useState(true),
     payment = useState("myfatoorah"),
     resIdState = useState(null);
@@ -29,7 +31,7 @@ export default function () {
   const currRes = store.Restaurant.data,
     resId = currRes.id,
     userAuthientcated = store.User.loaded,
-    cartItems = store.Products.cart;
+    { cart: cartItems, is_special } = store.Products;
 
   const reqBody = useRef({
       is_special: false,
@@ -43,15 +45,16 @@ export default function () {
     }).current,
     clues = useRef({
       closestRes: null,
-      isExceptionalCart: checkForExceptionalItems(cartItems),
       userAddresses: store.User.addresses,
       cashback: store.Products.cashback,
       requestSent: false,
     }).current;
 
+  reqBody.is_special = clues.isExceptionalCart = is_special;
+
   clues.deliveryCharges = store.Restaurant.data.delivery_charges;
 
-  useEffect(function () {
+  useLayoutEffect(function () {
     userAuthientcated || redirect("/user/login");
     cartItems.length || redirect("/cart");
   });
@@ -70,13 +73,22 @@ export default function () {
 
   return (
     <section id="checkout">
-      <ul className="d-flex gap-2 justify-content-center list-unstyled mb-5 mx-auto p-0">
+      {/* <ul className="d-flex gap-2 justify-content-center list-unstyled mb-5 mx-auto p-0">
         <li>{getText(1)}</li>
         <li>{NXT}</li>
         <li className="h5 m-0">{getText(2)}</li>
         <li>{NXT}</li>
         <li>{getText(3)}</li>
-      </ul>
+      </ul> */}
+
+      {!!err && (
+        <span
+          className="d-block text-capitalize text-center text-danger w-100"
+          style={{ fontWeight: 600 }}
+        >
+          {err}
+        </span>
+      )}
 
       <div className="align-items-stretch align-items-xl-start container d-flex flex-column flex-xl-row gap-3 justify-content-center">
         <OrderOptions
@@ -100,7 +112,7 @@ export default function () {
       <TimeWarning placeOrder={placeOrder} />
       <ClosestResPopup
         setDelivery={deliveryState[1]}
-        closestRes={clues.closestRes}
+        clues={clues}
         dispatch={dispatch}
         redirect={redirect}
       />
@@ -114,8 +126,23 @@ export default function () {
     else if (deliveryState[0] && !checkResCoverage(currRes, clues.closestRes))
       return;
 
-    if (!isWithinWorkingHours(currRes) && !ignoreWorkingHours)
+    if (
+      !!currRes.is_schedulable &&
+      !isWithinWorkingHours(currRes) &&
+      ignoreWorkingHours !== true
+    )
       return document.getElementById("time-warning").showPopover();
+
+    if (currRes.is_schedulable && clues.isExceptionalCart) {
+      if (
+        !reqBody.is_scheduled &&
+        !reqBody.schedule_date &&
+        !reqBody.schedule_slot
+      ) {
+        alert("يرجى تحديد موعد الطلب!");
+        return;
+      }
+    }
 
     clues.requestSent = true;
 
@@ -124,6 +151,7 @@ export default function () {
 
     Object.assign(reqBody, complimentaryData);
     appendFormData(formData, reqBody);
+    // debugger;
 
     if (images && images.length > 0) {
       for (let i = 0; i < images.length; i++)
@@ -143,7 +171,7 @@ export default function () {
   }
 
   function handleInvoice(res) {
-    if (res.success === false) return alert(getText(4));
+    if (res.success === false) return setErr(getText(4));
 
     updateUserInfo();
 
@@ -175,6 +203,8 @@ export default function () {
     const { data } = res,
       invoiceState = {
         ...basicOrderData,
+        tax: data.tax,
+        restaurant_name: res.data.restaurant.name,
         date: data.created_at.split(" "),
         comment: data.order_comment,
         code: data.unique_order_id,
@@ -189,7 +219,7 @@ export default function () {
   }
 }
 
-function ClosestResPopup({ setDelivery, closestRes, dispatch, redirect }) {
+function ClosestResPopup({ setDelivery, clues, dispatch, redirect }) {
   return (
     <div
       id="closest-res"
@@ -233,6 +263,8 @@ function ClosestResPopup({ setDelivery, closestRes, dispatch, redirect }) {
             maxWidth: "50%",
           }}
           onClick={() => {
+            const closestRes = clues.closestRes;
+
             if (closestRes) {
               fetch(
                 process.env.REACT_APP_API_URL +
@@ -281,8 +313,8 @@ function TimeWarning({ placeOrder }) {
         <b className="text-danger w-100">{getText(13)}</b>
         {getText(14)}
         <br />
-        {getText(15)}
-        <button
+        {/* {getText(15)} */}
+        {/* <button
           type="button"
           className="btn"
           style={{
@@ -293,7 +325,7 @@ function TimeWarning({ placeOrder }) {
           onClick={() => placeOrder(true)}
         >
           {getText(16)}
-        </button>
+        </button> */}
         <button
           type="button"
           className="btn"
@@ -301,6 +333,7 @@ function TimeWarning({ placeOrder }) {
             flex: "1 0 45%",
             backgroundColor: "var(--primary)",
             color: "#fff",
+            maxWidth: "550px",
           }}
           onClick={() => document.getElementById("time-warning").hidePopover()}
         >
@@ -334,12 +367,14 @@ function isWithinWorkingHours({ workingHours }) {
 
     if (targetDay) {
       const resData = workingHours[targetDay],
-        hours = currTime.getHours();
+        time = currTime.getTime(),
+        openingTime = resData.open.split(/\D/),
+        closingTime = resData.close.split(/\D/);
 
-      return (
-        Math.max(hours, +resData.open.slice(0, 2)) === hours &&
-        Math.min(hours, +resData.close.slice(0, 2)) === hours
-      );
+      const validStart = currTime.setHours(openingTime[0], openingTime[1]),
+        validEnd = currTime.setHours(closingTime[0], closingTime[1]);
+
+      return time === Math.min(Math.max(time, validStart), validEnd);
     }
   }
 
@@ -361,11 +396,7 @@ function appendFormData(fd, data, parentKey = "") {
 }
 
 function checkForExceptionalItems(cartItems) {
-  return cartItems.some((item) => {
-    const category = item.category_name,
-      exceptional = exceptionalCategories.includes(category);
-    return exceptional;
-  });
+  return cartItems.some((i) => customOrderExp.test(i.category_name));
 }
 
 Object.assign(complimentaryData, {
@@ -373,9 +404,6 @@ Object.assign(complimentaryData, {
   cash_change_amount: "",
   pending_payment: "",
   // partial_wallet: "",
-  is_scheduled: "",
-  schedule_date: "",
-  schedule_slot: "",
   auto_acceptable: false,
   CallBackUrl: window.location.origin + "/invoice/",
 });

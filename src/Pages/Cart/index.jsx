@@ -19,6 +19,7 @@ export default function () {
     { cart, data, cashback } = products,
     store = useStore().getState(),
     settings = store.settings.data,
+    [err, setErr] = useState(""),
     [discount, setDiscount] = useState(0),
     dispatch = useDispatch();
 
@@ -35,16 +36,20 @@ export default function () {
     return ProductItem(item, I, editCartItem);
   });
 
+  // if (products.loaded) {
+  //   debugger;
+  // }
+
   useLayoutEffect(() => {
     const token = window.localStorage.getItem("token");
     if (coupon !== "" && restaurant.loaded && items.length) {
       const couponParams = {
         coupon,
         restaurant_id: "" + restaurant.data.id,
-        subtotal: "" + totalPrice,
+        subtotal: "" + (totalPrice - +userWallet),
       };
       _useCoupon(couponParams, token, applyCoupon, rejectCoupon);
-    } else if (token === undefined) alert(getText(0));
+    } else if (token === undefined) setErr(getText(0));
     else couponData = null;
   }, [coupon, totalPrice, discount]);
 
@@ -52,7 +57,7 @@ export default function () {
 
   return (
     <>
-      <ul
+      {/* <ul
         id="cart-breadcrumb"
         className="d-flex gap-2 justify-content-center list-unstyled m-0 px-0 py-5"
       >
@@ -61,15 +66,24 @@ export default function () {
         <li>{getText(2)}</li>
         <li>{NXT}</li>
         <li>{getText(3)}</li>
-      </ul>
+      </ul> */}
 
       <CartCashback totalPrice={totalPrice} source={cashback} />
       <CartCashback totalPrice={totalPrice} source={settings} />
 
+      {!!err && (
+        <span
+          className="d-block text-capitalize text-center text-danger w-100"
+          style={{ fontWeight: "600" }}
+        >
+          {err}
+        </span>
+      )}
+
       {cart.length ? (
         <section
           id="cart"
-          className="container d-flex flex-column flex-xl-row gap-3"
+          className="align-items-xl-start container d-flex flex-column flex-xl-row gap-3"
         >
           <ul className="text-center d-grid gap-1 list-unstyled m-0 overflow-hidden p-3">
             <li>{getText(4)}</li>
@@ -173,7 +187,9 @@ export default function () {
                 <samp>
                   {discount === false
                     ? getText(17)
-                    : -(cashbackAmount + Math.abs(discount)).toLocaleString() +
+                    : -(cashbackAmount + Math.abs(discount)).toLocaleString(
+                        "en-US"
+                      ) +
                       " " +
                       getText(14)}
                 </samp>
@@ -185,7 +201,7 @@ export default function () {
               {Math.max(
                 0,
                 -cashbackAmount + (totalPrice - userWallet) + +discount
-              ).toLocaleString() + " "}
+              ).toLocaleString("en-US") + " "}
               {getText(14)}
             </span>
 
@@ -217,7 +233,7 @@ export default function () {
 
   function addCoupon() {
     if (coupon === "") return false;
-    else if (!store.User.loaded) return alert(getText(20));
+    else if (!store.User.loaded) return setErr(getText(20));
     window.localStorage.setItem("coupon", coupon);
     setDiscount(false);
   }
@@ -232,17 +248,22 @@ export default function () {
     const { discount_type, discount } = res,
       value =
         discount_type === "PERCENTAGE"
-          ? (totalPrice / 100) * +discount
+          ? ((totalPrice - userWallet) / 100) * +discount
           : +discount;
 
     // count / max_count
 
-    setDiscount(-Math.floor(value));
+    setDiscount(-value);
     couponData = res;
   }
 }
 
 export function _useCoupon(params, auth, callback, rejectCallback) {
+  if (+params.subtotal <= 0) {
+    rejectCallback();
+    return alert(getText(21));
+  }
+
   fetch(baseUrl + "/public/api/apply-coupon", {
     method: "POST",
     body: JSON.stringify(params),
@@ -279,7 +300,7 @@ function ProductItem(item, I, editCart) {
     );
 
   return (
-    <React.Fragment key={id * price}>
+    <React.Fragment>
       <li className="item-name align-items-center d-flex gap-1">
         <button className="btn p-0" onClick={() => editCart(I, 0)}>
           x
@@ -348,7 +369,7 @@ function CartCashback({ totalPrice, source }) {
 
   return (
     <div
-      className="align-items-center container d-flex flex-column gap-3 h5 my-0 my-3"
+      className="align-items-center container d-flex flex-column gap-3 h5 mt-4 mb-3"
       style={{ cssText: "color: var(--primary); font-weight: 600;" }}
     >
       {getText(25) +

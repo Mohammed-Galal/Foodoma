@@ -1,8 +1,8 @@
 #about-us {
-  row-gap: var(--internal-gap);
+  // row-gap: var(--internal-gap);
   color: var(--midgray);
 
-  & > span {
+  & > h3 {
     color: var(--primary);
   }
 

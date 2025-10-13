@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import getPage from "../../../../translation";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import NewAddress from "../../NewAddress";
 

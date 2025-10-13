@@ -55,13 +55,16 @@ export default function () {
 
 function ChangeNonOTPData({ userData }) {
   const [changePassword, setChangePassword] = useState(false),
+    [err, setErr] = useState(""),
     reqBody = useRef({
       name: "",
       phone: "",
-      email: "",
+      // email: "",
       new_password: "",
       old_password: "",
     }).current;
+
+  reqBody.name = userData.name;
 
   return (
     <div
@@ -78,6 +81,8 @@ function ChangeNonOTPData({ userData }) {
           type="text"
           className="form-control mt-3"
           placeholder={userData.name}
+          defaultValue={reqBody.name}
+          autoComplete={false}
           onChange={({ target }) => (reqBody.name = target.value)}
         />
       </label>
@@ -85,50 +90,49 @@ function ChangeNonOTPData({ userData }) {
       <label>
         <input
           type="checkbox"
+          autoComplete={false}
           onChange={({ target }) => setChangePassword(target.checked)}
         />{" "}
         {getText(37)}
       </label>
 
       {changePassword && (
-        <>
-          <label>
-            {getText(38)}
-            <input
-              type="password"
-              className="form-control mt-3"
-              onChange={({ target }) => (reqBody.new_password = target.value)}
-            />
-          </label>
-        </>
+        <label>
+          {getText(38)}
+          <input
+            type="password"
+            className="form-control mt-2"
+            autoComplete={false}
+            defaultValue={reqBody.new_password}
+            onChange={({ target }) => (reqBody.new_password = target.value)}
+          />
+        </label>
       )}
+      <label>
+        {getText(40)}
+        <input
+          type="password"
+          autoComplete={false}
+          className="form-control mt-2"
+          onChange={({ target }) => (reqBody.old_password = target.value)}
+        />
+      </label>
+
+      <span className="text-danger text-center">{err}</span>
 
       <button
         type="button"
-        className="btn"
+        className="btn mt-5"
+        onClick={updateUserData}
         style={{
           backgroundColor: "var(--primary)",
           color: "#fff",
-          // fontSize: "smaller",
           width: "100%",
-          // maxWidth: "480px",
           borderRadius: "24px",
         }}
       >
         {getText(39)}
       </button>
-
-      <div id="confirm-password" popover="manual">
-        <label>{getText(40)}</label>
-        <input
-          type="password"
-          className="form-control"
-          onChange={({ target }) => (reqBody.old_password = target.value)}
-        />
-
-        <button onClick={updateUserData}>{getText(41)}</button>
-        <button onClick={() => {}}>{getText(42)}</button>
-      </div>
     </div>
   );
 
@@ -136,18 +140,25 @@ function ChangeNonOTPData({ userData }) {
     fetch(process.env.REACT_APP_API_URL + "/public/api/update-user-data", {
       method: "POST",
       body: JSON.stringify(reqBody),
-      headers: { Authorization: userData.auth_token },
+      headers: {
+        Authorization: "Bearer " + userData.auth_token,
+        "Content-Type": "application/json",
+      },
     })
       .then((r) => r.json())
-      .then((r) =>
-        r.success || true ? window.location.reload() : alert(r.data)
-      )
-      .catch(() => alert(getText(43)));
+      .then((r) => {
+        r.success
+          ? window.location.reload()
+          : setErr(JSON.stringify(r.messages));
+      })
+      .catch(() => setErr(getText(43)));
   }
 }
 
 function ChangePhoneNumber({ userData }) {
   const [newPhone, setNewPhone] = useState(""),
+    [otpErr, setOtpErr] = useState(""),
+    [err, setErr] = useState(""),
     phone = userData.phone;
 
   let OTP = null;
@@ -163,9 +174,12 @@ function ChangePhoneNumber({ userData }) {
           type="tel"
           className="form-control"
           placeholder={phone}
+          maxLength={9}
           onChange={({ target }) => setNewPhone(target.value)}
         />
       </div>
+
+      <span className="text-danger">{err}</span>
 
       <button
         className="btn mx-auto w-100"
@@ -198,9 +212,11 @@ function ChangePhoneNumber({ userData }) {
           <input
             type="number"
             className="form-control"
-            placeholder={getText(46)}
+            placeholder={getText(45)}
             onChange={({ target }) => (OTP = target.value)}
           />
+
+          <span className="text-danger">{otpErr || err}</span>
 
           <button
             type="button"
@@ -212,7 +228,7 @@ function ChangePhoneNumber({ userData }) {
             }}
             onClick={confirmOTP}
           >
-            {getText(47)}
+            {getText(46)}
           </button>
         </div>
       </div>
@@ -220,27 +236,36 @@ function ChangePhoneNumber({ userData }) {
   );
 
   function openPhoneOTP() {
-    if (newPhone.length !== 9) return alert(getText(48));
+    if (newPhone.length !== 9) return setErr(getText(47));
     const phoneOTP = document.getElementById("phone-otp");
 
     fetch(process.env.REACT_APP_API_URL + "/public/api/change-mobile-otp", {
       method: "POST",
       body: JSON.stringify({ phone }),
-      headers: { Authorization: window.localStorage.getItem("token") },
+      headers: {
+        "Content-type": "application/json",
+        Authorization: window.localStorage.getItem("token"),
+      },
     })
       .then((r) => r.json())
-      .then((r) =>
-        r.success || true ? phoneOTP.showPopover() : alert(r.data)
-      );
+      .then((r) => {
+        // debugger;
+        r.success ? phoneOTP.showPopover() : setErr(getText(41));
+      });
   }
 
   function confirmOTP() {
     fetch(process.env.REACT_APP_API_URL + "/public/api/change-mobile", {
       method: "POST",
       body: JSON.stringify({ phone: newPhone, otp: OTP }),
-      headers: { Authorization: window.localStorage.getItem("token") },
+      headers: {
+        "Content-type": "application/json",
+        Authorization: window.localStorage.getItem("token"),
+      },
     })
       .then((r) => r.json())
-      .then((r) => r.success || (true && window.location.reload()));
+      .then((r) => {
+        r.success ? window.location.reload() : setOtpErr(r.msg);
+      });
   }
 }

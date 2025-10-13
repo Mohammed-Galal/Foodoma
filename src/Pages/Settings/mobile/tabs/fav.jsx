@@ -8,7 +8,7 @@ export default function () {
   const favs = useSelector((state) => state.Products.fav);
 
   return (
-    <div className="fav">
+    <div className="fav" style={{ overflow: "auto" }}>
       <span
         className="d-block h3 mb-3"
         style={{ cssText: " font-weight: 600; color: var(--primary)" }}

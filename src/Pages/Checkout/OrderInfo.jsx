@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useStore } from "react-redux";
 import { calcWalletCashback } from "../Cart";
 import { _useCoupon } from "../Cart";
@@ -39,7 +39,7 @@ export default function (props) {
       return extractData(CI, resId);
     });
 
-  useEffect(
+  useLayoutEffect(
     function () {
       if (coupon) {
         setDiscount(false);
@@ -47,12 +47,13 @@ export default function (props) {
           couponParams = {
             coupon,
             restaurant_id: "" + currRes.id,
-            subtotal: "" + totalPrice,
+            subtotal: "" + (subTotal - wallet_balance),
           };
+        // debugger;
         _useCoupon(couponParams, token, applyCoupon, rejectCoupon);
       }
     },
-    [coupon]
+    [coupon, delivery]
   );
 
   const subTotal = totalPrice,
@@ -70,7 +71,6 @@ export default function (props) {
 
   clues.discount = cashbackAmount;
   discountAmount && (clues.discount += Math.abs(discountAmount));
-  totalPrice += delivery_charges;
 
   const taxes =
     settings.taxApplicable === "true"
@@ -78,10 +78,13 @@ export default function (props) {
       : 0;
 
   clues.discount += wallet_balance;
-  totalPrice -= clues.discount;
+  totalPrice = Math.max(0, totalPrice - clues.discount);
 
   const totalBeforeDiscount = subTotal + taxes + delivery_charges;
   const deliveryTargetOption = delivery ? "enCODonDelivery" : "enCODonSF";
+
+  totalPrice += delivery_charges;
+  if (totalPrice === 0) reqBody.method = "COD";
 
   return (
     <div className="p-3" style={{ color: "var(--midgray)" }}>
@@ -98,8 +101,15 @@ export default function (props) {
       </div>
 
       <div>
-        {getText(21)}
+        {getText(26)}
         <span>
+          {-wallet_balance + " "} {getText(20)}
+        </span>
+      </div>
+
+      <div style={{ color: "var(--sec)" }}>
+        {getText(21)}
+        <span style={{ color: "inherit" }}>
           {discountAmount === false
             ? getText(22)
             : -(Math.abs(discountAmount) + cashbackAmount) + " " + getText(20)}
@@ -133,19 +143,12 @@ export default function (props) {
         <div>
           {getText(25)}({settings.taxPercentage}%)
           <span>
-            {taxes.toLocaleString()} {getText(20)}
+            {taxes.toLocaleString("en-US")} {getText(20)}
           </span>
         </div>
       )}
 
       <hr />
-
-      <div>
-        {getText(26)}
-        <span>
-          {-wallet_balance + " "} {getText(20)}
-        </span>
-      </div>
 
       <div
         className="total h5"
@@ -162,46 +165,48 @@ export default function (props) {
             }}
           >
             <del>
-              {totalBeforeDiscount.toLocaleString()} {getText(20)}
+              {totalBeforeDiscount.toLocaleString("en-US")} {getText(20)}
             </del>
           </sub>
         )}
         <span>
-          {Math.max(0, totalPrice + taxes).toLocaleString()} {getText(20)}
+          {(totalPrice + taxes).toLocaleString("en-US")} {getText(20)}
         </span>
       </div>
 
-      <form style={{ color: "var(--black)" }}>
-        <span
-          className="d-block h5 text-center"
-          style={{ color: "var(--primary)" }}
-        >
-          {getText(28)}
-        </span>
+      {totalPrice > 0 && (
+        <form style={{ color: "var(--black)" }}>
+          <span
+            className="d-block h5 text-center"
+            style={{ color: "var(--primary)" }}
+          >
+            {getText(28)}
+          </span>
 
-        <label className="d-flex gap-2 mb-3">
-          <input
-            type="radio"
-            name="payment"
-            onClick={() => setPaymentMethod("myfatoorah")}
-            checked={paymentMethod === "myfatoorah"}
-          />
-          {getText(29)}
-        </label>
+          <label className="d-flex gap-2 mb-3">
+            <input
+              type="radio"
+              name="payment"
+              onChange={() => setPaymentMethod("myfatoorah")}
+              checked={paymentMethod === "myfatoorah"}
+            />
+            {getText(29)}
+          </label>
 
-        {isExceptionalCart ||
-          (settings[deliveryTargetOption] === "true" && (
-            <label className="d-flex gap-2">
-              <input
-                type="radio"
-                name="payment"
-                onClick={() => setPaymentMethod("COD")}
-                checked={paymentMethod === "COD"}
-              />
-              {getText(30)}
-            </label>
-          ))}
-      </form>
+          {isExceptionalCart ||
+            (settings[deliveryTargetOption] === "true" && (
+              <label className="d-flex gap-2">
+                <input
+                  type="radio"
+                  name="payment"
+                  onChange={() => setPaymentMethod("COD")}
+                  checked={paymentMethod === "COD"}
+                />
+                {getText(30)}
+              </label>
+            ))}
+        </form>
+      )}
 
       {(!delivery || userAddresses.length > 0) && (
         <button
@@ -219,7 +224,7 @@ export default function (props) {
     const { discount_type, discount } = res,
       value =
         discount_type === "PERCENTAGE"
-          ? (totalPrice / 100) * +discount
+          ? ((subTotal - wallet_balance) / 100) * +discount
           : +discount;
 
     setDiscount(-Math.floor(value));

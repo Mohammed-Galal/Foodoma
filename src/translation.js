@@ -28,12 +28,16 @@ export { keys, initLangs, observeLang, getActiveLang };
 
 export default function getPage(pageName) {
   return function (phraseIndex) {
-    return file[pageName][phraseIndex];
+    try {
+      return file[pageName][phraseIndex];
+    } catch {
+      debugger;
+    }
   };
 }
 
 function getActiveLang() {
-  return lang;
+  return window.localStorage.getItem("lang") || lang;
 }
 
 function observeLang(observer) {

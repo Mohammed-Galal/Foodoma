@@ -1,9 +1,27 @@
 .swiper-slide {
-  // height: auto !important;
+  // height: unset !important;
   width: auto !important;
 }
 
 div.product-item {
+  flex: 1 1 auto;
+  max-width: 280px;
+  // height: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: #fff;
+  box-shadow: 0 1px 0px #0000001f, 0 6px 6px #0000000f;
+  border: 1px solid #f8f8f8;
+  // gap: 12px 0;
+
+  --btn-opacity: 0.9;
+  --hover-length: -60px;
+
+  &.disabled {
+    opacity: 0.7;
+    // box-shadow: none;
+  }
+
   &.loading {
     pointer-events: none;
 
@@ -22,16 +40,6 @@ div.product-item {
       bottom: 0;
     }
   }
-
-  flex: 1 1 auto;
-  max-width: 252px;
-  overflow: hidden;
-  border-radius: 16px;
-  border: 1px solid #f8f8f8;
-  gap: 12px 0;
-
-  --btn-opacity: 0.9;
-  --hover-length: -60px;
 
   & > div:first-child {
     span {
@@ -59,16 +67,18 @@ div.product-item {
     display: block;
   }
 
-  &:hover .desc {
-    transform: translateY(var(--hover-length));
+  &:not(.disabled):hover .desc {
+    // transform: translateY(var(--hover-length));
   }
 
   & > .desc {
-    transition: transform var(--hover-transition);
-    transform: translate(0);
+    // transition: transform var(--hover-transition);
+    // transform: translateY(0);
+    // height: -webkit-fill-available;
     background-color: #fff;
 
     & > a {
+      height: 100%;
       color: var(--primary);
 
       & > span:first-child {
@@ -83,53 +93,79 @@ div.product-item {
         grid-template-columns: auto 1fr auto;
         color: var(--midgray);
 
+        & > object {
+          max-height: 18px;
+          overflow: hidden;
+        }
+
         & > span {
           background-color: #e4f4ff;
-          font-size: small;
-          padding: 0.5rem 0.75rem;
-          line-height: 1;
-          border-radius: 27px;
           color: var(--primary);
+          border-radius: 27px;
+          font-size: x-small;
+          font-weight: 700;
+          line-height: 1;
+          padding: 0.5rem 0.75rem;
         }
       }
 
       & > .price {
+        font-size: small;
+        line-height: 1;
         color: var(--midgray);
-        font-size: 1.1rem;
 
         & > span {
           color: var(--primary);
+          font-size: 1.1rem;
         }
       }
     }
 
+    // & > button {
+    //   transition: all var(--hover-transition);
+    //   // margin-bottom: var(--hover-length);
+    //   background-color: var(--primary) !important;
+    //   color: #fff !important;
+    //   opacity: var(--btn-opacity);
+    //   font-size: 16px;
+    //   max-height: var(--btn-height);
+    //   overflow: hidden;
+
+    //   & > * {
+    //     height: var(--btn-height);
+    //     flex-shrink: 0;
+    //     position: relative;
+    //   }
+
+    //   & > span {
+    //     width: 100%;
+    //     transition: margin-top var(--hover-transition);
+    //   }
+
+    //   &:hover {
+    //     --btn-opacity: 1;
+    //     & > span:first-child {
+    //       margin-top: calc(0px - var(--btn-height));
+    //     }
+    //   }
+    // }
+  }
+
+  div.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    --size: 32px;
+
     & > button {
-      transition: all var(--hover-transition);
-      margin-bottom: var(--hover-length);
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: var(--size);
+      height: var(--size);
       background-color: var(--primary) !important;
       color: #fff !important;
-      opacity: var(--btn-opacity);
-      font-size: 16px;
-      max-height: var(--btn-height);
-      overflow: hidden;
-
-      & > * {
-        height: var(--btn-height);
-        flex-shrink: 0;
-        position: relative;
-      }
-
-      & > span {
-        width: 100%;
-        transition: margin-top var(--hover-transition);
-      }
-
-      &:hover {
-        --btn-opacity: 1;
-        & > span:first-child {
-          margin-top: calc(0px - var(--btn-height));
-        }
-      }
     }
   }
 }

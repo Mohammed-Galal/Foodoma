@@ -12,12 +12,17 @@ export default function main() {
   return (
     <>
       <ul
-        className="list-unstyled mx-auto my-5 p-0 row container"
-        style={{ fontSize: "smaller", textWrap: "nowrap" }}
+        id="mobile-menu"
+        className="container d-grid gap-3 list-unstyled my-5 py-0"
+        style={{
+          fontSize: "smaller",
+          textWrap: "nowrap",
+          gridTemplateColumns: "1fr 1fr 1fr",
+        }}
       >
-        <li className="col-4">
+        <li style={{ maxHeight: "180px" }}>
           <Link
-            className="align-items-center d-flex flex-column gap-3 p-3 justify-content-center"
+            className="align-items-center d-flex flex-column gap-3 p-3 justify-content-center h-100"
             to="/settings/addresses"
           >
             <img src="/assets/settings/address.png" alt="Icon" />
@@ -25,9 +30,9 @@ export default function main() {
           </Link>
         </li>
 
-        <li className="col-4">
+        <li style={{ maxHeight: "180px" }}>
           <Link
-            className="align-items-center d-flex flex-column gap-3 p-3 justify-content-center"
+            className="align-items-center d-flex flex-column gap-3 p-3 justify-content-center h-100"
             to="/settings/history"
           >
             <img src="/assets/settings/delivery.png" alt="Icon" />
@@ -35,9 +40,9 @@ export default function main() {
           </Link>
         </li>
 
-        <li className="col-4">
+        <li style={{ maxHeight: "180px" }}>
           <Link
-            className="align-items-center d-flex flex-column gap-3 p-3 justify-content-center"
+            className="align-items-center d-flex flex-column gap-3 p-3 justify-content-center h-100"
             to="/settings/fav"
           >
             <img src="/assets/settings/shop.png" alt="Icon" />
@@ -45,9 +50,9 @@ export default function main() {
           </Link>
         </li>
 
-        <li className="col-4">
+        <li style={{ maxHeight: "180px" }}>
           <Link
-            className="align-items-center d-flex flex-column gap-3 p-3 justify-content-center"
+            className="align-items-center d-flex flex-column gap-3 p-3 justify-content-center h-100"
             to="/settings/wallet"
           >
             <img src="/assets/settings/wallet.png" alt="Icon" />
@@ -55,9 +60,9 @@ export default function main() {
           </Link>
         </li>
 
-        <li className="col-4">
+        <li style={{ maxHeight: "180px" }}>
           <Link
-            className="align-items-center d-flex flex-column gap-3 p-3 justify-content-center"
+            className="align-items-center d-flex flex-column gap-3 p-3 justify-content-center h-100"
             to="/settings/account"
           >
             <img src="/assets/settings/gears.png" alt="Icon" />
@@ -65,9 +70,9 @@ export default function main() {
           </Link>
         </li>
 
-        <li className="col-4">
+        <li style={{ maxHeight: "180px" }}>
           <Link
-            className="align-items-center d-flex flex-column gap-3 p-3 justify-content-center"
+            className="align-items-center d-flex flex-column gap-3 p-3 justify-content-center h-100"
             to="/about-us"
           >
             <img src="/assets/settings/address.png" alt="Icon" />
