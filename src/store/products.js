@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+window.localStorage.getItem("slug");
+
 const customOrderExp = new RegExp(
     [
       "اليوم الوطني",
@@ -19,7 +21,9 @@ const Products = {
     name: "products",
     initialState: {
       loaded: false,
-      is_special: false,
+      is_special: (cartStorage[window.localStorage.getItem("slug")] || []).some(
+        (item) => customOrderExp.test(item.category_name)
+      ),
       early_booking: [],
       custom: [],
       categories: [],

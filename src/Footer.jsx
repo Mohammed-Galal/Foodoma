@@ -169,6 +169,7 @@ export default function () {
       </div>
       <p className="mt-4 mb-0 text-center">
         <span>{getText(7)} | </span>© 2003-2025 Montana
+        <span className="d-block my-1">شركة كيكة بلس للحلويات</span>
       </p>
     </>
   );
